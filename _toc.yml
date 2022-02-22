@@ -9,6 +9,6 @@ parts:
 #  - file: docs/mc
 #  - file: docs/1dIsing
 #  - file: docs/2dIsing
-#- caption: Quantum Mechanics
-#  chapters:
-#  - file: docs/bzintegration
+- caption: Sample
+  chapters:
+  - file: docs/sample

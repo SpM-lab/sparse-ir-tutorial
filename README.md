@@ -5,7 +5,7 @@
 ### Set up tools
 
 ```bash
-pip3 install jupyter-book ghp-import
+pip3 install jupyter-book ghp-import jupytext
 ```
 
 ### Local build
@@ -20,3 +20,7 @@ jupyter book build .
 ```bash
 ghp-import -n -p -f _build/html
 ```
+
+### Trouble shooting
+
+* https://github.com/executablebooks/jupyter-book/issues/1541
