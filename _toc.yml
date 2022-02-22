@@ -12,3 +12,4 @@ parts:
 - caption: Sample
   chapters:
   - file: docs/sample
+  - file: docs/md_sample

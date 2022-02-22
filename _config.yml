@@ -29,10 +29,31 @@ repository:
   path_to_book                : ""
 
 latex:
-  latex_engine                : "pdflatex"
+  latex_engine                : "xelatex"
   latex_documents:
     targetname: book.tex
 
+# Bibliography settings
+bibtex_bibfiles:
+  - references.bib
+
 sphinx:
   config:
+    bibtex_reference_style: author_year
     language: en
+
+parse:
+  myst_substitutions:
+      sub3: My _global_ value!
+ 
+  myst_enable_extensions:  # default extensions to enable in the myst parser. See https://myst-parser.readthedocs.io/en/latest/using/syntax-optional.html
+    - amsmath
+    - colon_fence
+    - deflist
+    - dollarmath
+    - html_admonition
+    - html_image
+    - linkify
+    - replacements
+    - smartquotes
+    - substitution
