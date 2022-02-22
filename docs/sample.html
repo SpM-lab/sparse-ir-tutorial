@@ -264,6 +264,8 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">10.0</span>
 <span class="n">wmax</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+<span class="c1"># Alternatively, construct fermion &amp; boson bases using the logistic kernel</span>
+<span class="n">bases</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">finite_temp_bases</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
