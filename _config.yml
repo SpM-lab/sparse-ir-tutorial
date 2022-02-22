@@ -2,6 +2,7 @@
 # Book settings
 title : sparse-ir
 author: Many authors
+copyright: "2022"
 
 # Information about where the book exists on the web
 description: >-
@@ -28,7 +29,7 @@ repository:
   path_to_book                : ""
 
 latex:
-  latex_engine                : "xelatex"
+  latex_engine                : "pdflatex"
   latex_documents:
     targetname: book.tex
 
