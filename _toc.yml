@@ -1,0 +1,14 @@
+format: jb-book
+root: docs/index
+parts:
+- caption: Introduction
+  chapters:
+  - file: docs/preparation
+#- caption: Classical Monte Carlo simulation
+#  chapters:
+#  - file: docs/mc
+#  - file: docs/1dIsing
+#  - file: docs/2dIsing
+#- caption: Quantum Mechanics
+#  chapters:
+#  - file: docs/bzintegration

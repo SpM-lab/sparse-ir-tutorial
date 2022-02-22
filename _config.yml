@@ -1,0 +1,33 @@
+#######################################################################################
+# Book settings
+title : sparse-ir
+author: Many authors
+
+# Information about where the book exists on the web
+description: >-
+  Online document for sparse-ir
+
+#######################################################################################
+# Execution settings
+execute:
+  execute_notebooks           : cache
+
+#######################################################################################
+# HTML-specific settings
+html:
+  home_page_in_navbar         : false
+
+# #######################################################################################
+# Interact link settings
+notebook_interface            : "jupyterlab"
+
+#######################################################################################
+# Launch button settings
+repository:
+  url                         : https://github.com/SpM-lab/sparse-ir-doc.git
+  path_to_book                : ""
+
+latex:
+  latex_engine                : "xelatex"
+  latex_documents:
+    targetname: book.tex
