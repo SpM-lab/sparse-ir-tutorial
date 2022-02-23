@@ -304,7 +304,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>This pages summarizes useful information from the official document of <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">book</span></code>.</p>
 <div class="section" id="citation-using-bibtex">
 <h2>Citation using bibtex<a class="headerlink" href="#citation-using-bibtex" title="Permalink to this headline">¶</a></h2>
-<p>How to <code class="docutils literal notranslate"><span class="pre">{cite:p}`Li:2020eu`</span></code> results in <span id="id1">[<a class="reference internal" href="#id4" title="Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. Physical Review B, 101(3):035144, 01 2020. doi:10.1103/physrevb.101.035144.">Li <em>et al.</em>, 2020</a>]</span>.
+<p>How to <code class="docutils literal notranslate"><span class="pre">{cite:p}`Li:2020eu`</span></code> results in <span id="id1">[<a class="reference internal" href="sample.html#id4" title="Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. Physical Review B, 101(3):035144, 01 2020. doi:10.1103/physrevb.101.035144.">Li <em>et al.</em>, 2020</a>]</span>.
 The bib file <code class="docutils literal notranslate"><span class="pre">references.bib</span></code> is located in the top directory of the repository.
 Do not forget to add a list of references in the bottom of the page using the <code class="docutils literal notranslate"><span class="pre">{bibliography}</span></code> directive.</p>
 <p>Jupyter Book uses <a class="reference external" href="http://docs.mathjax.org/">MathJax</a> for typesetting math in your HTML book build.
@@ -367,8 +367,8 @@ a<span class="nb">_{</span>21<span class="nb">}&amp;</span> =b<span class="nb">_
 a_1=b_1+c_1\\
 a_2=b_2+c_2-d_2+e_2
 \end{gather*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-c1c6fa2b-f8f1-4464-a42e-40af1439946b">
-<span class="eqno">(1)<a class="headerlink" href="#equation-c1c6fa2b-f8f1-4464-a42e-40af1439946b" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-d71fd5c1-a9e4-4c45-b643-1a97b7658777">
+<span class="eqno">(2)<a class="headerlink" href="#equation-d71fd5c1-a9e4-4c45-b643-1a97b7658777" title="Permalink to this equation">¶</a></span>\[\begin{align}
 a_{11}&amp; =b_{11}&amp;
   a_{12}&amp; =b_{12}\\
 a_{21}&amp; =b_{21}&amp;
@@ -399,7 +399,7 @@ w<span class="ge">_{t+1} = (1 + r_</span>{t+1}) s(w_t) + y_{t+1}
 </div>
 <p>will generate</p>
 <div class="math notranslate nohighlight" id="equation-my-label">
-<span class="eqno">(2)<a class="headerlink" href="#equation-my-label" title="Permalink to this equation">¶</a></span>\[w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}\]</div>
+<span class="eqno">(3)<a class="headerlink" href="#equation-my-label" title="Permalink to this equation">¶</a></span>\[w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}\]</div>
 <p>Alternatively you can use the dollar math syntax with a prefixed label:</p>
 <div class="highlight-md notranslate"><div class="highlight"><pre><span></span>$$
   w<span class="ge">_{t+1} = (1 + r_</span>{t+1}) s(w_t) + y_{t+1}
@@ -408,7 +408,7 @@ $$ (my_other_label)
 </div>
 <p>which generates</p>
 <div class="math notranslate nohighlight" id="equation-my-other-label">
-<span class="eqno">(3)<a class="headerlink" href="#equation-my-other-label" title="Permalink to this equation">¶</a></span>\[
+<span class="eqno">(4)<a class="headerlink" href="#equation-my-other-label" title="Permalink to this equation">¶</a></span>\[
   w_{t+1} = (1 + r_{t+1}) s(w_t) + y_{t+1}
 \]</div>
 <div class="admonition note">
@@ -430,8 +430,8 @@ the <code class="docutils literal notranslate"><span class="pre">{eq}</span></co
 </div>
 <p>results in</p>
 <ul class="simple">
-<li><p>A link to an equation directive: <a class="reference internal" href="#equation-my-label">(2)</a></p></li>
-<li><p>A link to a dollar math block: <a class="reference internal" href="#equation-my-other-label">(3)</a></p></li>
+<li><p>A link to an equation directive: <a class="reference internal" href="#equation-my-label">(3)</a></p></li>
+<li><p>A link to a dollar math block: <a class="reference internal" href="#equation-my-other-label">(4)</a></p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
