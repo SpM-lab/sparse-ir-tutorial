@@ -125,7 +125,7 @@ $$
 
 +++
 
-## Singular value expansion
+## Singular value expansion and basis functions
 
 The singular value expnasion of the kernel {eq}`KL` reads {cite:p}`Shinaoka:2017ix`
 
@@ -137,23 +137,76 @@ for $\omega \in [-\wmax, \wmax]$ with $\wmax$ (>0) being a cut-off frequency.
 $U_l(\tau)$ and $V_l(\omega)$ are left and right singular functions and $S_l$ as the singular values (with $S_0>S_1>S_2>...>0$).
 The two sets of singular functions $U$ and $V$ make up the basis functions of the so-called Intermediate Representation (IR), which depends on $\beta$ and the cutoff $\wmax$.
 For the peculiar choice of the regularization for the bosonic kernel using $K^\mathrm{L}$, these basis functions do not depend on statistical properties.
+The basis functions $U_l(\tau)$ are transformed to the imaginary-frequency axis as
+
+$$
+U_l(\iv) \equiv \int_0^\beta \dd \omega e^{\iv \tau} U_l(\tau).
+$$
 
 Some of the information regarding real-frequency properties of the system is often lost during transition into the imaginary-time domain, so that the imaginary-frequency Green's function does hold less information than the real-frequency Green's function. The reason for using IR lies within its compactness and ability to display that information in imaginary quantities.
 
-+++
-
-## Basis functions in imaginary frequency
-
-Transformation to frequency
+The decay of the singular values depends on $\beta$ and $\wmax$ only through the dimensionless parameter $\Lambda\equiv \beta\wmax$.
+The following plots show the singular values and the basis functions computed for $\beta=10$ and $\wmax=10$.
 
 ```{code-cell} ipython3
-print(1)
+import numpy as np
+import matplotlib.pyplot as plt
+import sparse_ir
+
+plt.rcParams.update({
+    "font.family": "serif",
+    "font.size": 16,
+})
+
+lambda_ = 100
+beta = 10
+wmax = lambda_/beta
+basis = sparse_ir.FiniteTempBasis('F', beta, wmax, eps=1e-10)
+
+plt.semilogy(basis.s, marker='o', ls='')
+plt.xlabel(r'$l$')
+plt.ylabel(r'$S_l$')
+plt.tight_layout()
+plt.show()
 ```
 
 ```{code-cell} ipython3
-print("AAAA")
-```
+fig = plt.figure(figsize=(6,12))
+ax1 = plt.subplot(311)
+ax2 = plt.subplot(312)
+ax3 = plt.subplot(313)
+axes = [ax1, ax2, ax3]
 
-```{code-cell} ipython3
+taus = np.linspace(0, beta, 1000)
+omegas = np.linspace(-wmax, wmax, 1000)
 
+beta = 10
+nmax = 100
+
+v = 2*np.arange(nmax)+1
+iv = 1J * (2*np.arange(nmax)+1) * np.pi/beta
+
+uhat_val = basis.uhat(v)
+for l in range(4):
+    ax1.plot(taus, basis.u[l](taus), label=f'$l={l}$')
+    ax2.plot(omegas, basis.v[l](omegas), label=f'$l={l}$')
+    y = uhat_val[l,:].imag if l%2 == 0 else uhat_val[l,:].real
+    ax3.plot(iv.imag, y, label=f'$l={l}$')
+
+ax1.set_xlabel(r'$\tau$')
+ax2.set_xlabel(r'$\omega$')
+ax1.set_ylabel(r'$U_l(\tau)$')
+ax2.set_ylabel(r'$V_l(\omega)$')
+ax1.set_xlim([0,beta])
+ax2.set_xlim([-wmax, wmax])
+
+ax3.plot(iv.imag, np.zeros_like(iv.imag), ls='-', lw=0.5, color='k')
+ax3.set_xlabel(r'$\nu$')
+ax3.set_ylabel(r'$\hat{U}_l(\mathrm{i}\nu)$')
+ax3.set_xlim([0, iv.imag.max()])
+
+for ax in axes:
+    ax.legend(loc='best', frameon=False)
+
+plt.tight_layout()
 ```
