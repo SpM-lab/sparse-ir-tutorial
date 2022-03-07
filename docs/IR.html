@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to sparse-ir &#8212; sparse-ir</title>
+    <title>Intermediate representation &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,9 +51,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"TeX": {"Macros": {"wmax": "{\\omega_\\mathrm{max}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Intermediate representation" href="IR.html" />
+    <link rel="next" title="Sparse sampling" href="sparse_sampling.html" />
+    <link rel="prev" title="Welcome to sparse-ir" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -90,9 +93,9 @@ const thebe_selector_output = ".output, .cell_output"
   Basic theory
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Intermediate representation
   </a>
  </li>
@@ -171,9 +174,9 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/docs/index.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/docs/IR.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -191,6 +194,23 @@ const thebe_selector_output = ".output, .cell_output"
 
             <!-- Launch buttons -->
 
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/docs/IR.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
         </div>
 
         <!-- Table of contents -->
@@ -202,8 +222,18 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#contents">
-   Contents
+  <a class="reference internal nav-link" href="#lehmann-representation">
+   Lehmann representation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-expansion-in-imaginary-time">
+   Singular value expansion in imaginary time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basis-functions-in-matsubara-frequency">
+   Basis functions in Matsubara frequency
   </a>
  </li>
 </ul>
@@ -216,7 +246,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Welcome to sparse-ir</h1>
+                <h1>Intermediate representation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -227,8 +257,18 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#contents">
-   Contents
+  <a class="reference internal nav-link" href="#lehmann-representation">
+   Lehmann representation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-expansion-in-imaginary-time">
+   Singular value expansion in imaginary time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#basis-functions-in-matsubara-frequency">
+   Basis functions in Matsubara frequency
   </a>
  </li>
 </ul>
@@ -240,23 +280,63 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="welcome-to-sparse-ir">
-<h1>Welcome to sparse-ir<a class="headerlink" href="#welcome-to-sparse-ir" title="Permalink to this headline">¶</a></h1>
-<p>sparse-ir</p>
-<div class="section" id="contents">
-<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
-<p>Import Sections 7 and 8 of <a class="reference external" href="https://www.overleaf.com/read/trcfnpmrhbcr">the Hiroshi’s lecture note</a> into the document.</p>
-<p>The additional contents will be the follwoing (feel free to add what you want):</p>
-<ul class="simple">
-<li><p>Sparse pole representation (SPR)</p></li>
-<li><p>How to use from your Fortran/C++ programs (through SPR)</p></li>
-</ul>
+  <div class="tex2jax_ignore mathjax_ignore section" id="intermediate-representation">
+<h1>Intermediate representation<a class="headerlink" href="#intermediate-representation" title="Permalink to this headline">¶</a></h1>
+<p><span class="math notranslate nohighlight">\(\newcommand{\wmax}{{\omega_\mathrm{max}}}\)</span>
+<span class="math notranslate nohighlight">\(\newcommand{\dd}{{\mathrm{d}}}\)</span></p>
+<div class="section" id="lehmann-representation">
+<h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this headline">¶</a></h2>
+<p>In the imaginary-time domain, the Lehmann represenation reads</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+    G(\tau) &amp;= - \int_{-\wmax}^\wmax \dd\omega K(\tau, \omega) A(\omega),
+\end{align}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span>, <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function, <span class="math notranslate nohighlight">\(K(\tau, \omega)\)</span> is a <em>kernel</em>.
+We take <span class="math notranslate nohighlight">\(\hbar = 1\)</span>.</p>
+<p>The kernel is defined as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    K(\tau, \omega) &amp;=
+    \begin{cases}
+        \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}} &amp; (\mathrm{fermion}),\\
+        \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} &amp; (\mathrm{boson})
+    \end{cases}.
+\end{align}
+\end{split}\]</div>
+<p>To avoid the divergence of the bosonic kernel at <span class="math notranslate nohighlight">\(\omega=0\)</span>, we reformulate the Lehmann representation as</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+    G(\tau)= - \int_{-\wmax}^\wmax\dd{\omega'} K^\mathrm{L}(\tau,\omega') \rho(\omega'),\label{eq:friedholm2}
+\end{equation}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the logistic kernel defined as</p>
+<div class="math notranslate nohighlight">
+\[
+K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
+\]</div>
+<p>and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the modified spectral function</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    \rho(\omega) &amp;\equiv 
+    \begin{cases}
+        A(\omega) &amp; (\mathrm{fermion}),\\
+        \frac{A(\omega)}{\tanh(\beta \omega/2)} &amp; (\mathrm{boson}).
+    \end{cases}
+\end{align}
+\end{split}\]</div>
 </div>
-<div class="toctree-wrapper compound">
+<div class="section" id="singular-value-expansion-in-imaginary-time">
+<h2>Singular value expansion in imaginary time<a class="headerlink" href="#singular-value-expansion-in-imaginary-time" title="Permalink to this headline">¶</a></h2>
+<p><span id="id1">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
+<p><span id="id2">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
 </div>
-<div class="toctree-wrapper compound">
-</div>
-<div class="toctree-wrapper compound">
+<div class="section" id="basis-functions-in-matsubara-frequency">
+<h2>Basis functions in Matsubara frequency<a class="headerlink" href="#basis-functions-in-matsubara-frequency" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -272,23 +352,30 @@ const thebe_selector_output = ".output, .cell_output"
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "python3910jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e",
             path: "./docs"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'python3910jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='right-next' id="next-link" href="IR.html" title="next page">
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Welcome to sparse-ir</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="sparse_sampling.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Intermediate representation</p>
+        <p class="prev-next-title">Sparse sampling</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

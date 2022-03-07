@@ -51,12 +51,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"TeX": {"Macros": {"wmax": "{\\omega_\\mathrm{max}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Markdown sample" href="md_sample.html" />
-    <link rel="prev" title="Preparation" href="preparation.html" />
+    <link rel="prev" title="Bibliograpy" href="reference.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -90,13 +90,30 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="bd-toc-item active">
         <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Introduction
+  Basic theory
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="preparation.html">
-   Preparation
+  <a class="reference internal" href="IR.html">
+   Intermediate representation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="reference.html">
+   Bibliograpy
   </a>
  </li>
 </ul>
@@ -424,8 +441,8 @@ a<span class="nb">_{</span>21<span class="nb">}&amp;</span> =b<span class="nb">_
 a_1=b_1+c_1\\
 a_2=b_2+c_2-d_2+e_2
 \end{gather*}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-0e0fcef5-e5cd-40b3-a293-b3f5dfaee5c3">
-<span class="eqno">(1)<a class="headerlink" href="#equation-0e0fcef5-e5cd-40b3-a293-b3f5dfaee5c3" title="Permalink to this equation">¶</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4954f911-5666-4ec3-a1c2-93ae158030c5">
+<span class="eqno">(1)<a class="headerlink" href="#equation-4954f911-5666-4ec3-a1c2-93ae158030c5" title="Permalink to this equation">¶</a></span>\[\begin{align}
 a_{11}&amp; =b_{11}&amp;
   a_{12}&amp; =b_{12}\\
 a_{21}&amp; =b_{21}&amp;
@@ -439,6 +456,9 @@ a_{21}&amp; =b_{21}&amp;
 <p id="id2"><dl class="citation">
 <dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id1">LWC+20</a></span></dt>
 <dd><p>Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. <em>Physical Review B</em>, 101(3):035144, 01 2020. <a class="reference external" href="https://doi.org/10.1103/physrevb.101.035144">doi:10.1103/physrevb.101.035144</a>.</p>
+</dd>
+<dt class="label" id="id25"><span class="brackets">SOOY17</span></dt>
+<dd><p>Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. <em>Physical Review B</em>, 96(3):035147 – 8, 07 2017. URL: <a class="reference external" href="https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147">https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147</a>, <a class="reference external" href="https://doi.org/10.1103/physrevb.96.035147">doi:10.1103/physrevb.96.035147</a>.</p>
 </dd>
 </dl>
 </p>
@@ -471,11 +491,11 @@ a_{21}&amp; =b_{21}&amp;
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="preparation.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="reference.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Preparation</p>
+            <p class="prev-next-title">Bibliograpy</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="md_sample.html" title="next page">
