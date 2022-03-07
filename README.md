@@ -21,6 +21,9 @@ jupyter book build .
 ghp-import -n -p -f _build/html
 ```
 
+### References
+You can add references to `references.bib`.
+
 ### Trouble shooting
 
 * https://github.com/executablebooks/jupyter-book/issues/1541

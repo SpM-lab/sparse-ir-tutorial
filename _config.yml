@@ -41,6 +41,13 @@ sphinx:
   config:
     bibtex_reference_style: author_year
     language: en
+    mathjax3_config:
+      TeX:
+        Macros:
+          "wmax": "{\\omega_\\mathrm{max}}"
+    latex_elements:
+        preamble: |
+          \newcommand{\wmax}{\ensuremath{{\omega_\mathrm{max}}}}
 
 parse:
   myst_substitutions:

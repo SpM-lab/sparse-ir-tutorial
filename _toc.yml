@@ -1,14 +1,17 @@
 format: jb-book
 root: docs/index
 parts:
-- caption: Introduction
+- caption: Basic theory
   chapters:
-  - file: docs/preparation
-#- caption: Classical Monte Carlo simulation
+  - file: docs/IR
+  - file: docs/sparse_sampling
+#- caption: Installation
 #  chapters:
-#  - file: docs/mc
-#  - file: docs/1dIsing
-#  - file: docs/2dIsing
+#  - file: docs/installation_py
+#  - file: docs/installation_jl
+- caption: Reference
+  chapters:
+  - file: docs/reference
 - caption: Sample
   chapters:
   - file: docs/sample
