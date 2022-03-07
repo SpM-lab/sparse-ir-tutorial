@@ -7,20 +7,16 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.7
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3 (ipykernel)
   language: python
   name: python3
 ---
 
-```{code-cell} ipython3
-import numpy as np
-import matplotlib.pyplot as pl
-import sparse_ir
-import sys 
-import math
-```
+# GW approximation
 
-Single Particle Green's function
++++
+
+## Single Particle Green's function
 ------------------------
 
 +++
@@ -71,7 +67,7 @@ There are of course higher order Green's functions to describe multi-particle-pr
 
 +++
 
-Matsubara Green's function
+## Matsubara Green's function
 ------------------------
 
 +++
@@ -145,6 +141,14 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 
 Here the representational form for both the imaginary-frequency and imaginary time domain can be seen.[1][4][7] In order to go further into detail we will construct that kernel $K$ (for both fermionic and bosonic statistics) using [sparse_ir](https://github.com/SpM-lab/sparse-ir) with the following conditions for our system: 
 
+
+```{code-cell} ipython3
+import numpy as np
+import matplotlib.pyplot as pl
+import sparse_ir
+import sys 
+import math
+```
 
 ```{code-cell} ipython3
 T=0.1
