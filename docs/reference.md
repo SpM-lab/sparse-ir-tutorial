@@ -1,3 +1,0 @@
-# Bibliograpy
-```{bibliography}
-```

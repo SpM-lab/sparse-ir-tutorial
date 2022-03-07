@@ -9,16 +9,16 @@ pip3 install jupyter-book ghp-import jupytext
 ```
 
 ### Local build
+The following command update all markdown files paired with notebooks and build html page. 
 
 ```bash
-jupyter book build .
-# open _build/html/index.html with your favourite browser
+make build
 ```
 
 ### Deployment to remote
 
 ```bash
-ghp-import -n -p -f _build/html
+make upload
 ```
 
 ### References
@@ -26,14 +26,9 @@ You can add references to `references.bib`.
 
 ### Jupytext
 
-Convert a notebook to a paired Python file:
+Generate a notebook file paired with a specific markdown file:
 ```bash
-jupytext --set-formats ipynb,md:myst --sync sparse_sampling.ipynb
-```
-
-Manually update the paired Python file:
-```bash
-jupytext --sync sparse_sampling.ipynb
+jupytext --to ipynb some_file.md
 ```
 
 ### Trouble shooting

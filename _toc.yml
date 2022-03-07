@@ -5,17 +5,10 @@ parts:
   chapters:
   - file: docs/IR
   - file: docs/sparse_sampling
-#- caption: Installation
-#  chapters:
-#  - file: docs/installation_py
-#  - file: docs/installation_jl
 - caption: Sample codes
   chapters:
   - file: docs/GW
 - caption: Reference
   chapters:
-  - file: docs/reference
-- caption: Sample
-  chapters:
-  - file: docs/sample
-  - file: docs/md_sample
+  - file: docs/citation
+  - file: docs/bibliography
