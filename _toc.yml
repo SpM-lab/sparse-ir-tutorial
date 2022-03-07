@@ -5,6 +5,9 @@ parts:
   chapters:
   - file: docs/IR
   - file: docs/sparse_sampling
+- caption: Reference
+  chapters:
+  - file: docs/api
 - caption: Sample codes
   chapters:
   - file: docs/GW

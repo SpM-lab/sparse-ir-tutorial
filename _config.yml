@@ -45,6 +45,7 @@ sphinx:
 parse:
   myst_substitutions:
       sub3: My _global_ value!
+  myst_url_schemes: [mailto, http, https]
  
   myst_enable_extensions:  # default extensions to enable in the myst parser. See https://myst-parser.readthedocs.io/en/latest/using/syntax-optional.html
     - amsmath
