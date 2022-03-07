@@ -24,6 +24,46 @@ $$
 
 +++
 
+## One-particle Green's function
+
+We introduce a Green’s function with imaginary arguments in time and frequency.
+This has no physical meaning but is merely a mathematical trick and makes calculations easier (to give another example of this: in Minsowski spacetime we take advantage of a similiar substitution)
+
+The so-called imaginary-frequency (Matsubara) Green's functions are defined as followed: 
+
+$$
+G_{ij}(\tau-\tau')=-\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
+$$
+
+where $i$ and $j$ denote spin/orbital/band and $T_\tau$ is the time-ordering operator.
+Here $\tau$ represents a imaginary time unit $\mathrm{i}t$,
+while $c_i$ and $c_j$ are the annihilation and creation operators.
+
+The Fourier Transformation of $G_{ij}(\tau)$ (with $\tau \in [0,\beta]$) reads
+
+$$
+G_{ij}(\iv_n) = \int_0^{\beta} \dd \tau e^{\iv_n\tau} G_{ij}(\tau),
+$$
+
+where $\nu_n = (2n+1)\pi/\beta$ (fermion) and $\nu_n = 2n\pi/\beta$ (boson) with $n$ being an integer.
+The inverse temperature is denoted by $\beta$ (We take $\hbar=1$).
+The inverse transmation is given by
+
+$$
+G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
+$$ 
+
+Continuing $G_{ij}(\iv_n)$ to a holomorphic function in the upper half of the complex plane,
+the imaginary-frequency (Matsubara) Green's function can be related to the "orginary" retarded Green's function as
+
+$$
+G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+})
+$$
+
+In the following, we omit the symbols $i$, $j$, $n$ unless there is confusion.
+
++++
+
 ## Lehmann representation
 
 In the imaginary-frequency domain, the Lehmann representation reads
@@ -33,6 +73,7 @@ $$
     G(\iv) &= \int_{-\infty}^\infty \dd\omega \underbrace{\frac{1}{\iv - \omega}}_{\equiv K(\iv, \omega)} A(\omega),
 \end{align}
 $$
+
 where $A(\omega)$ is a spectral function and we take $\hbar=1$.
 $K(\iv, \omega)$ is the so-called analytic continuation kernel.
 The Lehmann representation can be transformed to the imaginary-time domain as
