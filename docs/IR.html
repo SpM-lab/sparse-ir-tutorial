@@ -308,11 +308,11 @@ This has no physical meaning but is merely a mathematical trick and makes calcul
 <p>The so-called imaginary-frequency (Matsubara) Green’s functions are defined as followed:</p>
 <div class="math notranslate nohighlight">
 \[
-G_{ij}(\tau-\tau')=-\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
+G_{ij}(\tau-\tau') = -\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> denote spin/orbital/band and <span class="math notranslate nohighlight">\(T_\tau\)</span> is the time-ordering operator.
 Here <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(\mathrm{i}t\)</span>,
-while <span class="math notranslate nohighlight">\(c_i\)</span> and <span class="math notranslate nohighlight">\(c_j\)</span> are the annihilation and creation operators.</p>
+while <span class="math notranslate nohighlight">\(c_i\)</span>/<span class="math notranslate nohighlight">\(c_j\)</span> is a fermionic or bosonic annihilation/creation operator.</p>
 <p>The Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (with <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>) reads</p>
 <div class="math notranslate nohighlight">
 \[
@@ -320,7 +320,7 @@ G_{ij}(\iv_n) = \int_0^{\beta} \dd \tau e^{\iv_n\tau} G_{ij}(\tau),
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\nu_n = (2n+1)\pi/\beta\)</span> (fermion) and <span class="math notranslate nohighlight">\(\nu_n = 2n\pi/\beta\)</span> (boson) with <span class="math notranslate nohighlight">\(n\)</span> being an integer.
 The inverse temperature is denoted by <span class="math notranslate nohighlight">\(\beta\)</span> (We take <span class="math notranslate nohighlight">\(\hbar=1\)</span>).
-The inverse transmation is given by</p>
+The inverse transformation is given by</p>
 <div class="math notranslate nohighlight">
 \[
 G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
@@ -329,7 +329,7 @@ G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n
 the imaginary-frequency (Matsubara) Green’s function can be related to the “orginary” retarded Green’s function as</p>
 <div class="math notranslate nohighlight">
 \[
-G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+})
+G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
 \]</div>
 <p>In the following, we omit the symbols <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(n\)</span> unless there is confusion.</p>
 </div>
@@ -342,7 +342,7 @@ G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+})
     G(\iv) &amp;= \int_{-\infty}^\infty \dd\omega \underbrace{\frac{1}{\iv - \omega}}_{\equiv K(\iv, \omega)} A(\omega),
 \end{align}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function and we take <span class="math notranslate nohighlight">\(\hbar=1\)</span>.
+<p>where <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function.
 <span class="math notranslate nohighlight">\(K(\iv, \omega)\)</span> is the so-called analytic continuation kernel.
 The Lehmann representation can be transformed to the imaginary-time domain as</p>
 <div class="math notranslate nohighlight" id="equation-lehmann-tau">
@@ -370,7 +370,7 @@ To avoid the divergence of the bosonic kernel at <span class="math notranslate n
     G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
 \end{equation}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the logistic kernel defined as</p>
+<p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the “logistic kernel” defined as</p>
 <div class="math notranslate nohighlight" id="equation-kl">
 <span class="eqno">(2)<a class="headerlink" href="#equation-kl" title="Permalink to this equation">¶</a></span>\[
 K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
@@ -389,17 +389,16 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 </div>
 <div class="section" id="singular-value-expansion">
 <h2>Singular value expansion<a class="headerlink" href="#singular-value-expansion" title="Permalink to this headline">¶</a></h2>
-<p><span id="id1">[<a class="reference internal" href="bibliography.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
-<p><span id="id2">[<a class="reference internal" href="bibliography.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span>
-<span id="id3">Shinaoka <em>et al.</em> [<a class="reference internal" href="bibliography.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">2017</a>]</span></p>
-<p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(2)</a> reads</p>
+<p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(2)</a> reads <span id="id1">[<a class="reference internal" href="bibliography.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
 <div class="math notranslate nohighlight">
 \[
-\begin{align}
-    K^\mathrm{L}(\tau, \omega) &amp;= \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
-\end{align}
+K^\mathrm{L}(\tau, \omega) = \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
 \]</div>
-<p>for <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span> with <span class="math notranslate nohighlight">\(\wmax\)</span> (&gt;0) being a cut-off frequency.</p>
+<p>for <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span> with <span class="math notranslate nohighlight">\(\wmax\)</span> (&gt;0) being a cut-off frequency.
+<span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span> are left and right singular functions and <span class="math notranslate nohighlight">\(S_l\)</span> as the singular values (with <span class="math notranslate nohighlight">\(S_0&gt;S_1&gt;S_2&gt;...&gt;0\)</span>).
+The two sets of singular functions <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> make up the basis functions of the so-called Intermediate Representation (IR), which depends on <span class="math notranslate nohighlight">\(\beta\)</span> and the cutoff <span class="math notranslate nohighlight">\(\wmax\)</span>.
+For the peculiar choice of the regularization for the bosonic kernel using <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span>, these basis functions do not depend on statistical properties.</p>
+<p>Some of the information regarding real-frequency properties of the system is often lost during transition into the imaginary-time domain, so that the imaginary-frequency Green’s function does hold less information than the real-frequency Green’s function. The reason for using IR lies within its compactness and ability to display that information in imaginary quantities.</p>
 </div>
 <div class="section" id="basis-functions-in-imaginary-frequency">
 <h2>Basis functions in imaginary frequency<a class="headerlink" href="#basis-functions-in-imaginary-frequency" title="Permalink to this headline">¶</a></h2>
