@@ -227,8 +227,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#singular-value-expansion-in-imaginary-time">
-   Singular value expansion in imaginary time
+  <a class="reference internal nav-link" href="#singular-value-expansion">
+   Singular value expansion
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -262,8 +262,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#singular-value-expansion-in-imaginary-time">
-   Singular value expansion in imaginary time
+  <a class="reference internal nav-link" href="#singular-value-expansion">
+   Singular value expansion
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -290,7 +290,7 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="math notranslate nohighlight">
 \[
 \begin{align}
-    G(\tau) &amp;= - \int_{-\wmax}^\wmax \dd\omega K(\tau, \omega) A(\omega),
+    G(\tau) &amp;= - \int_{-\infty}^\infty \dd\omega K(\tau, \omega) A(\omega),
 \end{align}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span>, <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function, <span class="math notranslate nohighlight">\(K(\tau, \omega)\)</span> is a <em>kernel</em>.
@@ -310,12 +310,12 @@ We take <span class="math notranslate nohighlight">\(\hbar = 1\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
-    G(\tau)= - \int_{-\wmax}^\wmax\dd{\omega'} K^\mathrm{L}(\tau,\omega') \rho(\omega'),\label{eq:friedholm2}
+    G(\tau)= - \int_{-\infty}^\infty\dd{\omega'} K^\mathrm{L}(\tau,\omega') \rho(\omega'),\label{eq:friedholm2}
 \end{equation}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the logistic kernel defined as</p>
-<div class="math notranslate nohighlight">
-\[
+<div class="math notranslate nohighlight" id="equation-kl">
+<span class="eqno">(1)<a class="headerlink" href="#equation-kl" title="Permalink to this equation">¶</a></span>\[
 K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 \]</div>
 <p>and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the modified spectral function</p>
@@ -330,10 +330,18 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 \end{align}
 \end{split}\]</div>
 </div>
-<div class="section" id="singular-value-expansion-in-imaginary-time">
-<h2>Singular value expansion in imaginary time<a class="headerlink" href="#singular-value-expansion-in-imaginary-time" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="singular-value-expansion">
+<h2>Singular value expansion<a class="headerlink" href="#singular-value-expansion" title="Permalink to this headline">¶</a></h2>
 <p><span id="id1">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
 <p><span id="id2">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
+<p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(1)</a> reads</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+    K^\mathrm{L}(\tau, \omega) &amp;= \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
+\end{align}
+\]</div>
+<p>for <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span>.</p>
 </div>
 <div class="section" id="basis-functions-in-matsubara-frequency">
 <h2>Basis functions in Matsubara frequency<a class="headerlink" href="#basis-functions-in-matsubara-frequency" title="Permalink to this headline">¶</a></h2>
