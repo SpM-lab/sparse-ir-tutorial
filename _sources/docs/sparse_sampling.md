@@ -20,6 +20,7 @@ $$
 \newcommand{\wmax}{{\omega_\mathrm{max}}}
 \newcommand{\dd}{{\mathrm{d}}}
 \newcommand{\ii}{{\mathrm{i}}}
+\newcommand{\iv}{{\mathrm{i}\nu}}
 \newcommand{\tauk}{{\bar{\tau}_k}}
 \newcommand{\wk}{{\bar{\omega}^\alpha_k}}
 \newcommand{\vk}{{\bar{\nu}_k}}
@@ -63,9 +64,6 @@ wmax = 10
 basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
 
 smpl = sparse_ir.TauSampling(basis)
-print("L: ", basis.size)
-print("Sampling points: ", smpl.sampling_points)
-print("Condition number: ", smpl.cond)
 
 taus = np.linspace(0, beta, 1000)
 plt.plot(taus, basis.u[-1](taus))
@@ -78,7 +76,7 @@ plt.xlim([0, beta])
 plt.tight_layout()
 ```
 
-One can transform numerical data in the Matsubara-frequency domain using sparse-sampling techniques `cite`{Li:2020eu}.
+One can transform numerical data in the Matsubara-frequency domain using sparse-sampling techniques {cite}`Li:2020eu`.
 The IR basis functions $\hat U_l(\iv)$ are purely imaginary/real for even/odd $l$.
 Although the basis functions $U_l(\iv)$ are defined only on discrete points,
 the respective parts have sign structures similarly to those of $U_l(\tau)$.

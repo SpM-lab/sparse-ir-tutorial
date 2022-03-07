@@ -244,6 +244,7 @@ const thebe_selector_output = ".output, .cell_output"
 \newcommand{\wmax}{{\omega_\mathrm{max}}}
 \newcommand{\dd}{{\mathrm{d}}}
 \newcommand{\ii}{{\mathrm{i}}}
+\newcommand{\iv}{{\mathrm{i}\nu}}
 \newcommand{\tauk}{{\bar{\tau}_k}}
 \newcommand{\wk}{{\bar{\omega}^\alpha_k}}
 \newcommand{\vk}{{\bar{\nu}_k}}
@@ -282,9 +283,6 @@ From experience, the fitting can be done in the most stable way using SVD of the
 <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
 <span class="n">smpl</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L: &quot;</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sampling points: &quot;</span><span class="p">,</span> <span class="n">smpl</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Condition number: &quot;</span><span class="p">,</span> <span class="n">smpl</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
 
 <span class="n">taus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">](</span><span class="n">taus</span><span class="p">))</span>
@@ -299,50 +297,10 @@ From experience, the fitting can be done in the most stable way using SVD of the
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L: 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>30
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling points: 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.01254038 0.02508075 0.0846084  0.17969895 0.31247002 0.48595941
- 0.70421951 0.97237343 1.29652855 1.68336935 2.13916506 2.66791199
- 3.26855641 3.93189993 4.6387471  5.3612529  6.06810007 6.73144359
- 7.33208801 7.86083494 8.31663065 8.70347145 9.02762657 9.29578049
- 9.51404059 9.68752998 9.82030105 9.9153916  9.97491925 9.98745962]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Condition number: 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.89770217368647
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-<img alt="../_images/sparse_sampling_2_12.png" src="../_images/sparse_sampling_2_12.png" />
+<img alt="../_images/sparse_sampling_2_0.png" src="../_images/sparse_sampling_2_0.png" />
 </div>
 </div>
-<p>One can transform numerical data in the Matsubara-frequency domain using sparse-sampling techniques <code class="docutils literal notranslate"><span class="pre">cite</span></code>{Li:2020eu}.
+<p>One can transform numerical data in the Matsubara-frequency domain using sparse-sampling techniques <span id="id1">[<a class="reference internal" href="bibliography.html#id3" title="Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. Physical Review B, 101(3):035144, 01 2020. doi:10.1103/physrevb.101.035144.">Li <em>et al.</em>, 2020</a>]</span>.
 The IR basis functions <span class="math notranslate nohighlight">\(\hat U_l(\iv)\)</span> are purely imaginary/real for even/odd <span class="math notranslate nohighlight">\(l\)</span>.
 Although the basis functions <span class="math notranslate nohighlight">\(U_l(\iv)\)</span> are defined only on discrete points,
 the respective parts have sign structures similarly to those of <span class="math notranslate nohighlight">\(U_l(\tau)\)</span>.
