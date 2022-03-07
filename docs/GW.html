@@ -1,0 +1,1161 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GW approximation &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"TeX": {"Macros": {"wmax": "{\\omega_\\mathrm{max}}"}}, "options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bibliograpy" href="reference.html" />
+    <link rel="prev" title="Sparse sampling" href="sparse_sampling.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR.html">
+   Intermediate representation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   GW approximation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="reference.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sample.html">
+   Sample
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="md_sample.html">
+   Markdown sample
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/docs/GW.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/docs/GW.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/docs/GW.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-particle-greens-function">
+   Single Particle Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matsubara-greens-function">
+   Matsubara Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-expansion">
+   Singular Value Expansion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intermediate-representation">
+   Intermediate Representation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-gf2-gw-method">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>GW approximation</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-particle-greens-function">
+   Single Particle Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matsubara-greens-function">
+   Matsubara Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#singular-value-expansion">
+   Singular Value Expansion
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#intermediate-representation">
+   Intermediate Representation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-gf2-gw-method">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sources">
+   Sources
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="gw-approximation">
+<h1>GW approximation<a class="headerlink" href="#gw-approximation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="single-particle-greens-function">
+<h2>Single Particle Green’s function<a class="headerlink" href="#single-particle-greens-function" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>In order to give a short introduction into Green’s functions in the context of many-body physics and in particular the GW approximation we will take a look at the single particle Green’s function. It offers a relatively easy to understand solution for problems similar to the one we will deal with within the GW approximation and is thus very helpful in understanding the concept and idea behind such approximations.</p>
+<p>Starting off with a standard problem of quantum mechanics, the propagation of a single particle, the time-dependant Schrödinger’s Equation gives the well-known formula for a particles wave function.</p>
+<div class="math notranslate nohighlight">
+\[[i\partial_t-\mathcal{H}_0(r)-V(r)]\Psi(r,t)=0  \]</div>
+<p>It is now possible to define two (Green’s) functions, to which the following applies.</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{H}_0(r)G_0(r,r’;t,t’)=\delta(r-r’)\delta(t-t’)$$&lt;br&gt;
+$$[i\partial_t-\mathcal{H}_0(r)-V(r)]G_0(r,r';t,t')=\delta(r-r')\delta(t-t')\]</div>
+<p>As we will see soon this will allow to obtain a solution for both a non-interacting particle (<span class="math notranslate nohighlight">\(G_0\)</span>) and a particle of some pertubation V, which is interacting with the system (<span class="math notranslate nohighlight">\(G\)</span>). Taking this further and making use of the inverse of the Green’s functions the solution for <span class="math notranslate nohighlight">\(\Psi\)</span> can easily found to be</p>
+<div class="math notranslate nohighlight">
+\[\Psi(r,t)=\Psi^0(r,t)+\int dr' \int dt' G(r,r';t,t')V(r')\Psi^0(r',t')\]</div>
+<p>for the full (interacting) Green’s function and</p>
+<div class="math notranslate nohighlight">
+\[\Psi(r,t)=\Psi^0(r,t)+\int dr' \int dt' G_0(r,r';t,t')V(r')\Psi^0(r',t')\]</div>
+<p>for a non-interacting particle.</p>
+<p>After iterating this solution for the wave function, it will lead to the so-called Dyson Equation with which we can write the full Green’s function <span class="math notranslate nohighlight">\(G\)</span> as<br></p>
+<div class="math notranslate nohighlight">
+\[G=G_0 +G_0VG \]</div>
+<p><a class="reference external" href="#fn1"><sup id="fn1-back">1</sup></a>.The Dyson Equation will be used later on to connect the Green’s function with the self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span>.</p>
+<p>If we interpret the Green’s function as a propagator of the wave function <span class="math notranslate nohighlight">\(\Psi\)</span>, which is rather intuitiv since</p>
+<div class="math notranslate nohighlight">
+\[\Psi(r,t)=\int dr' G(r,r',t,t')\Psi(r',t')=\int dr' \langle r|e^{-i\mathcal{H}}(t-t')|r\rangle \langle r'|\Psi| r \rangle\]</div>
+<p>We can define a function:</p>
+<div class="math notranslate nohighlight">
+\[G(r,r',t-t’)= -i\theta (t-t')\langle r |e^ {-iH(t-t')} |r'\rangle\]</div>
+<p><span class="math notranslate nohighlight">\(G(r,r‘,t-t‘)\)</span>, often called retarded Green’s function<a class="reference external" href="#fn2"><sup id="fn2-back">2</sup></a>, is nothing else than the probability amplitude for a particle to enter state r at a time t if it was injected into the system in the state r’ at time t’. This becomes even more evident if we take notice of the fact that in the Dyson equation we are basically calculating <span class="math notranslate nohighlight">\(G\)</span> as the sum of all possible paths a particle can take in the system with <span class="math notranslate nohighlight">\(G_0\)</span> as a non-interacting propagator and <span class="math notranslate nohighlight">\(V\)</span> as a scattering event of some sort.[1][3]</p>
+<p>There are of course higher order Green’s functions to describe multi-particle-processes, these however will not be further explained as it would go beyond the scope.</p>
+<p><a class="reference external" href="#fn1-back"><sup id="fn1">1</sup></a> The solution is being obtained from <span class="math notranslate nohighlight">\(G=G_0 + G_0VG_0+ G_0VG_0VG_0+...=G_0 + G_0V(G_0+G_0VG)\)</span>.</p>
+<p><a class="reference external" href="#fn2-back"><sup id="fn2">2</sup></a>There is also a so-called advanced Green’s function with <span class="math notranslate nohighlight">\(-i\theta(t'-t)\)</span>, which is used to describe the propagation of a quasiparticle or hole.</p>
+</div>
+<div class="section" id="matsubara-greens-function">
+<h2>Matsubara Green’s function<a class="headerlink" href="#matsubara-greens-function" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p>We now introduce a Green’s function with imaginary arguments in time and frequency. This has no physical meaning but is merely a mathematical trick and makes calculations easier (to give another example of this: in Minsowski spacetime we take advantage of a similiar substitution)</p>
+<p>The so called Matsubara Green’s functions are defined as followed:</p>
+<div class="math notranslate nohighlight">
+\[G_{ij}(\tau-\tau')=-\langle T_\tau [c_i(\tau){c}_j(\tau')]\rangle\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(it\)</span>, while <span class="math notranslate nohighlight">\(c_i\)</span> and <span class="math notranslate nohighlight">\(c_j\)</span> are the annihilation and creation operators.<a class="reference external" href="#fn3"><sup id="fn3-back">3</sup></a> With</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}T_\tau [c_i(\tau)c_j(\tau')]= \theta(\tau-\tau')c_i(\tau)c_j(\tau')\pm\theta(\tau'-\tau)c_j(\tau')c_i(\tau)
+\begin{cases}
++ \space for\space bosons\\
+- \space for\space fermions\\
+\end {cases}\end{split}\]</div>
+<p>the operators are arranged according to the course of events, which is why <span class="math notranslate nohighlight">\(T\)</span> is often being refered to as the time ordering symbol in imaginary time. To be more precise: the left operator represents the later in time (Note that <span class="math notranslate nohighlight">\(T\)</span> is differently defined for fermions and bosons). Similarly to what the single particle Green’s function represents <span class="math notranslate nohighlight">\(G_{ij}(\tau-\tau')\)</span> describes an probability amplitude to find a particle in the state <span class="math notranslate nohighlight">\(i\)</span> at the time <span class="math notranslate nohighlight">\(\tau\)</span> if it was in a state <span class="math notranslate nohighlight">\(j\)</span> at time <span class="math notranslate nohighlight">\(\tau'\)</span>, at least for <span class="math notranslate nohighlight">\(\tau&gt;\tau'\)</span>. If <span class="math notranslate nohighlight">\(\tau'&gt;\tau\)</span> applies we are again looking at the propagation of a quasi-particle (hole).</p>
+<p>Taking a look at the Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (with <span class="math notranslate nohighlight">\(\tau \in [-\beta,\beta]\)</span>) it can be said that</p>
+<div class="math notranslate nohighlight">
+\[G_{ij}(i\omega_n)=\frac{1}{2}\int_{-\beta}^{\beta} d\tau  e^{i\omega_n\tau} G_{ij}(\tau)\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-i\omega_n\tau}G_{ij}(i\omega_n).\]</div>
+<p>As we can simplify this by separating the integral of <span class="math notranslate nohighlight">\(G_{ij}(i\omega_n)\)</span> and making use of the fact that <span class="math notranslate nohighlight">\(n\)</span> is odd or even depending on <span class="math notranslate nohighlight">\((1\pm e^{-i\pi n})\)</span> being <span class="math notranslate nohighlight">\(0\)</span> or <span class="math notranslate nohighlight">\(2\)</span>, we can write</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}G_{ij}(i\omega_n)=\int_0^{\beta} d\tau e^{i\omega_n\tau}G_{ij}(\tau)\space\space
+\begin{cases}
+\omega_n = \frac{2\pi n}{\beta}\space    for\space fermions \\
+\omega_n =\frac{(2n+1)\pi}{\beta}\space  for\space bosons
+\end{cases}\end{split}\]</div>
+<p>Since the functions <span class="math notranslate nohighlight">\(G_{ij}\)</span> are referred to as Matsubara Green’s functions, the discrete frequencies <span class="math notranslate nohighlight">\(\omega_n\)</span> are called Matsubara frequencies. Because these frequencies contain <span class="math notranslate nohighlight">\(\beta\)</span>, which is essentially <span class="math notranslate nohighlight">\(\frac{1}{k_BT}\)</span>, information about the temperature is preserved.</p>
+<p>The importance of the Matsubara Green’s function in the context of many-body systems lies within its relation to the ‘ordinary’ retarded Green’s function: If we imagine the complex plane, there exists a complex Green’s function <span class="math notranslate nohighlight">\(G(z)\)</span> whose imaginary part on the imaginary axis equals <span class="math notranslate nohighlight">\(G_{ij}(i\omega_n)\)</span> (Matsubara Green’s function) and whose real part equals a function <span class="math notranslate nohighlight">\(G_{ij}(\omega)\)</span>. As can be proven by the use of Lehmann’s representation that function <span class="math notranslate nohighlight">\(G_{ij}(\omega)\)</span> happens to be the retarded Green’s function for the system. This makes it possible to compute <span class="math notranslate nohighlight">\(G_{ij}(i\omega_n)\)</span> if the retarded Green’s function is known and vice versa. That as well as analytic continuation allows us to state:</p>
+<div class="math notranslate nohighlight">
+\[G_{ij}^R(\omega)=G_{ij}(i\omega_n\to\omega+i0^{+})\]</div>
+<p>(for this <span class="math notranslate nohighlight">\(G_{ij}(z)\)</span> has to be reduced to a rational function and be analytic, otherwise it will yield wrong results). An analog identity is true for the advanced Green’s function.[1][2][3]</p>
+<p><a class="reference external" href="#fn3-back"><sup id="fn3">3</sup></a> <span class="math notranslate nohighlight">\(\langle A\rangle\)</span> is the grand-canonical expectation value
+$<span class="math notranslate nohighlight">\(\langle A\rangle=\frac{1}{Z}T_r(e^{-\beta\mathcal{H}})\)</span>$</p>
+</div>
+<div class="section" id="singular-value-expansion">
+<h2>Singular Value Expansion<a class="headerlink" href="#singular-value-expansion" title="Permalink to this headline">¶</a></h2>
+<p>Let us now take a closer look at <span class="math notranslate nohighlight">\(G_{ij}(i\omega_n)\)</span>. We can write our Matsubara Green’s function as</p>
+<div class="math notranslate nohighlight">
+\[\hat{G}^\alpha (i\omega)=\int_0^{\beta} d\tau e^{i\omega_n\tau}G(\tau)= \int_0^\beta d\tau e^{i\omega_n\tau} \langle T c_i(\tau)c_j(0)\rangle .\]</div>
+<p><span class="math notranslate nohighlight">\(\alpha\)</span> denotes whether we are working with fermionic (F) or bosonic statistics (B). Another equivalent way of expressing <span class="math notranslate nohighlight">\(G_{ij}(i\omega_n)\)</span> is through the sprectral Lehmann representation:</p>
+<div class="math notranslate nohighlight">
+\[\hat{G}(i\omega) = \int_{-\omega_{max}}^{\omega_{max}} d\omega'\underbrace{ \frac{\omega'^{\delta_{\alpha,B}}}{i\omega-\omega'}}_{K^{\alpha}(i\omega,\omega')} \rho^\alpha (\omega')\]</div>
+<p>Here <span class="math notranslate nohighlight">\(\rho^\alpha(\omega')\)</span> represents the associated spectral density function in the real frequency domain <span class="math notranslate nohighlight">\(\omega_i \in [-\omega_{max},\omega_{max}]\)</span> (we recall that these are connected to the imaginary frequencies <span class="math notranslate nohighlight">\(i\omega_n\)</span> by analytic continuation). <span class="math notranslate nohighlight">\(\omega'^{\delta_{\alpha,B}}\)</span> evaluates to <span class="math notranslate nohighlight">\(1\)</span> or <span class="math notranslate nohighlight">\(\omega'\)</span>, depending on <span class="math notranslate nohighlight">\(\alpha=F\)</span> or <span class="math notranslate nohighlight">\(\alpha=B\)</span>.</p>
+<p>Because we are looking at an integral of the form <span class="math notranslate nohighlight">\(\int G(s,t)f(t)dt=u(s)\)</span> (a so called Fredholm integral equation of the first kind) it is possible to perform a singular value expansion (SVE), so that <span class="math notranslate nohighlight">\(K^\alpha(i\omega,\omega')\)</span> satisfies:</p>
+<br>
+$$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alpha V(\omega')=\sum_{l=0}^{\infty}\hat{U}_l^\alpha(\tau)S_l^\alpha V_l^\alpha(\omega')$$
+<p>Here the representational form for both the imaginary-frequency and imaginary time domain can be seen.[1][4][7] In order to go further into detail we will construct that kernel <span class="math notranslate nohighlight">\(K\)</span> (for both fermionic and bosonic statistics) using <a class="reference external" href="https://github.com/SpM-lab/sparse-ir">sparse_ir</a> with the following conditions for our system:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pl</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">import</span> <span class="nn">sys</span> 
+<span class="kn">import</span> <span class="nn">math</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="n">wmax</span> <span class="o">=</span><span class="mi">1</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Fermionic Basis</span>
+
+<span class="n">basisf</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+
+<span class="n">matsf</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basisf</span><span class="p">)</span>
+<span class="n">tausf</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basisf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="intermediate-representation">
+<h2>Intermediate Representation<a class="headerlink" href="#intermediate-representation" title="Permalink to this headline">¶</a></h2>
+<p>We have now created a kernel <span class="math notranslate nohighlight">\(K^F(i\omega,\omega')\)</span> with <span class="math notranslate nohighlight">\(U_l^F\)</span> and <span class="math notranslate nohighlight">\(V_l^F\)</span> as left and right singular functions and <span class="math notranslate nohighlight">\(S_l\)</span> as the singular values (with <span class="math notranslate nohighlight">\(S_0&gt;S_1&gt;S_2&gt;...&gt;0\)</span>). The two  singular functions <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> make up the basis functions of the so-called Intermediate Representation (IR), which depends on <span class="math notranslate nohighlight">\(\beta\)</span> and the cutoff <span class="math notranslate nohighlight">\(\omega_{max}\)</span> as well as statistical properties (in this case fermionic properties <span class="math notranslate nohighlight">\(F\)</span>). Some of the information regarding real-frequency properties of the system is often lost during transition into the imaginary-time domain, so that the Matsubara Green’s function does hold less information than the real-frequency Green’s function. The reason for using IR lies within its compactness and ability to display that information in imaginary quantities.[5][7]</p>
+<p>Additionally we calculated the positions of our sampling points for imaginary frequencies and imaginary time.</p>
+<p>The basis functions <span class="math notranslate nohighlight">\(V_l^F(\omega')\)</span>  (the right singular functions) form an orthonomal set on the real frequency axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wlins</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="o">+</span><span class="n">wmax</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wlins</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">wlins</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wlins</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">wlins</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wlins</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="mi">18</span><span class="p">](</span><span class="n">wlins</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;l=0&#39;</span><span class="p">,</span><span class="s1">&#39;l=1&#39;</span><span class="p">,</span><span class="s1">&#39;l=18&#39;</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$V_l^F(\omega)$&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$V_l^F(\omega)$ over $\omega$ for different l&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$V_l^F(\\omega)$ over $\\omega$ for different l&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_13_1.png" src="../_images/GW_13_1.png" />
+</div>
+</div>
+<p>On the other side we have <span class="math notranslate nohighlight">\(U_l^F(i\omega)\)</span> which exists on the imaginary axis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Matsubara frequencies :&#39;</span><span class="p">,</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Matsubara frequencies&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;n&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$\omega_n$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matsubara frequencies :
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-131 -125  -33  -17  -13  -11   -9   -7   -5   -3   -1    1    3    5
+    7    9   11   13   17   33  125  131]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$\\omega_n$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_15_5.png" src="../_images/GW_15_5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">[</span><span class="mi">18</span><span class="p">](</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">)</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;l=0&#39;</span><span class="p">,</span><span class="s1">&#39;l=1&#39;</span><span class="p">,</span><span class="s1">&#39;l=18&#39;</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $U_l^F(i\omega_n)$ over $i\omega_n$ for different l&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\omega_n$&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$U_l^F(i\omega_n)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$U_l^F(i\\omega_n)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_16_1.png" src="../_images/GW_16_1.png" />
+</div>
+</div>
+<p>As we can express <span class="math notranslate nohighlight">\(K\)</span> in both, the frequency and time domain, there is also a need for <span class="math notranslate nohighlight">\(U_l^F(\tau)\)</span> (this will be further explained below)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Sampling points in tau:&#39;</span><span class="p">,</span> <span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sampling points in tau&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling points in tau:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.05182878 0.10365757 0.34534882 0.71903101 1.21612875 1.82453471
+ 2.52838108 3.30803861 4.14046722 5.         5.85953278 6.69196139
+ 7.47161892 8.17546529 8.78387125 9.28096899 9.65465118 9.89634243
+ 9.94817122]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Sampling points in tau&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_18_5.png" src="../_images/GW_18_5.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">](</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">18</span><span class="p">](</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;l=0&#39;</span><span class="p">,</span><span class="s1">&#39;l=1&#39;</span><span class="p">,</span><span class="s1">&#39;l=18&#39;</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$U_l^F(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$U_l^F(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_19_1.png" src="../_images/GW_19_1.png" />
+</div>
+</div>
+<p>In order to perform the GW approximation the same objects as above are also needed with regards to bosonic statistics.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Bosonic Basis</span>
+
+<span class="n">basisb</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+      
+<span class="n">matsb</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basisb</span><span class="p">)</span>
+<span class="n">tausb</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basisb</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Interpreting <span class="math notranslate nohighlight">\(\hat G\)</span> (with ‘hat’ denoting frequency representations) in terms of basis functions and expansion coefficients leads us to the following:</p>
+<p>Since <span class="math notranslate nohighlight">\(\hat{G}^\alpha(i\omega)\)</span> has taken the form</p>
+<div class="math notranslate nohighlight">
+\[\hat G(i\omega)=\int K(i\omega,\omega')\rho(\omega')d\omega'\]</div>
+<p>we can write</p>
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\hat G^\alpha(i\omega)=\sum_{l=0}^{N-1} \hat{U}_l^\alpha(i\omega_n^\alpha)\underbrace{S_l^\alpha \int V_l^\alpha(\omega')\rho(\omega')d\omega'}_{G_l^\alpha}=\sum_{l=0}^{N-1} \hat{U}^\alpha_l(i\omega_n^\alpha)G_l^\alpha$$.\\Here we can see that $\hat{U}_l(i\omega_n)$ act as imaginary frequency basis functions with $G_l$ as the expansion coefficients. We can fourier transform $\hat{U}_l(i\omega)$  into imaginary time functions $U_l(\tau)$. These will simply be the basis functions of $G(\tau)$ in the imaginary time domain \\$$G^\alpha(\tau)=\sum_{l=0}^{N-1} U_l^\alpha(\bar\tau_k^\alpha) G_l^\alpha\end{aligned}\end{align} \]</div>
+<p>This essentially means that once the IR expansion coefficients are known we are able to evaluate data at any frequency and time and can easily switch back and forth between the time and the frequency domain.[5]</p>
+<p>In the following code we will assume <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> to be of the form:</p>
+<div class="math notranslate nohighlight">
+\[\rho(\omega)=\frac{2}{\pi}*\sqrt{1-\omega^2}\]</div>
+<p>with</p>
+<div class="math notranslate nohighlight">
+\[\rho_l^F=\int_{-\omega_max}^{\omega_max}V_l^F(\omega')\rho(\omega')\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">rho_l</span><span class="o">=</span><span class="n">basisf</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="c1">#evaluate overlap \int dx p(x) f(x) using piecewise Gauss-Legendre quadrature</span>
+<span class="c1">#p(x) are the polynomials</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<p>Once <span class="math notranslate nohighlight">\(\rho_l^F\)</span> is known the expansion coefficients <span class="math notranslate nohighlight">\(G_l^F\)</span> can be calculated using the singular values <span class="math notranslate nohighlight">\(S_l\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[G_l^F=S_l^F\rho_l^F \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">G_l_0</span><span class="o">=</span><span class="n">basisf</span><span class="o">.</span><span class="n">s</span><span class="o">*</span><span class="n">rho_l</span>   
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">basisf</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rho_l</span><span class="p">),</span> <span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">G_l_0</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;basis S&#39;</span><span class="p">,</span><span class="s1">&#39;rho_l&#39;</span><span class="p">,</span><span class="s1">&#39;G_l&#39;</span><span class="p">])</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Comparison of rho_l and $G_l$ over l&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_26_1.png" src="../_images/GW_26_1.png" />
+</div>
+</div>
+<p>It can be seen that <span class="math notranslate nohighlight">\(G_l\)</span> is getting smaller with growing <span class="math notranslate nohighlight">\(l\)</span>. This agrees with the fact that <span class="math notranslate nohighlight">\(S_{l=0}\)</span> is the greatest singular value and <span class="math notranslate nohighlight">\(S_l\)</span> gets smaller with growing <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<p>We will now build <span class="math notranslate nohighlight">\(\hat G^F (i\bar{\omega}_n^F)\)</span> using the expansion coefficients we just computed as well as the basis functions <span class="math notranslate nohighlight">\(\hat U_l^F(i\bar{\omega}_n^F)\)</span> (we are still working in the fermionic basis).[5][7]</p>
+<div class="math notranslate nohighlight">
+\[\hat G(i\bar{{\omega}}_n^F)=\sum_{l=0}^{N-1}G_l^F\hat U_l^F(i{\omega}_n^F)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#We compute G_iw two times as we will need G_iw_0 as a constant later on</span>
+
+<span class="n">G_iw_0</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lv,l-&gt;v&#39;</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">G_l_0</span><span class="p">)</span>
+<span class="n">G_iw_f</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lv,l-&gt;v&#39;</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">G_l_0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $G(i\omega)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $G(i\omega)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_30_1.png" src="../_images/GW_30_1.png" />
+</div>
+</div>
+<p>As stated above transforming the Green’s function from <span class="math notranslate nohighlight">\(\hat{G}\)</span> into its time domain form  can be done rather easily. First we need to obtain <span class="math notranslate nohighlight">\(G_l\)</span> by fitting it with e.g. the Least-Square method such that</p>
+<div class="math notranslate nohighlight">
+\[G_l^F=\underset{G_l}{\arg\min}   \sum_{i\bar{\omega}\in W^F}|\hat{G}(i\bar{{\omega}}_n^F)-\sum_{l=0}^{N-1}\hat{U}_l^F(i\bar{\omega}_n^F)G_l|^2\]</div>
+<p>However, as we already computed <span class="math notranslate nohighlight">\(\hat G\)</span> from the coefficients <span class="math notranslate nohighlight">\(G_l\)</span>, fitting is not really needed here but will be done for the sake of completeness.[5][7]</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Calculation of G_l_f using Least-Squares Fitting</span>
+
+<span class="n">G_l_f</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">G_iw_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the final step evaluation of <span class="math notranslate nohighlight">\(G_l^F\)</span> on the (fermionic) <span class="math notranslate nohighlight">\(\tau\)</span>-sampling points is necessary.</p>
+<div class="math notranslate nohighlight">
+\[G(\bar{\tau}_k^F)= \Sigma_{l=0}^{L-1}G_l^F U_l^F(\bar{\tau}_k^F)  \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#G_tau,fermionic   </span>
+
+<span class="n">G_tau_f</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lt,l-&gt;t&#39;</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">G_l_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $G(tau)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_f</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $G(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_35_1.png" src="../_images/GW_35_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="the-gf2-gw-method">
+<h2>The GF2 &amp; GW method<a class="headerlink" href="#the-gf2-gw-method" title="Permalink to this headline">¶</a></h2>
+<p>Above we have successfully derived <span class="math notranslate nohighlight">\(G^F(\bar{\tau}_k^F)\)</span> from <span class="math notranslate nohighlight">\(\hat {G}^F(i\bar{\omega}_n^F)\)</span> by first obtaining the Green’s function’s basis representation <span class="math notranslate nohighlight">\(G_l^F\)</span> and secondly evaluating <span class="math notranslate nohighlight">\(G_l^F\)</span> on the <span class="math notranslate nohighlight">\(\tau\)</span>-sampling points, which are given by the computations of sparse_ir. Here, the self-consistent second order Green’s function theory (GF2) and the self-consistent GW methodare are based this very mechanism (and the so called Hedin equations).[5][7]</p>
+<p>The following image should give an overview on their iterative schemes[5]:</p>
+<br>
+<p><img alt="GF2_GW_pic.PNG" src="docs/attachment:GF2_GW_pic.PNG" /></p>
+<p>Evaluation and transformation in GW and GF2 is done in the same way (fitting and evaluating) for the quantities <span class="math notranslate nohighlight">\(G,P,W\)</span> and <span class="math notranslate nohighlight">\(\Sigma\)</span>. The transition between these quantities is given by the Hedin equations. There are five Hedin equations in total. Because the vertex function (between <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(W\)</span>) is approximated as <span class="math notranslate nohighlight">\(\Gamma=1\)</span>, we will only deal with four of them here.[9]</p>
+<p>As we already have computed <span class="math notranslate nohighlight">\(G_l^F\)</span>, the next step in order to perform a full iteration of GF2 &amp; GW is the evaluation of the basis representation <span class="math notranslate nohighlight">\(G_l^F\)</span> on the <span class="math notranslate nohighlight">\(\tau\)</span>-sampling points.  Contrary to before were we computed <span class="math notranslate nohighlight">\(G(\bar{\tau}_k^F)\)</span>, these sampling point will be the bosonic sampling points <span class="math notranslate nohighlight">\(\tau_k^B\)</span>. This allows us to switch to bosonic statistic and thus be able to calculate associated quantities like the Polarization <span class="math notranslate nohighlight">\(P\)</span>.[5]</p>
+<div class="math notranslate nohighlight">
+\[G(\bar{\tau}_k^B)= \sum_{l=0}^{L-1}G_l^F  U_l^F(\bar{\tau}_k^B)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#G_tau, bosonic</span>
+
+<span class="n">G_tau_b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lt,l-&gt;t&#39;</span><span class="p">,</span><span class="n">basisb</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">G_l_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_b</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $G(tau)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_b</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $G(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_41_1.png" src="../_images/GW_41_1.png" />
+</div>
+</div>
+<p>The so-called Polarization <span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span> is given by the random phase approximation, a connection between two Green’s functions:</p>
+<div class="math notranslate nohighlight">
+\[P(\bar{\tau}_k^B)=G(\bar{\tau}_k^B)*G(\beta-\bar{\tau}_k^B)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Polarisation P, bosonic</span>
+
+<span class="n">P_tau_b</span><span class="o">=</span><span class="n">G_tau_b</span><span class="o">*</span><span class="p">(</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">beta</span><span class="o">-</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@G_l_f</span><span class="p">)</span>
+
+<span class="c1">#(basisf.u(beta-tausb.tau).T@G_l_f) describes the evaluation on of G_l_f</span>
+<span class="c1">#on sampling points (beta-tausb.tau)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">P_tau_b</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $P(tau)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">P_tau_b</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $P(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_44_1.png" src="../_images/GW_44_1.png" />
+</div>
+</div>
+<p>The same way we transformed <span class="math notranslate nohighlight">\(\hat G^F(i\bar{\omega}_n^F)\)</span> into <span class="math notranslate nohighlight">\(G^B(\bar\tau_k^B)\)</span> we are now able to transform <span class="math notranslate nohighlight">\(P^B(\bar\tau_k^B)\)</span> into <span class="math notranslate nohighlight">\(\hat P^B(i\bar{\omega}_n^B)\)</span> again using least Square fitting and evaluating <span class="math notranslate nohighlight">\(P_l^B\)</span> on the given sampling points (Matsubara frequencies).</p>
+<div class="math notranslate nohighlight">
+\[P_l^B\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#P_l, bosonic</span>
+
+<span class="n">P_l_b</span><span class="o">=</span><span class="n">tausb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">P_tau_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">P_l_b</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$P_l^B$ over l &#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_48_1.png" src="../_images/GW_48_1.png" />
+</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\hat{P}(i\bar{\omega}_k^B)= \sum_{l=0}^{N-1} P_l^BU_l^B(i\bar{\omega}_n^B)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#P_iw, bosonic</span>
+
+<span class="n">P_iw_b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lv,l-&gt;v&#39;</span><span class="p">,</span> <span class="n">basisb</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">P_l_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">P_iw_b</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $P(i\omega)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">P_iw_b</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $P(i\omega)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(i\\omega)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_51_1.png" src="../_images/GW_51_1.png" />
+</div>
+</div>
+<p>Following <span class="math notranslate nohighlight">\(P\)</span> we will now calculate the Screened Interaction <span class="math notranslate nohighlight">\(W\)</span> with the following formula:</p>
+<div class="math notranslate nohighlight">
+\[\hat{{W}}(i\bar{\omega}_n^B)= U + U\hat{P}(i\bar{\omega}_n^B)\hat{{W}}(i\bar{\omega}_n^B)\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\hat{{W}}(i\bar{\omega}_n^B)= \frac{U}{1-U\hat{P}(i\bar{\omega}_n^B)}\]</div>
+<p>This equation has the exact same form as the Dyson equation but instead of connecting the Green’s functions and the self energy it connects the Screened Coulomb Interaction <span class="math notranslate nohighlight">\(W\)</span> and the polarization operator <span class="math notranslate nohighlight">\(P\)</span>. Because <span class="math notranslate nohighlight">\(U\)</span> is the bare Coulomb interaction and <span class="math notranslate nohighlight">\(P\)</span> is an object containing all irreducible processes (meaning in Feynmann diagrams cutting an interaction line U does not result in two sides) <span class="math notranslate nohighlight">\(W\)</span> can be understood as the sum of all possible Feymann diagrams with an interaction U between its two parts.[5][11] This becomes quite intuitive if we look at</p>
+<div class="math notranslate nohighlight">
+\[W= U + UPW= U+UP(U+UP(U+UP(...)))=U+UPU+...\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_iw, bosonic  </span>
+
+<span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span>
+
+<span class="n">W_iw_b_U</span><span class="o">=</span><span class="n">U</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">U</span><span class="o">*</span><span class="n">P_iw_b</span><span class="p">))</span>
+
+<span class="n">W_iw_b</span><span class="o">=</span><span class="n">W_iw_b_U</span><span class="o">-</span><span class="n">U</span>
+
+<span class="c1">#W_iw_b is the part depending on the frequency, any further calculations </span>
+<span class="c1">#will be done using this and not W_iw_b_U</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">W_iw_b</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $W(i\omega)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">W_iw_b</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $W(i\omega)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $W(i\\omega)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_54_1.png" src="../_images/GW_54_1.png" />
+</div>
+</div>
+<div class="math notranslate nohighlight">
+\[W_l^B\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_l, bosonic</span>
+
+<span class="n">W_l_b</span><span class="o">=</span><span class="n">matsb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">W_iw_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">W_l_b</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$W_l^B$ over l &#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_57_1.png" src="../_images/GW_57_1.png" />
+</div>
+</div>
+<p>In the next step we are changing back into fermionic statistics:</p>
+<div class="math notranslate nohighlight">
+\[{W}(\bar{\tau}_k^F)= \sum_{l=0}^{N-1} W_l ^BU_l^B(\bar{\tau}_k^F) \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_tau_f, fermionic</span>
+
+<span class="n">W_tau_f</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lt,l-&gt;t&#39;</span><span class="p">,</span><span class="n">basisb</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">W_l_b</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">W_tau_f</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $W(tau)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">W_tau_f</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $W(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Imaginary part of $W(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_60_1.png" src="../_images/GW_60_1.png" />
+</div>
+</div>
+<p>After changing back into fermionic statistics the next quantity that is being dealt with is the so-called self energy <span class="math notranslate nohighlight">\(\Sigma\)</span>. When we first introduced the Dyson equation in the first chapter, we saw <span class="math notranslate nohighlight">\(V\)</span> as some sort of pertubation. The self-energy is very much alike as it describes the correlation effects of a many-body system. Here we will calculate <span class="math notranslate nohighlight">\(\tilde{\Sigma}(\bar{\tau}_k^F)\)</span> using <span class="math notranslate nohighlight">\(\Sigma^{GW}\)</span> so that</p>
+<div class="math notranslate nohighlight">
+\[{\Sigma}(\bar{\tau}_k^F)=-G(\bar{\tau}_k^F)*{W}(\bar{\tau}_k^F).\]</div>
+<p>This can again be rewritten into its equivalent form</p>
+<div class="math notranslate nohighlight">
+\[\Sigma=-G(U+UP(U+UP(...)))= -(GU+GUPU+GUPUPU+...)\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_tau , fermionic   </span>
+
+<span class="n">E_tau_f</span><span class="o">=</span><span class="n">G_tau_f</span><span class="o">*</span><span class="n">W_tau_f</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">E_tau_f</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $\Sigma(tau)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">E_tau_f</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $\Sigma(tau)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(tau)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_63_1.png" src="../_images/GW_63_1.png" />
+</div>
+</div>
+<div class="math notranslate nohighlight">
+\[{\Sigma}_l^F\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_l, fermionic</span>
+
+<span class="n">E_l_f</span><span class="o">=</span><span class="n">tausf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">E_tau_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">E_l_f</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$\Sigma_l^F$ over l &#39;</span><span class="p">)</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_66_1.png" src="../_images/GW_66_1.png" />
+</div>
+</div>
+<p>We will calculate</p>
+<div class="math notranslate nohighlight">
+\[\hat{\Sigma}(i\bar{\omega}_n^F)=-UG(\beta)+\sum_{l=0}^{N-1}{\Sigma}_l^F \hat{U}_l^F(i\bar{\omega}_n^F)\]</div>
+<p>with <span class="math notranslate nohighlight">\(UG(\beta)\)</span> as the so called Hartee Fock term.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_iw, fermionic</span>
+
+<span class="n">E_iw_f</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lw,l-&gt;w&#39;</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">E_l_f</span><span class="p">)</span><span class="o">-</span><span class="n">U</span><span class="o">*</span><span class="p">(</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@G_l_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $\Sigma(i\omega)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $\Sigma(i\omega)$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(i\\omega)$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_69_1.png" src="../_images/GW_69_1.png" />
+</div>
+</div>
+<p>Last but not least we will obtain <span class="math notranslate nohighlight">\(G^F(i\bar{\omega}_n^F)\)</span> through the Dyson Equation of GW:</p>
+<div class="math notranslate nohighlight">
+\[\hat{G}(i\bar{\omega}_k^F)=G_0(i\bar{\omega}_k^F)+G_0(i\bar{\omega}_k^F)\hat{\Sigma}(i\bar{\omega}_n^F)\hat{G}(i\bar{\omega}_k^F)\]</div>
+<p>or</p>
+<div class="math notranslate nohighlight">
+\[\hat{G}(i\bar{\omega}_k^F)=\frac{1}{G_0(i\bar{\omega}_k^F)^{-1}-\hat{\Sigma}(i\bar{\omega}_n^F)}\]</div>
+<p>We have now calculated the full Green’s function of the system with <span class="math notranslate nohighlight">\(\Sigma\)</span> as a set of (one-particle) irreducible processes connected by <span class="math notranslate nohighlight">\(G_0\)</span>.[11]</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#G_iw, fermonic     -&gt; Dyson Equation</span>
+
+<span class="n">G_iw_f</span><span class="o">=</span><span class="p">((</span><span class="n">G_iw_0</span><span class="p">)</span><span class="o">**-</span><span class="mi">1</span><span class="o">-</span><span class="n">E_iw_f</span><span class="p">)</span><span class="o">**-</span><span class="mi">1</span>        
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $G(i\omega)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $G(i\omega)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/GW_72_1.png" src="../_images/GW_72_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">G_iw_f</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[2.95119245e-05-0.02429481j 3.24121101e-05-0.02546058j
+ 4.63018501e-04-0.0962297j  1.72244694e-03-0.18559626j
+ 2.90979923e-03-0.24122089j 4.01787292e-03-0.28344543j
+ 5.88649102e-03-0.34306729j 9.37897805e-03-0.43300299j
+ 1.69355046e-02-0.58174159j 3.71197296e-02-0.86082327j
+ 1.06864153e-01-1.45803398j 1.06864153e-01+1.45803398j
+ 3.71197296e-02+0.86082327j 1.69355046e-02+0.58174159j
+ 9.37897805e-03+0.43300299j 5.88649102e-03+0.34306729j
+ 4.01787292e-03+0.28344543j 2.90979923e-03+0.24122089j
+ 1.72244694e-03+0.18559626j 4.63018501e-04+0.0962297j
+ 3.24121101e-05+0.02546058j 2.95119245e-05+0.02429481j]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>With this we have completed one full iteration of GF2 &amp; GW. Repeating this over and over again will show convergence and thus give the desired approximation to the self-energy.</p>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
+<p>[1] H.Bruus, Karsten Flensberg,<em>Many-body Quantum Theory in Condensed    Matter  Physics</em> (Oxford University Press Inc., New York, 2004)<br>
+[2] J.W.Negele, H.Orland, <em>Quantum Many-Particle Systems</em> (Westview Press, 1998)<br>
+[3] G.D.Mahan,<em>Many-Particle Physics</em> (Kluwer Academic/Plenum Publishers, New York, 2000)<br>
+[4] P.C.Hansen,<em>Dicrete Inverse Problems</em>(Society for Industrial and Applied Mathematics, Philadelphia,2010)<br>
+[5] <a class="reference external" href="http://J.Li">J.Li</a>, M.Wallerberger, N.Chikano, C.Yeh, E.Gull and H.Shinaoka, Sparse sampling approach to efficient ab initio calculations at finite temperature, Phys. Rev. B 101, 035144 (2020)<br>
+[6] M.Wallerberger, H. Shinaoka, A.Kauch, Solving the Bethe–Salpeter equation with exponential convergence, Phys. Rev. Research 3, 033168 (2021)<br>
+[7] H. Shinaoka, N. Chikano, E. Gull, J. Li, T. Nomoto, J. Otsuki, M. Wallerberger, T. Wang, K. Yoshimi, Efficient ab initio many-body calculations based on sparse modeling of Matsubara Green’s function (2021)<br>
+[8] F. Aryasetiawan and O. Gunnarsson, The GW method, Rep. Prog. Phys. 61 (1998) 237<br>
+[9] Matteo Gatti, <em>The GW approximation</em>, TDDFT school, Benasque (2014)<br>
+[10]C.Friedrich, <em>Many-Body Pertubation Theory;The GW approximation</em>, Peter Grünberg Institut and Institute for Advanced Simulation, Jülich <br>
+[11] K… Held, C. Taranto, G. Rohringer, and A. Toschi, <em>Hedin Equations, GW, GW+DMFT, and All That</em> (Modeling and Simulation Vol. 1, Forschungszentrum Jülich, 2011 )</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="sparse_sampling.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sparse sampling</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="reference.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Bibliograpy</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Many authors<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
