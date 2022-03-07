@@ -101,5 +101,9 @@ print(1)
 ```
 
 ```{code-cell} ipython3
+print("AAAA")
+```
+
+```{code-cell} ipython3
 
 ```
