@@ -14,11 +14,7 @@ kernelspec:
   name: python3910jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
 ---
 
-# Reference
-
-+++
-
-## Citation
+# Citation
 
 If you has used `sparse-ir` in your research, and you would like to acknowledge the project in your academic publication, please use the following:
 
@@ -60,10 +56,4 @@ The bibtex entries are the following:
   url = {https://link.aps.org/doi/10.1103/PhysRevB.101.035144}
 }
 
-```
-
-+++
-
-## Bibliograpy
-```{bibliography}
 ```
