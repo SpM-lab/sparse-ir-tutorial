@@ -22,3 +22,9 @@ $\newcommand{\dd}{{\mathrm{d}}}$
 +++
 
 ## Imaginary frequency
+
+{eq}`KL`
+
+```{code-cell} ipython3
+
+```

@@ -89,6 +89,7 @@ $$
 {cite:p}`Shinaoka:2017ix`
 
 {cite}`Shinaoka:2017ix`
+{cite:t}`Shinaoka:2017ix`
 
 The singular value expnasion of the kernel {eq}`KL` reads
 
@@ -98,7 +99,7 @@ $$
 \end{align}
 $$
 
-for $\omega \in [-\wmax, \wmax]$.
+for $\omega \in [-\wmax, \wmax]$ with $\wmax$ (>0) being a cut-off frequency.
 
 +++
 
