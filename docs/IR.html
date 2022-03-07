@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Intermediate representation &#8212; sparse-ir</title>
+    <title>Intermediate representation (IR) &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -96,7 +96,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Intermediate representation
+   Intermediate representation (IR)
   </a>
  </li>
  <li class="toctree-l1">
@@ -261,7 +261,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Intermediate representation</h1>
+                <h1>Intermediate representation (IR)</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -295,42 +295,54 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="intermediate-representation">
-<h1>Intermediate representation<a class="headerlink" href="#intermediate-representation" title="Permalink to this headline">¶</a></h1>
-<p><span class="math notranslate nohighlight">\(\newcommand{\wmax}{{\omega_\mathrm{max}}}\)</span>
-<span class="math notranslate nohighlight">\(\newcommand{\dd}{{\mathrm{d}}}\)</span></p>
-<div class="section" id="lehmann-representation">
-<h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this headline">¶</a></h2>
-<p>In the imaginary-time domain, the Lehmann represenation reads</p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="intermediate-representation-ir">
+<h1>Intermediate representation (IR)<a class="headerlink" href="#intermediate-representation-ir" title="Permalink to this headline">¶</a></h1>
 <div class="math notranslate nohighlight">
 \[
+\newcommand{\iv}{{\mathrm{i}\nu}}
+\newcommand{\wmax}{{\omega_\mathrm{max}}}
+\newcommand{\dd}{{\mathrm{d}}}
+\]</div>
+<div class="section" id="lehmann-representation">
+<h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this headline">¶</a></h2>
+<p>In the imaginary-frequency domain, the Lehmann representation reads</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+    G(\iv) &amp;= \int_{-\infty}^\infty \dd\omega \underbrace{\frac{1}{\iv - \omega}}_{\equiv K(\iv, \omega)} A(\omega),
+\end{align}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function and we take <span class="math notranslate nohighlight">\(\hbar=1\)</span>.
+<span class="math notranslate nohighlight">\(K(\iv, \omega)\)</span> is the so-called analytic continuation kernel.
+The Lehmann representation can be transformed to the imaginary-time domain as</p>
+<div class="math notranslate nohighlight" id="equation-lehmann-tau">
+<span class="eqno">(1)<a class="headerlink" href="#equation-lehmann-tau" title="Permalink to this equation">¶</a></span>\[
 \begin{align}
     G(\tau) &amp;= - \int_{-\infty}^\infty \dd\omega K(\tau, \omega) A(\omega),
 \end{align}
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span>, <span class="math notranslate nohighlight">\(A(\omega)\)</span> is a spectral function, <span class="math notranslate nohighlight">\(K(\tau, \omega)\)</span> is a <em>kernel</em>.
-We take <span class="math notranslate nohighlight">\(\hbar = 1\)</span>.</p>
-<p>The kernel is defined as</p>
+<p>where <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-    K(\tau, \omega) &amp;=
+    K(\tau, \omega) &amp;\equiv - \frac{1}{\beta} \sum_{\iv} e^{-\iv \tau} K(\iv, \omega) =
     \begin{cases}
         \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}} &amp; (\mathrm{fermion}),\\
         \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} &amp; (\mathrm{boson})
     \end{cases}.
 \end{align}
 \end{split}\]</div>
-<p>To avoid the divergence of the bosonic kernel at <span class="math notranslate nohighlight">\(\omega=0\)</span>, we reformulate the Lehmann representation as</p>
+<p>The minus sign originates from our the convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.
+To avoid the divergence of the bosonic kernel at <span class="math notranslate nohighlight">\(\omega=0\)</span>, we reformulate Eq. <a class="reference internal" href="#equation-lehmann-tau">(1)</a> as</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{equation}
-    G(\tau)= - \int_{-\infty}^\infty\dd{\omega'} K^\mathrm{L}(\tau,\omega') \rho(\omega'),\label{eq:friedholm2}
+    G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
 \end{equation}
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(K^\mathrm{L}(\tau, \omega)\)</span> is the logistic kernel defined as</p>
 <div class="math notranslate nohighlight" id="equation-kl">
-<span class="eqno">(1)<a class="headerlink" href="#equation-kl" title="Permalink to this equation">¶</a></span>\[
+<span class="eqno">(2)<a class="headerlink" href="#equation-kl" title="Permalink to this equation">¶</a></span>\[
 K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 \]</div>
 <p>and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the modified spectral function</p>
@@ -349,7 +361,7 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 <h2>Singular value expansion<a class="headerlink" href="#singular-value-expansion" title="Permalink to this headline">¶</a></h2>
 <p><span id="id1">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
 <p><span id="id2">[<a class="reference internal" href="sample.html#id25" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
-<p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(1)</a> reads</p>
+<p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(2)</a> reads</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align}

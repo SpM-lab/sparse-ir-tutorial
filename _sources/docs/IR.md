@@ -14,31 +14,40 @@ kernelspec:
 
 +++ {"tags": []}
 
-# Intermediate representation
+# Intermediate representation (IR)
 
-$\newcommand{\wmax}{{\omega_\mathrm{max}}}$
-$\newcommand{\dd}{{\mathrm{d}}}$
+$$
+\newcommand{\iv}{{\mathrm{i}\nu}}
+\newcommand{\wmax}{{\omega_\mathrm{max}}}
+\newcommand{\dd}{{\mathrm{d}}}
+$$
 
 +++
 
 ## Lehmann representation
 
-In the imaginary-time domain, the Lehmann represenation reads
+In the imaginary-frequency domain, the Lehmann representation reads
+
+$$
+\begin{align}
+    G(\iv) &= \int_{-\infty}^\infty \dd\omega \underbrace{\frac{1}{\iv - \omega}}_{\equiv K(\iv, \omega)} A(\omega),
+\end{align}
+$$
+where $A(\omega)$ is a spectral function and we take $\hbar=1$.
+$K(\iv, \omega)$ is the so-called analytic continuation kernel.
+The Lehmann representation can be transformed to the imaginary-time domain as
 
 $$
 \begin{align}
     G(\tau) &= - \int_{-\infty}^\infty \dd\omega K(\tau, \omega) A(\omega),
 \end{align}
-$$
+$$ (lehmann-tau)
 
-where $0 < \tau < \beta$, $A(\omega)$ is a spectral function, $K(\tau, \omega)$ is a *kernel*.
-We take $\hbar = 1$.
-
-The kernel is defined as
+where $0 < \tau < \beta$ and 
 
 $$
 \begin{align}
-    K(\tau, \omega) &=
+    K(\tau, \omega) &\equiv - \frac{1}{\beta} \sum_{\iv} e^{-\iv \tau} K(\iv, \omega) =
     \begin{cases}
         \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}} & (\mathrm{fermion}),\\
         \frac{e^{-\tau\omega}}{1-e^{-\beta\omega}} & (\mathrm{boson})
@@ -46,11 +55,12 @@ $$
 \end{align}
 $$
 
-To avoid the divergence of the bosonic kernel at $\omega=0$, we reformulate the Lehmann representation as
+The minus sign originates from our the convention $K(\tau, \omega) > 0$.
+To avoid the divergence of the bosonic kernel at $\omega=0$, we reformulate Eq. {eq}`lehmann-tau` as
 
 $$
 \begin{equation}
-    G(\tau)= - \int_{-\infty}^\infty\dd{\omega'} K^\mathrm{L}(\tau,\omega') \rho(\omega'),\label{eq:friedholm2}
+    G(\tau)= - \int_{-\infty}^\infty\dd{\omega} K^\mathrm{L}(\tau,\omega) \rho(\omega),
 \end{equation}
 $$
 
