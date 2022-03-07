@@ -225,6 +225,11 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-particle-greens-function">
+   One-particle Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#lehmann-representation">
    Lehmann representation
   </a>
@@ -260,6 +265,11 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#one-particle-greens-function">
+   One-particle Green’s function
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#lehmann-representation">
    Lehmann representation
   </a>
@@ -291,6 +301,38 @@ const thebe_selector_output = ".output, .cell_output"
 \newcommand{\wmax}{{\omega_\mathrm{max}}}
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
+<div class="section" id="one-particle-greens-function">
+<h2>One-particle Green’s function<a class="headerlink" href="#one-particle-greens-function" title="Permalink to this headline">¶</a></h2>
+<p>We introduce a Green’s function with imaginary arguments in time and frequency.
+This has no physical meaning but is merely a mathematical trick and makes calculations easier (to give another example of this: in Minsowski spacetime we take advantage of a similiar substitution)</p>
+<p>The so-called imaginary-frequency (Matsubara) Green’s functions are defined as followed:</p>
+<div class="math notranslate nohighlight">
+\[
+G_{ij}(\tau-\tau')=-\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> denote spin/orbital/band and <span class="math notranslate nohighlight">\(T_\tau\)</span> is the time-ordering operator.
+Here <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(\mathrm{i}t\)</span>,
+while <span class="math notranslate nohighlight">\(c_i\)</span> and <span class="math notranslate nohighlight">\(c_j\)</span> are the annihilation and creation operators.</p>
+<p>The Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (with <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>) reads</p>
+<div class="math notranslate nohighlight">
+\[
+G_{ij}(\iv_n) = \int_0^{\beta} \dd \tau e^{\iv_n\tau} G_{ij}(\tau),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu_n = (2n+1)\pi/\beta\)</span> (fermion) and <span class="math notranslate nohighlight">\(\nu_n = 2n\pi/\beta\)</span> (boson) with <span class="math notranslate nohighlight">\(n\)</span> being an integer.
+The inverse temperature is denoted by <span class="math notranslate nohighlight">\(\beta\)</span> (We take <span class="math notranslate nohighlight">\(\hbar=1\)</span>).
+The inverse transmation is given by</p>
+<div class="math notranslate nohighlight">
+\[
+G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
+\]</div>
+<p>Continuing <span class="math notranslate nohighlight">\(G_{ij}(\iv_n)\)</span> to a holomorphic function in the upper half of the complex plane,
+the imaginary-frequency (Matsubara) Green’s function can be related to the “orginary” retarded Green’s function as</p>
+<div class="math notranslate nohighlight">
+\[
+G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+})
+\]</div>
+<p>In the following, we omit the symbols <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(n\)</span> unless there is confusion.</p>
+</div>
 <div class="section" id="lehmann-representation">
 <h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this headline">¶</a></h2>
 <p>In the imaginary-frequency domain, the Lehmann representation reads</p>

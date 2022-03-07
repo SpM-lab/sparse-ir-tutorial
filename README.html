@@ -315,14 +315,14 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="local-build">
 <h3>Local build<a class="headerlink" href="#local-build" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupyter book build .
-<span class="c1"># open _build/html/index.html with your favourite browser</span>
+<p>The following command update all markdown files paired with notebooks and build html page.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
 </div>
 <div class="section" id="deployment-to-remote">
 <h3>Deployment to remote<a class="headerlink" href="#deployment-to-remote" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ghp-import -n -p -f _build/html
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make upload
 </pre></div>
 </div>
 </div>
@@ -332,12 +332,8 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="section" id="jupytext">
 <h3>Jupytext<a class="headerlink" href="#jupytext" title="Permalink to this headline">¶</a></h3>
-<p>Convert a notebook to a paired Python file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --set-formats ipynb,md:myst --sync sparse_sampling.ipynb
-</pre></div>
-</div>
-<p>Manually update the paired Python file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync sparse_sampling.ipynb
+<p>Generate a notebook file paired with a specific markdown file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to ipynb some_file.md
 </pre></div>
 </div>
 </div>
