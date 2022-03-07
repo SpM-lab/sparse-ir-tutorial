@@ -32,12 +32,12 @@ This has no physical meaning but is merely a mathematical trick and makes calcul
 The so-called imaginary-frequency (Matsubara) Green's functions are defined as followed: 
 
 $$
-G_{ij}(\tau-\tau')=-\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
+G_{ij}(\tau-\tau') = -\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
 $$
 
 where $i$ and $j$ denote spin/orbital/band and $T_\tau$ is the time-ordering operator.
 Here $\tau$ represents a imaginary time unit $\mathrm{i}t$,
-while $c_i$ and $c_j$ are the annihilation and creation operators.
+while $c_i$/$c_j$ is a fermionic or bosonic annihilation/creation operator.
 
 The Fourier Transformation of $G_{ij}(\tau)$ (with $\tau \in [0,\beta]$) reads
 
@@ -47,7 +47,7 @@ $$
 
 where $\nu_n = (2n+1)\pi/\beta$ (fermion) and $\nu_n = 2n\pi/\beta$ (boson) with $n$ being an integer.
 The inverse temperature is denoted by $\beta$ (We take $\hbar=1$).
-The inverse transmation is given by
+The inverse transformation is given by
 
 $$
 G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
@@ -57,7 +57,7 @@ Continuing $G_{ij}(\iv_n)$ to a holomorphic function in the upper half of the co
 the imaginary-frequency (Matsubara) Green's function can be related to the "orginary" retarded Green's function as
 
 $$
-G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+})
+G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
 $$
 
 In the following, we omit the symbols $i$, $j$, $n$ unless there is confusion.
@@ -74,7 +74,7 @@ $$
 \end{align}
 $$
 
-where $A(\omega)$ is a spectral function and we take $\hbar=1$.
+where $A(\omega)$ is a spectral function.
 $K(\iv, \omega)$ is the so-called analytic continuation kernel.
 The Lehmann representation can be transformed to the imaginary-time domain as
 
@@ -105,7 +105,7 @@ $$
 \end{equation}
 $$
 
-where $K^\mathrm{L}(\tau, \omega)$ is the logistic kernel defined as
+where $K^\mathrm{L}(\tau, \omega)$ is the "logistic kernel" defined as
 
 $$
 K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
@@ -127,20 +127,18 @@ $$
 
 ## Singular value expansion
 
-{cite:p}`Shinaoka:2017ix`
-
-{cite}`Shinaoka:2017ix`
-{cite:t}`Shinaoka:2017ix`
-
-The singular value expnasion of the kernel {eq}`KL` reads
+The singular value expnasion of the kernel {eq}`KL` reads {cite:p}`Shinaoka:2017ix`
 
 $$
-\begin{align}
-    K^\mathrm{L}(\tau, \omega) &= \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
-\end{align}
+K^\mathrm{L}(\tau, \omega) = \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
 $$
 
 for $\omega \in [-\wmax, \wmax]$ with $\wmax$ (>0) being a cut-off frequency.
+$U_l(\tau)$ and $V_l(\omega)$ are left and right singular functions and $S_l$ as the singular values (with $S_0>S_1>S_2>...>0$).
+The two sets of singular functions $U$ and $V$ make up the basis functions of the so-called Intermediate Representation (IR), which depends on $\beta$ and the cutoff $\wmax$.
+For the peculiar choice of the regularization for the bosonic kernel using $K^\mathrm{L}$, these basis functions do not depend on statistical properties.
+
+Some of the information regarding real-frequency properties of the system is often lost during transition into the imaginary-time domain, so that the imaginary-frequency Green's function does hold less information than the real-frequency Green's function. The reason for using IR lies within its compactness and ability to display that information in imaginary quantities.
 
 +++
 
