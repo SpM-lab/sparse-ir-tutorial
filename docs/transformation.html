@@ -247,8 +247,8 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#single-pole">
-   Single pole
+  <a class="reference internal nav-link" href="#poles">
+   Poles
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -287,8 +287,8 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#single-pole">
-   Single pole
+  <a class="reference internal nav-link" href="#poles">
+   Poles
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -324,14 +324,92 @@ const thebe_selector_output = ".output, .cell_output"
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
 <p>In this section, we explain how to transform numerical data to IR.</p>
-<div class="section" id="single-pole">
-<h2>Single pole<a class="headerlink" href="#single-pole" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="poles">
+<h2>Poles<a class="headerlink" href="#poles" title="Permalink to this headline">¶</a></h2>
+<p>We consider a Green’s function genereated by poles:</p>
+<div class="math notranslate nohighlight">
+\[
+G(\iv) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\iv - \omega_p},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu\)</span> is a fermionic or bosonic Matsubara frequency.
+The corresponding specral function <span class="math notranslate nohighlight">\(A(\omega)\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+A(\omega) = \sum_{p=1}^{N_\mathrm{P}} c_p \delta(\omega - \omega_p).
+\]</div>
+<p>The modified (regularized) spectral function reads</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\rho(\omega) = 
+\begin{cases}
+\sum_{p=1}^{N_\mathrm{P}} c_p \delta(\omega - \omega_p) &amp; \mathrm{(fermion)},\\
+\sum_{p=1}^{N_\mathrm{P}} (c_p/\tanh(\beta \omega_p/2)) \delta(\omega - \omega_p) &amp; \mathrm{(boson)}.
+\end{cases}
+\end{split}\]</div>
+<p>for the logistic kernel.
+We immediately obtain</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\rho_l = 
+\begin{cases}
+\sum_{p=1}^{N_\mathrm{P}} c_p V_l(\omega_p) &amp; \mathrm{(fermion)},\\
+\sum_{p=1}^{N_\mathrm{P}} c_p V_l(\omega_p)/\tanh(\beta \omega_p/2))&amp; \mathrm{(boson)}.
+\end{cases}
+\end{split}\]</div>
+<p>The following code demostrates this transformation for bosons.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">basis_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+
+<span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">omega_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+
+<span class="n">rhol_pole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lp,p-&gt;l&#39;</span><span class="p">,</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span> <span class="n">coeff</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span>
+<span class="n">gl_pole</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol_pole</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\rho_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_3_0.png" src="../_images/transformation_3_0.png" />
+</div>
+</div>
+<p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">spr</span></code> (sparse pole presentation) module.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#from sparse_ir.spr import SparsePoleRepresentation</span>
+<span class="c1">#sp = SparsePoleRepresentation(basis_b, omega_p)</span>
+<span class="c1">#gl_pole2 = sp.to_IR(coeff)</span>
+<span class="c1">#gl_pole2 = sp.to_IR(coeff/np.tanh(0.5*beta*omega_p))</span>
+
+<span class="c1">#plt.semilogy(np.abs(gl_pole2), marker=&quot;x&quot;, label=r&quot;$|g_l|$&quot;)</span>
+<span class="c1">#plt.semilogy(np.abs(gl_pole), marker=&quot;x&quot;, label=r&quot;$|g_l|$&quot;)</span>
+<span class="c1">#</span>
+<span class="c1">#plt.xlabel(r&quot;$l$&quot;)</span>
+<span class="c1">#plt.ylim([1e-5, 1e+2])</span>
+<span class="c1">#plt.legend()</span>
+<span class="c1">#plt.show()</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 <div class="section" id="from-smooth-spectral-function">
 <h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this headline">¶</a></h2>
-<p>It is straightforwad to compute expansion coefficients in the IR from a given spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>.
-Note that <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> is the modified spectral function for bosons.
-The expansion coefficients can be evaluated by computing the integral</p>
+<p>For a smooth spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>, the expansion coefficients can be evaluated by computing the integral</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align}
@@ -351,11 +429,7 @@ the result converges exponentially with increasing the degree of the Gauss-Legen
 Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transformed to <span class="math notranslate nohighlight">\(g_l\)</span> by multiplying it with <span class="math notranslate nohighlight">\(- S_l\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># Three Gaussian peaks (normalized to 1)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Three Gaussian peaks (normalized to 1)</span>
 <span class="n">gaussian</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span>\
     <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span>
 
@@ -371,7 +445,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_3_0.png" src="../_images/transformation_3_0.png" />
+<img alt="../_images/transformation_7_0.png" src="../_images/transformation_7_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -393,7 +467,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_4_0.png" src="../_images/transformation_4_0.png" />
+<img alt="../_images/transformation_8_0.png" src="../_images/transformation_8_0.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(\rho_l\)</span> is evaluated on arbitrary real frequencies as follows.</p>
@@ -409,7 +483,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_6_0.png" src="../_images/transformation_6_0.png" />
+<img alt="../_images/transformation_10_0.png" src="../_images/transformation_10_0.png" />
 </div>
 </div>
 </div>
@@ -429,7 +503,7 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_8_0.png" src="../_images/transformation_8_0.png" />
+<img alt="../_images/transformation_12_0.png" src="../_images/transformation_12_0.png" />
 </div>
 </div>
 <p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">TauSampling</span></code> as follows.</p>
@@ -445,7 +519,7 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_10_0.png" src="../_images/transformation_10_0.png" />
+<img alt="../_images/transformation_14_0.png" src="../_images/transformation_14_0.png" />
 </div>
 </div>
 </div>
@@ -478,7 +552,7 @@ G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_12_0.png" src="../_images/transformation_12_0.png" />
+<img alt="../_images/transformation_16_0.png" src="../_images/transformation_16_0.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
