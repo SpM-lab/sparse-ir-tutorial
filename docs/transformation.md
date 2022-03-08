@@ -26,15 +26,90 @@ In this section, we explain how to transform numerical data to IR.
 
 +++
 
-## Single pole
+## Poles
 
 +++
 
+We consider a Green's function genereated by poles:
+
+$$
+G(\iv) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\iv - \omega_p},
+$$
+
+where $\nu$ is a fermionic or bosonic Matsubara frequency.
+The corresponding specral function $A(\omega)$ is given by
+
+$$
+A(\omega) = \sum_{p=1}^{N_\mathrm{P}} c_p \delta(\omega - \omega_p).
+$$
+
+The modified (regularized) spectral function reads
+
+$$
+\rho(\omega) = 
+\begin{cases}
+\sum_{p=1}^{N_\mathrm{P}} c_p \delta(\omega - \omega_p) & \mathrm{(fermion)},\\
+\sum_{p=1}^{N_\mathrm{P}} (c_p/\tanh(\beta \omega_p/2)) \delta(\omega - \omega_p) & \mathrm{(boson)}.
+\end{cases}
+$$
+
+for the logistic kernel.
+We immediately obtain
+
+$$
+\rho_l = 
+\begin{cases}
+\sum_{p=1}^{N_\mathrm{P}} c_p V_l(\omega_p) & \mathrm{(fermion)},\\
+\sum_{p=1}^{N_\mathrm{P}} c_p V_l(\omega_p)/\tanh(\beta \omega_p/2))& \mathrm{(boson)}.
+\end{cases}
+$$
+
+The following code demostrates this transformation for bosons.
+
+```{code-cell} ipython3
+import sparse_ir
+import numpy as np
+import matplotlib.pyplot as plt
+
+beta = 10
+wmax = 10
+basis_b = sparse_ir.FiniteTempBasis("B", beta, wmax, eps=1e-10)
+
+coeff = np.array([1, 1])
+omega_p = np.array([-0.1, 0.2])
+
+rhol_pole = np.einsum('lp,p->l', basis_b.v(omega_p), coeff/np.tanh(0.5*beta*omega_p))
+gl_pole = - basis_b.s * rhol_pole
+
+plt.semilogy(np.abs(rhol_pole), marker="o", label=r"$|\rho_l|$")
+plt.semilogy(np.abs(gl_pole), marker="x", label=r"$|g_l|$")
+
+plt.xlabel(r"$l$")
+plt.ylim([1e-5, 1e+1])
+plt.legend()
+plt.show()
+```
+
+Alternatively, we can use ``spr`` (sparse pole presentation) module. 
+
+```{code-cell} ipython3
+#from sparse_ir.spr import SparsePoleRepresentation
+#sp = SparsePoleRepresentation(basis_b, omega_p)
+#gl_pole2 = sp.to_IR(coeff)
+#gl_pole2 = sp.to_IR(coeff/np.tanh(0.5*beta*omega_p))
+
+#plt.semilogy(np.abs(gl_pole2), marker="x", label=r"$|g_l|$")
+#plt.semilogy(np.abs(gl_pole), marker="x", label=r"$|g_l|$")
+#
+#plt.xlabel(r"$l$")
+#plt.ylim([1e-5, 1e+2])
+#plt.legend()
+#plt.show()
+```
+
 ## From smooth spectral function
 
-It is straightforwad to compute expansion coefficients in the IR from a given spectral function $\rho(\omega)$.
-Note that $\rho(\omega)$ is the modified spectral function for bosons.
-The expansion coefficients can be evaluated by computing the integral
+For a smooth spectral function $\rho(\omega)$, the expansion coefficients can be evaluated by computing the integral
 
 $$
 \begin{align}
@@ -56,10 +131,6 @@ Below, we demonstrate how to compute $\rho_l$ for a spectral function consisting
 Then, $\rho_l$ can be transformed to $g_l$ by multiplying it with $- S_l$.
 
 ```{code-cell} ipython3
-import sparse_ir
-import numpy as np
-import matplotlib.pyplot as plt
-
 # Three Gaussian peaks (normalized to 1)
 gaussian = lambda x, mu, sigma:\
     np.exp(-((x-mu)/sigma)**2)/(np.sqrt(np.pi)*sigma)
