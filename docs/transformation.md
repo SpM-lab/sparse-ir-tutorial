@@ -26,6 +26,10 @@ In this section, we explain how to transform numerical data to IR.
 
 +++
 
+## Single pole
+
++++
+
 ## From smooth spectral function
 
 It is straightforwad to compute expansion coefficients in the IR from a given spectral function $\rho(\omega)$.
@@ -99,7 +103,7 @@ plt.show()
 
 ## From IR to imaginary time
 
-We are now ready evaluate $g_l$ on arbitrary $\tau$ points.
+We are now ready to evaluate $g_l$ on arbitrary $\tau$ points.
 A naive way is as follows.
 
 ```{code-cell} ipython3
@@ -111,7 +115,7 @@ plt.ylabel(r"$G(\tau)$")
 plt.show()
 ```
 
-Alternatively, we can use the ``sampling`` module as follows.
+Alternatively, we can use ``TauSampling`` as follows.
 
 ```{code-cell} ipython3
 smpl = sparse_ir.TauSampling(basis, taus)
@@ -124,7 +128,7 @@ plt.show()
 
 ## From full imaginary-time data
 
-A numerically stable way to compute the expansion coefficients of $G(\tau)$ in IR 
+A numerically stable way to expand $G(\tau)$ in IR 
 is evaluating the integral
 
 $$
@@ -151,6 +155,8 @@ plt.show()
 ```
 
 ```{code-cell} ipython3
+
+
 
 ```
 

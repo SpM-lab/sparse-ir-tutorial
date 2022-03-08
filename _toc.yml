@@ -8,8 +8,10 @@ parts:
 - caption: Reference
   chapters:
   - file: docs/api
+  - file: docs/additional_material
 - caption: Sample codes
   chapters:
+  - file: docs/transformation
   - file: docs/GW
 - caption: Reference
   chapters:
