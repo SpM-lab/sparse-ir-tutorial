@@ -247,6 +247,11 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-pole">
+   Single pole
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#from-smooth-spectral-function">
    From smooth spectral function
   </a>
@@ -282,6 +287,11 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-pole">
+   Single pole
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#from-smooth-spectral-function">
    From smooth spectral function
   </a>
@@ -314,6 +324,9 @@ const thebe_selector_output = ".output, .cell_output"
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
 <p>In this section, we explain how to transform numerical data to IR.</p>
+<div class="section" id="single-pole">
+<h2>Single pole<a class="headerlink" href="#single-pole" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="section" id="from-smooth-spectral-function">
 <h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this headline">¶</a></h2>
 <p>It is straightforwad to compute expansion coefficients in the IR from a given spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>.
@@ -358,7 +371,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_2_0.png" src="../_images/transformation_2_0.png" />
+<img alt="../_images/transformation_3_0.png" src="../_images/transformation_3_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -380,7 +393,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_3_0.png" src="../_images/transformation_3_0.png" />
+<img alt="../_images/transformation_4_0.png" src="../_images/transformation_4_0.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(\rho_l\)</span> is evaluated on arbitrary real frequencies as follows.</p>
@@ -396,13 +409,13 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_5_0.png" src="../_images/transformation_5_0.png" />
+<img alt="../_images/transformation_6_0.png" src="../_images/transformation_6_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="from-ir-to-imaginary-time">
 <h2>From IR to imaginary time<a class="headerlink" href="#from-ir-to-imaginary-time" title="Permalink to this headline">¶</a></h2>
-<p>We are now ready evaluate <span class="math notranslate nohighlight">\(g_l\)</span> on arbitrary <span class="math notranslate nohighlight">\(\tau\)</span> points.
+<p>We are now ready to evaluate <span class="math notranslate nohighlight">\(g_l\)</span> on arbitrary <span class="math notranslate nohighlight">\(\tau\)</span> points.
 A naive way is as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -416,10 +429,10 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_7_0.png" src="../_images/transformation_7_0.png" />
+<img alt="../_images/transformation_8_0.png" src="../_images/transformation_8_0.png" />
 </div>
 </div>
-<p>Alternatively, we can use the <code class="docutils literal notranslate"><span class="pre">sampling</span></code> module as follows.</p>
+<p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">TauSampling</span></code> as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">taus</span><span class="p">)</span>
@@ -432,13 +445,13 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_9_0.png" src="../_images/transformation_9_0.png" />
+<img alt="../_images/transformation_10_0.png" src="../_images/transformation_10_0.png" />
 </div>
 </div>
 </div>
 <div class="section" id="from-full-imaginary-time-data">
 <h2>From full imaginary-time data<a class="headerlink" href="#from-full-imaginary-time-data" title="Permalink to this headline">¶</a></h2>
-<p>A numerically stable way to compute the expansion coefficients of <span class="math notranslate nohighlight">\(G(\tau)\)</span> in IR
+<p>A numerically stable way to expand <span class="math notranslate nohighlight">\(G(\tau)\)</span> in IR
 is evaluating the integral</p>
 <div class="math notranslate nohighlight">
 \[
@@ -465,7 +478,7 @@ G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_11_0.png" src="../_images/transformation_11_0.png" />
+<img alt="../_images/transformation_12_0.png" src="../_images/transformation_12_0.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
