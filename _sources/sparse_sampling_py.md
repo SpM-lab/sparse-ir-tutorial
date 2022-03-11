@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.7
 kernelspec:
-  display_name: Python 3.9.10 64-bit
+  display_name: Python 3.9.9 64-bit
   language: python
-  name: python3910jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
+  name: python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
 ---
 
 +++ {"tags": []}
@@ -54,7 +54,7 @@ From experience, the fitting can be done in the most stable way using SVD of the
 
 The following figure shows the sampling points in the imaginary-time domain generated for $\beta=10$ and $\wmax=10$ as well as the basis function $U_{L-1}(\tau)$ with $L=30$.
 
-```{code-cell} ipython3
+```{code-cell}
 import sparse_ir
 import numpy as np
 import matplotlib.pyplot as plt
@@ -101,7 +101,7 @@ $$
 
 The following figure shows the sampling points in the imaginary-frequency domain generated for $\beta=10$ and $\wmax=10$.
 
-```{code-cell} ipython3
+```{code-cell}
 smpl_matsu = sparse_ir.MatsubaraSampling(basis)
 
 get_nonzero_part = lambda l, data: data.imag if l%2==0 else data.real 

@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.13.7
 kernelspec:
-  display_name: Python 3 (ipykernel)
+  display_name: Python 3.9.9 64-bit
   language: python
-  name: python3
+  name: python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
 ---
 
 # GW approximation
@@ -114,7 +114,6 @@ $$G_{ij}^R(\omega)=G_{ij}(i\omega_n\to\omega+i0^{+})$$
 
 [<sup id="fn3">3</sup>](#fn3-back) $\langle A\rangle$ is the grand-canonical expectation value 
 $$\langle A\rangle=\frac{1}{Z}T_r(e^{-\beta\mathcal{H}})$$
- 
 
 +++
 
@@ -139,10 +138,9 @@ Because we are looking at an integral of the form $\int G(s,t)f(t)dt=u(s)$ (a so
 $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alpha V(\omega')=\sum_{l=0}^{\infty}\hat{U}_l^\alpha(\tau)S_l^\alpha V_l^\alpha(\omega')$$
 
 
-Here the representational form for both the imaginary-frequency and imaginary time domain can be seen.[1][4][7] In order to go further into detail we will construct that kernel $K$ (for both fermionic and bosonic statistics) using [sparse_ir](https://github.com/SpM-lab/sparse-ir) with the following conditions for our system: 
+Here the representational form for both the imaginary-frequency and imaginary time domain can be seen.[1][4][7] In order to go further into detail we will construct that kernel $K$ (for both fermionic and bosonic statistics) using [sparse_ir](https://github.com/SpM-lab/sparse-ir) with the following conditions for our system:
 
-
-```{code-cell} ipython3
+```{code-cell}
 import numpy as np
 import matplotlib.pyplot as pl
 import sparse_ir
@@ -150,14 +148,14 @@ import sys
 import math
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 T=0.1
 wmax =1
 
 beta = 1/T
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 #Fermionic Basis
 
 basisf = sparse_ir.FiniteTempBasis('F', beta, wmax)
@@ -179,7 +177,7 @@ Additionally we calculated the positions of our sampling points for imaginary fr
 
 The basis functions $V_l^F(\omega')$  (the right singular functions) form an orthonomal set on the real frequency axis.
 
-```{code-cell} ipython3
+```{code-cell}
 wlins= np.linspace(-wmax, +wmax, 101)
 pl.plot(wlins,basisf.v[0](wlins))
 pl.plot(wlins,basisf.v[1](wlins))
@@ -193,7 +191,7 @@ pl.title('$V_l^F(\omega)$ over $\omega$ for different l')
 
 On the other side we have $U_l^F(i\omega)$ which exists on the imaginary axis.
 
-```{code-cell} ipython3
+```{code-cell}
 print('Matsubara frequencies :',matsf.wn)
 
 pl.plot(matsf.wn,'+')
@@ -202,7 +200,7 @@ pl.xlabel('n')
 pl.ylabel('$\omega_n$')
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.plot(matsf.wn,basisf.uhat[0](matsf.wn).imag)
 pl.plot(matsf.wn,basisf.uhat[1](matsf.wn).imag)
 pl.plot(matsf.wn,basisf.uhat[18](matsf.wn).imag)
@@ -214,13 +212,13 @@ pl.ylabel('$U_l^F(i\omega_n)$')
 
 As we can express $K$ in both, the frequency and time domain, there is also a need for $U_l^F(\tau)$ (this will be further explained below)
 
-```{code-cell} ipython3
+```{code-cell}
 print('Sampling points in tau:', tausf.tau)
 pl.plot(tausf.tau,'x')
 pl.title('Sampling points in tau')
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.plot(tausf.tau,basisf.u[0](tausf.tau))
 pl.plot(tausf.tau,basisf.u[1](tausf.tau))
 pl.plot(tausf.tau,basisf.u[18](tausf.tau))
@@ -230,7 +228,7 @@ pl.title('$U_l^F(tau)$')
 
 In order to perform the GW approximation the same objects as above are also needed with regards to bosonic statistics.
 
-```{code-cell} ipython3
+```{code-cell}
 #Bosonic Basis
 
 basisb = sparse_ir.FiniteTempBasis('B', beta, wmax)
@@ -263,7 +261,7 @@ with
 
 $$\rho_l^F=\int_{-\omega_max}^{\omega_max}V_l^F(\omega')\rho(\omega')$$
 
-```{code-cell} ipython3
+```{code-cell}
 def rho(x):
     return 2/np.pi*np.sqrt(1-x*x)
 
@@ -277,11 +275,11 @@ Once $\rho_l^F$ is known the expansion coefficients $G_l^F$ can be calculated us
 
 $$G_l^F=S_l^F\rho_l^F $$
 
-```{code-cell} ipython3
+```{code-cell}
 G_l_0=basisf.s*rho_l   
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.semilogy(np.abs(basisf.s), ':')
 pl.semilogy(np.abs(rho_l), '+-')
 pl.semilogy(np.abs(G_l_0),'+-')
@@ -300,14 +298,14 @@ We will now build $\hat G^F (i\bar{\omega}_n^F)$ using the expansion coefficient
 
 $$\hat G(i\bar{{\omega}}_n^F)=\sum_{l=0}^{N-1}G_l^F\hat U_l^F(i{\omega}_n^F)$$
 
-```{code-cell} ipython3
+```{code-cell}
 #We compute G_iw two times as we will need G_iw_0 as a constant later on
 
 G_iw_0=np.einsum('lv,l->v',basisf.uhat(matsf.wn),G_l_0)
 G_iw_f=np.einsum('lv,l->v',basisf.uhat(matsf.wn),G_l_0)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5))
 ax[0].plot(matsf.wn,G_iw_f.imag)
 ax[0].set_title('Imaginary part of $G(i\omega)$')
@@ -321,7 +319,7 @@ $$G_l^F=\underset{G_l}{\arg\min}   \sum_{i\bar{\omega}\in W^F}|\hat{G}(i\bar{{\o
 
 However, as we already computed $\hat G$ from the coefficients $G_l$, fitting is not really needed here but will be done for the sake of completeness.[5][7]
 
-```{code-cell} ipython3
+```{code-cell}
 #Calculation of G_l_f using Least-Squares Fitting
 
 G_l_f=matsf.fit(G_iw_f)
@@ -331,13 +329,13 @@ For the final step evaluation of $G_l^F$ on the (fermionic) $\tau$-sampling poin
 
 $$G(\bar{\tau}_k^F)= \Sigma_{l=0}^{L-1}G_l^F U_l^F(\bar{\tau}_k^F)  $$
 
-```{code-cell} ipython3
+```{code-cell}
 #G_tau,fermionic   
 
 G_tau_f=np.einsum('lt,l->t',basisf.u(tausf.tau),G_l_f)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(tausf.tau,G_tau_f.imag,'+-')
 ax[1].set_title('Imaginary part of $G(tau)$')
@@ -368,13 +366,13 @@ As we already have computed $G_l^F$, the next step in order to perform a full it
 
 $$G(\bar{\tau}_k^B)= \sum_{l=0}^{L-1}G_l^F  U_l^F(\bar{\tau}_k^B)$$
 
-```{code-cell} ipython3
+```{code-cell}
 #G_tau, bosonic
 
 G_tau_b=np.einsum('lt,l->t',basisb.u(tausb.tau),G_l_f)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(tausb.tau,G_tau_b.imag)
 ax[1].set_title('Imaginary part of $G(tau)$')
@@ -386,7 +384,7 @@ The so-called Polarization $P(\bar\tau_k^B)$ is given by the random phase approx
 
 $$P(\bar{\tau}_k^B)=G(\bar{\tau}_k^B)*G(\beta-\bar{\tau}_k^B)$$
 
-```{code-cell} ipython3
+```{code-cell}
 #Polarisation P, bosonic
 
 P_tau_b=G_tau_b*(basisf.u(beta-tausb.tau).T@G_l_f)
@@ -395,7 +393,7 @@ P_tau_b=G_tau_b*(basisf.u(beta-tausb.tau).T@G_l_f)
 #on sampling points (beta-tausb.tau)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(tausb.tau,P_tau_b.imag)
 ax[1].set_title('Imaginary part of $P(tau)')
@@ -409,13 +407,13 @@ The same way we transformed $\hat G^F(i\bar{\omega}_n^F)$ into $G^B(\bar\tau_k^B
 
 $$P_l^B$$
 
-```{code-cell} ipython3
+```{code-cell}
 #P_l, bosonic
 
 P_l_b=tausb.fit(P_tau_b)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.semilogy(np.abs(P_l_b),'+-')
 pl.title('$P_l^B$ over l ')
 pl.xticks(range(0,20))
@@ -424,13 +422,13 @@ pl.xlabel('l')
 
 $$\hat{P}(i\bar{\omega}_k^B)= \sum_{l=0}^{N-1} P_l^BU_l^B(i\bar{\omega}_n^B)$$
 
-```{code-cell} ipython3
+```{code-cell}
 #P_iw, bosonic
 
 P_iw_b=np.einsum('lv,l->v', basisb.uhat(matsb.wn),P_l_b)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(matsb.wn,P_iw_b.imag)
 ax[1].set_title('Imaginary part of $P(i\omega)$')
@@ -450,7 +448,7 @@ This equation has the exact same form as the Dyson equation but instead of conne
 
 $$W= U + UPW= U+UP(U+UP(U+UP(...)))=U+UPU+...$$
 
-```{code-cell} ipython3
+```{code-cell}
 #W_iw, bosonic  
 
 U=1/10
@@ -463,7 +461,7 @@ W_iw_b=W_iw_b_U-U
 #will be done using this and not W_iw_b_U
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(matsb.wn,W_iw_b.imag)
 ax[1].set_title('Imaginary part of $W(i\omega)$')
@@ -473,13 +471,13 @@ ax[0].set_title('Real part of $W(i\omega)$')
 
 $$W_l^B$$
 
-```{code-cell} ipython3
+```{code-cell}
 #W_l, bosonic
 
 W_l_b=matsb.fit(W_iw_b)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.semilogy(np.abs(W_l_b),'+-')
 pl.title('$W_l^B$ over l ')
 pl.xticks(range(0,20))
@@ -490,13 +488,13 @@ In the next step we are changing back into fermionic statistics:
 
 $${W}(\bar{\tau}_k^F)= \sum_{l=0}^{N-1} W_l ^BU_l^B(\bar{\tau}_k^F) $$
 
-```{code-cell} ipython3
+```{code-cell}
 #W_tau_f, fermionic
 
 W_tau_f=np.einsum('lt,l->t',basisb.u(tausf.tau),W_l_b)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(tausf.tau,W_tau_f.imag)
 ax[1].set_title('Real part of $W(tau)$')
@@ -512,13 +510,13 @@ This can again be rewritten into its equivalent form
 
 $$\Sigma=-G(U+UP(U+UP(...)))= -(GU+GUPU+GUPUPU+...)$$
 
-```{code-cell} ipython3
+```{code-cell}
 #E_tau , fermionic   
 
 E_tau_f=G_tau_f*W_tau_f
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[1].plot(tausf.tau,E_tau_f.imag)
 ax[1].set_title('Imaginary part of $\Sigma(tau)$')
@@ -526,16 +524,15 @@ ax[0].plot(tausf.tau,E_tau_f.real)
 ax[0].set_title('Real part of $\Sigma(tau)$')
 ```
 
-
 $${\Sigma}_l^F$$
 
-```{code-cell} ipython3
+```{code-cell}
 #E_l, fermionic
 
 E_l_f=tausf.fit(E_tau_f)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 pl.semilogy(np.abs(E_l_f),'+-')
 pl.title('$\Sigma_l^F$ over l ')
 pl.xticks(range(0,20))
@@ -548,13 +545,13 @@ $$\hat{\Sigma}(i\bar{\omega}_n^F)=-UG(\beta)+\sum_{l=0}^{N-1}{\Sigma}_l^F \hat{U
 
 with $UG(\beta)$ as the so called Hartee Fock term.
 
-```{code-cell} ipython3
+```{code-cell}
 #E_iw, fermionic
 
 E_iw_f=np.einsum('lw,l->w',basisf.uhat(matsf.wn),E_l_f)-U*(basisf.u(beta).T@G_l_f)
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[0].plot(matsf.wn,E_iw_f.imag)
 ax[0].set_title('Imaginary part of $\Sigma(i\omega)$')
@@ -572,13 +569,13 @@ $$\hat{G}(i\bar{\omega}_k^F)=\frac{1}{G_0(i\bar{\omega}_k^F)^{-1}-\hat{\Sigma}(i
 
 We have now calculated the full Green's function of the system with $\Sigma$ as a set of (one-particle) irreducible processes connected by $G_0$.[11]
 
-```{code-cell} ipython3
+```{code-cell}
 #G_iw, fermonic     -> Dyson Equation
 
 G_iw_f=((G_iw_0)**-1-E_iw_f)**-1        
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig, ax = pl.subplots(1,2, figsize=(12,5) )
 ax[0].plot(matsf.wn,G_iw_f.imag)
 ax[0].set_title('Imaginary part of $G(i\omega)')
@@ -586,11 +583,11 @@ ax[1].plot(matsf.wn,G_iw_f.real)
 ax[1].set_title('Real part of $G(i\omega)')
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 print(G_iw_f)
 ```
 
-With this we have completed one full iteration of GF2 & GW. Repeating this over and over again will show convergence and thus give the desired approximation to the self-energy. 
+With this we have completed one full iteration of GF2 & GW. Repeating this over and over again will show convergence and thus give the desired approximation to the self-energy.
 
 +++
 
@@ -611,6 +608,6 @@ Sources
 [10]C.Friedrich, _Many-Body Pertubation Theory;The GW approximation_, Peter Grünberg Institut and Institute for Advanced Simulation, Jülich <br>
 [11] K.. Held, C. Taranto, G. Rohringer, and A. Toschi, _Hedin Equations, GW, GW+DMFT, and All That_ (Modeling and Simulation Vol. 1, Forschungszentrum Jülich, 2011 )
 
-```{code-cell} ipython3
+```{code-cell}
 
 ```

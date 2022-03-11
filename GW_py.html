@@ -7,56 +7,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GW approximation &#8212; sparse-ir</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <link href="_static/css/theme.css" rel="stylesheet">
+  <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
   <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     
       
 
     
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <link rel="preload" as="script" href="_static/js/index.be7d3bbb2ef33a8344ce.js">
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Citation" href="citation.html" />
-    <link rel="prev" title="Transformation from/to IR" href="transformation.html" />
+    <link rel="prev" title="Transformation from/to IR" href="transformation_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -76,14 +76,14 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
+    <a class="navbar-brand text-wrap" href="index.html">
       
       
       
       <h1 class="site-logo" id="site-title">sparse-ir</h1>
       
     </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
@@ -95,12 +95,12 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="IR.html">
+  <a class="reference internal" href="IR_py.html">
    Intermediate representation (IR)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling.html">
+  <a class="reference internal" href="sparse_sampling_py.html">
    Sparse sampling
   </a>
  </li>
@@ -129,7 +129,7 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="transformation.html">
+  <a class="reference internal" href="transformation_py.html">
    Transformation from/to IR
   </a>
  </li>
@@ -195,11 +195,11 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
         <a class="dropdown-buttons"
-            href="../_sources/docs/GW.ipynb"><button type="button"
+            href="_sources/GW_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/docs/GW.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/GW_py.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -224,10 +224,10 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/docs/GW.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/GW_py.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
+                    src="_static/images/logo_binder.svg"
                     alt="Interact on binder">Binder</button></a>
         
         
@@ -476,7 +476,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$V_l^F(\\omega)$ over $\\omega$ for different l&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_13_1.png" src="../_images/GW_13_1.png" />
+<img alt="_images/GW_py_13_1.png" src="_images/GW_py_13_1.png" />
 </div>
 </div>
 <p>On the other side we have <span class="math notranslate nohighlight">\(U_l^F(i\omega)\)</span> which exists on the imaginary axis.</p>
@@ -508,7 +508,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$\\omega_n$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_15_5.png" src="../_images/GW_15_5.png" />
+<img alt="_images/GW_py_15_5.png" src="_images/GW_py_15_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -527,7 +527,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$U_l^F(i\\omega_n)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_16_1.png" src="../_images/GW_16_1.png" />
+<img alt="_images/GW_py_16_1.png" src="_images/GW_py_16_1.png" />
 </div>
 </div>
 <p>As we can express <span class="math notranslate nohighlight">\(K\)</span> in both, the frequency and time domain, there is also a need for <span class="math notranslate nohighlight">\(U_l^F(\tau)\)</span> (this will be further explained below)</p>
@@ -558,7 +558,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Sampling points in tau&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_18_5.png" src="../_images/GW_18_5.png" />
+<img alt="_images/GW_py_18_5.png" src="_images/GW_py_18_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -575,7 +575,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$U_l^F(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_19_1.png" src="../_images/GW_19_1.png" />
+<img alt="_images/GW_py_19_1.png" src="_images/GW_py_19_1.png" />
 </div>
 </div>
 <p>In order to perform the GW approximation the same objects as above are also needed with regards to bosonic statistics.</p>
@@ -644,7 +644,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_26_1.png" src="../_images/GW_26_1.png" />
+<img alt="_images/GW_py_26_1.png" src="_images/GW_py_26_1.png" />
 </div>
 </div>
 <p>It can be seen that <span class="math notranslate nohighlight">\(G_l\)</span> is getting smaller with growing <span class="math notranslate nohighlight">\(l\)</span>. This agrees with the fact that <span class="math notranslate nohighlight">\(S_{l=0}\)</span> is the greatest singular value and <span class="math notranslate nohighlight">\(S_l\)</span> gets smaller with growing <span class="math notranslate nohighlight">\(l\)</span>.</p>
@@ -675,7 +675,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_30_1.png" src="../_images/GW_30_1.png" />
+<img alt="_images/GW_py_30_1.png" src="_images/GW_py_30_1.png" />
 </div>
 </div>
 <p>As stated above transforming the Green’s function from <span class="math notranslate nohighlight">\(\hat{G}\)</span> into its time domain form  can be done rather easily. First we need to obtain <span class="math notranslate nohighlight">\(G_l\)</span> by fitting it with e.g. the Least-Square method such that</p>
@@ -717,7 +717,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_35_1.png" src="../_images/GW_35_1.png" />
+<img alt="_images/GW_py_35_1.png" src="_images/GW_py_35_1.png" />
 </div>
 </div>
 </div>
@@ -726,7 +726,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <p>Above we have successfully derived <span class="math notranslate nohighlight">\(G^F(\bar{\tau}_k^F)\)</span> from <span class="math notranslate nohighlight">\(\hat {G}^F(i\bar{\omega}_n^F)\)</span> by first obtaining the Green’s function’s basis representation <span class="math notranslate nohighlight">\(G_l^F\)</span> and secondly evaluating <span class="math notranslate nohighlight">\(G_l^F\)</span> on the <span class="math notranslate nohighlight">\(\tau\)</span>-sampling points, which are given by the computations of sparse_ir. Here, the self-consistent second order Green’s function theory (GF2) and the self-consistent GW methodare are based this very mechanism (and the so called Hedin equations).[5][7]</p>
 <p>The following image should give an overview on their iterative schemes[5]:</p>
 <br>
-<p><img alt="GF2_GW_pic.PNG" src="docs/attachment:GF2_GW_pic.PNG" /></p>
+<p><img alt="GF2_GW_pic.PNG" src="attachment:GF2_GW_pic.PNG" /></p>
 <p>Evaluation and transformation in GW and GF2 is done in the same way (fitting and evaluating) for the quantities <span class="math notranslate nohighlight">\(G,P,W\)</span> and <span class="math notranslate nohighlight">\(\Sigma\)</span>. The transition between these quantities is given by the Hedin equations. There are five Hedin equations in total. Because the vertex function (between <span class="math notranslate nohighlight">\(P\)</span> and <span class="math notranslate nohighlight">\(W\)</span>) is approximated as <span class="math notranslate nohighlight">\(\Gamma=1\)</span>, we will only deal with four of them here.[9]</p>
 <p>As we already have computed <span class="math notranslate nohighlight">\(G_l^F\)</span>, the next step in order to perform a full iteration of GF2 &amp; GW is the evaluation of the basis representation <span class="math notranslate nohighlight">\(G_l^F\)</span> on the <span class="math notranslate nohighlight">\(\tau\)</span>-sampling points.  Contrary to before were we computed <span class="math notranslate nohighlight">\(G(\bar{\tau}_k^F)\)</span>, these sampling point will be the bosonic sampling points <span class="math notranslate nohighlight">\(\tau_k^B\)</span>. This allows us to switch to bosonic statistic and thus be able to calculate associated quantities like the Polarization <span class="math notranslate nohighlight">\(P\)</span>.[5]</p>
 <div class="math notranslate nohighlight">
@@ -754,7 +754,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_41_1.png" src="../_images/GW_41_1.png" />
+<img alt="_images/GW_py_41_1.png" src="_images/GW_py_41_1.png" />
 </div>
 </div>
 <p>The so-called Polarization <span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span> is given by the random phase approximation, a connection between two Green’s functions:</p>
@@ -786,7 +786,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_44_1.png" src="../_images/GW_44_1.png" />
+<img alt="_images/GW_py_44_1.png" src="_images/GW_py_44_1.png" />
 </div>
 </div>
 <p>The same way we transformed <span class="math notranslate nohighlight">\(\hat G^F(i\bar{\omega}_n^F)\)</span> into <span class="math notranslate nohighlight">\(G^B(\bar\tau_k^B)\)</span> we are now able to transform <span class="math notranslate nohighlight">\(P^B(\bar\tau_k^B)\)</span> into <span class="math notranslate nohighlight">\(\hat P^B(i\bar{\omega}_n^B)\)</span> again using least Square fitting and evaluating <span class="math notranslate nohighlight">\(P_l^B\)</span> on the given sampling points (Matsubara frequencies).</p>
@@ -814,7 +814,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_48_1.png" src="../_images/GW_48_1.png" />
+<img alt="_images/GW_py_48_1.png" src="_images/GW_py_48_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -842,7 +842,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(i\\omega)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_51_1.png" src="../_images/GW_51_1.png" />
+<img alt="_images/GW_py_51_1.png" src="_images/GW_py_51_1.png" />
 </div>
 </div>
 <p>Following <span class="math notranslate nohighlight">\(P\)</span> we will now calculate the Screened Interaction <span class="math notranslate nohighlight">\(W\)</span> with the following formula:</p>
@@ -884,7 +884,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $W(i\\omega)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_54_1.png" src="../_images/GW_54_1.png" />
+<img alt="_images/GW_py_54_1.png" src="_images/GW_py_54_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -911,7 +911,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_57_1.png" src="../_images/GW_57_1.png" />
+<img alt="_images/GW_py_57_1.png" src="_images/GW_py_57_1.png" />
 </div>
 </div>
 <p>In the next step we are changing back into fermionic statistics:</p>
@@ -940,7 +940,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Imaginary part of $W(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_60_1.png" src="../_images/GW_60_1.png" />
+<img alt="_images/GW_py_60_1.png" src="_images/GW_py_60_1.png" />
 </div>
 </div>
 <p>After changing back into fermionic statistics the next quantity that is being dealt with is the so-called self energy <span class="math notranslate nohighlight">\(\Sigma\)</span>. When we first introduced the Dyson equation in the first chapter, we saw <span class="math notranslate nohighlight">\(V\)</span> as some sort of pertubation. The self-energy is very much alike as it describes the correlation effects of a many-body system. Here we will calculate <span class="math notranslate nohighlight">\(\tilde{\Sigma}(\bar{\tau}_k^F)\)</span> using <span class="math notranslate nohighlight">\(\Sigma^{GW}\)</span> so that</p>
@@ -972,7 +972,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(tau)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_63_1.png" src="../_images/GW_63_1.png" />
+<img alt="_images/GW_py_63_1.png" src="_images/GW_py_63_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -999,7 +999,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_66_1.png" src="../_images/GW_66_1.png" />
+<img alt="_images/GW_py_66_1.png" src="_images/GW_py_66_1.png" />
 </div>
 </div>
 <p>We will calculate</p>
@@ -1029,7 +1029,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(i\\omega)$&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_69_1.png" src="../_images/GW_69_1.png" />
+<img alt="_images/GW_py_69_1.png" src="_images/GW_py_69_1.png" />
 </div>
 </div>
 <p>Last but not least we will obtain <span class="math notranslate nohighlight">\(G^F(i\bar{\omega}_n^F)\)</span> through the Dyson Equation of GW:</p>
@@ -1062,7 +1062,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)&#39;)
 </pre></div>
 </div>
-<img alt="../_images/GW_72_1.png" src="../_images/GW_72_1.png" />
+<img alt="_images/GW_py_72_1.png" src="_images/GW_py_72_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1120,20 +1120,20 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
-            path: "./docs"
+            kernelName: "python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e",
+            path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e'</script>
 
               </div>
               
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="transformation.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="transformation_py.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
@@ -1165,7 +1165,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <script src="_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>
