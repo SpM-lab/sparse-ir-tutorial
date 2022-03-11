@@ -26,9 +26,16 @@ You can add references to `references.bib`.
 
 ### Jupytext
 
-Generate a notebook file paired with a specific markdown file:
+Convert a MyST Markdown file to a notebook:
+
 ```bash
 jupytext --to ipynb some_file.md
+```
+
+Convert a notebook to a MyST Markdown file:
+
+```bash
+jupytext --set-formats ipynb,md:myst some_file.ipynb
 ```
 
 ### Trouble shooting

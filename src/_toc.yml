@@ -1,0 +1,19 @@
+format: jb-book
+root: index
+parts:
+- caption: Basic theory
+  chapters:
+  - file: IR_py
+  - file: sparse_sampling_py
+- caption: Reference
+  chapters:
+  - file: api
+  - file: additional_material
+- caption: Sample codes
+  chapters:
+  - file: transformation_py
+  - file: GW_py
+- caption: Reference
+  chapters:
+  - file: citation
+  - file: bibliography
