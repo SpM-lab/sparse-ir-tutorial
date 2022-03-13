@@ -5,11 +5,11 @@ jupytext:
     extension: .md
     format_name: myst
     format_version: 0.13
-    jupytext_version: 1.13.7
+    jupytext_version: 1.11.5
 kernelspec:
-  display_name: Python 3.9.9 64-bit
+  display_name: Python 3
   language: python
-  name: python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
+  name: python3
 ---
 
 +++ {"tags": []}
@@ -66,9 +66,10 @@ $$
 
 The following code demostrates this transformation for bosons.
 
-```{code-cell}
+```{code-cell} ipython3
 import sparse_ir
 import numpy as np
+%matplotlib inline
 import matplotlib.pyplot as plt
 
 beta = 15
@@ -92,25 +93,19 @@ plt.show()
 
 Alternatively, we can use ``spr`` (sparse pole presentation) module.
 
-```{code-cell}
+```{code-cell} ipython3
 from sparse_ir.spr import SparsePoleRepresentation
 sp = SparsePoleRepresentation(basis_b, omega_p)
 gl_pole2 = sp.to_IR(coeff)
-gl_pole2 = sp.to_IR(coeff/np.tanh(0.5*beta*omega_p))
 
-plt.semilogy(np.abs(gl_pole2), marker="x", label=r"$|g_l|$")
-plt.semilogy(20*np.abs(gl_pole), marker="o", label=r"$|g_l|$")
-#plt.semilogy(np.abs(gl_pole2 - 20 * gl_pole), marker="x", label=r"$|g_l|$")
-#plt.semilogy(20*np.abs(gl_pole), marker="o", label=r"$|g_l|$")
+plt.semilogy(np.abs(gl_pole2), marker="x", label=r"$|g_l|$ from SPR")
+plt.semilogy(np.abs(gl_pole), marker="x", label=r"$|g_l|$")
+
 
 plt.xlabel(r"$l$")
-plt.ylim([1e-5, 1e+2])
+plt.ylim([1e-5, 1e+1])
 plt.legend()
 plt.show()
-```
-
-```{code-cell}
-gl_pole2/gl_pole
 ```
 
 ## From smooth spectral function
@@ -136,7 +131,7 @@ the result converges exponentially with increasing the degree of the Gauss-Legen
 Below, we demonstrate how to compute $\rho_l$ for a spectral function consisting of of three Gausssian peaks using the composite Gauss-Legendre quadrature.
 Then, $\rho_l$ can be transformed to $g_l$ by multiplying it with $- S_l$.
 
-```{code-cell}
+```{code-cell} ipython3
 # Three Gaussian peaks (normalized to 1)
 gaussian = lambda x, mu, sigma:\
     np.exp(-((x-mu)/sigma)**2)/(np.sqrt(np.pi)*sigma)
@@ -151,7 +146,7 @@ plt.plot(omegas, rho(omegas))
 plt.show()
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 beta = 10
 wmax = 10
 basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
@@ -169,7 +164,7 @@ plt.show()
 
 $\rho_l$ is evaluated on arbitrary real frequencies as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 rho_omgea_reconst = basis.v(omegas).T @ rhol
 
 plt.xlabel(r"$\omega$")
@@ -183,7 +178,7 @@ plt.show()
 We are now ready to evaluate $g_l$ on arbitrary $\tau$ points.
 A naive way is as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 taus = np.linspace(0, beta, 1000)
 gtau1 = basis.u(taus).T @ gl
 plt.plot(taus, gtau1)
@@ -194,7 +189,7 @@ plt.show()
 
 Alternatively, we can use ``TauSampling`` as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 smpl = sparse_ir.TauSampling(basis, taus)
 gtau2 = smpl.evaluate(gl)
 plt.plot(taus, gtau1)
@@ -214,7 +209,7 @@ $$
 
 You can use `overlap` function as well.
 
-```{code-cell}
+```{code-cell} ipython3
 def eval_gtau(taus):
     uval = basis.u(taus) #(nl, ntau)
     return uval.T @ gl
@@ -229,29 +224,4 @@ plt.xlabel(r"$|g_l|$")
 plt.ylim([1e-20, 1])
 plt.legend()
 plt.show()
-```
-
-```{code-cell}
-
-```
-
-$$
-G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
-$$
-
-We demonstrate this for $G(\tau)$ of the single Hubbard atom:
-
-$$
-G(\tau) = - \frac{1}{2}\left( \frac{e^{-\tau U/2}}{1 + e^{-\beta U/2}} + \frac{e^{\tau U/2}}{1 + e^{\beta U/2}} \right)
-$$
-
-with $\beta=300$ and $U=1$.
-
-```{code-cell}
-gtau_single_pole = lambda tau, epsilon: -np.exp(-tau*epsilon)/(1+np.exp(-beta*epsilon))
-gtau = lambda taus: 0.5*(gtau_single_pole(taus, 0.5*U) + gtau_single_pole(taus, -0.5*U))
-```
-
-```{code-cell}
-
 ```

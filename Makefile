@@ -7,3 +7,6 @@ build:
 
 upload:	build
 	ghp-import -n -p -f build/_build/html
+
+clean:
+	rm -rf build

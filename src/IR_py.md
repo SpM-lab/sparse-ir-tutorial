@@ -150,6 +150,7 @@ The following plots show the singular values and the basis functions computed fo
 
 ```{code-cell} ipython3
 import numpy as np
+%matplotlib inline
 import matplotlib.pyplot as plt
 import sparse_ir
 

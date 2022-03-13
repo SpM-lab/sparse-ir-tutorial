@@ -35,7 +35,7 @@ jupytext --to ipynb some_file.md
 Convert a notebook to a MyST Markdown file:
 
 ```bash
-jupytext --set-formats ipynb,md:myst some_file.ipynb
+jupytext --to md:myst some_file.ipynb
 ```
 
 ### Trouble shooting

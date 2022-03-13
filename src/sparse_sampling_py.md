@@ -57,6 +57,7 @@ The following figure shows the sampling points in the imaginary-time domain gene
 ```{code-cell} ipython3
 import sparse_ir
 import numpy as np
+%matplotlib inline
 import matplotlib.pyplot as plt
 
 beta = 10
