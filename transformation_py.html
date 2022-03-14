@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="GW approximation" href="GW_py.html" />
+    <link rel="next" title="Sparse sampling" href="sparse_sampling_demo_py.html" />
     <link rel="prev" title="Additional material" href="additional_material.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
@@ -134,8 +134,60 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="GW_py.html">
    GW approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dmft_py.html">
+   Dynamical mean-field theory with IPT solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg equation for Holstein Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="magnetic_susceptibility_py.html">
+   Magnetic susceptibility calculations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lichtenstein_formula_py.html">
+   Lichtenstein formula
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   Analytic continuation with SpM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
   </a>
  </li>
 </ul>
@@ -224,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/transformation_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/transformation_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -361,6 +413,7 @@ We immediately obtain</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">15</span>
@@ -393,15 +446,13 @@ We immediately obtain</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sparse_ir.spr</span> <span class="kn">import</span> <span class="n">SparsePoleRepresentation</span>
 <span class="n">sp</span> <span class="o">=</span> <span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span> <span class="n">omega_p</span><span class="p">)</span>
 <span class="n">gl_pole2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">to_IR</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span>
-<span class="n">gl_pole2</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">to_IR</span><span class="p">(</span><span class="n">coeff</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="mi">20</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
-<span class="c1">#plt.semilogy(np.abs(gl_pole2 - 20 * gl_pole), marker=&quot;x&quot;, label=r&quot;$|g_l|$&quot;)</span>
-<span class="c1">#plt.semilogy(20*np.abs(gl_pole), marker=&quot;o&quot;, label=r&quot;$|g_l|$&quot;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$ from SPR&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+
 
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+2</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -409,24 +460,6 @@ We immediately obtain</p>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/transformation_py_5_0.png" src="_images/transformation_py_5_0.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gl_pole2</span><span class="o">/</span><span class="n">gl_pole</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396, 13.35832396,
-       13.35832396, 13.35832396, 13.35832396, 13.35832396])
-</pre></div>
-</div>
 </div>
 </div>
 </div>
@@ -468,7 +501,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_8_0.png" src="_images/transformation_py_8_0.png" />
+<img alt="_images/transformation_py_7_0.png" src="_images/transformation_py_7_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -490,7 +523,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_9_0.png" src="_images/transformation_py_9_0.png" />
+<img alt="_images/transformation_py_8_0.png" src="_images/transformation_py_8_0.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(\rho_l\)</span> is evaluated on arbitrary real frequencies as follows.</p>
@@ -506,7 +539,7 @@ Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transf
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_11_0.png" src="_images/transformation_py_11_0.png" />
+<img alt="_images/transformation_py_10_0.png" src="_images/transformation_py_10_0.png" />
 </div>
 </div>
 </div>
@@ -526,7 +559,7 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_13_0.png" src="_images/transformation_py_13_0.png" />
+<img alt="_images/transformation_py_12_0.png" src="_images/transformation_py_12_0.png" />
 </div>
 </div>
 <p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">TauSampling</span></code> as follows.</p>
@@ -542,7 +575,7 @@ A naive way is as follows.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_15_0.png" src="_images/transformation_py_15_0.png" />
+<img alt="_images/transformation_py_14_0.png" src="_images/transformation_py_14_0.png" />
 </div>
 </div>
 </div>
@@ -575,25 +608,7 @@ G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/transformation_py_17_0.png" src="_images/transformation_py_17_0.png" />
-</div>
-</div>
-<div class="math notranslate nohighlight">
-\[
-G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
-\]</div>
-<p>We demonstrate this for <span class="math notranslate nohighlight">\(G(\tau)\)</span> of the single Hubbard atom:</p>
-<div class="math notranslate nohighlight">
-\[
-G(\tau) = - \frac{1}{2}\left( \frac{e^{-\tau U/2}}{1 + e^{-\beta U/2}} + \frac{e^{\tau U/2}}{1 + e^{\beta U/2}} \right)
-\]</div>
-<p>with <span class="math notranslate nohighlight">\(\beta=300\)</span> and <span class="math notranslate nohighlight">\(U=1\)</span>.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtau_single_pole</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">tau</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">tau</span><span class="o">*</span><span class="n">epsilon</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="o">*</span><span class="n">epsilon</span><span class="p">))</span>
-<span class="n">gtau</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">taus</span><span class="p">:</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">gtau_single_pole</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">U</span><span class="p">)</span> <span class="o">+</span> <span class="n">gtau_single_pole</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">U</span><span class="p">))</span>
-</pre></div>
-</div>
+<img alt="_images/transformation_py_16_0.png" src="_images/transformation_py_16_0.png" />
 </div>
 </div>
 </div>
@@ -611,13 +626,13 @@ G(\tau) = - \frac{1}{2}\left( \frac{e^{-\tau U/2}}{1 + e^{-\beta U/2}} + \frac{e
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e",
+            kernelName: "python3",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e'</script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -631,10 +646,10 @@ G(\tau) = - \frac{1}{2}\left( \frac{e^{-\tau U/2}}{1 + e^{-\beta U/2}} + \frac{e
             <p class="prev-next-title">Additional material</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="GW_py.html" title="next page">
+    <a class='right-next' id="next-link" href="sparse_sampling_demo_py.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">GW approximation</p>
+        <p class="prev-next-title">Sparse sampling</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

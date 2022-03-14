@@ -134,8 +134,60 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="GW_py.html">
    GW approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="dmft_py.html">
+   Dynamical mean-field theory with IPT solver
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg equation for Holstein Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="magnetic_susceptibility_py.html">
+   Magnetic susceptibility calculations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lichtenstein_formula_py.html">
+   Lichtenstein formula
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   Analytic continuation with SpM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
   </a>
  </li>
 </ul>
@@ -224,7 +276,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/sparse_sampling_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/sparse_sampling_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="_static/images/logo_binder.svg"
@@ -294,10 +346,11 @@ An empiritically good choice is to use the middle points of the extrema of
 <span class="math notranslate nohighlight">\(U'_{L-1}(\tau)\)</span>.
 From experience, the fitting can be done in the most stable way using SVD of the fitting matrix (already implemented in <em>sparse-ir</em>).</p>
 <p>The following figure shows the sampling points in the imaginary-time domain generated for <span class="math notranslate nohighlight">\(\beta=10\)</span> and <span class="math notranslate nohighlight">\(\wmax=10\)</span> as well as the basis function <span class="math notranslate nohighlight">\(U_{L-1}(\tau)\)</span> with <span class="math notranslate nohighlight">\(L=30\)</span>.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
@@ -344,7 +397,7 @@ one can evaluate the expansion coefficients as</p>
 \end{align}
 \end{split}\]</div>
 <p>The following figure shows the sampling points in the imaginary-frequency domain generated for <span class="math notranslate nohighlight">\(\beta=10\)</span> and <span class="math notranslate nohighlight">\(\wmax=10\)</span>.</p>
-<div class="cell docutils container">
+<div class="cell tag_hide-input docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
 
@@ -395,13 +448,13 @@ one can evaluate the expansion coefficients as</p>
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e",
+            kernelName: "python3",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e'</script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
