@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lichtenstein formula &#8212; sparse-ir</title>
+    <title>sparse-ir &#8212; sparse-ir</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -53,8 +53,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Analytic continuation with SpM" href="spm_py.html" />
-    <link rel="prev" title="Magnetic susceptibility calculations" href="magnetic_susceptibility_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -93,12 +91,12 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
+  <a class="reference internal" href="src/IR_py.html">
    Intermediate representation (IR)
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
+  <a class="reference internal" href="src/sparse_sampling_py.html">
    Sparse sampling
   </a>
  </li>
@@ -110,12 +108,12 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
+  <a class="reference internal" href="src/api.html">
    API reference
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
+  <a class="reference internal" href="src/additional_material.html">
    Additional material
   </a>
  </li>
@@ -125,49 +123,49 @@ const thebe_selector_output = ".output, .cell_output"
   Sample codes
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
+  <a class="reference internal" href="src/sparse_sampling_demo_py.html">
    Sparse sampling
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
+  <a class="reference internal" href="src/second_order_perturbation_py.html">
    Second-order perturbation
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
+  <a class="reference internal" href="src/GW_py.html">
    GW approximation
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="dmft_py.html">
+  <a class="reference internal" href="src/dmft_py.html">
    Dynamical mean-field theory with IPT solver
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
+  <a class="reference internal" href="src/eliashberg_holstein_py.html">
    Eliashberg equation for Holstein Hubbard model
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="magnetic_susceptibility_py.html">
+  <a class="reference internal" href="src/magnetic_susceptibility_py.html">
    Magnetic susceptibility calculations
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
+ <li class="toctree-l1">
+  <a class="reference internal" href="src/lichtenstein_formula_py.html">
    Lichtenstein formula
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
+  <a class="reference internal" href="src/spm_py.html">
    Analytic continuation with SpM
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
+  <a class="reference internal" href="src/nevanlinna.html">
    Nevanlinna analytic continuation
   </a>
  </li>
@@ -179,7 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
+  <a class="reference internal" href="src/transformation_jl.html">
    Transformation from/to IR
   </a>
  </li>
@@ -191,12 +189,12 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
+  <a class="reference internal" href="src/citation.html">
    Citation
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
+  <a class="reference internal" href="src/bibliography.html">
    Bibliograpy
   </a>
  </li>
@@ -241,7 +239,7 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/lichtenstein_formula_py.md"><button type="button"
+        <a class="dropdown-buttons" href="_sources/README.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
@@ -266,6 +264,51 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#for-developer">
+   For developer
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-up-tools">
+     Set up tools
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#local-build">
+     Local build
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deployment-to-remote">
+     Deployment to remote
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     References
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jupytext">
+     Jupytext
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#trouble-shooting">
+     Trouble shooting
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -273,19 +316,107 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Lichtenstein formula</h1>
+                <h1>sparse-ir</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#for-developer">
+   For developer
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-up-tools">
+     Set up tools
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#local-build">
+     Local build
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#deployment-to-remote">
+     Deployment to remote
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#references">
+     References
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jupytext">
+     Jupytext
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#trouble-shooting">
+     Trouble shooting
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="lichtenstein-formula">
-<h1>Lichtenstein formula<a class="headerlink" href="#lichtenstein-formula" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="sparse-ir">
+<h1>sparse-ir<a class="headerlink" href="#sparse-ir" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="for-developer">
+<h2>For developer<a class="headerlink" href="#for-developer" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="set-up-tools">
+<h3>Set up tools<a class="headerlink" href="#set-up-tools" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install jupyter-book ghp-import jupytext
+</pre></div>
+</div>
+</div>
+<div class="section" id="local-build">
+<h3>Local build<a class="headerlink" href="#local-build" title="Permalink to this headline">¶</a></h3>
+<p>The following command update all markdown files paired with notebooks and build html page.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make build
+</pre></div>
+</div>
+</div>
+<div class="section" id="deployment-to-remote">
+<h3>Deployment to remote<a class="headerlink" href="#deployment-to-remote" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make upload
+</pre></div>
+</div>
+</div>
+<div class="section" id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<p>You can add references to <code class="docutils literal notranslate"><span class="pre">references.bib</span></code>.</p>
+</div>
+<div class="section" id="jupytext">
+<h3>Jupytext<a class="headerlink" href="#jupytext" title="Permalink to this headline">¶</a></h3>
+<p>Convert a MyST Markdown file to a notebook:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to ipynb some_file.md
+</pre></div>
+</div>
+<p>Convert a notebook to a MyST Markdown file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst some_file.ipynb
+</pre></div>
+</div>
+</div>
+<div class="section" id="trouble-shooting">
+<h3>Trouble shooting<a class="headerlink" href="#trouble-shooting" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/executablebooks/jupyter-book/issues/1541">https://github.com/executablebooks/jupyter-book/issues/1541</a></p></li>
+</ul>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
@@ -312,21 +443,7 @@ const thebe_selector_output = ".output, .cell_output"
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="magnetic_susceptibility_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Magnetic susceptibility calculations</p>
-        </div>
-    </a>
-    <a class='right-next' id="next-link" href="spm_py.html" title="next page">
-    <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Analytic continuation with SpM</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
+<div class='prev-next-area'>
 </div>
             
         </div>
