@@ -38,6 +38,12 @@ Convert a notebook to a MyST Markdown file:
 jupytext --sync --to md:myst some_file.ipynb
 ```
 
+Update the header of all Markdown files:
+
+```bash
+make update_header
+```
+
 ### Trouble shooting
 
 * https://github.com/executablebooks/jupyter-book/issues/1541
