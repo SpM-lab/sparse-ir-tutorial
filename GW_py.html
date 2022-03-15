@@ -129,11 +129,6 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="sparse_sampling_demo_py.html">
    Sparse sampling
   </a>
@@ -528,6 +523,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$V_l^F(\\omega)$ over $\\omega$ for different l&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_13_1.png" src="_images/GW_py_13_1.png" />
 </div>
 </div>
 <p>On the other side we have <span class="math notranslate nohighlight">\(U_l^F(i\omega)\)</span> which exists on the imaginary axis.</p>
@@ -543,13 +539,23 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matsubara frequencies : [-131 -125  -33  -17  -13  -11   -9   -7   -5   -3   -1    1    3    5
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matsubara frequencies :
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[-131 -125  -33  -17  -13  -11   -9   -7   -5   -3   -1    1    3    5
     7    9   11   13   17   33  125  131]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$\\omega_n$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_15_5.png" src="_images/GW_py_15_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -568,6 +574,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$U_l^F(i\\omega_n)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_16_1.png" src="_images/GW_py_16_1.png" />
 </div>
 </div>
 <p>As we can express <span class="math notranslate nohighlight">\(K\)</span> in both, the frequency and time domain, there is also a need for <span class="math notranslate nohighlight">\(U_l^F(\tau)\)</span> (this will be further explained below)</p>
@@ -580,15 +587,25 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling points in tau: [0.05182878 0.10365757 0.34534882 0.71903101 1.21612875 1.82453471
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sampling points in tau:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[0.05182878 0.10365757 0.34534882 0.71903101 1.21612875 1.82453471
  2.52838108 3.30803861 4.14046722 5.         5.85953278 6.69196139
  7.47161892 8.17546529 8.78387125 9.28096899 9.65465118 9.89634243
  9.94817122]
 </pre></div>
 </div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Sampling points in tau&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_18_5.png" src="_images/GW_py_18_5.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -605,6 +622,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;$U_l^F(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_19_1.png" src="_images/GW_py_19_1.png" />
 </div>
 </div>
 <p>In order to perform the GW approximation the same objects as above are also needed with regards to bosonic statistics.</p>
@@ -673,6 +691,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_26_1.png" src="_images/GW_py_26_1.png" />
 </div>
 </div>
 <p>It can be seen that <span class="math notranslate nohighlight">\(G_l\)</span> is getting smaller with growing <span class="math notranslate nohighlight">\(l\)</span>. This agrees with the fact that <span class="math notranslate nohighlight">\(S_{l=0}\)</span> is the greatest singular value and <span class="math notranslate nohighlight">\(S_l\)</span> gets smaller with growing <span class="math notranslate nohighlight">\(l\)</span>.</p>
@@ -703,6 +722,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_30_1.png" src="_images/GW_py_30_1.png" />
 </div>
 </div>
 <p>As stated above transforming the Green’s function from <span class="math notranslate nohighlight">\(\hat{G}\)</span> into its time domain form  can be done rather easily. First we need to obtain <span class="math notranslate nohighlight">\(G_l\)</span> by fitting it with e.g. the Least-Square method such that</p>
@@ -744,6 +764,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_35_1.png" src="_images/GW_py_35_1.png" />
 </div>
 </div>
 </div>
@@ -780,6 +801,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_41_1.png" src="_images/GW_py_41_1.png" />
 </div>
 </div>
 <p>The so-called Polarization <span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span> is given by the random phase approximation, a connection between two Green’s functions:</p>
@@ -811,6 +833,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_44_1.png" src="_images/GW_py_44_1.png" />
 </div>
 </div>
 <p>The same way we transformed <span class="math notranslate nohighlight">\(\hat G^F(i\bar{\omega}_n^F)\)</span> into <span class="math notranslate nohighlight">\(G^B(\bar\tau_k^B)\)</span> we are now able to transform <span class="math notranslate nohighlight">\(P^B(\bar\tau_k^B)\)</span> into <span class="math notranslate nohighlight">\(\hat P^B(i\bar{\omega}_n^B)\)</span> again using least Square fitting and evaluating <span class="math notranslate nohighlight">\(P_l^B\)</span> on the given sampling points (Matsubara frequencies).</p>
@@ -838,6 +861,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_48_1.png" src="_images/GW_py_48_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -865,6 +889,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $P(i\\omega)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_51_1.png" src="_images/GW_py_51_1.png" />
 </div>
 </div>
 <p>Following <span class="math notranslate nohighlight">\(P\)</span> we will now calculate the Screened Interaction <span class="math notranslate nohighlight">\(W\)</span> with the following formula:</p>
@@ -906,6 +931,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $W(i\\omega)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_54_1.png" src="_images/GW_py_54_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -932,6 +958,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_57_1.png" src="_images/GW_py_57_1.png" />
 </div>
 </div>
 <p>In the next step we are changing back into fermionic statistics:</p>
@@ -960,6 +987,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Imaginary part of $W(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_60_1.png" src="_images/GW_py_60_1.png" />
 </div>
 </div>
 <p>After changing back into fermionic statistics the next quantity that is being dealt with is the so-called self energy <span class="math notranslate nohighlight">\(\Sigma\)</span>. When we first introduced the Dyson equation in the first chapter, we saw <span class="math notranslate nohighlight">\(V\)</span> as some sort of pertubation. The self-energy is very much alike as it describes the correlation effects of a many-body system. Here we will calculate <span class="math notranslate nohighlight">\(\tilde{\Sigma}(\bar{\tau}_k^F)\)</span> using <span class="math notranslate nohighlight">\(\Sigma^{GW}\)</span> so that</p>
@@ -991,6 +1019,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(tau)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_63_1.png" src="_images/GW_py_63_1.png" />
 </div>
 </div>
 <div class="math notranslate nohighlight">
@@ -1017,6 +1046,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;l&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_66_1.png" src="_images/GW_py_66_1.png" />
 </div>
 </div>
 <p>We will calculate</p>
@@ -1046,6 +1076,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $\\Sigma(i\\omega)$&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_69_1.png" src="_images/GW_py_69_1.png" />
 </div>
 </div>
 <p>Last but not least we will obtain <span class="math notranslate nohighlight">\(G^F(i\bar{\omega}_n^F)\)</span> through the Dyson Equation of GW:</p>
@@ -1078,6 +1109,7 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Real part of $G(i\\omega)&#39;)
 </pre></div>
 </div>
+<img alt="_images/GW_py_72_1.png" src="_images/GW_py_72_1.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1098,6 +1130,9 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
  4.01787292e-03+0.28344543j 2.90979923e-03+0.24122089j
  1.72244694e-03+0.18559626j 4.63018501e-04+0.0962297j
  3.24121101e-05+0.02546058j 2.95119245e-05+0.02429481j]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -1132,13 +1167,13 @@ $$K^\alpha(i\omega,\omega')=\sum_{l=0}^\infty \hat{U}_l^\alpha(i\omega)S_l^\alph
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            kernelName: "python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'python3'</script>
+    <script>kernelName = 'python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e'</script>
 
               </div>
               
