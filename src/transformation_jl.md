@@ -4,8 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Julia 1.7
+  display_name: Julia 1.7.2
   language: julia
   name: julia-1.7
 ---
@@ -58,6 +60,7 @@ plt.xlabel(L"$l$")
 plt.ylim([1e-5, 1e+1])
 plt.legend()
 #plt.show()
+;
 ```
 
 ## From smooth spectral function
@@ -74,6 +77,8 @@ plt.xlabel(L"\omega")
 plt.ylabel(L"\rho(\omega)")
 plt.plot(omegas, rho.(omegas))
 #plt.show()
+;
+;
 ```
 
 ```{code-cell}
@@ -90,6 +95,7 @@ plt.xlabel(L"l")
 plt.ylim([1e-5, 1])
 plt.legend()
 #plt.show()
+;
 ```
 
 ```{code-cell}
@@ -99,6 +105,7 @@ plt.xlabel(L"\omega")
 plt.ylabel(L"\rho(\omega)")
 plt.plot(omegas, rho.(omegas))
 #plt.show()
+;
 ```
 
 ## From IR to imaginary time
@@ -110,6 +117,7 @@ plt.plot(taus, gtau1)
 plt.xlabel(L"\tau")
 plt.ylabel(L"G(\tau)")
 #plt.show()
+;
 ```
 
 ```{code-cell}
@@ -119,6 +127,7 @@ plt.plot(taus, gtau1)
 plt.xlabel(L"\tau")
 plt.ylabel(L"G(\tau)")
 #plt.show()
+;
 ```
 
 ## From full imaginary-time data
@@ -139,6 +148,7 @@ plt.ylabel(L"|g_l|")
 plt.ylim([1e-20, 1])
 plt.legend()
 #plt.show()
+;
 ```
 
 ```{code-cell}

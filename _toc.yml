@@ -1,0 +1,30 @@
+format: jb-book
+root: index
+parts:
+- caption: Basic theory
+  chapters:
+  - file: src/IR_py
+  - file: src/sparse_sampling_py
+- caption: Reference
+  chapters:
+  - file: src/api
+  - file: src/additional_material
+- caption: Sample codes
+  chapters:
+  #- file: src/transformation_py
+  - file: src/sparse_sampling_demo_py
+  - file: src/second_order_perturbation_py
+  - file: src/GW_py
+  - file: src/dmft_py.md
+  - file: src/eliashberg_holstein_py.md
+  - file: src/magnetic_susceptibility_py.md
+  - file: src/lichtenstein_formula_py.md
+  - file: src/spm_py.md
+  - file: src/nevanlinna.md
+- caption: Sample codes (Julia)
+  chapters:
+  - file: src/transformation_jl
+- caption: Reference
+  chapters:
+  - file: src/citation
+  - file: src/bibliography

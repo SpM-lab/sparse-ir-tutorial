@@ -4,10 +4,12 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3.9.9 64-bit
   language: python
-  name: python3
+  name: python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
 ---
 
 +++ {"tags": []}
@@ -64,7 +66,7 @@ $$
 
 The following code demostrates this transformation for bosons.
 
-```{code-cell} ipython3
+```{code-cell}
 import sparse_ir
 import numpy as np
 %matplotlib inline
@@ -91,7 +93,7 @@ plt.show()
 
 Alternatively, we can use ``spr`` (sparse pole presentation) module.
 
-```{code-cell} ipython3
+```{code-cell}
 from sparse_ir.spr import SparsePoleRepresentation
 sp = SparsePoleRepresentation(basis_b, omega_p)
 gl_pole2 = sp.to_IR(coeff)
@@ -129,7 +131,7 @@ the result converges exponentially with increasing the degree of the Gauss-Legen
 Below, we demonstrate how to compute $\rho_l$ for a spectral function consisting of of three Gausssian peaks using the composite Gauss-Legendre quadrature.
 Then, $\rho_l$ can be transformed to $g_l$ by multiplying it with $- S_l$.
 
-```{code-cell} ipython3
+```{code-cell}
 # Three Gaussian peaks (normalized to 1)
 gaussian = lambda x, mu, sigma:\
     np.exp(-((x-mu)/sigma)**2)/(np.sqrt(np.pi)*sigma)
@@ -144,7 +146,7 @@ plt.plot(omegas, rho(omegas))
 plt.show()
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 beta = 10
 wmax = 10
 basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
@@ -162,7 +164,7 @@ plt.show()
 
 $\rho_l$ is evaluated on arbitrary real frequencies as follows.
 
-```{code-cell} ipython3
+```{code-cell}
 rho_omgea_reconst = basis.v(omegas).T @ rhol
 
 plt.xlabel(r"$\omega$")
@@ -176,7 +178,7 @@ plt.show()
 We are now ready to evaluate $g_l$ on arbitrary $\tau$ points.
 A naive way is as follows.
 
-```{code-cell} ipython3
+```{code-cell}
 taus = np.linspace(0, beta, 1000)
 gtau1 = basis.u(taus).T @ gl
 plt.plot(taus, gtau1)
@@ -187,7 +189,7 @@ plt.show()
 
 Alternatively, we can use ``TauSampling`` as follows.
 
-```{code-cell} ipython3
+```{code-cell}
 smpl = sparse_ir.TauSampling(basis, taus)
 gtau2 = smpl.evaluate(gl)
 plt.plot(taus, gtau1)
@@ -207,7 +209,7 @@ $$
 
 You can use `overlap` function as well.
 
-```{code-cell} ipython3
+```{code-cell}
 def eval_gtau(taus):
     uval = basis.u(taus) #(nl, ntau)
     return uval.T @ gl

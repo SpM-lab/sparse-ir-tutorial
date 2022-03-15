@@ -4,10 +4,12 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Python 3
+  display_name: Python 3.9.9 64-bit
   language: python
-  name: python3
+  name: python399jvsc74a57bd0b0fa6594d8f4cbf19f97940f81e996739fb7646882a419484c72d19e05852a7e
 ---
 
 +++ {"tags": []}
@@ -146,7 +148,7 @@ Some of the information regarding real-frequency properties of the system is oft
 The decay of the singular values depends on $\beta$ and $\wmax$ only through the dimensionless parameter $\Lambda\equiv \beta\wmax$.
 The following plots show the singular values and the basis functions computed for $\beta=10$ and $\wmax=10$.
 
-```{code-cell} ipython3
+```{code-cell}
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
@@ -169,7 +171,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-```{code-cell} ipython3
+```{code-cell}
 fig = plt.figure(figsize=(6,12))
 ax1 = plt.subplot(311)
 ax2 = plt.subplot(312)
