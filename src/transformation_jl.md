@@ -4,10 +4,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.11.5
 kernelspec:
-  display_name: Julia 1.7.0-beta3
+  display_name: Julia 1.7
   language: julia
   name: julia-1.7
 ---
@@ -46,7 +44,7 @@ plt.semilogy(abs.(gl_pole), marker="x", label=L"|g_l|")
 plt.xlabel(L"$l$")
 plt.ylim([1e-5, 1e+1])
 plt.legend()
-plt.show()
+;
 ```
 
 ```{code-cell}
@@ -59,7 +57,7 @@ plt.semilogy(abs.(gl_pole), marker="x", label=L"$|g_l|$")
 plt.xlabel(L"$l$")
 plt.ylim([1e-5, 1e+1])
 plt.legend()
-plt.show()
+#plt.show()
 ```
 
 ## From smooth spectral function
@@ -75,7 +73,7 @@ omegas = LinRange(-5, 5, 1000)
 plt.xlabel(L"\omega")
 plt.ylabel(L"\rho(\omega)")
 plt.plot(omegas, rho.(omegas))
-plt.show()
+#plt.show()
 ```
 
 ```{code-cell}
@@ -91,7 +89,7 @@ plt.semilogy(abs.(gl), marker="x", label=L"|g_l|")
 plt.xlabel(L"l")
 plt.ylim([1e-5, 1])
 plt.legend()
-plt.show()
+#plt.show()
 ```
 
 ```{code-cell}
@@ -100,7 +98,7 @@ rho_omgea_reconst = transpose(basis.v(omegas)) * rhol
 plt.xlabel(L"\omega")
 plt.ylabel(L"\rho(\omega)")
 plt.plot(omegas, rho.(omegas))
-plt.show()
+#plt.show()
 ```
 
 ## From IR to imaginary time
@@ -111,7 +109,7 @@ gtau1 = transpose(basis.u(taus)) * gl
 plt.plot(taus, gtau1)
 plt.xlabel(L"\tau")
 plt.ylabel(L"G(\tau)")
-plt.show()
+#plt.show()
 ```
 
 ```{code-cell}
@@ -120,7 +118,7 @@ gtau2 = evaluate(smpl, gl)
 plt.plot(taus, gtau1)
 plt.xlabel(L"\tau")
 plt.ylabel(L"G(\tau)")
-plt.show()
+#plt.show()
 ```
 
 ## From full imaginary-time data
@@ -140,7 +138,7 @@ plt.xlabel(L"l")
 plt.ylabel(L"|g_l|")
 plt.ylim([1e-20, 1])
 plt.legend()
-plt.show()
+#plt.show()
 ```
 
 ```{code-cell}
