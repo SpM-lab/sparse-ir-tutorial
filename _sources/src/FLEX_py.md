@@ -11,6 +11,8 @@ kernelspec:
 ---
 
 # FLEX approximation
+Author: [Niklas Witt](mailto:niklas.witt@physik.uni-hamburg.de)
+
 ## Theory of FLEX in the paramagnetic state
 
 The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the Sparse-ir package for diagrammatic methods.
