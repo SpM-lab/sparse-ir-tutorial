@@ -15,14 +15,19 @@ kernelspec:
 # FLEX approximation
 ## Theory of FLEX in the paramagnetic state
 
-The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. [1,2]. It can be derived from a Luttinger-Ward functional [3] containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the Sparse-ir package for diagrammatic methods.
+The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the Sparse-ir package for diagrammatic methods.
 
-For the implementation of a multi-orbital code, please have a look at Refs. [4,5]
+For the implementation of a multi-orbital code, please have a look at {cite:p}`Witt21` and [FLEX_IR package](https://github.com/nikwitt/FLEX_IR).
 
 #### Set of FLEX equations
 We review the set of equations that need to be solved self-consistently in the FLEX approximation. The goal is to solve the Dyson equation
 
-$$ G(i\omega_n,\boldsymbol{k}) = [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} $$
+$$
+\begin{align}
+G(i\omega_n,\boldsymbol{k}) &= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} \\
+& = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
+\end{align}
+$$
 
 for the interacting Green function $G$ from the non-interacting Greenfunction $G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu]^{-1}$ with single-particle dispersion $\varepsilon_{\boldsymbol{k}}$ and chemical potential $\mu$ as well as self-energy $\Sigma$ as a function of Matsubara frequencies $i\omega_n=(2n+1)\pi T$ and momentum $\boldsymbol{k}$. Using the Green function, we calculate the irreducible susceptibility ("bubble diagram") as
 
@@ -236,6 +241,7 @@ def mu_calc(n0, iwn, ek, sigma):
 ### Execute FLEX loop
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 # Initialize calculation
 sigma = 0
 mu    = 0
@@ -337,11 +343,21 @@ plt.show()
 ## Linearized Eliashberg equation
 One example for which FLEX can be used, is the description of superconductivity arising from spin-fluctuation-mediated pairing. While it is possible to perform FLEX calculations in the symmetry-broken state (Nambu phase), we will here focus on determining the superconducting critical temperature $T_{\mathrm{c}}$ by solving the linearized Eliashberg equation
 
-$$ \Delta^{(\xi)}(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q})F^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q}) = -\frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q}) |G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q})|^2 \Delta^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q})$$
+$$
+\begin{align}
+\Delta^{(\xi)}(i\omega_n, \boldsymbol{k}) &= \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q})F^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q}) \\
+ &= -\frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q}) |G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q})|^2 \Delta^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q})
+\end{align}
+ $$
 
 for the gap function $\Delta$ ('order parameter') in either the spin singlet ($\xi=\mathrm{S}$) or spin triplet ($\xi=\mathrm{T}$) pairing channel. $F^{(\xi)} = -|G|^2\Delta^{(\xi)}$ is the anomalous Green function. In each case, the interaction is given by
 
-$$ V^{(\xi=\mathrm{S})}(i\nu_m, \boldsymbol{q}) = \frac{3}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) + U \quad,\quad V^{(\xi=\mathrm{T})}(i\nu_m, \boldsymbol{q}) = -\frac{1}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q})\;.$$
+$$
+\begin{align}
+    V^{(\xi=\mathrm{S})}(i\nu_m, \boldsymbol{q}) &= \frac{3}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) + U,\\
+    V^{(\xi=\mathrm{T})}(i\nu_m, \boldsymbol{q}) &= -\frac{1}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}).
+\end{align}
+$$
 
 The gap equation is effectively an eigenvalue problem with $\Delta$ being the eigenvector and $\mathcal{K}\sim V |G|^2$ the matrix. Since we are only interested in the phase transition of the dominant symmetry pairing channel, we can solve for the largest eigenvalue $\lambda$ via the power method.
 
@@ -392,6 +408,7 @@ def F_calc(gkio, delta):
 ```
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 ### Start power method loop
 # Set initial gap function
 delta_k = np.cos(2*np.pi*k1) - np.cos(2*np.pi*k2)
@@ -459,13 +476,14 @@ plt.show()
 ```
 
 ## Example: $d$-wave superconductivity in the square-lattice Hubbard model
-In this section, we will reproduce Figs. 3(b) and 4 of Ref. [6] or respective Fig. 2(a) of Ref. [4] using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue $\lambda_d$ (as calculated above) and the inverse maximal spin susceptibility $1/\chi_{\mathrm{s,max}}$, which indicates tendency towards magnetic ordering.
+In this section, we will reproduce Figs. 3(b) and 4 of {cite:p}`Arita00` or respective Fig. 2(a) of {cite:p}`Witt21` using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue $\lambda_d$ (as calculated above) and the inverse maximal spin susceptibility $1/\chi_{\mathrm{s,max}}$, which indicates tendency towards magnetic ordering.
 
 In order to perform calcualtions for different $T$, we will initiate the IR basis with a $\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}$ that is sufficient for the lowest temperature $T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}$ we plan to do calculations for. Since $T$ changes, we have to use the dimensionless basis and when Fourier transforming account for a factor $\sqrt{2}T$ from prefactors $U_l(\tau) = \sqrt{2T}u_l(x)$ and $U_l(i\omega_n) = \sqrt{1/T}u_{ln}$ accordingly. We start from high $T$ and lower its value. Each new $T$ calculation is initiated using the previously converged solution, since it does not change drastically.
 
 You can simply execute the following code block which will generate a Figure like in the references above.
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 #%%%%%%%%%%%%%%% Parameter settings
 print('Initialization...')
 # System parameters
@@ -643,7 +661,7 @@ def F_calc(gkio, delta, T):
     return F
 
 #%%%%%%%%%%%%%%%% Do FLEX loop + linearized Eliashberg equation
-print('\nEntering FLEX calculation loop:')
+print('Entering FLEX calculation loop:')
 # Initialize calculation
 sigma = 0
 mu    = 0
@@ -761,11 +779,12 @@ for T_it, T in enumerate(T_values):
     
     if T == 0.03:
         chi_s_plt = ckio / (1 - U*ckio)
+```
 
-
+```{code-cell} ipython3
 #%%%%%%%%%%%%%%%% Plot results in a combined figure
-print('\nPlotting the results...\n')
-
+#print('Plotting the results...')
+#
 import matplotlib.gridspec as gridspec
 
 fig   = plt.figure(figsize=(10,4),constrained_layout=True)
@@ -800,30 +819,4 @@ f_ax2.set_xlabel('$T/t$', fontsize=14)
 f_ax2.set_ylabel('$\lambda_d$, $1/\chi_{\mathrm{s},\mathrm{max}}$', fontsize=14)
 f_ax2.grid()
 plt.show()
-```
-
-# Literature
-[1] N. E. Bickers, D. J. Scalapino, and S. R.White, Conserving Approximations
-for Strongly Correlated Electron Systems: Bethe-
-Salpeter Equation and Dynamics for the Two-Dimensional
-Hubbard Model, Phys. Rev. Lett. 62, 961 (1989).
-
-[2] N. E. Bickers and D. J. Scalapino, Conserving approximations
-for strongly fluctuating electron systems. I. Formalism and calculational
-approach, Ann. Phys. 193, 206 (1989)
-
-[3] J. M. Luttinger and J. C. Ward, Ground-state energy of a manyfermion
-system. II, Phys. Rev. 118, 1417 (1960)
-
-[4] N. Witt, E. G. C. P. van Loon, T. Nomoto, R. Arita, T. O. Wehling, Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: From the Hubbard model to Na$_x$CoO$_2$·$y$H$_2$O, Phys. Rev. B 103, 205148 (2021)
-
-[5] FLEX+IR code available at https://github.com/nikwitt/FLEX_IR
-
-[6] R. Arita, K. Kuroki, and H. Aoki, d- and p-wave superconductivity
-mediated by spin fluctuations in two- and
-three-dimensional single-band repulsive Hubbard model,
-J. Phys. Soc. Jpn. 69, 1181 (2000)
-
-```{code-cell} ipython3
-
 ```
