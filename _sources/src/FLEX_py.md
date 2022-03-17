@@ -241,6 +241,7 @@ def mu_calc(n0, iwn, ek, sigma):
 ### Execute FLEX loop
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 # Initialize calculation
 sigma = 0
 mu    = 0
@@ -407,6 +408,7 @@ def F_calc(gkio, delta):
 ```
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 ### Start power method loop
 # Set initial gap function
 delta_k = np.cos(2*np.pi*k1) - np.cos(2*np.pi*k2)
@@ -481,6 +483,7 @@ In order to perform calcualtions for different $T$, we will initiate the IR basi
 You can simply execute the following code block which will generate a Figure like in the references above.
 
 ```{code-cell} ipython3
+:tags: [output_scroll]
 #%%%%%%%%%%%%%%% Parameter settings
 print('Initialization...')
 # System parameters
@@ -658,7 +661,7 @@ def F_calc(gkio, delta, T):
     return F
 
 #%%%%%%%%%%%%%%%% Do FLEX loop + linearized Eliashberg equation
-print('\nEntering FLEX calculation loop:')
+print('Entering FLEX calculation loop:')
 # Initialize calculation
 sigma = 0
 mu    = 0
@@ -776,11 +779,12 @@ for T_it, T in enumerate(T_values):
     
     if T == 0.03:
         chi_s_plt = ckio / (1 - U*ckio)
+```
 
-
+```{code-cell} ipython3
 #%%%%%%%%%%%%%%%% Plot results in a combined figure
-print('\nPlotting the results...\n')
-
+#print('Plotting the results...')
+#
 import matplotlib.gridspec as gridspec
 
 fig   = plt.figure(figsize=(10,4),constrained_layout=True)

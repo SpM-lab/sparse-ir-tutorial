@@ -271,7 +271,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/FLEX_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/FLEX_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -734,7 +734,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 </div>
 <div class="section" id="execute-flex-loop">
 <h3>Execute FLEX loop<a class="headerlink" href="#execute-flex-loop" title="Permalink to this headline">¶</a></h3>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize calculation</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1180,7 +1180,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 </div>
 </div>
 </div>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Start power method loop</span>
 <span class="c1"># Set initial gap function</span>
@@ -1417,7 +1417,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <p>In this section, we will reproduce Figs. 3(b) and 4 of <span id="id6">[<a class="reference internal" href="bibliography.html#id44" title="Ryotaro Arita, Kazuhiko Kuroki, and Hideo Aoki. D- and p-wave superconductivity mediated by spin fluctuations in two- and three-dimensional single-band repulsive hubbard model. Journal of the Physical Society of Japan, 69(4):1181-1191, 2000. URL: https://doi.org/10.1143/JPSJ.69.1181, arXiv:https://doi.org/10.1143/JPSJ.69.1181, doi:10.1143/JPSJ.69.1181.">Arita <em>et al.</em>, 2000</a>]</span> or respective Fig. 2(a) of <span id="id7">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue <span class="math notranslate nohighlight">\(\lambda_d\)</span> (as calculated above) and the inverse maximal spin susceptibility <span class="math notranslate nohighlight">\(1/\chi_{\mathrm{s,max}}\)</span>, which indicates tendency towards magnetic ordering.</p>
 <p>In order to perform calcualtions for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to use the dimensionless basis and when Fourier transforming account for a factor <span class="math notranslate nohighlight">\(\sqrt{2}T\)</span> from prefactors <span class="math notranslate nohighlight">\(U_l(\tau) = \sqrt{2T}u_l(x)\)</span> and <span class="math notranslate nohighlight">\(U_l(i\omega_n) = \sqrt{1/T}u_{ln}\)</span> accordingly. We start from high <span class="math notranslate nohighlight">\(T\)</span> and lower its value. Each new <span class="math notranslate nohighlight">\(T\)</span> calculation is initiated using the previously converged solution, since it does not change drastically.</p>
 <p>You can simply execute the following code block which will generate a Figure like in the references above.</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialization...&#39;</span><span class="p">)</span>
@@ -1596,7 +1596,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
     <span class="k">return</span> <span class="n">F</span>
 
 <span class="c1">#%%%%%%%%%%%%%%%% Do FLEX loop + linearized Eliashberg equation</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Entering FLEX calculation loop:&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Entering FLEX calculation loop:&#39;</span><span class="p">)</span>
 <span class="c1"># Initialize calculation</span>
 <span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">mu</span>    <span class="o">=</span> <span class="mi">0</span>
@@ -1714,45 +1714,6 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
     
     <span class="k">if</span> <span class="n">T</span> <span class="o">==</span> <span class="mf">0.03</span><span class="p">:</span>
         <span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
-
-
-<span class="c1">#%%%%%%%%%%%%%%%% Plot results in a combined figure</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Plotting the results...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-
-<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
-
-<span class="n">fig</span>   <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">spec</span>  <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
-<span class="n">f_ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">f_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-
-<span class="c1"># First panel with momentum dependence of static spin susceptibility</span>
-<span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">))</span>
-<span class="n">k_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)))</span>
-<span class="n">chi_s_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">chi_s_plt</span><span class="p">[:</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                          <span class="n">chi_s_plt</span><span class="p">[</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span>
-                          <span class="p">[</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">it</span><span class="p">]</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span> <span class="n">chi_s_HSP</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">,</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">chi_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{s}</span><span class="s1">}(i</span><span class="se">\\</span><span class="s1">nu=0,{</span><span class="se">\\</span><span class="s1">bf</span><span class="si">{q}</span><span class="s1">})$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-
-<span class="c1"># Second panel with T-dependence of lambda_d and 1/chi_s,max</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">lam_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">chiSmax_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$T/t$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\lambda_d$, $1/\chi_{\mathrm</span><span class="si">{s}</span><span class="s1">,\mathrm</span><span class="si">{max}</span><span class="s1">}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1865,13 +1826,52 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Plotting the results...
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%%% Plot results in a combined figure</span>
+<span class="c1">#print(&#39;Plotting the results...&#39;)</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+
+<span class="n">fig</span>   <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">spec</span>  <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">f_ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">f_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># First panel with momentum dependence of static spin susceptibility</span>
+<span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">))</span>
+<span class="n">k_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">chi_s_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">chi_s_plt</span><span class="p">[:</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                          <span class="n">chi_s_plt</span><span class="p">[</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span>
+                          <span class="p">[</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">it</span><span class="p">]</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span> <span class="n">chi_s_HSP</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">,</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">chi_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{s}</span><span class="s1">}(i</span><span class="se">\\</span><span class="s1">nu=0,{</span><span class="se">\\</span><span class="s1">bf</span><span class="si">{q}</span><span class="s1">})$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="c1"># Second panel with T-dependence of lambda_d and 1/chi_s,max</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">lam_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">chiSmax_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$T/t$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\lambda_d$, $1/\chi_{\mathrm</span><span class="si">{s}</span><span class="s1">,\mathrm</span><span class="si">{max}</span><span class="s1">}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
 </div>
-<img alt="../_images/FLEX_py_23_38.png" src="../_images/FLEX_py_23_38.png" />
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_py_24_0.png" src="../_images/FLEX_py_24_0.png" />
 </div>
 </div>
 </div>
