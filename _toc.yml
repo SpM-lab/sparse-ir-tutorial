@@ -15,7 +15,7 @@ parts:
   - file: src/sparse_sampling_demo_py
   - file: src/second_order_perturbation_py
   - file: src/GW_py
-  - file: src/dmft_py.md
+  - file: src/FLEX_py
   - file: src/eliashberg_holstein_py.md
   - file: src/magnetic_susceptibility_py.md
   - file: src/lichtenstein_formula_py.md
