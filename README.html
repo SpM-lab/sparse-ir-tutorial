@@ -140,8 +140,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="src/dmft_py.html">
-   Dynamical mean-field theory with IPT solver
+  <a class="reference internal" href="src/FLEX_py.html">
+   FLEX approximation
   </a>
  </li>
  <li class="toctree-l1">
@@ -270,41 +270,39 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#for-developer">
-   For developer
+  <a class="reference internal nav-link" href="#set-up-tools">
+   Set up tools
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#set-up-tools">
-     Set up tools
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#local-build">
-     Local build
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#deployment-to-remote">
-     Deployment to remote
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#jupytext">
-     Jupytext
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#trouble-shooting">
-     Trouble shooting
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-build-html">
+   How to build html
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#update-existing-myst-markdown-file">
+   Update existing MyST Markdown file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-commit-a-new-updated-markdown-file">
+   How to commit a new/updated Markdown file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#upload-html-files">
+   Upload html files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trouble-shooting">
+   Trouble shooting
+  </a>
  </li>
 </ul>
 
@@ -327,41 +325,39 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#for-developer">
-   For developer
+  <a class="reference internal nav-link" href="#set-up-tools">
+   Set up tools
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#set-up-tools">
-     Set up tools
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#local-build">
-     Local build
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#deployment-to-remote">
-     Deployment to remote
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#references">
-     References
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#jupytext">
-     Jupytext
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#trouble-shooting">
-     Trouble shooting
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-build-html">
+   How to build html
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#update-existing-myst-markdown-file">
+   Update existing MyST Markdown file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-commit-a-new-updated-markdown-file">
+   How to commit a new/updated Markdown file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#upload-html-files">
+   Upload html files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#references">
+   References
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#trouble-shooting">
+   Trouble shooting
+  </a>
  </li>
 </ul>
 
@@ -374,48 +370,68 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="sparse-ir">
 <h1>sparse-ir<a class="headerlink" href="#sparse-ir" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="for-developer">
-<h2>For developer<a class="headerlink" href="#for-developer" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="set-up-tools">
-<h3>Set up tools<a class="headerlink" href="#set-up-tools" title="Permalink to this headline">¶</a></h3>
+<h2>Set up tools<a class="headerlink" href="#set-up-tools" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip3 install jupyter-book ghp-import jupytext
 </pre></div>
 </div>
 </div>
-<div class="section" id="local-build">
-<h3>Local build<a class="headerlink" href="#local-build" title="Permalink to this headline">¶</a></h3>
-<p>The following command update all markdown files paired with notebooks and build html page.</p>
+<div class="section" id="how-to-build-html">
+<h2>How to build html<a class="headerlink" href="#how-to-build-html" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Write a jupyter notebook. Your notebook must be placed under the  <code class="docutils literal notranslate"><span class="pre">src</span></code> directory with a name <code class="docutils literal notranslate"><span class="pre">*_py.ipynb</span></code> (python) or <code class="docutils literal notranslate"><span class="pre">*_jl.ipyb</span></code> (julia).</p></li>
+<li><p>Convert the notebook to a paired MyST markdown file.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst notebook_py.ipynb
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Make html files</p></li>
+</ol>
+<p>The following command builds html files.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make build
 </pre></div>
 </div>
 </div>
-<div class="section" id="deployment-to-remote">
-<h3>Deployment to remote<a class="headerlink" href="#deployment-to-remote" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="update-existing-myst-markdown-file">
+<h2>Update existing MyST Markdown file<a class="headerlink" href="#update-existing-myst-markdown-file" title="Permalink to this headline">¶</a></h2>
+<ol class="simple">
+<li><p>Convert a MyST markdown file to a notebook:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to ipynb notebook_py.md
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Update the notebook using jupyter notebook/lab</p></li>
+<li><p>Sync the markdown file and the notebook.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst notebook_py.ipynb
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-to-commit-a-new-updated-markdown-file">
+<h2>How to commit a new/updated Markdown file<a class="headerlink" href="#how-to-commit-a-new-updated-markdown-file" title="Permalink to this headline">¶</a></h2>
+<p>Before commiting a new MyST Markdown file, update the header of all Markdown files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make update_header
+</pre></div>
+</div>
+<p>Then, you will be ready to commit updated files.</p>
+</div>
+<div class="section" id="upload-html-files">
+<h2>Upload html files<a class="headerlink" href="#upload-html-files" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make upload
 </pre></div>
 </div>
 </div>
 <div class="section" id="references">
-<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <p>You can add references to <code class="docutils literal notranslate"><span class="pre">references.bib</span></code>.</p>
 </div>
-<div class="section" id="jupytext">
-<h3>Jupytext<a class="headerlink" href="#jupytext" title="Permalink to this headline">¶</a></h3>
-<p>Convert a MyST Markdown file to a notebook:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to ipynb some_file.md
-</pre></div>
-</div>
-<p>Convert a notebook to a MyST Markdown file:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst some_file.ipynb
-</pre></div>
-</div>
-</div>
 <div class="section" id="trouble-shooting">
-<h3>Trouble shooting<a class="headerlink" href="#trouble-shooting" title="Permalink to this headline">¶</a></h3>
+<h2>Trouble shooting<a class="headerlink" href="#trouble-shooting" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/executablebooks/jupyter-book/issues/1541">https://github.com/executablebooks/jupyter-book/issues/1541</a></p></li>
 </ul>
-</div>
 </div>
 </div>
 

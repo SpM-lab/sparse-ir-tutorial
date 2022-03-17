@@ -1,0 +1,1940 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLEX approximation &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Eliashberg equation for Holstein Hubbard model" href="eliashberg_holstein_py.html" />
+    <link rel="prev" title="GW approximation" href="GW_py.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR_py.html">
+   Intermediate representation (IR)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_py.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API reference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="additional_material.html">
+   Additional material
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GW_py.html">
+   GW approximation
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg equation for Holstein Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="magnetic_susceptibility_py.html">
+   Magnetic susceptibility calculations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lichtenstein_formula_py.html">
+   Lichtenstein formula
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   Analytic continuation with SpM
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="citation.html">
+   Citation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/FLEX_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/FLEX_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/FLEX_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-flex-in-the-paramagnetic-state">
+   Theory of FLEX in the paramagnetic state
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-of-flex-equations">
+     Set of FLEX equations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#practical-implementation">
+     Practical implementation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-meshes">
+     Generating meshes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flex-calculation-steps">
+     FLEX calculation steps
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-the-chemical-potential">
+       Setting the chemical potential
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#execute-flex-loop">
+     Execute FLEX loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#visualize-results">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linearized-eliashberg-equation">
+   Linearized Eliashberg equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Code implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id5">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+   Example:
+   <span class="math notranslate nohighlight">
+    \(d\)
+   </span>
+   -wave superconductivity in the square-lattice Hubbard model
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>FLEX approximation</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-flex-in-the-paramagnetic-state">
+   Theory of FLEX in the paramagnetic state
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#set-of-flex-equations">
+     Set of FLEX equations
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#practical-implementation">
+     Practical implementation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-meshes">
+     Generating meshes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flex-calculation-steps">
+     FLEX calculation steps
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#setting-the-chemical-potential">
+       Setting the chemical potential
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#execute-flex-loop">
+     Execute FLEX loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#visualize-results">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linearized-eliashberg-equation">
+   Linearized Eliashberg equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Code implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id5">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+   Example:
+   <span class="math notranslate nohighlight">
+    \(d\)
+   </span>
+   -wave superconductivity in the square-lattice Hubbard model
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="flex-approximation">
+<h1>FLEX approximation<a class="headerlink" href="#flex-approximation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="theory-of-flex-in-the-paramagnetic-state">
+<h2>Theory of FLEX in the paramagnetic state<a class="headerlink" href="#theory-of-flex-in-the-paramagnetic-state" title="Permalink to this headline">¶</a></h2>
+<p>The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. <span id="id1">[<a class="reference internal" href="bibliography.html#id40" title="N. E. Bickers, D. J. Scalapino, and S. R. White. Conserving approximations for strongly correlated electron systems: bethe-salpeter equation and dynamics for the two-dimensional hubbard model. Phys. Rev. Lett., 62:961–964, Feb 1989. URL: https://link.aps.org/doi/10.1103/PhysRevLett.62.961, doi:10.1103/PhysRevLett.62.961.">Bickers <em>et al.</em>, 1989</a>, <a class="reference internal" href="bibliography.html#id41" title="N.E Bickers and D.J Scalapino. Conserving approximations for strongly fluctuating electron systems. i. formalism and calculational approach. Annals of Physics, 193(1):206-251, 1989. URL: https://www.sciencedirect.com/science/article/pii/000349168990359X, doi:https://doi.org/10.1016/0003-4916(89)90359-X.">Bickers and Scalapino, 1989</a>]</span>. It can be derived from a Luttinger-Ward functional <span id="id2">[<a class="reference internal" href="bibliography.html#id43" title="J. M. Luttinger and J. C. Ward. Ground-state energy of a many-fermion system. ii. Phys. Rev., 118:1417–1427, Jun 1960. URL: https://link.aps.org/doi/10.1103/PhysRev.118.1417, doi:10.1103/PhysRev.118.1417.">Luttinger and Ward, 1960</a>]</span> containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> to illustrate the practical implementation of the Sparse-ir package for diagrammatic methods.</p>
+<p>For the implementation of a multi-orbital code, please have a look at <span id="id3">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> and <a class="reference external" href="https://github.com/nikwitt/FLEX_IR">FLEX_IR package</a>.</p>
+<div class="section" id="set-of-flex-equations">
+<h3>Set of FLEX equations<a class="headerlink" href="#set-of-flex-equations" title="Permalink to this headline">¶</a></h3>
+<p>We review the set of equations that need to be solved self-consistently in the FLEX approximation. The goal is to solve the Dyson equation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} \\
+&amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
+\end{align}
+\end{split}\]</div>
+<p>for the interacting Green function <span class="math notranslate nohighlight">\(G\)</span> from the non-interacting Greenfunction <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu]^{-1}\)</span> with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> as well as self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> as a function of Matsubara frequencies <span class="math notranslate nohighlight">\(i\omega_n=(2n+1)\pi T\)</span> and momentum <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>. Using the Green function, we calculate the irreducible susceptibility (“bubble diagram”) as</p>
+<div class="math notranslate nohighlight">
+\[ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;.\]</div>
+<p><span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points. This equation is convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary time and real space, resulting in a simple multiplication</p>
+<div class="math notranslate nohighlight">
+\[ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.\]</div>
+<p>In our practical implementation, we will perform this step using the sparse-ir package. The infinite sum of bubble and ladder diagrams can be resummed to yeald a Berk-Shrieffer type interaction []</p>
+<div class="math notranslate nohighlight">
+\[ V(i\nu_m, \boldsymbol{q}) = \frac{3}{2} U^2 \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + \frac{1}{2} U^2 \chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) - U^2 \chi_0(i\nu_m, \boldsymbol{q}) + U \]</div>
+<p>with spin and charge susceptibility like in the Random-Phase-Approximation (RPA)</p>
+<div class="math notranslate nohighlight">
+\[ \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1-U\chi_0(i\nu_m, \boldsymbol{q})} \quad , \quad \chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1+U\chi_0(i\nu_m, \boldsymbol{q})}\;. \]</div>
+<p>The self-energy can be calculated from the convolution</p>
+<div class="math notranslate nohighlight">
+\[ \Sigma(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V(i\nu_m, \boldsymbol{q}) G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q}) \]</div>
+<p>which Fourier transformed to real space takes the form</p>
+<div class="math notranslate nohighlight">
+\[ \Sigma(\tau, \boldsymbol{r}) = V(\tau, \boldsymbol{r}) G(\tau, \boldsymbol{r})\;. \]</div>
+<p>Thus, we have the set of self-consistent equations complete. In every iteration, the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> needs to be adjusted to keep the electron density <span class="math notranslate nohighlight">\(n\)</span> fixed. It can be calculated via solving</p>
+<div class="math notranslate nohighlight">
+\[ n = 2n_{\sigma} = 2 - \frac{2}{N_{\boldsymbol{k}}} \sum_{\boldsymbol{k}} G(\tau=0^+, \boldsymbol{k}) \]</div>
+<p>with a factor 2 from spin degeneracy and <span class="math notranslate nohighlight">\(0^+ = \lim_{\eta\to 0+} \eta\)</span> by using some root finding algorithm like bisection method or Brent’s method.</p>
+</div>
+<div class="section" id="practical-implementation">
+<h3>Practical implementation<a class="headerlink" href="#practical-implementation" title="Permalink to this headline">¶</a></h3>
+<p>When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we discuss in the following.</p>
+<ul class="simple">
+<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
+<li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function: $<span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>$ This smoothes down too strong oscillations of the solution.</p></li>
+<li><p>A bottleneck of the FLEX approximation is the case of too strong interactions. The solution turns numerically unstable, if the denominator of <span class="math notranslate nohighlight">\(\chi_{\mathrm{s}}\)</span> approaches zero, i.e., <span class="math notranslate nohighlight">\(U\max\!\{\chi_{0}\} \to 1\)</span>. Typically, this can be solved by starting with a smaller <span class="math notranslate nohighlight">\(U\)</span> value and slowly turning it up. We call this “<span class="math notranslate nohighlight">\(U\)</span> renormalization”.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+<p>We are implementing the FLEX method for the simple case of a square lattice model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span> with nearest-neighbor hopping <span class="math notranslate nohighlight">\(t\)</span> which sets the energy scale of our system (bandwith <span class="math notranslate nohighlight">\(W = 8t\)</span>). First, we load all necessary basic modules that we are going to need in implementing FLEX and visualizing results:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parameter-setting">
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
+<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># hopping amplitude</span>
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwith</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
+
+<span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span>   <span class="c1"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c1"># inverse temperature</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mi">4</span>      <span class="c1"># Hubbard interaction</span>
+
+<span class="c1">### Numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c1"># number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c1"># accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># accuracy for self-consistent iteration</span>
+<span class="n">it_max</span>    <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
+<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new </span>
+<span class="n">U_it_max</span>  <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="generating-meshes">
+<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">¶</a></h3>
+<p>We need to generate a <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-mesh as well as set up the IR basis functions on a sparse <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(i\omega_n\)</span> grid. Then we can calculate the dispersion on this mesh.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Generating k-mesh and dispersion</span>
+<span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="n">nk1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="n">nk2</span><span class="p">)</span>
+<span class="n">ek</span>     <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+
+<span class="c1">#### Initiate fermionic and bosonic IR basis objects</span>
+<span class="n">basis_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">basis_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+
+
+<span class="c1"># generate instances for sparse sampling grids (we use the default mesh here)</span>
+<span class="n">tauSparse_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis_f</span><span class="p">)</span>
+<span class="n">iwnSparse_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis_f</span><span class="p">)</span>
+
+<span class="n">tauSparse_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis_b</span><span class="p">)</span>
+<span class="n">iwnSparse_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis_b</span><span class="p">)</span>
+
+<span class="c1"># lowest Matsubara frequency index</span>
+<span class="n">iw0_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">iw0_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="c1">### Generate a frequency-momentum grid for iwn and ek (in preparation for calculating the Green function)</span>
+<span class="c1"># frequency mesh (for Green function)</span>
+<span class="n">iwn_f</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">T</span>
+<span class="n">iwn_f_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nk</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># ek mesh</span>
+<span class="n">ek_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="n">ek</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="flex-calculation-steps">
+<h3>FLEX calculation steps<a class="headerlink" href="#flex-calculation-steps" title="Permalink to this headline">¶</a></h3>
+<p>We write functions to calculate each step of the FLEX loop individually (so that we only need to link them later).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Calculate Green function G(iw,k)</span>
+<span class="k">def</span> <span class="nf">gkio_calc</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Expects iwn, ek to be of same shape&#39;&#39;&#39;</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="p">(</span><span class="n">iwn</span> <span class="o">-</span> <span class="p">(</span><span class="n">ek</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma</span> <span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gkio</span>
+
+<span class="c1">### Calculate real space Green function G(tau,r) [for calculating chi0 and sigma]</span>
+<span class="k">def</span> <span class="nf">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">):</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">gkio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">grit</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">grit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for G_l</span>
+    <span class="c1"># both G(tau_F) and G(tau_B) are neeced for calculating sigma and chi0, respectively</span>
+    <span class="n">grit_l</span> <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">grit</span><span class="p">)</span>
+    <span class="n">grit_f</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">grit_l</span><span class="p">)</span>
+    <span class="n">grit_b</span> <span class="o">=</span> <span class="n">tauSparse_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">grit_l</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span>
+
+<span class="c1">### Calculate irreducible susciptibility chi0(iv,q)</span>
+<span class="k">def</span> <span class="nf">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">):</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">grit_b</span> <span class="o">*</span> <span class="n">grit_b</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    
+    <span class="c1"># Fourier transform of momentum</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">ckio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_b</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">ckio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_b</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for chi0_l</span>
+    <span class="n">ckio_l</span> <span class="o">=</span> <span class="n">tauSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">ckio_l</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ckio</span>
+
+<span class="c1">### Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma</span>
+<span class="k">def</span> <span class="nf">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="c1"># spin and charge susceptibility</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    
+    <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span> <span class="o">-</span> <span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ckio</span>
+    <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for V_l on tau_F!</span>
+    <span class="n">V_l</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">V_l</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">V</span>
+
+<span class="c1">### Calculate self-energy Sigma(iwn,k)</span>
+<span class="k">def</span> <span class="nf">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">V</span> <span class="o">*</span> <span class="n">grit_f</span>
+    
+    <span class="c1"># Fourier transform to momentum space</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for sigma_l</span>
+    <span class="n">sigma_l</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+    <span class="n">sigma</span>   <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sigma_l</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sigma</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="setting-the-chemical-potential">
+<h4>Setting the chemical potential<a class="headerlink" href="#setting-the-chemical-potential" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Calculate chemical potential mu from Green function    </span>
+<span class="k">def</span> <span class="nf">calc_electron_density</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">gio</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">g_l</span>  <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gio</span><span class="p">)</span>
+    <span class="n">g_tau0</span> <span class="o">=</span> <span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@g_l</span>
+    
+    <span class="n">n</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
+    <span class="n">n</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="c1">#for spin</span>
+    <span class="k">return</span> <span class="n">n</span>
+
+<span class="c1"># Find chemical potential for a given filling n0 via brentq root finding algorithm</span>
+<span class="k">def</span> <span class="nf">mu_calc</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">calc_electron_density</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">n</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">-</span> <span class="n">n0</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mu</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="execute-flex-loop">
+<h3>Execute FLEX loop<a class="headerlink" href="#execute-flex-loop" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialize calculation</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mu</span>    <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># Start 0th round - corresponds to RPA</span>
+<span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+<span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">)</span>
+<span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">)</span>
+
+<span class="c1"># Check whether U &lt; U_crit! Otherwise, U needs to be renormalized.</span>
+<span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initiate renormalization loop.&#39;</span><span class="p">)</span>
+    
+    <span class="c1"># Save old U for later</span>
+    <span class="n">U_old</span> <span class="o">=</span> <span class="n">U</span>
+    <span class="c1"># Renormalization loop may run infinitely! Insert break condition after U_it_max steps</span>
+    <span class="n">U_it</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">while</span> <span class="n">U_old</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">U_it</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c1"># remormalize U such that U*chi0 &lt; 1</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+        
+        <span class="c1"># perform one shot FLEX loop</span>
+        <span class="n">sigma_old</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="n">gkio_old</span>  <span class="o">=</span> <span class="n">gkio</span>
+        <span class="n">V</span>     <span class="o">=</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+    
+        <span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="n">gkio</span> <span class="o">=</span> <span class="n">mix</span><span class="o">*</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+    
+        <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">)</span>
+        <span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">)</span>
+        
+        <span class="c1"># reset U</span>
+        <span class="n">U</span> <span class="o">=</span> <span class="n">U_old</span>
+        
+        <span class="c1"># break condition for too many steps</span>
+        <span class="k">if</span> <span class="n">U_it</span> <span class="o">==</span> <span class="n">U_it_max</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U renormalization reached breaking point&#39;</span><span class="p">)</span>
+            <span class="k">break</span>
+
+<span class="c1"># Do self-consistent iteration until convergence</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">it_max</span><span class="p">):</span>
+    <span class="n">sigma_old</span> <span class="o">=</span> <span class="n">sigma</span>
+    <span class="n">gkio_old</span>  <span class="o">=</span> <span class="n">gkio</span>
+    <span class="n">V</span>     <span class="o">=</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+    
+    <span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="n">mix</span><span class="o">*</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+    
+    <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">)</span>
+    <span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">)</span>
+    
+    <span class="c1"># Check whether solution is converged.</span>
+    <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">sfc_check</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="n">sfc_tol</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initiate renormalization loop.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.08757050701882461
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.14458517806196805
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.022496516962789898
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.01182607502223439
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.007576749380836261
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.005298268436796728
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.003862726088047783
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.002873781663750474
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0021584597623225295
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0016284507934084416
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0012315292636754921
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>11
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0009331890338140588
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0007086077737272701
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>13
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0005394112523598685
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>14
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0004118689361408585
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>15
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00031563153401797554
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00024290673624857852
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00018780238679926622
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>18
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00014592983406539405
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00011401152358553455
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.956735422398304e-05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualize-results">
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">gkio</span><span class="p">[</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_py_14_0.png" src="../_images/FLEX_py_14_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">ckio</span><span class="p">[</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_py_15_0.png" src="../_images/FLEX_py_15_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="linearized-eliashberg-equation">
+<h2>Linearized Eliashberg equation<a class="headerlink" href="#linearized-eliashberg-equation" title="Permalink to this headline">¶</a></h2>
+<p>One example for which FLEX can be used, is the description of superconductivity arising from spin-fluctuation-mediated pairing. While it is possible to perform FLEX calculations in the symmetry-broken state (Nambu phase), we will here focus on determining the superconducting critical temperature <span class="math notranslate nohighlight">\(T_{\mathrm{c}}\)</span> by solving the linearized Eliashberg equation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\Delta^{(\xi)}(i\omega_n, \boldsymbol{k}) &amp;= \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q})F^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q}) \\
+ &amp;= -\frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q}) |G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q})|^2 \Delta^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q})
+\end{align}
+ \end{split}\]</div>
+<p>for the gap function <span class="math notranslate nohighlight">\(\Delta\)</span> (‘order parameter’) in either the spin singlet (<span class="math notranslate nohighlight">\(\xi=\mathrm{S}\)</span>) or spin triplet (<span class="math notranslate nohighlight">\(\xi=\mathrm{T}\)</span>) pairing channel. <span class="math notranslate nohighlight">\(F^{(\xi)} = -|G|^2\Delta^{(\xi)}\)</span> is the anomalous Green function. In each case, the interaction is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    V^{(\xi=\mathrm{S})}(i\nu_m, \boldsymbol{q}) &amp;= \frac{3}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) + U,\\
+    V^{(\xi=\mathrm{T})}(i\nu_m, \boldsymbol{q}) &amp;= -\frac{1}{2}U^2\chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) - \frac{1}{2}U^2\chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}).
+\end{align}
+\end{split}\]</div>
+<p>The gap equation is effectively an eigenvalue problem with <span class="math notranslate nohighlight">\(\Delta\)</span> being the eigenvector and <span class="math notranslate nohighlight">\(\mathcal{K}\sim V |G|^2\)</span> the matrix. Since we are only interested in the phase transition of the dominant symmetry pairing channel, we can solve for the largest eigenvalue <span class="math notranslate nohighlight">\(\lambda\)</span> via the power method.</p>
+<p>In this tutorial, we want to calculate the superconducting transition line for the dominant singlet <span class="math notranslate nohighlight">\(d\equiv d_{x^2-y^2}\)</span>-wave symmetric gap function. We initialize the calculation with a generic function of this symmetry (constant in frequency space):</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta_{d}^0(\boldsymbol{k}) = \cos(k_x) - \cos(k_y)
+\]</div>
+<div class="section" id="id4">
+<h3>Code implementation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Set up interaction in real space and imaginary time</span>
+<span class="k">def</span> <span class="nf">V_singlet_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    
+    <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span>
+    <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c1"># In the special case of d-wave symmetry, it can be neglected.</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for V_l on tau_F!</span>
+    <span class="n">V_l</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">V_l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">V</span>
+
+<span class="c1">### Calc (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation</span>
+<span class="k">def</span> <span class="nf">F_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="o">-</span> <span class="n">gkio</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">gkio</span><span class="p">)</span><span class="o">*</span><span class="n">delta</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for G_l</span>
+    <span class="c1"># both G(tau_F) and G(tau_B) are neeced for calculating sigma and chi0, respectively</span>
+    <span class="n">F_l</span> <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">F_l</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Start power method loop</span>
+<span class="c1"># Set initial gap function</span>
+<span class="n">delta_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">)</span>
+<span class="n">delta_k</span> <span class="o">=</span> <span class="n">delta_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="n">delta_k</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="c1"># normalize initial guess</span>
+
+<span class="c1"># Start self-consistency loop</span>
+<span class="n">V_singlet</span> <span class="o">=</span> <span class="n">V_singlet_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">)</span>
+
+<span class="n">lam</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">it_max</span><span class="p">):</span>
+    <span class="n">delta_old</span> <span class="o">=</span> <span class="n">delta</span>
+    <span class="n">lam_old</span> <span class="o">=</span> <span class="n">lam</span>
+    
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">delta</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">V_singlet</span> <span class="o">*</span> <span class="n">F</span>
+    
+    <span class="c1"># Fourier transform to momentum space</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for sigma_l</span>
+    <span class="n">delta_l</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+    <span class="n">delta</span>   <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">delta_l</span><span class="p">)</span>
+    
+    <span class="c1"># Calcualte eigenvalue</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="o">*</span><span class="n">delta_old</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sfc_tol</span><span class="p">:</span>
+        <span class="k">break</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The superconducting eigenvalue is lambda_d = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lam</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.10885846909777742
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.10885846909777742
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.40584449241290865
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.29698602331513124
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4494182491085299
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.043573756695621246
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.45617269033927926
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.006754441230749364
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4577756243092219
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0016029339699426548
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.4581551402137718
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.0003795159045498764
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.45825720409295384
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00010206387918204607
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.45828371844136684
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.6514348412998157e-05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.45828371844136684
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h4>Visualize results<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of the gap vs. initial guess</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">delta_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta_k</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta^0_d(k)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">delta</span><span class="p">[</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta_d(k)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_py_21_0.png" src="../_images/FLEX_py_21_0.png" />
+<img alt="../_images/FLEX_py_21_1.png" src="../_images/FLEX_py_21_1.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="example-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+<h2>Example: <span class="math notranslate nohighlight">\(d\)</span>-wave superconductivity in the square-lattice Hubbard model<a class="headerlink" href="#example-d-wave-superconductivity-in-the-square-lattice-hubbard-model" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will reproduce Figs. 3(b) and 4 of <span id="id6">[<a class="reference internal" href="bibliography.html#id44" title="Ryotaro Arita, Kazuhiko Kuroki, and Hideo Aoki. D- and p-wave superconductivity mediated by spin fluctuations in two- and three-dimensional single-band repulsive hubbard model. Journal of the Physical Society of Japan, 69(4):1181-1191, 2000. URL: https://doi.org/10.1143/JPSJ.69.1181, arXiv:https://doi.org/10.1143/JPSJ.69.1181, doi:10.1143/JPSJ.69.1181.">Arita <em>et al.</em>, 2000</a>]</span> or respective Fig. 2(a) of <span id="id7">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue <span class="math notranslate nohighlight">\(\lambda_d\)</span> (as calculated above) and the inverse maximal spin susceptibility <span class="math notranslate nohighlight">\(1/\chi_{\mathrm{s,max}}\)</span>, which indicates tendency towards magnetic ordering.</p>
+<p>In order to perform calcualtions for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to use the dimensionless basis and when Fourier transforming account for a factor <span class="math notranslate nohighlight">\(\sqrt{2}T\)</span> from prefactors <span class="math notranslate nohighlight">\(U_l(\tau) = \sqrt{2T}u_l(x)\)</span> and <span class="math notranslate nohighlight">\(U_l(i\omega_n) = \sqrt{1/T}u_{ln}\)</span> accordingly. We start from high <span class="math notranslate nohighlight">\(T\)</span> and lower its value. Each new <span class="math notranslate nohighlight">\(T\)</span> calculation is initiated using the previously converged solution, since it does not change drastically.</p>
+<p>You can simply execute the following code block which will generate a Figure like in the references above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialization...&#39;</span><span class="p">)</span>
+<span class="c1"># System parameters</span>
+<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># hopping amplitude</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mi">4</span>      <span class="c1"># Hubbard interaction</span>
+
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwith</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
+<span class="n">T_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.08</span><span class="p">,</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.06</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.03</span><span class="p">,</span><span class="mf">0.025</span><span class="p">])</span>   <span class="c1"># temperature</span>
+
+<span class="c1"># empty arrays for results later</span>
+<span class="n">lam_T</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">T_values</span><span class="p">)))</span>
+<span class="n">chiSmax_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">T_values</span><span class="p">)))</span>
+
+<span class="c1"># Numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span>    <span class="c1"># k-mesh sufficiently dense!</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_Lambda</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span>     <span class="c1"># dimensionless IR parameter &gt;= w_max * beta_min = 400</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-8</span>      <span class="c1"># accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># accuracy for self-consistent iteration</span>
+<span class="n">it_max</span>    <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
+<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new </span>
+<span class="n">U_it_max</span>  <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
+
+
+<span class="c1">#%%%%%%%%%%%%%%%% Mesh generation and IR basis initialization</span>
+<span class="c1"># fermionic and bosonic IR basis objects (dimensionless)</span>
+<span class="n">basis_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">IRBasis</span><span class="p">(</span><span class="n">statistics</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">=</span><span class="n">IR_Lambda</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">basis_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">IRBasis</span><span class="p">(</span><span class="n">statistics</span><span class="o">=</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">=</span><span class="n">IR_Lambda</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+
+<span class="c1"># sparse sampling grids (we use the default mesh here)</span>
+<span class="n">tauSparse_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis_f</span><span class="p">)</span>
+<span class="n">iwnSparse_f</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis_f</span><span class="p">)</span>
+
+<span class="n">tauSparse_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis_b</span><span class="p">)</span>
+<span class="n">iwnSparse_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis_b</span><span class="p">)</span>
+
+<span class="c1"># lowest Matsubara frequency index</span>
+<span class="n">iw0_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">iw0_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># k-mesh and dispersion</span>
+<span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="n">nk1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="n">nk2</span><span class="p">)</span>
+<span class="n">ek</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+<span class="n">ek_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">)),</span> <span class="n">ek</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="c1">#%%%%%%%%%%%%%%%% Function definition for calculation</span>
+<span class="c1">### Necessary to reiterate here, so that parameters from above are applied</span>
+<span class="c1">### Calculate Green function G(iw,k)</span>
+<span class="k">def</span> <span class="nf">gkio_calc</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Expects iwn, ek to be of same shape&#39;&#39;&#39;</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="p">(</span><span class="n">iwn</span> <span class="o">-</span> <span class="p">(</span><span class="n">ek</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="n">sigma</span> <span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gkio</span>
+
+<span class="c1">### Calculate real space Green function G(tau,r) [for calculating chi0 and sigma]</span>
+<span class="k">def</span> <span class="nf">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">gkio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">grit</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">grit</span> <span class="o">=</span> <span class="n">grit</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for G_l</span>
+    <span class="c1"># both G(tau_F) and G(tau_B) are neeced for calculating sigma and chi0, respectively</span>
+    <span class="n">grit_l</span> <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">grit</span><span class="p">)</span>
+    <span class="n">grit_f</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">grit_l</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="n">grit_b</span> <span class="o">=</span> <span class="n">tauSparse_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">grit_l</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    
+    <span class="k">return</span> <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span>
+
+<span class="c1">### Calculate irreducible susciptibility chi0(iv,q)</span>
+<span class="k">def</span> <span class="nf">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">grit_b</span> <span class="o">*</span> <span class="n">grit_b</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    
+    <span class="c1"># Fourier transform of momentum</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">ckio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_b</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">ckio</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_b</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for chi0_l</span>
+    <span class="n">ckio_l</span> <span class="o">=</span> <span class="n">tauSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">ckio</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">ckio_l</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">ckio</span>
+
+<span class="c1">### Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma</span>
+<span class="k">def</span> <span class="nf">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="c1"># spin and charge susceptibility</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    
+    <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span> <span class="o">-</span> <span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">ckio</span>
+    <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for V_l on tau_F!</span>
+    <span class="n">V_l</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">V_l</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    
+    <span class="k">return</span> <span class="n">V</span>
+
+<span class="c1">### Calculate self-energy Sigma(iwn,k)</span>
+<span class="k">def</span> <span class="nf">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">V</span> <span class="o">*</span> <span class="n">grit_f</span>
+    
+    <span class="c1"># Fourier transform to momentum space</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for sigma_l</span>
+    <span class="n">sigma_l</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+    <span class="n">sigma</span>   <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">sigma_l</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sigma</span>
+
+<span class="c1">### Calculate chemical potential mu from Green function    </span>
+<span class="k">def</span> <span class="nf">calc_electron_density</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">gio</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">nk</span>
+    <span class="n">g_l</span>  <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gio</span><span class="p">)</span>
+    <span class="n">g_tau0</span> <span class="o">=</span> <span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="nd">@g_l</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    
+    <span class="n">n</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
+    <span class="n">n</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="c1">#for spin</span>
+    <span class="k">return</span> <span class="n">n</span>
+
+<span class="c1"># Find chemical potential for a given filling n0 via brentq root finding algorithm</span>
+<span class="k">def</span> <span class="nf">mu_calc</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">calc_electron_density</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">n</span><span class="p">(</span><span class="n">iwn</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="n">n0</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mu</span>
+
+<span class="c1">### Set up interaction in real space and imaginary time</span>
+<span class="k">def</span> <span class="nf">V_singlet_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+    
+    <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span>
+    <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c1"># In the special case of d-wave symmetry, it can be neglected.</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for V_l on tau_F!</span>
+    <span class="n">V_l</span> <span class="o">=</span> <span class="n">iwnSparse_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">V_l</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    <span class="k">return</span> <span class="n">V</span>
+
+<span class="c1">### Calc (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation</span>
+<span class="k">def</span> <span class="nf">F_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="o">-</span> <span class="n">gkio</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">gkio</span><span class="p">)</span><span class="o">*</span><span class="n">delta</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to real space</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+    <span class="c1"># Fourier transform to imaginary time via IR basis fit for G_l</span>
+    <span class="c1"># both G(tau_F) and G(tau_B) are neeced for calculating sigma and chi0, respectively</span>
+    <span class="n">F_l</span> <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">F_l</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">F</span>
+
+<span class="c1">#%%%%%%%%%%%%%%%% Do FLEX loop + linearized Eliashberg equation</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Entering FLEX calculation loop:&#39;</span><span class="p">)</span>
+<span class="c1"># Initialize calculation</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mu</span>    <span class="o">=</span> <span class="mi">0</span>
+
+<span class="k">for</span> <span class="n">T_it</span><span class="p">,</span> <span class="n">T</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">T_values</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now: T = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+    <span class="n">iwn_f</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">wn</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">T</span>
+    <span class="n">iwn_f_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nk</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+    <span class="c1"># Start 0th round - corresponds to RPA</span>
+    <span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+    <span class="c1"># Check whether U &lt; U_crit! Otherwise, U needs to be renormalized.</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initiate renormalization loop.&#39;</span><span class="p">)</span>
+    
+        <span class="c1"># Save old U for later</span>
+        <span class="n">U_old</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="c1"># Renormalization loop may run infinitely! Insert break condition after U_it_max steps</span>
+        <span class="n">U_it</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="k">while</span> <span class="n">U_old</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">U_it</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+            <span class="c1"># remormalize U such that U*chi0 &lt; 1</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+        
+            <span class="c1"># perform one shot FLEX loop</span>
+            <span class="n">sigma_old</span> <span class="o">=</span> <span class="n">sigma</span>
+            <span class="n">gkio_old</span>  <span class="o">=</span> <span class="n">gkio</span>
+            <span class="n">V</span>     <span class="o">=</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    
+            <span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+            <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+            <span class="n">gkio</span> <span class="o">=</span> <span class="n">mix</span><span class="o">*</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+    
+            <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+            <span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        
+            <span class="c1"># reset U</span>
+            <span class="n">U</span> <span class="o">=</span> <span class="n">U_old</span>
+        
+            <span class="c1"># break condition for too many steps</span>
+            <span class="k">if</span> <span class="n">U_it</span> <span class="o">==</span> <span class="n">U_it_max</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U renormalization reached breaking point&#39;</span><span class="p">)</span>
+                <span class="k">break</span>
+    
+    <span class="c1"># Do self-consistent iteration until convergence</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">it_max</span><span class="p">):</span>
+        <span class="n">sigma_old</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="n">gkio_old</span>  <span class="o">=</span> <span class="n">gkio</span>
+        <span class="n">V</span>     <span class="o">=</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_calc</span><span class="p">(</span><span class="n">grit_f</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span><span class="n">T</span><span class="p">)</span>
+    
+        <span class="n">mu</span>   <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">gkio</span> <span class="o">=</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">iwn_f_</span><span class="p">,</span> <span class="n">ek_</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        <span class="n">gkio</span> <span class="o">=</span> <span class="n">mix</span><span class="o">*</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+    
+        <span class="n">grit_f</span><span class="p">,</span> <span class="n">grit_b</span> <span class="o">=</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">ckio</span>  <span class="o">=</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">grit_b</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        
+        <span class="c1"># Check whether solution is converged.</span>
+        <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
+        <span class="c1">#print(it, sfc_check)</span>
+        <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="n">sfc_tol</span><span class="p">:</span>
+            <span class="k">break</span>
+   
+
+    <span class="c1">### Solve linearized Eliashberg equation</span>
+    <span class="c1"># Set initial gap function</span>
+    <span class="n">delta_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">)</span>
+    <span class="n">delta_k</span> <span class="o">=</span> <span class="n">delta_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="n">delta_k</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="c1"># normalize initial guess</span>
+
+    <span class="c1"># Start self-consistency loop</span>
+    <span class="n">V_singlet</span> <span class="o">=</span> <span class="n">V_singlet_calc</span><span class="p">(</span><span class="n">ckio</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+    <span class="n">lam</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">it_max</span><span class="p">):</span>
+        <span class="n">delta_old</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="n">lam_old</span> <span class="o">=</span> <span class="n">lam</span>
+    
+        <span class="n">F</span> <span class="o">=</span> <span class="n">F_calc</span><span class="p">(</span><span class="n">gkio</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">V_singlet</span> <span class="o">*</span> <span class="n">F</span>
+    
+        <span class="c1"># Fourier transform to momentum space</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">nk</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tauSparse_f</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span> <span class="n">nk</span><span class="p">)</span>
+    
+        <span class="c1"># Fourier transform to Matsubara frequency via IR basis fit for sigma_l</span>
+        <span class="n">delta_l</span> <span class="o">=</span> <span class="n">tauSparse_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+        <span class="n">delta</span>   <span class="o">=</span> <span class="n">iwnSparse_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">delta_l</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span>
+    
+        <span class="c1"># Calcualte eigenvalue</span>
+        <span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="o">*</span><span class="n">delta_old</span><span class="p">)</span> <span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+    
+        <span class="c1">#print(it, lam, abs(lam-lam_old))</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">sfc_tol</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The superconducting eigenvalue is lambda_d = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">lam</span><span class="p">))</span>
+    
+    <span class="c1">### Extract values for plotting results</span>
+    <span class="n">lam_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span>
+    <span class="n">chiSmax_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)))</span>
+    
+    <span class="k">if</span> <span class="n">T</span> <span class="o">==</span> <span class="mf">0.03</span><span class="p">:</span>
+        <span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="n">ckio</span><span class="p">)</span>
+
+
+<span class="c1">#%%%%%%%%%%%%%%%% Plot results in a combined figure</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Plotting the results...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+
+<span class="n">fig</span>   <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">spec</span>  <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">f_ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">f_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># First panel with momentum dependence of static spin susceptibility</span>
+<span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">))</span>
+<span class="n">k_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)))</span>
+<span class="n">chi_s_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">chi_s_plt</span><span class="p">[:</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                          <span class="n">chi_s_plt</span><span class="p">[</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span>
+                          <span class="p">[</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">it</span><span class="p">]</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span> <span class="n">chi_s_HSP</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">,</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">chi_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{s}</span><span class="s1">}(i</span><span class="se">\\</span><span class="s1">nu=0,{</span><span class="se">\\</span><span class="s1">bf</span><span class="si">{q}</span><span class="s1">})$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="c1"># Second panel with T-dependence of lambda_d and 1/chi_s,max</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">lam_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">chiSmax_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$T/t$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\lambda_d$, $1/\chi_{\mathrm</span><span class="si">{s}</span><span class="s1">,\mathrm</span><span class="si">{max}</span><span class="s1">}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Entering FLEX calculation loop:
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.08
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initiate renormalization loop.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.5344740819597865
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.07
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.5781805472821936
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.06
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.633023261101833
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.6987759570720455
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.7805599817812404
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.8864247039081055
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.025
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The superconducting eigenvalue is lambda_d = 0.9525764224346484
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Plotting the results...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<img alt="../_images/FLEX_py_23_38.png" src="../_images/FLEX_py_23_38.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="GW_py.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">GW approximation</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="eliashberg_holstein_py.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Eliashberg equation for Holstein Hubbard model</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Many authors<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
