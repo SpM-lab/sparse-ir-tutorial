@@ -1,11 +1,9 @@
-from copy import deepcopy
 import numpy as np
 
 
-class Solver:
-    """ FLEX solver
-    An object of this class should be immutable.
-    In other words, calling any member function must not modify the object.
+class Mesh:
+    """ 
+    Mesh
     """
     def __init__(self, basis_set, nk1, nk2):
         self.basis_set = basis_set
@@ -37,46 +35,48 @@ class Solver:
 
     def r_to_k(self, obj_r):
         pass
-        
+       
+
+
+def gkio_calc(mesh, mu, sigma):
+    return 1/(mesh.iwn_f  - (mesh.ek - mu) - sigma)
+
+def grit_calc(mesh, gkio):
+    # do something
+
+def ckio_calc(mesh, sigma):
+    # do something
+    return ckio
+
+def solve(mesh, U, simga_init, maxiter, sfc_tol):
+    """
+    Solve FLEX for a given U.
+    The target accuracy can be controlled through the maxiter and scf_tol options.
+
+    sigma_init: Initial guess for the self-energy
+    maxiter: Max number of iterations
+    """
+    # First compute ckio and call renormalization_loop if needed
+    ckio = ***
+    if np.abs(ckio).max() >= 1:
+        sigma = mesh.renormalization_loop(...)
     
-    def gkio_calc(self, mu, sigma):
-        return 1/(self.iwn_f  - (self.ek - mu) - sigma)
+    # Do actual SCF loops
 
-    def grit_calc(self, gkio):
-        # do something
-    
-    def ckio_calc(self, sigma):
-        # do something
-        return ckio
+    return sigma # Returning only simga may be enough because other quanties can be reconstructed from it.
 
-    def solve(self, U, simga_init, maxiter, sfc_tol):
-        """
-        Solve FLEX for a given U.
-        The target accuracy can be controlled through the maxiter and scf_tol options.
 
-        sigma_init: Initial guess for the self-energy
-        maxiter: Max number of iterations
-        """
-        # First compute ckio and call renormalization_loop if needed
-        ckio = ***
-        if np.abs(ckio).max() >= 1:
-            sigma = self.renormalization_loop(...)
-        
-        # Do actual SCF loops
+def renormalization_loop(mesh, n, U_final, sigma_init, U_it_max=100):
+    """
+    Renormalizatoin loop
+    """
+    U = U_final
+    sigma = sigma_init.copy()
+    mu = mu_calc(mesh, n, sigma)
+    gkio = gkio_calc(mesh, mu, sigma)
+    for U_it in range(U_it_max):
+        # Renormalize U and compute ckio
+        if U_final * np.amax(np.abs(ckio)) < 1:
+            break
 
-        return sigma # Returning only simga may be enough because other quanties can be reconstructed from it.
-    
-    def renormalization_loop(self, n, U_final, sigma_init, U_it_max=100):
-        """
-        Renormalizatoin loop
-        """
-        U = U_final
-        sigma = sigma_init.copy()
-        mu = self.mu_calc(n, sigma)
-        gkio = self.gkio_calc(mu, sigma)
-        for U_it in range(U_it_max):
-            # Renormalize U and compute ckio
-            if U_final * np.amax(np.abs(ckio)) < 1:
-                break
-
-        return sigma
+    return sigma
