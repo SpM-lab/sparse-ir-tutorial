@@ -268,7 +268,7 @@ where $a_i$ are now the expansion coefficients. (More advanced methods also opti
 It is useful to use some probability distribution as $f(x)$, as this allows one to translate non-negativity and norm of $\rho(\omega)$ to non-negativity and norm of $a_i$. Since one can only observe "broadened" spectra in experiment for any given temperature, a natural choice is the Lorentz (Cauchy) distribution:
 
 $$
-    f(\omega) = \frac1\pi \frac\eta{(\omega - \omega_i)^2 + \eta^2},
+    f(\omega) = \frac1\pi \frac\eta{\omega^2 + \eta^2},
 $$
 
 where $0\le \eta < \pi T$ is the "sharpness" parameter.  The limit $\eta\to 0$ corresponds to a "hard"  discretization using a set of delta peaks, which should be avoided.
