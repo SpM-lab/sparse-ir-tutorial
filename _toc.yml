@@ -19,6 +19,9 @@ parts:
   - file: src/eliashberg_holstein_py.md
   - file: src/magnetic_susceptibility_py.md
   - file: src/lichtenstein_formula_py.md
+- caption: Analytic continuation
+  chapters:
+  - file: src/analytic_continuation.md
   - file: src/spm_py.md
   - file: src/nevanlinna.md
 - caption: Sample codes (Julia)
