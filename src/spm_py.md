@@ -1,21 +1,20 @@
 ---
 jupytext:
+  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.13.7
 kernelspec:
   display_name: Python 3
+  language: python
   name: python3
 ---
 
-
 # SpM analytic continuation
 
-This example provides an application of `sparse-ir` to the sparse-modeling analytical continuation (SpM) algorithm. We reproduce the result presented in the original paper {cite:p}`Otsuki:2017er`.
+This example provides an application of `sparse-ir` to the sparse-modeling analytic continuation (SpM) algorithm. We reproduce the result presented in the original paper {cite:p}`Otsuki:2017er`.
 
-The analytical continuation can be formulated as the inverse problem of the equation
+The analytic continuation can be formulated as the inverse problem of the equation
 
 $$
   G(\tau) = -\int_{-\infty}^{\infty} d\omega K(\tau, \omega) \rho(\omega).
@@ -50,6 +49,7 @@ for name in ["Gtau.in", "Gtau.in.dos"]:
 ```{code-cell}
 import numpy as np
 #from numpy.typing import NDArray
+%matplotlib inline
 import matplotlib.pyplot as plt
 ```
 
@@ -154,7 +154,7 @@ print(U.shape, S.shape, V.shape)
 ```
 
 
-## SpM analytical continuation
+## SpM analytic continuation
 
 The spectral function $\rho(\omega)$ can be expanded with the IR basis
 
@@ -162,7 +162,7 @@ $$
 \rho(\omega) = \sum_l \rho_l V_l(\omega)
 $$
 
-The SpM analytical continuation algorithm evaluates the coefficient $\{ \rho_l \}$.
+The SpM analytic continuation algorithm evaluates the coefficient $\{ \rho_l \}$.
 Eq. {eq}`lehmann-spm` is rewritten in terms of the IR basis by
 
 $$
