@@ -564,7 +564,7 @@ In order to perform calcualtions for different $T$, we will initiate the IR basi
 You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the references above.
 
 ```{code-cell} ipython3
-:tags: []
+:tags: [output_scroll]
 
 #%%%%%%%%%%%%%%% Parameter settings
 print('Initialization...')

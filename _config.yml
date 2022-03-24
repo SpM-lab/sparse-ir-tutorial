@@ -12,6 +12,7 @@ description: >-
 # Execution settings
 execute:
   execute_notebooks           : cache
+  timeout                     : 120
 
 #######################################################################################
 # HTML-specific settings
