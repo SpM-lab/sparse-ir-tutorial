@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Analytic continuation with SpM &#8212; sparse-ir</title>
+    <title>SpM analytic continuation &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Nevanlinna analytic continuation" href="nevanlinna.html" />
@@ -175,7 +177,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Analytic continuation with SpM
+   SpM analytic continuation
   </a>
  </li>
  <li class="toctree-l1">
@@ -298,6 +300,79 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparation">
+   Preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-data-for-g-tau">
+   Input data for
+   <span class="math notranslate nohighlight">
+    \(G(\tau)\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spectral-function-rho-omega-answer">
+   Spectral function
+   <span class="math notranslate nohighlight">
+    \(\rho(\omega)\)
+   </span>
+   (answer)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ir-basis">
+   IR basis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spm-analytical-continuation">
+   SpM analytical continuation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#admm">
+   ADMM
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#l-2-norms">
+     <span class="math notranslate nohighlight">
+      \(L_2\)
+     </span>
+     norms
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#l-1-norm-regularization">
+     <span class="math notranslate nohighlight">
+      \(L_1\)
+     </span>
+     -norm regularization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#non-negative-constraint">
+     Non-negative constraint
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-the-results">
+   Plot the results
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -305,19 +380,604 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Analytic continuation with SpM</h1>
+                <h1>SpM analytic continuation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preparation">
+   Preparation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-data-for-g-tau">
+   Input data for
+   <span class="math notranslate nohighlight">
+    \(G(\tau)\)
+   </span>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spectral-function-rho-omega-answer">
+   Spectral function
+   <span class="math notranslate nohighlight">
+    \(\rho(\omega)\)
+   </span>
+   (answer)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#ir-basis">
+   IR basis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spm-analytical-continuation">
+   SpM analytical continuation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#admm">
+   ADMM
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#l-2-norms">
+     <span class="math notranslate nohighlight">
+      \(L_2\)
+     </span>
+     norms
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#l-1-norm-regularization">
+     <span class="math notranslate nohighlight">
+      \(L_1\)
+     </span>
+     -norm regularization
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#non-negative-constraint">
+     Non-negative constraint
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-the-results">
+   Plot the results
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="analytic-continuation-with-spm">
-<h1>Analytic continuation with SpM<a class="headerlink" href="#analytic-continuation-with-spm" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="spm-analytic-continuation">
+<h1>SpM analytic continuation<a class="headerlink" href="#spm-analytic-continuation" title="Permalink to this headline">¶</a></h1>
+<p>This example provides an application of <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> to the sparse-modeling analytical continuation (SpM) algorithm. We reproduce the result presented in the original paper <span id="id1">[<a class="reference internal" href="bibliography.html#id23" title="Junya Otsuki, Masayuki Ohzeki, Hiroshi Shinaoka, and Kazuyoshi Yoshimi. Sparse modeling approach to analytical continuation of imaginary-time quantum Monte Carlo data. Physical Review E, 95(6):061302(R), 06 2017. URL: https://journals.aps.org/pre/pdf/10.1103/PhysRevE.95.061302, doi:10.1103/physreve.95.061302.">Otsuki <em>et al.</em>, 2017</a>]</span>.</p>
+<p>The analytical continuation can be formulated as the inverse problem of the equation</p>
+<div class="math notranslate nohighlight" id="equation-lehmann-spm">
+<span class="eqno">(3)<a class="headerlink" href="#equation-lehmann-spm" title="Permalink to this equation">¶</a></span>\[
+  G(\tau) = -\int_{-\infty}^{\infty} d\omega K(\tau, \omega) \rho(\omega).
+\]</div>
+<p>We evaluate <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> for a given <span class="math notranslate nohighlight">\(G(\tau)\)</span>.</p>
+<!-- Because of ill-conditioned nature of the kernel function $K$, the inversion of this equation is sensitive to noise in $G(\tau)$. SpM method extract relevant information in $G(\tau)$ using $L_1$-norm regularization. -->
+<div class="section" id="preparation">
+<h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">¶</a></h2>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sparse_ir
+<span class="o">!</span>pip install admmsolver
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">DEPRECATION: Configuring installation scheme with distutils config files is deprecated and will no longer work in the near future. If you are using a Homebrew or Linuxbrew Python, please see discussion at https://github.com/Homebrew/homebrew-core/issues/76621</span>
+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: sparse_ir in /opt/homebrew/lib/python3.9/site-packages (0.9.0)
+Requirement already satisfied: scipy in /Users/hiroshi/Library/Python/3.9/lib/python/site-packages (from sparse_ir) (1.7.3)
+Requirement already satisfied: setuptools in /Users/hiroshi/Library/Python/3.9/lib/python/site-packages (from sparse_ir) (60.5.0)
+Requirement already satisfied: numpy in /opt/homebrew/lib/python3.9/site-packages (from sparse_ir) (1.22.2)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">DEPRECATION: Configuring installation scheme with distutils config files is deprecated and will no longer work in the near future. If you are using a Homebrew or Linuxbrew Python, please see discussion at https://github.com/Homebrew/homebrew-core/issues/76621</span>
+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">WARNING: You are using pip version 22.0.2; however, version 22.0.4 is available.</span>
+<span class=" -Color -Color-Yellow">You should consider upgrading via the &#39;/opt/homebrew/opt/python@3.9/bin/python3.9 -m pip install --upgrade pip&#39; command.</span>
+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">DEPRECATION: Configuring installation scheme with distutils config files is deprecated and will no longer work in the near future. If you are using a Homebrew or Linuxbrew Python, please see discussion at https://github.com/Homebrew/homebrew-core/issues/76621</span>
+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: admmsolver in /opt/homebrew/lib/python3.9/site-packages (0.7.4)
+Requirement already satisfied: scipy in /Users/hiroshi/Library/Python/3.9/lib/python/site-packages (from admmsolver) (1.7.3)
+Requirement already satisfied: numpy in /opt/homebrew/lib/python3.9/site-packages (from admmsolver) (1.22.2)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">DEPRECATION: Configuring installation scheme with distutils config files is deprecated and will no longer work in the near future. If you are using a Homebrew or Linuxbrew Python, please see discussion at https://github.com/Homebrew/homebrew-core/issues/76621</span>
+<span class=" -Color -Color-Yellow">WARNING: You are using pip version 22.0.2; however, version 22.0.4 is available.</span>
+<span class=" -Color -Color-Yellow">You should consider upgrading via the &#39;/opt/homebrew/opt/python@3.9/bin/python3.9 -m pip install --upgrade pip&#39; command.</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<p>We use a sample data provided in the repository <strong>SpM-lab/SpM</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download data for G(tau) and rhow(omega) from GitHub repo</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
+<span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/&quot;</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Gtau.in&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtau.in.dos&quot;</span><span class="p">]:</span>
+    <span class="n">urlretrieve</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="c1"># Alternatively, we can use the following command:</span>
+<span class="c1">#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in</span>
+<span class="c1">#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in.dos</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#from numpy.typing import NDArray</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="input-data-for-g-tau">
+<h2>Input data for <span class="math notranslate nohighlight">\(G(\tau)\)</span><a class="headerlink" href="#input-data-for-g-tau" title="Permalink to this headline">¶</a></h2>
+<p>We load the sample data provided in the repository <strong>SpM-lab/SpM</strong>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Load Gtau</span>
+<span class="c1"># Gtau = np.loadtxt(&quot;Gtau.in&quot;, skiprows=2)[:, 2]</span>
+<span class="n">Gtau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;Gtau.in&quot;</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">]</span>
+
+<span class="c1"># Set imaginary-time</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">ntau</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gtau</span><span class="p">)</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">ntau</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us plot the input data loaded.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot G(tau)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">Gtau</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/spm_py_8_0.png" src="../_images/spm_py_8_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="spectral-function-rho-omega-answer">
+<h2>Spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> (answer)<a class="headerlink" href="#spectral-function-rho-omega-answer" title="Permalink to this headline">¶</a></h2>
+<p>We generate the real frequency grid for the spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Set omega</span>
+<span class="n">Nomega</span> <span class="o">=</span> <span class="mi">1001</span>
+<span class="n">omegamin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
+<span class="n">omegamax</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">omegamax</span><span class="p">,</span> <span class="n">omegamax</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">Nomega</span><span class="p">)</span>
+<span class="c1"># wnum = len(ws)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The exact spectrum is provided as well. The spectrum is plotted below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_answer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;Gtau.in.dos&quot;</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># Plot rho(omega)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho_answer</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/spm_py_12_0.png" src="../_images/spm_py_12_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="ir-basis">
+<h2>IR basis<a class="headerlink" href="#ir-basis" title="Permalink to this headline">¶</a></h2>
+<p>We first generate IR basis.
+On a discrete grid of <span class="math notranslate nohighlight">\(\{ \tau_i \}\)</span> and <span class="math notranslate nohighlight">\(\{ \omega_j \}\)</span>, the kernel function <span class="math notranslate nohighlight">\(K(\tau, \omega)\)</span> are represented by a matrix <span class="math notranslate nohighlight">\(\hat{K}\)</span> with <span class="math notranslate nohighlight">\(\hat{K}_{ij}=K(\tau_i, \omega_j)\)</span>. The singular value decomposition of <span class="math notranslate nohighlight">\(\hat{K}\)</span> defines the IR basis</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{K} = \hat{U} \hat{S} \hat{V}^\mathrm{T},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{U}_{il}=U_l(\tau_i),
+\quad
+\hat{S}_{ll} = S_l,
+\quad
+\hat{V}_{jl}=V_l(\omega_j).
+\]</div>
+<p>The matrices <span class="math notranslate nohighlight">\(\hat{U}\)</span>, <span class="math notranslate nohighlight">\(\hat{S}\)</span>, and <span class="math notranslate nohighlight">\(\hat{V}\)</span> can be computed by <code class="docutils literal notranslate"><span class="pre">sparse_ir.FiniteTempBasis</span></code> class (<a class="reference external" href="https://sparse-ir.readthedocs.io/en/latest/basis.html">https://sparse-ir.readthedocs.io/en/latest/basis.html</a>).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
+
+<span class="c1">#Set basis</span>
+<span class="n">SVmin</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span>
+            <span class="n">statistics</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">omegamax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">SVmin</span>
+        <span class="p">)</span>
+<span class="c1"># U = basis.u(ts)</span>
+<span class="n">U</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span>
+<span class="c1"># V = basis.v(ws)</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">U</span></code> and <code class="docutils literal notranslate"><span class="pre">V</span></code> are two-dimensional ndarray (matrices), while <code class="docutils literal notranslate"><span class="pre">S</span></code> is a one-dimensional ndarray. Let us confirm it by printing the shapes explictly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4001, 43)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(43,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1001, 43)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="spm-analytical-continuation">
+<h2>SpM analytical continuation<a class="headerlink" href="#spm-analytical-continuation" title="Permalink to this headline">¶</a></h2>
+<p>The spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> can be expanded with the IR basis</p>
+<div class="math notranslate nohighlight">
+\[
+\rho(\omega) = \sum_l \rho_l V_l(\omega)
+\]</div>
+<p>The SpM analytical continuation algorithm evaluates the coefficient <span class="math notranslate nohighlight">\(\{ \rho_l \}\)</span>.
+Eq. <a class="reference internal" href="#equation-lehmann-spm">(3)</a> is rewritten in terms of the IR basis by</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau_i) = \sum_l \hat{U}_{il} S_l \rho_l
+\]</div>
+<p>We represent this equation with the conventional notation</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{y} =A \boldsymbol{x},
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+y_i = -G(\tau_i),
+\quad
+A_{il}\equiv \hat{U}_{il} S_l,
+\quad
+x_l = \rho_l.
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span> is an input, and <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is the quantity to be evaluated.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">Gtau</span>
+<span class="c1"># A = np.einsum(&quot;ji,j-&gt;ij&quot;, U, S)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;il,l-&gt;il&quot;</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>SpM evaluates <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> by solving the optimization problem</p>
+<div class="math notranslate nohighlight">
+\[
+\boldsymbol{x}^{\ast} = \underset{\boldsymbol{x}}{\mathrm{arg\,min}} F(\boldsymbol{x}),
+\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[
+F(\boldsymbol{x}) = \frac{1}{2} \| \boldsymbol{y} - A\boldsymbol{x} \|_2^2
++ \lambda \| \boldsymbol{x} \|_1
++ \infty \| C\boldsymbol{x} - D \|_2^2
++ \infty \Theta (-V\boldsymbol{x}).
+\]</div>
+<p>The first term is the least square fitting to the input, the second term is <strong><span class="math notranslate nohighlight">\(L_1\)</span>-norm regularization</strong>,
+and the third term and the fourth term represent constraints: sum-rule and non-negativity, respectively.</p>
+<p>An obtained solution depends on the value of the regularization parameter <span class="math notranslate nohighlight">\(\lambda\)</span>, which should be optimized based on data science. But, for simplicity, we fix the value of <span class="math notranslate nohighlight">\(\lambda\)</span> in this example.</p>
+<!-- In the following, we denote the four terms in $F(\boldsymbol{x})$ by $F_i(\boldsymbol{x})$ with $i=1, 2, 3, 4$. -->
+<p><strong>Note:</strong>
+In the original SpM paper, the least-square term is evaluated directly in the IR.
+Namely, using <span class="math notranslate nohighlight">\(\hat{U}\hat{U}^{\dagger}=1\)</span>, the least-square term can be converted to</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{2} \| \boldsymbol{y} - A\boldsymbol{x} \|_2^2 = \frac{1}{2} \sum_l (G_l - S_l \rho_l)^2.
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(\hat{U}\)</span> is not a unitary matrix in the present formalism, one cannot use this equation.</p>
+</div>
+<div class="section" id="admm">
+<h2>ADMM<a class="headerlink" href="#admm" title="Permalink to this headline">¶</a></h2>
+<p>We solve the above multi-constaint optimization problem using alternating direction method of multipliers (ADMM).
+To this end, we consider an alternative multivariate optimization problem</p>
+<div class="math notranslate nohighlight">
+\[
+\min_{\boldsymbol{x}_0, \boldsymbol{x}_1, \cdots} \tilde{F}(\boldsymbol{x}_0, \boldsymbol{x}_1, \cdots),
+\]</div>
+<p>subject to equality conditions</p>
+<div class="math notranslate nohighlight">
+\[
+E_{ji} \boldsymbol{x}_i = E_{ij} \boldsymbol{x}_j.
+\]</div>
+<p>Here, the objective function <span class="math notranslate nohighlight">\(F\)</span> is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\tilde{F}(\boldsymbol{x}_0, \boldsymbol{x}_1, \cdots) = \sum_i F_i(\boldsymbol{x}_i)
+\]</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">admmsolver</span></code> package.
+The import statement below shows all necessary classes for implementing the present optimization problem.
+<strong>Note that <code class="docutils literal notranslate"><span class="pre">admmsolver</span></code> is under active development and its interface is subject to future changes.</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">admmsolver</span>
+<span class="kn">import</span> <span class="nn">admmsolver.optimizer</span>
+<span class="kn">import</span> <span class="nn">admmsolver.objectivefunc</span>
+<span class="c1">#from admmsolver.optimizer import Problem</span>
+<span class="kn">from</span> <span class="nn">admmsolver.objectivefunc</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">L1Regularizer</span><span class="p">,</span>
+    <span class="c1">#LeastSquares,</span>
+    <span class="n">ConstrainedLeastSquares</span><span class="p">,</span>
+    <span class="n">NonNegativePenalty</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">admmsolver.matrix</span> <span class="kn">import</span> <span class="n">identity</span>
+<span class="kn">from</span> <span class="nn">admmsolver.optimizer</span> <span class="kn">import</span> <span class="n">SimpleOptimizer</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;admmsolver==&quot;</span><span class="p">,</span> <span class="n">admmsolver</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>admmsolver==
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.7.4
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="l-2-norms">
+<h3><span class="math notranslate nohighlight">\(L_2\)</span> norms<a class="headerlink" href="#l-2-norms" title="Permalink to this headline">¶</a></h3>
+<p>The Green’s function follows the sum-rule</p>
+<div class="math notranslate nohighlight">
+\[
+  \int_{-\infty}^{\infty} d\omega \rho(\omega) = 1
+\]</div>
+<p>More generally (including the self-energy), the right-hand side is given by <span class="math notranslate nohighlight">\(-G(\tau=+0) - G(\tau=\beta-0)\)</span>, which is non-zero for orbital-diagonal components and 0 for off-diagonal components.
+In the IR basis, the left-hand side is reprenseted by</p>
+<div class="math notranslate nohighlight">
+\[
+\int_{-\infty}^{\infty} d\omega \rho(\omega)
+= G(\tau=-0) - G(\tau=0^+) 
+= \sum_l [U_l(\tau=+0) + U_l(\tau=\beta-0) ] S_l \rho_l.
+\]</div>
+<p>This sum-rule can be imposed by an infinite penalty. Together with the least-square term, we obtain</p>
+<div class="math notranslate nohighlight">
+\[
+  F_0(\boldsymbol{x}_0) = \frac{1}{2} \| \boldsymbol{y} - A\boldsymbol{x}_0 \|_2^2 + \infty \| C\boldsymbol{x}_0 - D \|_2^2.
+\]</div>
+<p>These <span class="math notranslate nohighlight">\(L_2\)</span> norm terms are implemented as <code class="docutils literal notranslate"><span class="pre">admmsolver.objectivefunc.ConstrainedLeastSquares</span></code> object.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#sum-rule</span>
+<span class="n">rho_sum</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="c1"># C = (S * (basis.u(0) + basis.u(basis.beta))).reshape(1, -1)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">lstsq_F</span> <span class="o">=</span> <span class="n">ConstrainedLeastSquares</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rho_sum</span><span class="p">]))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="l-1-norm-regularization">
+<h3><span class="math notranslate nohighlight">\(L_1\)</span>-norm regularization<a class="headerlink" href="#l-1-norm-regularization" title="Permalink to this headline">¶</a></h3>
+<p>The <span class="math notranslate nohighlight">\(L_1\)</span>-norm regularization term</p>
+<div class="math notranslate nohighlight">
+\[
+F_1(\boldsymbol{x}_1) = \lambda \| \boldsymbol{x}_1 \|_1
+\]</div>
+<p>is implemented as <code class="docutils literal notranslate"><span class="pre">admmsolver.objectivefunc.L1Regularizer</span></code> object.
+We note that <span class="math notranslate nohighlight">\(\boldsymbol{x}_1\)</span> will be finaly converged to <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**-</span><span class="mf">1.8</span>  <span class="c1"># regularization parameter</span>
+<span class="n">l1_F</span> <span class="o">=</span> <span class="n">L1Regularizer</span><span class="p">(</span><span class="n">lambda_</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we use <span class="math notranslate nohighlight">\(\lambda=10^{-1.8}\)</span>, which was found to be optimal for the present dataset.</p>
+</div>
+<div class="section" id="non-negative-constraint">
+<h3>Non-negative constraint<a class="headerlink" href="#non-negative-constraint" title="Permalink to this headline">¶</a></h3>
+<p>The last term describes the non-negative constraint</p>
+<div class="math notranslate nohighlight">
+\[
+  \rho(\omega) \geq 0
+\]</div>
+<p>Since we have the relation <span class="math notranslate nohighlight">\(\rho(\omega_i)=(\hat{V}\boldsymbol{x})_i\)</span>, this inequality can be represented as a function</p>
+<!-- $$
+  F_2(\boldsymbol{x}) = \infty \Theta (-V\boldsymbol{x})
+$$ -->
+<div class="math notranslate nohighlight">
+\[
+  F_2(\boldsymbol{x}_2) = \infty \Theta (-\boldsymbol{x}_2)
+\]</div>
+<p>We note that <span class="math notranslate nohighlight">\(\boldsymbol{x}_2 = V\boldsymbol{x}_0\)</span> will be imposed later.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># nonneg_F = NonNegativePenalty(V.shape[1])</span>
+<span class="n">nonneg_F</span> <span class="o">=</span> <span class="n">NonNegativePenalty</span><span class="p">(</span><span class="n">Nomega</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now define <code class="docutils literal notranslate"><span class="pre">admmsolver.optimizer.Problem</span></code> by integrating the three obejective functions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objective_functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">lstsq_F</span><span class="p">,</span> <span class="n">l1_F</span><span class="p">,</span> <span class="n">nonneg_F</span><span class="p">]</span>
+<span class="n">equality_conditions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">identity</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">identity</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)),</span>
+    <span class="c1"># (0, 2, V.T, identity(Nomega)),</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">identity</span><span class="p">(</span><span class="n">Nomega</span><span class="p">)),</span>
+<span class="p">]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">admmsolver</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">objective_functions</span><span class="p">,</span> <span class="n">equality_conditions</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">objective_functions</span></code> is a list of functions <span class="math notranslate nohighlight">\(F_0(\boldsymbol{x}_0)\)</span>, <span class="math notranslate nohighlight">\(F_0(\boldsymbol{x}_1)\)</span>, <span class="math notranslate nohighlight">\(F_0(\boldsymbol{x}_2)\)</span>.
+Two equality condition is set to <code class="docutils literal notranslate"><span class="pre">equality_conditions</span></code>.
+The first one denotes <span class="math notranslate nohighlight">\(\boldsymbol{x}_0 = \boldsymbol{x}_1\)</span>, and the second one denotes <span class="math notranslate nohighlight">\(V\boldsymbol{x}_0=\boldsymbol{x}_2\)</span>.
+Thus, the multivariate objective function <span class="math notranslate nohighlight">\(\tilde{F}(\boldsymbol{x}_0, \boldsymbol{x}_1, \boldsymbol{x}_2)\)</span> is reduced to the original objective function <span class="math notranslate nohighlight">\(F(\boldsymbol{x})\)</span>.</p>
+<p>We solve the problem defined above using <code class="docutils literal notranslate"><span class="pre">admmsolver.optimizer.SimpleOptimizer</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxiteration</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">initial_mu</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">opt</span> <span class="o">=</span> <span class="n">SimpleOptimizer</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">initial_mu</span><span class="p">)</span>  <span class="c1"># initialize solver</span>
+<span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">maxiteration</span><span class="p">)</span>  <span class="c1"># solve</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">mu</span></code> is a parameter which controls the convergence, and <code class="docutils literal notranslate"><span class="pre">maxiteration</span></code> is the maximum number of iterations.</p>
+<p>The converged result is stored in <code class="docutils literal notranslate"><span class="pre">opt.x</span></code>, which is a list of vectors <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_1\)</span>, and <span class="math notranslate nohighlight">\(\boldsymbol{x}_2\)</span>. We can access each vector by</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">x</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(43,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(43,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1001,)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> can be reconstructed from the coefficients <span class="math notranslate nohighlight">\(\{ \rho_l \}\)</span> stored in <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># rho = opt.x[0] @ basis.v(ws)</span>
+<span class="c1"># rho = opt.x[0] @ V</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="n">V</span> <span class="o">@</span> <span class="n">x0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-the-results">
+<h2>Plot the results<a class="headerlink" href="#plot-the-results" title="Permalink to this headline">¶</a></h2>
+<p>We plot the spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> computed in the SpM together with the exact solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho_answer</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/var/folders/1t/fxgqx0n17z33mplwpw4n1d8r0000gn/T/ipykernel_61169/3590164245.py:6: UserWarning: Matplotlib is currently using module://matplotlib_inline.backend_inline, which is a non-GUI backend, so cannot show the figure.
+  fig.show()
+</pre></div>
+</div>
+<img alt="../_images/spm_py_36_1.png" src="../_images/spm_py_36_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#save results</span>
+<span class="c1"># specfile = &quot;spectrum.dat&quot;</span>
+<span class="c1"># with open(specfile, &quot;w&quot;) as f:</span>
+<span class="c1">#     f.write(f&quot;# log_lambda = f{lambdalog}\n&quot;)</span>
+<span class="c1">#     for w, r in zip(ws, rho):</span>
+<span class="c1">#         f.write(f&quot;{w} {np.real(r)}\n&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
