@@ -10,7 +10,6 @@ kernelspec:
   name: python3
 ---
 
-+++ {"id": "fNO1wNI13e0p"}
 
 # SpM analytic continuation
 
@@ -25,32 +24,19 @@ $$ (lehmann-spm)
 We evaluate $\rho(\omega)$ for a given $G(\tau)$.
 <!-- Because of ill-conditioned nature of the kernel function $K$, the inversion of this equation is sensitive to noise in $G(\tau)$. SpM method extract relevant information in $G(\tau)$ using $L_1$-norm regularization. -->
 
-+++ {"id": "zGRzTkNg0cW-"}
 
 ## Preparation
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-id: DS_KaCAR2aSc
-outputId: 2ddcb963-f6e8-48c3-ac50-83971587e700
----
+:tags: [hide-output]
 !pip install sparse_ir
 !pip install admmsolver
 ```
 
-+++ {"id": "zMlwQpseWhmy"}
 
 We use a sample data provided in the repository **SpM-lab/SpM**.
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-id: jXpAvzSM0LmE
-outputId: a5eb5817-2ca9-4e5c-ac22-3e2321be97d6
----
 # Download data for G(tau) and rhow(omega) from GitHub repo
 from urllib.request import urlretrieve
 base_url = "https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/"
@@ -62,22 +48,17 @@ for name in ["Gtau.in", "Gtau.in.dos"]:
 ```
 
 ```{code-cell}
-:id: mQsH0sqx1iWS
-
 import numpy as np
 #from numpy.typing import NDArray
 import matplotlib.pyplot as plt
 ```
 
-+++ {"id": "d2XmMAzQT1UF"}
 
 ## Input data for $G(\tau)$
 
 We load the sample data provided in the repository **SpM-lab/SpM**.
 
 ```{code-cell}
-:id: 1_MgJa8HDiio
-
 #Load Gtau
 # Gtau = np.loadtxt("Gtau.in", skiprows=2)[:, 2]
 Gtau = np.loadtxt("Gtau.in")[:, 2]
@@ -88,18 +69,10 @@ ntau = len(Gtau)
 ts = np.linspace(0.0, beta, ntau)
 ```
 
-+++ {"id": "OP6YDaJmU4hH"}
 
 Let us plot the input data loaded.
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 279
-id: yNe2eMLZUEUe
-outputId: 44330779-f5a5-4f09-b9f8-15a7797874d1
----
 # Plot G(tau)
 fig, ax = plt.subplots()
 ax.plot(ts, Gtau, '.')
@@ -108,15 +81,12 @@ ax.set_ylabel(r"$G(\tau)$")
 plt.show()
 ```
 
-+++ {"id": "KkiQWB08VB51"}
 
 ## Spectral function $\rho(\omega)$ (answer)
 
 We generate the real frequency grid for the spectral function $\rho(\omega)$
 
 ```{code-cell}
-:id: eFzjlA3tTTKd
-
 #Set omega
 Nomega = 1001
 omegamin = -4
@@ -125,18 +95,10 @@ ws = np.linspace(-omegamax, omegamax, num=Nomega)
 # wnum = len(ws)
 ```
 
-+++ {"id": "pa0irJtQzqM0"}
 
 The exact spectrum is provided as well. The spectrum is plotted below.
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 279
-id: LSi9YvWucMQ4
-outputId: 3e76228c-b75e-49b0-9709-41b7f48bd0e6
----
 rho_answer = np.loadtxt("Gtau.in.dos")[:, 1]
 
 # Plot rho(omega)
@@ -147,7 +109,6 @@ ax.set_ylabel(r"$\rho(\omega)$")
 plt.show()
 ```
 
-+++ {"id": "darwoBPGTU-p"}
 
 ## IR basis
 
@@ -171,12 +132,6 @@ $$
 The matrices $\hat{U}$, $\hat{S}$, and $\hat{V}$ can be computed by ``sparse_ir.FiniteTempBasis`` class (https://sparse-ir.readthedocs.io/en/latest/basis.html).
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-id: RJXjrjQFTdZ0
-outputId: ae3690d7-6966-4d34-a61d-5b7579166156
----
 import sparse_ir
 
 #Set basis
@@ -191,21 +146,13 @@ S = basis.s
 V = basis.v(ws).T
 ```
 
-+++ {"id": "txNtYcuvuKRi"}
 
 ``U`` and ``V`` are two-dimensional ndarray (matrices), while ``S`` is a one-dimensional ndarray. Let us confirm it by printing the shapes explictly.
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-id: 6uf2p04iipHj
-outputId: 35130304-6f63-4fe4-8b3e-740c3a18c765
----
 print(U.shape, S.shape, V.shape)
 ```
 
-+++ {"id": "5_HrVn2NTfJq"}
 
 ## SpM analytical continuation
 
@@ -241,14 +188,11 @@ $$
 Here, $\boldsymbol{y}$ is an input, and $\boldsymbol{x}$ is the quantity to be evaluated.
 
 ```{code-cell}
-:id: o39FuUPVTswc
-
 y = -Gtau
 # A = np.einsum("ji,j->ij", U, S)
 A = np.einsum("il,l->il", U, S)
 ```
 
-+++ {"id": "j_cQ9kZwV7fm"}
 
 SpM evaluates $\boldsymbol{x}$ by solving the optimization problem
 
@@ -282,7 +226,6 @@ $$
 
 Because $\hat{U}$ is not a unitary matrix in the present formalism, one cannot use this equation.
 
-+++ {"id": "2SMTt5p2GQjp"}
 
 ## ADMM
 
@@ -310,8 +253,6 @@ The import statement below shows all necessary classes for implementing the pres
 **Note that `admmsolver` is under active development and its interface is subject to future changes.** 
 
 ```{code-cell}
-:id: W_-FcNkAR3VQ
-
 import admmsolver
 import admmsolver.optimizer
 import admmsolver.objectivefunc
@@ -327,7 +268,6 @@ from admmsolver.optimizer import SimpleOptimizer
 print("admmsolver==", admmsolver.__version__)
 ```
 
-+++ {"id": "HK8biV-WXncE"}
 
 ### $L_2$ norms
 
@@ -355,8 +295,6 @@ $$
 These $L_2$ norm terms are implemented as ``admmsolver.objectivefunc.ConstrainedLeastSquares`` object.
 
 ```{code-cell}
-:id: 3xjzCJVyXgje
-
 #sum-rule
 rho_sum = y[0] + y[-1]
 # C = (S * (basis.u(0) + basis.u(basis.beta))).reshape(1, -1)
@@ -364,7 +302,6 @@ C = (A[0] + A[-1]).reshape(1, -1)
 lstsq_F = ConstrainedLeastSquares(0.5, A=A, y=y, C=C, D=np.array([rho_sum]))
 ```
 
-+++ {"id": "rUzMqEgUl5hj"}
 
 ### $L_1$-norm regularization
 
@@ -378,17 +315,13 @@ is implemented as ``admmsolver.objectivefunc.L1Regularizer`` object.
 We note that $\boldsymbol{x}_1$ will be finaly converged to $\boldsymbol{x}_0$.
 
 ```{code-cell}
-:id: UjwdkLTRXjEJ
-
 lambda_ = 10**-1.8  # regularization parameter
 l1_F = L1Regularizer(lambda_, basis.size)
 ```
 
-+++ {"id": "x92z8eEhS2H7"}
 
 Here, we use $\lambda=10^{-1.8}$, which was found to be optimal for the present dataset.
 
-+++ {"id": "fwOyGJTDXnBg"}
 
 ### Non-negative constraint
 
@@ -410,19 +343,14 @@ $$
 We note that $\boldsymbol{x}_2 = V\boldsymbol{x}_0$ will be imposed later.
 
 ```{code-cell}
-:id: 5S-X9XnefTAC
-
 # nonneg_F = NonNegativePenalty(V.shape[1])
 nonneg_F = NonNegativePenalty(Nomega)
 ```
 
-+++ {"id": "L_t9qYJLXmjH"}
 
 We now define ``admmsolver.optimizer.Problem`` by integrating the three obejective functions.
 
 ```{code-cell}
-:id: vr2s7gYf-wP8
-
 objective_functions = [lstsq_F, l1_F, nonneg_F]
 equality_conditions = [
     (0, 1, identity(basis.size), identity(basis.size)),
@@ -433,7 +361,6 @@ equality_conditions = [
 p = admmsolver.optimizer.Problem(objective_functions, equality_conditions)
 ```
 
-+++ {"id": "Q5z0OmY4-jla"}
 
 ``objective_functions`` is a list of functions $F_0(\boldsymbol{x}_0)$, $F_0(\boldsymbol{x}_1)$, $F_0(\boldsymbol{x}_2)$.
 Two equality condition is set to ``equality_conditions``.
@@ -443,57 +370,37 @@ Thus, the multivariate objective function $\tilde{F}(\boldsymbol{x}_0, \boldsymb
 We solve the problem defined above using ``admmsolver.optimizer.SimpleOptimizer``.
 
 ```{code-cell}
-:id: Hv0lo315-htJ
-
 maxiteration = 1000
 initial_mu = 1.0
 opt = SimpleOptimizer(p, mu=initial_mu)  # initialize solver
 opt.solve(maxiteration)  # solve
 ```
 
-+++ {"id": "xsQ5l39xB3OY"}
 
 Here, ``mu`` is a parameter which controls the convergence, and ``maxiteration`` is the maximum number of iterations.
 
 The converged result is stored in ``opt.x``, which is a list of vectors $\boldsymbol{x}_0$, $\boldsymbol{x}_1$, and $\boldsymbol{x}_2$. We can access each vector by
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-id: s7sDwZY7-99z
-outputId: af0b23aa-d2b9-4aa9-da1b-89bc92d7c123
----
 x0, x1, x2 = opt.x
 print(x0.shape, x1.shape, x2.shape)
 ```
 
-+++ {"id": "qlYl2jA9W22z"}
 
 The spectral function $\rho(\omega)$ can be reconstructed from the coefficients $\{ \rho_l \}$ stored in $\boldsymbol{x}_0$.
 
 ```{code-cell}
-:id: lSCYYdrJW0_f
-
 # rho = opt.x[0] @ basis.v(ws)
 # rho = opt.x[0] @ V
 rho = V @ x0
 ```
 
-+++ {"id": "xeiYcJ53S6tP"}
 
 ## Plot the results
 
 We plot the spectral function $\rho(\omega)$ computed in the SpM together with the exact solution.
 
 ```{code-cell}
----
-colab:
-  base_uri: https://localhost:8080/
-  height: 279
-id: qzbz9AYe7EXL
-outputId: 3311aa8e-a14e-424a-a2b1-13571b2efdfd
----
 fig, ax = plt.subplots()
 ax.plot(ws, rho_answer, '-c')
 ax.plot(ws, rho.real, '-r')
@@ -503,8 +410,6 @@ fig.show()
 ```
 
 ```{code-cell}
-:id: KZ4-MteFXDrC
-
 #save results
 # specfile = "spectrum.dat"
 # with open(specfile, "w") as f:
