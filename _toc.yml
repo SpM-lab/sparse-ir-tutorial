@@ -16,6 +16,7 @@ parts:
   - file: src/second_order_perturbation_py
   - file: src/GW_py
   - file: src/FLEX_py
+  - file: src/TPSC_py
   - file: src/eliashberg_holstein_py.md
   - file: src/magnetic_susceptibility_py.md
   - file: src/lichtenstein_formula_py.md
