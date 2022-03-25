@@ -15,7 +15,7 @@ Author: [Niklas Witt](mailto:niklas.witt@physik.uni-hamburg.de)
 
 ## Theory of FLEX in the paramagnetic state
 
-The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the Sparse-ir package for diagrammatic methods.
+The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the `sparse-ir` package for diagrammatic methods.
 
 For the implementation of a multi-orbital code, please have a look at {cite:p}`Witt21` and [FLEX_IR package](https://github.com/nikwitt/FLEX_IR).
 
@@ -25,11 +25,11 @@ We review the set of equations that need to be solved self-consistently in the F
 $$
 \begin{align}
 G(i\omega_n,\boldsymbol{k}) &= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} \\
-& = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
+& = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}\;.
 \end{align}
 $$
 
-for the interacting Green function $G$ from the non-interacting Greenfunction $G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu]^{-1}$ with single-particle dispersion $\varepsilon_{\boldsymbol{k}}$ and chemical potential $\mu$ as well as self-energy $\Sigma$ as a function of Matsubara frequencies $i\omega_n=(2n+1)\pi T$ and momentum $\boldsymbol{k}$. Using the Green function, we calculate the irreducible susceptibility ("bubble diagram") as
+for the interacting Green function $G$ from the non-interacting Greenfunction $G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}$ with single-particle dispersion $\varepsilon_{\boldsymbol{k}}$ and chemical potential $\mu$ as well as self-energy $\Sigma$ as a function of Matsubara frequencies $i\omega_n=(2n+1)\pi T$ and momentum $\boldsymbol{k}$. Using the Green function, we calculate the irreducible susceptibility ("bubble diagram") as
 
 $$ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;.$$
 
@@ -37,7 +37,7 @@ $N_{\boldsymbol{k}}$ denotes the number of $\boldsymbol{k}$-points. This equatio
 
 $$ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.$$
 
-In our practical implementation, we will perform this step using the sparse-ir package. The infinite sum of bubble and ladder diagrams can be resummed to yeald a Berk-Shrieffer type interaction {cite:p}`Berk1966`
+In our practical implementation, we will perform this step using the 'sparse-ir' package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction {cite:p}`Berk1966`
 
 $$ V(i\nu_m, \boldsymbol{q}) = \frac{3}{2} U^2 \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + \frac{1}{2} U^2 \chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) - U^2 \chi_0(i\nu_m, \boldsymbol{q}) + U $$
 
@@ -69,7 +69,7 @@ When implementing the fully self-consistent FLEX loop, a few points need to be t
 +++
 
 ## Code implementation
-We are implementing the FLEX method for the simple case of a square lattice model with dispersion $\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]$ with nearest-neighbor hopping $t$ which sets the energy scale of our system (bandwith $W = 8t$). First, we load all necessary basic modules that we are going to need in implementing FLEX and visualizing results:
+We implement the FLEX method for the simple case of a square lattice Hubbard model with dispersion $\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]$ with nearest-neighbor hopping $t$ which sets the energy scale of our system (bandwidth $W = 8t$). First, we load all necessary basic modules that we are going to need in implementing FLEX and visualizing results:
 
 ```{code-cell} ipython3
 import numpy as np
@@ -120,7 +120,7 @@ class Mesh:
     def __init__(self,IR_basis_set,nk1,nk2):
         self.IR_basis_set = IR_basis_set
 
-        # Generating k-mesh and dispersio
+        # generate k-mesh and dispersion
         self.nk1, self.nk2, self.nk = nk1, nk2, nk1*nk2
         self.k1, self.k2 = np.meshgrid(np.arange(self.nk1)/self.nk1, np.arange(self.nk2)/self.nk2)
         self.ek = -2*t*( np.cos(2*np.pi*self.k1) + np.cos(2*np.pi*self.k2) ).reshape(nk)
@@ -154,7 +154,7 @@ class Mesh:
         return obj_wn
 
     def wn_to_tau(self, statistics, obj_wn):
-        """ Fourier transform from tau to iw_n via IR basis """
+        """ Fourier transform from iw_n to tau via IR basis """
         smpl_tau, smpl_wn = self.smpl_obj(statistics)
 
         obj_wn  = obj_wn.reshape((smpl_wn.wn.size, self.nk1, self.nk2))
@@ -187,8 +187,8 @@ class FLEXSolver:
                  maxiter=100, U_maxiter=10, mix=0.2, verbose=True):
         """
         Solver class to calculate the FLEX loop self-consistently.
-        After initializing the Solver by `solver = FLEX_Solver(mesh, U, n, **kwargs)` it 
-        can be run by `solver.solve()`.
+        After initializing the Solver by `solver = FLEXSolver(mesh, U, n, **kwargs)` 
+        it can be run by `solver.solve()`.
         """
         ## Set internal parameters for the solve 
         self.U = U
@@ -202,7 +202,7 @@ class FLEXSolver:
         self.verbose = verbose
         
         ## Set initial Green function and irreducible susceptibility
-        # NOT running the FLEX_Solver.solve instance corresponds to staying on RPA level
+        # NOT running the FLEXSolver.solve instance corresponds to staying on RPA level
         self.mu = 0
         self.mu_calc()
         
@@ -212,18 +212,18 @@ class FLEXSolver:
     
     
     #%%%%%%%%%%% Loop solving instance
-    # FLEX_solver.solve executes FLEX loop until convergence 
     def solve(self):
-        # Check whether U < U_crit! Otherwise, U needs to be renormalized.
+        """ FLEXSolver.solve() executes FLEX loop until convergence """
+        # check whether U < U_crit! Otherwise, U needs to be renormalized.
         if np.amax(np.abs(self.ckio))*self.U >= 1:
             self.U_renormalization()
             
-        # Perform loop until convergence is reached:
+        # perform loop until convergence is reached:
         for it in range(self.maxiter):
             sigma_old = self.sigma
             self.loop()
 
-            # Check whether solution is converged.
+            # check whether solution is converged.
             sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 
             if self.verbose:
@@ -232,8 +232,8 @@ class FLEXSolver:
                 print("FLEX loop converged at desired accuracy")
                 break
     
-    # FLEX loop
     def loop(self):
+        """ FLEX loop """
         gkio_old = self.gkio
         
         self.V_calc()
@@ -249,12 +249,13 @@ class FLEXSolver:
 
     #%%%%%%%%%%% U renormalization loop instance
     def U_renormalization(self):
+        """ Loop for renormalizing U if Stoner enhancement U*max{chi0} >= 1. """
         print('WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!')
         print('Initiate U renormalization loop.')
     
-        # Save old U for later
+        # save old U for later
         U_old = self.U
-        # Renormalization loop may run infinitely! Insert break condition after U_it_max steps
+        # renormalization loop may run infinitely! Insert break condition after U_it_max steps
         U_it = 0
     
         while U_old*np.amax(np.abs(self.ckio)) >= 1:
@@ -277,27 +278,27 @@ class FLEXSolver:
         print('Leaving U renormalization...')
     
     #%%%%%%%%%%% Calculation steps
-    # Calculate Green function G(iw,k)
     def gkio_calc(self, mu):
+        """ calculate Green function G(iw,k) """
         self.gkio = (self.mesh.iwn_f_ - (self.mesh.ek_ - mu) - self.sigma)**(-1)
 
-    # Calculate real space Green function G(tau,r) [for calculating chi0 and sigma]
     def grit_calc(self):
+        """ Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] """
         # Fourier transform
         grit = self.mesh.k_to_r(self.gkio)
         self.grit = self.mesh.wn_to_tau('F', grit)
 
-    # Calculate irreducible susciptibility chi0(iv,q)
     def ckio_calc(self):
+        """ Calculate irreducible susciptibility chi0(iv,q) """
         ckio = self.grit * self.grit[::-1, :]
 
-        #Fourier transform
+        # Fourier transform
         ckio = self.mesh.r_to_k(ckio)
         self.ckio = self.mesh.tau_to_wn('B', ckio)
 
-    # Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma
     def V_calc(self):
-        # Check whether U is too large and give warning
+        """ Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma """
+        # check whether U is too large and give warning
         if np.amax(np.abs(self.ckio))*self.U >= 1:
             warn("U*max(chi0) >= 1! Paramagnetic phase is left and calculations will turn unstable!")
         
@@ -309,12 +310,12 @@ class FLEXSolver:
         # Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.
         # In the single-band case, the Hartree term can be absorbed into the chemical potential.
 
-        # Fourier 
+        # Fourier transform
         V = self.mesh.k_to_r(V)
         self.V = self.mesh.wn_to_tau('B', V)
 
-    # Calculate self-energy Sigma(iwn,k)
     def sigma_calc(self):
+        """ Calculate self-energy Sigma(iw,k) """
         sigma = self.V * self.grit
     
         # Fourier transform
@@ -323,8 +324,8 @@ class FLEXSolver:
     
     
     #%%%%%%%%%%% Setting chemical potential mu
-    # Calculate chemical potential mu from Green function    
     def calc_electron_density(self, mu):
+        """ Calculate electron density from Green function """
         self.gkio_calc(mu)
         gio  = np.sum(self.gkio,axis=1)/self.mesh.nk
         g_l  = self.mesh.IR_basis_set.smpl_wn_f.fit(gio)
@@ -334,8 +335,8 @@ class FLEXSolver:
         n  = 2*n #for spin
         return n
 
-    # Find chemical potential for a given filling n0 via brentq root finding algorithm
     def mu_calc(self):
+        """ Find chemical potential for a given filling n0 via brent's root finding algorithm """
         n_calc = self.calc_electron_density
         n0 = self.n
         f  = lambda mu : n_calc(mu) - n0
@@ -348,12 +349,12 @@ class FLEXSolver:
 ```{code-cell} ipython3
 :tags: [output_scroll]
 
-# Initialize calculation
+# initialize calculation
 IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
 mesh = Mesh(IR_basis_set, nk1, nk2)
 solver = FLEXSolver(mesh, U, n, sigma_init=0, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
 
-# Perform FLEX loop
+# perform FLEX loop
 solver.solve()
 ```
 
@@ -388,7 +389,7 @@ plt.show()
 ```
 
 ## Linearized Eliashberg equation
-One example for which FLEX can be used, is the description of superconductivity arising from spin-fluctuation-mediated pairing. While it is possible to perform FLEX calculations in the symmetry-broken state (Nambu phase), we will here focus on determining the superconducting critical temperature $T_{\mathrm{c}}$ by solving the linearized Eliashberg equation
+One example for which FLEX can be used is the description of superconductivity arising from spin-fluctuation-mediated pairing. While it is possible to perform FLEX calculations in the symmetry-broken state (Nambu phase), we will here focus on determining the superconducting critical temperature $T_{\mathrm{c}}$ by solving the linearized Eliashberg equation
 
 $$
 \begin{align}
@@ -397,7 +398,7 @@ $$
 \end{align}
  $$
 
-for the gap function $\Delta$ ('order parameter') in either the spin singlet ($\xi=\mathrm{S}$) or spin triplet ($\xi=\mathrm{T}$) pairing channel. $F^{(\xi)} = -|G|^2\Delta^{(\xi)}$ is the anomalous Green function. Just like the convoluted sum for the self-energy, we can calculate this equation easily after Fourier transforming to
+for the gap function $\Delta$ ('order parameter') in either the spin singlet ($\xi=\mathrm{S}$) or spin triplet ($\xi=\mathrm{T}$) pairing channel. $F^{(\xi)} = -|G|^2\Delta^{(\xi)}$ is the anomalous Green function. Just like the convoluted sum for the self-energywe can calculate this equation easily after Fourier transforming to
 
 $$
 \begin{align}
@@ -462,6 +463,7 @@ class LinearizedGapSolver:
         self.lam = 0
         
     def solve(self):
+        """ Solving instance to find eigenvalue from power method """
         for it in range(self.maxiter):
             lam_old = self.lam
             delta_old = self.delta
@@ -473,7 +475,7 @@ class LinearizedGapSolver:
             delta = self.mesh.r_to_k(delta)
             delta = self.mesh.tau_to_wn('F',delta)
     
-            # Calcualte eigenvalue
+            # calculate eigenvalue
             self.lam = np.real( np.sum(np.conj(delta)*delta_old) )
             self.delta = delta / np.linalg.norm(delta)
     
@@ -483,8 +485,8 @@ class LinearizedGapSolver:
                 break   
     
     #%%%%%%%%%%% Calculation steps
-    # Set up interaction in real space and imaginary time
     def V_singlet_calc(self):
+        """ Set up interaction in real space and imaginary time """
     
         V = 3/2*self.U**2 * self.chi_spin - 1/2*self.U**2 * self.chi_charge
         # Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.
@@ -494,8 +496,8 @@ class LinearizedGapSolver:
         V = self.mesh.k_to_r(V)
         self.V_singlet = self.mesh.wn_to_tau('B', V)
 
-    ### Calc (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation
     def frit_calc(self):
+        """ Calculate (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation """
         self.fkio = - self.gkio*np.conj(self.gkio)*self.delta
         
         # Fourier transform
@@ -568,16 +570,16 @@ You can simply execute the following two code blocks which will first perform th
 
 #%%%%%%%%%%%%%%% Parameter settings
 print('Initialization...')
-# System parameters
+# system parameters
 t    = 1      # hopping amplitude
 n    = 0.85   # electron filling, here per spin per lattice site (n=1: half filling)
 U    = 4      # Hubbard interaction
 
-W    = 8*t    # bandwith
+W    = 8*t    # bandwidth
 wmax = 10     # set wmax >= W
 T_values = np.array([0.08,0.07,0.06,0.05,0.04,0.03,0.025])   # temperature
 
-# Numerical parameters
+# numerical parameters
 nk1, nk2  = 64, 64    # k-mesh sufficiently dense!
 nk        = nk1*nk2
 IR_Lambda = 10**3     # dimensionless IR parameter >= w_max * beta_min = 400
@@ -587,37 +589,38 @@ it_max    = 30        # maximal number of iterations in self-consistent cycle
 mix       = 0.2       # mixing parameter for new 
 U_it_max  = 50        # maximal number of iteration steps in U renormalization loop
 
-# Initialize first IR basis set (no recalculation afterwrds)
+# initialize first IR basis set (no recalculation afterwrds)
 beta_init = 1/T_values[0]
 IR_basis_set = sparse_ir.FiniteTempBasisSet(beta_init, IR_Lambda/beta_init, eps=IR_tol)
 
-# Set initial self_energy - will be set to previous calculation step afterwards
+# set initial self_energy - will be set to previous calculation step afterwards
 sigma_init = 0
 
-# empty arrays for results later
+# empty arrays for results
 lam_T     = np.empty((len(T_values)))
 chiSmax_T = np.empty((len(T_values)))
+
 
 #%%%%%%%%%%%%%%% Calculations for different T values
 for T_it, T in enumerate(T_values):
     print("Now: T = {}".format(T))
     beta = 1/T
 
-    # Initialize meshes
+    # initialize meshes
     IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, IR_Lambda/beta, eps=IR_tol, sve_result=IR_basis_set.sve_result)
     mesh = Mesh(IR_basis_set, nk1, nk2)
     
-    # Calculate FLEX loop
+    # calculate FLEX loop
     solver = FLEXSolver(mesh, U, n, sigma_init=sigma_init, sfc_tol=sfc_tol, 
                         maxiter=maxiter, U_maxiter=U_maxiter, mix=mix, verbose=False)
     solver.solve()
     sigma_init = solver.sigma
 
-    # Calculate linearized gap equation
+    # calculate linearized gap equation
     gap_solver = LinearizedGapSolver(solver, maxiter=maxiter, sfc_tol=sfc_tol, verbose=False)
     gap_solver.solve()
     
-    # Save data for plotting
+    # save data for plotting
     lam_T[T_it] = gap_solver.lam#
     chiSmax_T[T_it] = np.real(np.amax(solver.chi_spin))
     
@@ -634,7 +637,7 @@ spec  = gridspec.GridSpec(ncols=2, nrows=1, figure=fig)
 f_ax1 = fig.add_subplot(spec[0, 0])
 f_ax2 = fig.add_subplot(spec[0, 1])
 
-# First panel with momentum dependence of static spin susceptibility
+# first panel with momentum dependence of static spin susceptibility
 k_HSP = np.concatenate((np.linspace(0,1,mesh.nk1//2),
                         np.linspace(1,2,mesh.nk2//2),
                         np.linspace(2,2+np.sqrt(2),mesh.nk1//2)))
@@ -651,7 +654,7 @@ f_ax1.set_xlabel('')
 f_ax1.set_ylabel('$\\chi_{\\mathrm{s}}(i\\nu=0,{\\bf{q}})$', fontsize=14)
 f_ax1.grid()
 
-# Second panel with T-dependence of lambda_d and 1/chi_s,max
+# second panel with T-dependence of lambda_d and 1/chi_s,max
 f_ax2.plot(T_values, lam_T, '-x', label='$\lambda_d$')
 f_ax2.plot(T_values, 1/chiSmax_T, '-x', label='$1/\chi_{\mathrm{s},\mathrm{max}}$')
 f_ax2.set_xlim([0.01,0.08])
