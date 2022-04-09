@@ -1,12 +1,3 @@
-# Welcome to sparse-ir
+# Welcome to sparse-ir tutorial
 
-sparse-ir
-
-
-## Contents
-
-Import Sections 7 and 8 of [the Hiroshi's lecture note](https://www.overleaf.com/read/trcfnpmrhbcr) into the document.
-
-The additional contents will be the follwoing (feel free to add what you want):
-* Sparse pole representation (SPR)
-* How to use from your Fortran/C++ programs (through SPR)
+This online document provides comprehensive tutorials of the Python library [sparse-ir](https://github.com/SpM-lab/sparse-ir) library as well as its port to [Julia](https://github.com/SpM-lab/SparseIR.jl) and [Fortran](https://github.com/SpM-lab/sparse-ir-fortran).

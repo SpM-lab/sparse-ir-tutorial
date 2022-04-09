@@ -138,12 +138,17 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="GW_py.html">
-   GW approximation
+   The GF2 &amp; GW method
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="FLEX_py.html">
    FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="TPSC_py.html">
+   TPSC approximation
   </a>
  </li>
  <li class="toctree-l1">
@@ -281,7 +286,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/transformation_jl.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/transformation_jl.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -378,10 +383,10 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Poles<a class="headerlink" href="#poles" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">SparseIR</span>
-<span class="c">#ENV[&quot;MPLBACKEND&quot;]=&quot;tkagg&quot;</span>
-<span class="k">using</span> <span class="n">PyPlot</span>
-<span class="k">using</span> <span class="n">OMEinsum</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">SparseIR</span>
+<span class="c1">#ENV[&quot;MPLBACKEND&quot;]=&quot;tkagg&quot;</span>
+<span class="n">using</span> <span class="n">PyPlot</span>
+<span class="n">using</span> <span class="n">OMEinsum</span>
 
 
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">15</span>
@@ -391,44 +396,38 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">coeff</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
 <span class="n">omega_p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">]</span>
 
-<span class="n">rhol_pole</span> <span class="o">=</span> <span class="sa">ein</span><span class="s">&quot;lp,p-&gt;l&quot;</span><span class="p">(</span>
+<span class="n">rhol_pole</span> <span class="o">=</span> <span class="n">ein</span><span class="s2">&quot;lp,p-&gt;l&quot;</span><span class="p">(</span>
     <span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span>
     <span class="n">coeff</span> <span class="o">./</span> <span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">)</span>
 <span class="p">)</span>
 <span class="n">gl_pole</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">s</span> <span class="o">.*</span> <span class="n">rhol_pole</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;|</span><span class="se">\r</span><span class="s2">ho_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;|g_l|&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_2_0.png" src="../_images/transformation_jl_2_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span> <span class="o">=</span> <span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span> <span class="n">omega_p</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span> <span class="o">=</span> <span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span> <span class="n">omega_p</span><span class="p">)</span>
 <span class="n">gl_pole2</span> <span class="o">=</span> <span class="n">to_IR</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$ from SPR&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;$|g_l|$ from SPR&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_3_0.png" src="../_images/transformation_jl_3_0.png" />
 </div>
 </div>
 </div>
@@ -436,63 +435,54 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Three Gaussian peaks (normalized to 1)</span>
-<span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Three Gaussian peaks (normalized to 1)</span>
+<span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">π</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span>
 
 <span class="n">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span> <span class="o">+</span> 
     <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
 
-<span class="n">omegas</span> <span class="o">=</span> <span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span>
+<span class="n">omegas</span> <span class="o">=</span> <span class="n">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;\omega&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">ho(\omega)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span>
-<span class="c">#plt.show()</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 <span class="p">;</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_5_0.png" src="../_images/transformation_jl_5_0.png" />
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">basis</span> <span class="o">=</span> <span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">fermion</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1e-10</span><span class="p">)</span>
 
 <span class="n">rhol</span> <span class="o">=</span> <span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">rho</span><span class="p">)</span>
 <span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">.*</span> <span class="n">rhol</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;|</span><span class="se">\r</span><span class="s2">ho_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">L</span><span class="s2">&quot;|g_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_6_0.png" src="../_images/transformation_jl_6_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rho_omgea_reconst</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span> <span class="o">*</span> <span class="n">rhol</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rho_omgea_reconst</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span> <span class="o">*</span> <span class="n">rhol</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;\omega&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;</span><span class="se">\r</span><span class="s2">ho(\omega)&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span>
-<span class="c">#plt.show()</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_7_0.png" src="../_images/transformation_jl_7_0.png" />
 </div>
 </div>
 </div>
@@ -500,34 +490,28 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From IR to imaginary time<a class="headerlink" href="#from-ir-to-imaginary-time" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">taus</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">taus</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="n">LinRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
 <span class="n">gtau1</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">))</span> <span class="o">*</span> <span class="n">gl</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span>
-<span class="c">#plt.show()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">au&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;G(</span><span class="se">\t</span><span class="s2">au)&quot;</span><span class="p">)</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_9_0.png" src="../_images/transformation_jl_9_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span> <span class="o">=</span> <span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">taus</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span> <span class="o">=</span> <span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">taus</span><span class="p">)</span>
 <span class="n">gtau2</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl</span><span class="p">,</span> <span class="n">gl</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span>
-<span class="c">#plt.show()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">au&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;G(</span><span class="se">\t</span><span class="s2">au)&quot;</span><span class="p">)</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_10_0.png" src="../_images/transformation_jl_10_0.png" />
 </div>
 </div>
 </div>
@@ -535,27 +519,24 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From full imaginary-time data<a class="headerlink" href="#from-full-imaginary-time-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">eval_gtau</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span>
-    <span class="n">uval</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span> <span class="c">#(nl, ntau)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">eval_gtau</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span>
+    <span class="n">uval</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span> <span class="c1">#(nl, ntau)</span>
     <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="n">uval</span><span class="p">)</span> <span class="o">*</span> <span class="n">gl</span>
-<span class="k">end</span>
+<span class="n">end</span>
 
 <span class="n">gl_reconst</span> <span class="o">=</span> <span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">,</span> <span class="n">eval_gtau</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;reconstructed&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;exact&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span> <span class="o">-</span> <span class="n">gl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;reconstructed&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span> <span class="o">-</span> <span class="n">gl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;l&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">L</span><span class="s2">&quot;|g_l|&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-20</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
+<span class="c1">#plt.show()</span>
 <span class="p">;</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/transformation_jl_12_0.png" src="../_images/transformation_jl_12_0.png" />
 </div>
 </div>
 </div>

@@ -1,21 +1,20 @@
 ---
 jupytext:
+  formats: ipynb,md:myst
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.13.7
 kernelspec:
   display_name: Python 3
+  language: python
   name: python3
 ---
 
-
 # SpM analytic continuation
 
-This example provides an application of `sparse-ir` to the sparse-modeling analytical continuation (SpM) algorithm. We reproduce the result presented in the original paper {cite:p}`Otsuki:2017er`.
+This example provides an application of `sparse-ir` to the sparse-modeling analytic continuation (SpM) algorithm. We reproduce the result presented in the original paper {cite:p}`Otsuki:2017er`.
 
-The analytical continuation can be formulated as the inverse problem of the equation
+The analytic continuation can be formulated as the inverse problem of the equation
 
 $$
   G(\tau) = -\int_{-\infty}^{\infty} d\omega K(\tau, \omega) \rho(\omega).
@@ -28,7 +27,7 @@ We evaluate $\rho(\omega)$ for a given $G(\tau)$.
 ## Preparation
 
 ```{code-cell}
-:tags: [hide-output]
+:tags: [remove-output]
 !pip install sparse_ir
 !pip install admmsolver
 ```
@@ -49,7 +48,7 @@ for name in ["Gtau.in", "Gtau.in.dos"]:
 
 ```{code-cell}
 import numpy as np
-#from numpy.typing import NDArray
+%matplotlib inline
 import matplotlib.pyplot as plt
 ```
 
@@ -60,7 +59,6 @@ We load the sample data provided in the repository **SpM-lab/SpM**.
 
 ```{code-cell}
 #Load Gtau
-# Gtau = np.loadtxt("Gtau.in", skiprows=2)[:, 2]
 Gtau = np.loadtxt("Gtau.in")[:, 2]
 
 # Set imaginary-time
@@ -92,7 +90,6 @@ Nomega = 1001
 omegamin = -4
 omegamax = 4
 ws = np.linspace(-omegamax, omegamax, num=Nomega)
-# wnum = len(ws)
 ```
 
 
@@ -139,10 +136,8 @@ SVmin = 1e-10
 basis = sparse_ir.FiniteTempBasis(
             statistics="F", beta=beta, wmax=omegamax, eps=SVmin
         )
-# U = basis.u(ts)
 U = basis.u(ts).T
 S = basis.s
-# V = basis.v(ws)
 V = basis.v(ws).T
 ```
 
@@ -150,11 +145,11 @@ V = basis.v(ws).T
 ``U`` and ``V`` are two-dimensional ndarray (matrices), while ``S`` is a one-dimensional ndarray. Let us confirm it by printing the shapes explictly.
 
 ```{code-cell}
-print(U.shape, S.shape, V.shape)
+print(f"{U.shape}, {S.shape}, {V.shape}")
 ```
 
 
-## SpM analytical continuation
+## SpM analytic continuation
 
 The spectral function $\rho(\omega)$ can be expanded with the IR basis
 
@@ -162,7 +157,7 @@ $$
 \rho(\omega) = \sum_l \rho_l V_l(\omega)
 $$
 
-The SpM analytical continuation algorithm evaluates the coefficient $\{ \rho_l \}$.
+The SpM analytic continuation algorithm evaluates the coefficient $\{ \rho_l \}$.
 Eq. {eq}`lehmann-spm` is rewritten in terms of the IR basis by
 
 $$
@@ -189,7 +184,6 @@ Here, $\boldsymbol{y}$ is an input, and $\boldsymbol{x}$ is the quantity to be e
 
 ```{code-cell}
 y = -Gtau
-# A = np.einsum("ji,j->ij", U, S)
 A = np.einsum("il,l->il", U, S)
 ```
 
@@ -256,7 +250,6 @@ The import statement below shows all necessary classes for implementing the pres
 import admmsolver
 import admmsolver.optimizer
 import admmsolver.objectivefunc
-#from admmsolver.optimizer import Problem
 from admmsolver.objectivefunc import (
     L1Regularizer,
     #LeastSquares,
@@ -265,7 +258,7 @@ from admmsolver.objectivefunc import (
 )
 from admmsolver.matrix import identity
 from admmsolver.optimizer import SimpleOptimizer
-print("admmsolver==", admmsolver.__version__)
+print(f"admmsolver=={admmsolver.__version__}")
 ```
 
 
@@ -295,9 +288,8 @@ $$
 These $L_2$ norm terms are implemented as ``admmsolver.objectivefunc.ConstrainedLeastSquares`` object.
 
 ```{code-cell}
-#sum-rule
+# sum-rule
 rho_sum = y[0] + y[-1]
-# C = (S * (basis.u(0) + basis.u(basis.beta))).reshape(1, -1)
 C = (A[0] + A[-1]).reshape(1, -1)
 lstsq_F = ConstrainedLeastSquares(0.5, A=A, y=y, C=C, D=np.array([rho_sum]))
 ```
@@ -343,7 +335,6 @@ $$
 We note that $\boldsymbol{x}_2 = V\boldsymbol{x}_0$ will be imposed later.
 
 ```{code-cell}
-# nonneg_F = NonNegativePenalty(V.shape[1])
 nonneg_F = NonNegativePenalty(Nomega)
 ```
 
@@ -383,15 +374,13 @@ The converged result is stored in ``opt.x``, which is a list of vectors $\boldsy
 
 ```{code-cell}
 x0, x1, x2 = opt.x
-print(x0.shape, x1.shape, x2.shape)
+print(f"{x0.shape}, {x1.shape}, {x2.shape}")
 ```
 
 
 The spectral function $\rho(\omega)$ can be reconstructed from the coefficients $\{ \rho_l \}$ stored in $\boldsymbol{x}_0$.
 
 ```{code-cell}
-# rho = opt.x[0] @ basis.v(ws)
-# rho = opt.x[0] @ V
 rho = V @ x0
 ```
 
@@ -406,11 +395,11 @@ ax.plot(ws, rho_answer, '-c')
 ax.plot(ws, rho.real, '-r')
 ax.set_xlabel(r"$\omega$")
 ax.set_ylabel(r"$\rho(\omega)$")
-fig.show()
+plt.show()
 ```
 
 ```{code-cell}
-#save results
+# save results
 # specfile = "spectrum.dat"
 # with open(specfile, "w") as f:
 #     f.write(f"# log_lambda = f{lambdalog}\n")
