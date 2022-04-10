@@ -27,7 +27,7 @@ using OMEinsum
 
 beta = 15
 wmax = 10
-basis_b = FiniteTempBasis(boson, beta, wmax, 1e-10)
+basis_b = FiniteTempBasis(boson, beta, wmax, 1e-7)
 
 coeff = [1.0]
 omega_p = [0.1]
@@ -82,9 +82,9 @@ plt.plot(omegas, rho.(omegas))
 ```{code-cell}
 beta = 10
 wmax = 10
-basis = FiniteTempBasis(fermion, beta, wmax, 1e-10)
+basis = FiniteTempBasis(fermion, beta, wmax, 1e-7)
 
-rhol = overlap(basis.v, rho)
+rhol = [overlap(basis.v[l], rho) for l in 1:size(basis)]
 gl = - basis.s .* rhol
 
 plt.semilogy(abs.(rhol), marker="o", label=L"|\rho_l|")
@@ -136,7 +136,7 @@ function eval_gtau(taus)
     return transpose(uval) * gl
 end
 
-gl_reconst = overlap(basis.u, eval_gtau)
+gl_reconst = [overlap(basis.u[l], eval_gtau) for l in 1:size(basis)]
 
 plt.semilogy(abs.(gl_reconst), label="reconstructed", marker="o")
 plt.semilogy(abs.(gl), label="exact", marker="x")

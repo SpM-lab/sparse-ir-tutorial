@@ -11,7 +11,7 @@ parts:
   - file: src/additional_material
 - caption: Sample codes
   chapters:
-  #- file: src/transformation_py
+  - file: src/transformation_py
   - file: src/sparse_sampling_demo_py
   - file: src/second_order_perturbation_py
   - file: src/GW_py
