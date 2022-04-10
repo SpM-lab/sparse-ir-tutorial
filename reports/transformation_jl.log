@@ -17,48 +17,44 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-using SparseIR
-#ENV["MPLBACKEND"]="tkagg"
-using PyPlot
-using OMEinsum
+function eval_gtau(taus)
+    uval = basis.u(taus) #(nl, ntau)
+    return transpose(uval) * gl
+end
 
+gl_reconst = overlap(basis.u, eval_gtau)
 
-beta = 15
-wmax = 10
-basis_b = FiniteTempBasis(boson, beta, wmax, 1e-10)
-
-coeff = [1.0]
-omega_p = [0.1]
-
-rhol_pole = ein"lp,p->l"(
-    basis_b.v(omega_p),
-    coeff ./ tanh.(0.5*beta*omega_p)
-)
-gl_pole = - basis_b.s .* rhol_pole
-
-plt.semilogy(abs.(rhol_pole), marker="o", label=L"|\rho_l|")
-plt.semilogy(abs.(gl_pole), marker="x", label=L"|g_l|")
-
-plt.xlabel(L"$l$")
-plt.ylim([1e-5, 1e+1])
+plt.semilogy(abs.(gl_reconst), label="reconstructed", marker="o")
+plt.semilogy(abs.(gl), label="exact", marker="x")
+plt.semilogy(abs.(gl_reconst - gl), label="error", marker="")
+plt.xlabel(L"l")
+plt.ylabel(L"|g_l|")
+plt.ylim([1e-20, 1])
 plt.legend()
+#plt.show()
 ;
 ------------------
 
-xprec is not supported yet.
+MethodError: no method matching -(::Float64, ::Vector{Float64})
+For element-wise subtraction, use broadcasting with dot syntax: scalar .- array
+[0mClosest candidates are:
+[0m  -([91m::ChainRulesCore.AbstractThunk[39m, ::Any) at ~/.julia/packages/ChainRulesCore/RbX5a/src/tangent_types/thunks.jl:30
+[0m  -([91m::SparseArrays.AbstractSparseMatrixCSC[39m, ::Array) at /Applications/Julia-1.7.app/Contents/Resources/julia/share/julia/stdlib/v1.7/SparseArrays/src/sparsematrix.jl:1776
+[0m  -([91m::ChainRulesCore.ZeroTangent[39m, ::Any) at ~/.julia/packages/ChainRulesCore/RbX5a/src/tangent_arithmetic.jl:101
+[0m  ...
 
 Stacktrace:
- [1] error(s::String)
-   @ Base ./error.jl:33
- [2] FiniteTempBasis(statistics::SparseIR.Statistics, beta::Int64, wmax::Int64, eps::Float64; kernel::Nothing, sve_result::Nothing)
-   @ SparseIR ~/.julia/packages/SparseIR/FPjM2/src/basis.jl:107
- [3] FiniteTempBasis(statistics::SparseIR.Statistics, beta::Int64, wmax::Int64, eps::Float64)
-   @ SparseIR ~/.julia/packages/SparseIR/FPjM2/src/basis.jl:104
- [4] top-level scope
-   @ In[1]:9
- [5] eval
+ [1] top-level scope
+   @ In[8]:10
+ [2] eval
    @ ./boot.jl:373 [inlined]
- [6] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+ [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
    @ Base ./loading.jl:1196
-LoadError: xprec is not supported yet.
+LoadError: MethodError: no method matching -(::Float64, ::Vector{Float64})
+For element-wise subtraction, use broadcasting with dot syntax: scalar .- array
+[0mClosest candidates are:
+[0m  -([91m::ChainRulesCore.AbstractThunk[39m, ::Any) at ~/.julia/packages/ChainRulesCore/RbX5a/src/tangent_types/thunks.jl:30
+[0m  -([91m::SparseArrays.AbstractSparseMatrixCSC[39m, ::Array) at /Applications/Julia-1.7.app/Contents/Resources/julia/share/julia/stdlib/v1.7/SparseArrays/src/sparsematrix.jl:1776
+[0m  -([91m::ChainRulesCore.ZeroTangent[39m, ::Any) at ~/.julia/packages/ChainRulesCore/RbX5a/src/tangent_arithmetic.jl:101
+[0m  ...
 
