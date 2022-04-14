@@ -1,0 +1,1437 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FLEX approximation &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Second-order perturbation (Fortran)" href="second_order_perturbation_fort.html" />
+    <link rel="prev" title="Transformation from/to IR" href="transformation_jl.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR_py.html">
+   Intermediate representation (IR)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_py.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API reference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="additional_material.html">
+   Additional material
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_py.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GW_py.html">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_py.html">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="TPSC_py.html">
+   TPSC approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg equation for Holstein Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="magnetic_susceptibility_py.html">
+   Magnetic susceptibility calculations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="lichtenstein_formula_py.html">
+   Lichtenstein formula
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Analytic continuation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   SpM analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   FLEX approximation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Fortran)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_fort.html">
+   Second-order perturbation (Fortran)
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="citation.html">
+   Citation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/FLEX_jl.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/FLEX_jl.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/FLEX_jl.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-flex-in-the-paramagnetic-state">
+   Theory of FLEX in the paramagnetic state
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-meshes">
+     Generating meshes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flex-loop-solver">
+     FLEX loop solver
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#execute-flex-loop">
+     Execute FLEX loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#visualize-results">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linearized-eliashberg-equation">
+   Linearized Eliashberg equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Code implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linearized-eliashberg-solver">
+       Linearized Eliashberg solver
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#executing-the-gap-equation-solver">
+       Executing the gap equation solver
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+   Example: Antiferromagnetic fluctuations and
+   <span class="math notranslate nohighlight">
+    \(d\)
+   </span>
+   -wave superconductivity in the square-lattice Hubbard model
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>FLEX approximation</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-flex-in-the-paramagnetic-state">
+   Theory of FLEX in the paramagnetic state
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#generating-meshes">
+     Generating meshes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#flex-loop-solver">
+     FLEX loop solver
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#execute-flex-loop">
+     Execute FLEX loop
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#visualize-results">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#linearized-eliashberg-equation">
+   Linearized Eliashberg equation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Code implementation
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#linearized-eliashberg-solver">
+       Linearized Eliashberg solver
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#executing-the-gap-equation-solver">
+       Executing the gap equation solver
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#id2">
+       Visualize results
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+   Example: Antiferromagnetic fluctuations and
+   <span class="math notranslate nohighlight">
+    \(d\)
+   </span>
+   -wave superconductivity in the square-lattice Hubbard model
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="flex-approximation">
+<h1>FLEX approximation<a class="headerlink" href="#flex-approximation" title="Permalink to this headline">¶</a></h1>
+<p>Author: <span class="xref myst">Kosuke Nogaki</span></p>
+<div class="section" id="theory-of-flex-in-the-paramagnetic-state">
+<h2>Theory of FLEX in the paramagnetic state<a class="headerlink" href="#theory-of-flex-in-the-paramagnetic-state" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyPlot</span><span class="o">.</span><span class="n">PyDict</span><span class="p">(</span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;text.usetex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;serif&quot;</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;font.size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;text.latex.preamble&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">raw</span><span class="s">&quot;\usepackage{amsmath}&quot;</span>
+
+<span class="k">using</span> <span class="n">Revise</span>
+<span class="k">using</span> <span class="n">FFTW</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span>
+<span class="k">using</span> <span class="n">Roots</span>
+<span class="k">using</span> <span class="n">SparseIR</span>
+<span class="k">import</span> <span class="n">SparseIR</span><span class="o">:</span> <span class="n">Statistics</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parameter-setting">
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### System parameters</span>
+<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c"># hopping amplitude</span>
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c"># bandwidth</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c"># set wmax &gt;= W</span>
+
+<span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span>    <span class="c"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c"># inverse temperature</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mf">4.0</span>    <span class="c"># Hubbard interaction</span>
+
+<span class="c">### Numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c"># number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c"># accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c"># accuracy for self-consistent iteration</span>
+<span class="n">maxiter</span>   <span class="o">=</span> <span class="mi">30</span>        <span class="c"># maximal number of iterations in self-consistent cycle</span>
+<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c"># mixing parameter for new </span>
+<span class="n">U_maxiter</span> <span class="o">=</span> <span class="mi">50</span>        <span class="c"># maximal number of iteration steps in U renormalization loop</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="generating-meshes">
+<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Holding struct for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iw_n&#39; grids.</span>
+<span class="s">Additionally we defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
+<span class="s"> &quot;&quot;&quot;</span>
+<span class="k">struct</span> <span class="kt">Mesh</span>
+    <span class="n">nk1</span>         <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">nk2</span>         <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">nk</span>          <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">ek</span>          <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span> 
+    <span class="n">iw0_f</span>       <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">iw0_b</span>       <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">fnw</span>         <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">fntau</span>       <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">bnw</span>         <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">bntau</span>       <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">IR_basis_set</span><span class="o">::</span><span class="kt">FiniteTempBasisSet</span>
+<span class="k">end</span>
+
+<span class="s">&quot;&quot;&quot;Initiarize function&quot;&quot;&quot;</span>
+<span class="k">function</span> <span class="n">Mesh</span><span class="p">(</span>
+        <span class="n">nk1</span>         <span class="o">::</span><span class="kt">Int64</span><span class="p">,</span>
+        <span class="n">nk2</span>         <span class="o">::</span><span class="kt">Int64</span><span class="p">,</span>
+        <span class="n">IR_basis_set</span><span class="o">::</span><span class="kt">FiniteTempBasisSet</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">::</span><span class="kt">Mesh</span>
+    
+    <span class="n">nk</span><span class="o">::</span><span class="kt">Int64</span> <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+
+    <span class="c"># Compute Hamiltonian</span>
+    <span class="n">ek</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">2</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">iy</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nk2</span><span class="p">,</span> <span class="n">ix</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nk1</span>
+        <span class="n">kx</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">nk1</span>
+        <span class="n">ky</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">nk2</span>
+        <span class="n">ek</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span><span class="o">+</span><span class="n">cos</span><span class="p">(</span><span class="n">ky</span><span class="p">))</span> 
+    <span class="k">end</span>
+    
+    <span class="c"># lowest Matsubara frequency index</span>
+    <span class="n">iw0_f</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">iw0_b</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="n">x</span><span class="o">-&gt;</span><span class="n">x</span><span class="o">==</span><span class="mi">0</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    
+    <span class="c"># the number of sampling point for fermion and boson</span>
+    <span class="n">fnw</span>   <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+    <span class="n">fntau</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+    <span class="n">bnw</span>   <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+    <span class="n">bntau</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+
+    <span class="c"># Return</span>
+    <span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">nk</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">iw0_f</span><span class="p">,</span> <span class="n">iw0_b</span><span class="p">,</span> <span class="n">fnw</span><span class="p">,</span> <span class="n">fntau</span><span class="p">,</span> <span class="n">bnw</span><span class="p">,</span> <span class="n">bntau</span><span class="p">,</span> <span class="n">IR_basis_set</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="o">::</span><span class="kt">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">)</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">TauSampling</span><span class="p">,</span> <span class="kt">MatsubaraSampling</span><span class="p">}</span>
+    <span class="s">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">statistics</span> <span class="o">==</span> <span class="n">fermion</span>
+        <span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span>
+        <span class="n">smpl_wn</span>  <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span>
+    <span class="k">elseif</span> <span class="n">statistics</span> <span class="o">==</span> <span class="n">boson</span>
+        <span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span>
+        <span class="n">smpl_wn</span>  <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span>
+    <span class="k">end</span>    
+    <span class="k">return</span> <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span>
+<span class="k">end</span>
+
+<span class="s">&quot;&quot;&quot;Fourier transformation&quot;&quot;&quot;</span>    
+<span class="k">function</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="o">::</span><span class="kt">Statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Fourier transform from tau to iw_n via IR basis &quot;&quot;&quot;</span>
+    <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">)</span>
+
+    <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj_wn</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">wn_to_tau</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="o">::</span><span class="kt">Statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Fourier transform from iw_n to tau via IR basis &quot;&quot;&quot;</span>
+    <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">)</span>
+
+    <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">obj_tau</span>
+<span class="k">end</span>
+
+    
+<span class="k">function</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span> <span class="n">obj_k</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;</span>
+    <span class="n">obj_r</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">obj_k</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">obj_r</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">r_to_k</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span> <span class="n">obj_r</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Fourier transform from real space to k-space &quot;&quot;&quot;</span>
+    <span class="n">obj_k</span> <span class="o">=</span> <span class="n">ifft</span><span class="p">(</span><span class="n">obj_r</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
+    <span class="k">return</span> <span class="n">obj_k</span>
+<span class="k">end</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="flex-loop-solver">
+<h3>FLEX loop solver<a class="headerlink" href="#flex-loop-solver" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Solver struct to calculate the FLEX loop self-consistently.</span>
+<span class="s">After initializing the Solver by `solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol, maxiter, U_maxiter, mix)&#39;</span>
+<span class="s">it can be run by `solve(solver)`.</span>
+<span class="s"> &quot;&quot;&quot;</span>
+<span class="k">mutable struct</span> <span class="kt">FLEXSolver</span>
+    <span class="n">mesh</span>     <span class="o">::</span><span class="kt">Mesh</span>
+    <span class="n">beta</span>     <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">U</span>        <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">n</span>        <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">sfc_tol</span>  <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">maxiter</span>  <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">U_maxiter</span><span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">mix</span>      <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">verbose</span>  <span class="o">::</span><span class="kt">Bool</span>
+    <span class="n">mu</span>       <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">gkio</span>     <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">grit</span>     <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">ckio</span>     <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">V</span>        <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">sigma</span>    <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+<span class="k">end</span>
+
+<span class="s">&quot;&quot;&quot;Initiarize function&quot;&quot;&quot;</span>
+<span class="k">function</span> <span class="n">FLEXSolver</span><span class="p">(</span>
+        <span class="n">mesh</span>      <span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span>
+        <span class="n">beta</span>      <span class="o">::</span><span class="kt">Float64</span><span class="p">,</span>
+        <span class="n">U</span>         <span class="o">::</span><span class="kt">Float64</span><span class="p">,</span>
+        <span class="n">n</span>         <span class="o">::</span><span class="kt">Float64</span><span class="p">,</span>
+        <span class="n">sigma_init</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+        <span class="n">sfc_tol</span>   <span class="o">::</span><span class="kt">Float64</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+        <span class="n">maxiter</span>   <span class="o">::</span><span class="kt">Int64</span>  <span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">U_maxiter</span> <span class="o">::</span><span class="kt">Int64</span>  <span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+        <span class="n">mix</span>       <span class="o">::</span><span class="kt">Float64</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">verbose</span>   <span class="o">::</span><span class="kt">Bool</span>   <span class="o">=</span><span class="nb">true</span>
+        <span class="p">)</span><span class="o">::</span><span class="kt">FLEXSolver</span>
+    
+        <span class="n">mu</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="mf">0.0</span>
+    
+        <span class="n">gkio</span>  <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span><span class="p">,</span>   <span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">grit</span>  <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">fntau</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">ckio</span>  <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">bnw</span><span class="p">,</span>   <span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">V</span>     <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">bntau</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_init</span>
+    
+        <span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">gkio</span><span class="p">,</span> <span class="n">grit</span><span class="p">,</span> <span class="n">ckio</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    
+        <span class="n">solver</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">solver</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+        <span class="n">grit_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        <span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">solver</span>
+<span class="k">end</span>
+
+<span class="c">#%%%%%%%%%%% Loop solving instance</span>
+<span class="k">function</span> <span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; FLEXSolver.solve() executes FLEX loop until convergence &quot;&quot;&quot;</span>
+    <span class="c"># check whether U &lt; U_crit! Otherwise, U needs to be renormalized.</span>
+    <span class="k">if</span> <span class="n">findmax</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+        <span class="n">U_renormalization</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="k">end</span>
+            
+    <span class="c"># perform loop until convergence is reached:</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">maxiter</span>
+        <span class="n">sigma_old</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="n">loop</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        
+        <span class="c"># check whether solution is converged.</span>
+        <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">verbose</span>
+            <span class="n">println</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="sc">&#39;\t&#39;</span><span class="p">,</span> <span class="n">sfc_check</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="n">solver</span><span class="o">.</span><span class="n">sfc_tol</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;FLEX loop converged at desired accuracy&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+    
+<span class="k">function</span> <span class="n">loop</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; FLEX loop &quot;&quot;&quot;</span>
+    <span class="n">gkio_old</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span>
+    
+    <span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="n">sigma_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        
+    <span class="n">solver</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">solver</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+    
+    <span class="n">solver</span><span class="o">.</span><span class="n">gkio</span> <span class="o">.=</span> <span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span> <span class="o">.+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+        
+    <span class="n">grit_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+<span class="k">end</span>
+
+
+<span class="c">#%%%%%%%%%%% U renormalization loop instance</span>
+<span class="k">function</span> <span class="n">U_renormalization</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Loop for renormalizing U if Stoner enhancement U*max{chi0} &gt;= 1. &quot;&quot;&quot;</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!&quot;</span><span class="p">)</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Initiate U renormalization loop.&quot;</span><span class="p">)</span>
+    
+    <span class="c"># save old U for later</span>
+    <span class="n">U_old</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span>
+    <span class="c"># renormalization loop may run infinitely! Insert break condition after U_it_max steps</span>
+    <span class="n">U_it</span><span class="o">::</span><span class="kt">Int64</span> <span class="o">=</span> <span class="mi">0</span>
+    
+    <span class="k">while</span> <span class="p">(</span><span class="n">U_old</span><span class="o">*</span><span class="n">findmax</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">1.0</span>
+        <span class="n">U_it</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c"># remormalize U such that U*chi0 &lt; 1</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">/</span> <span class="p">((</span><span class="n">findmax</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">println</span><span class="p">(</span><span class="n">U_it</span><span class="p">,</span> <span class="sc">&#39;\t&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="sc">&#39;\t&#39;</span><span class="p">,</span> <span class="n">U_old</span><span class="p">)</span>
+        
+        <span class="c"># perform one shot FLEX loop</span>
+        <span class="n">loop</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+        
+        <span class="c"># reset U</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U_old</span>
+        
+        <span class="c"># break condition for too many steps</span>
+        <span class="k">if</span> <span class="n">U_it</span> <span class="o">==</span> <span class="n">solver</span><span class="o">.</span><span class="n">U_maxiter</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;U renormalization reached breaking point&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Leaving U renormalization...&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="c">#%%%%%%%%%%% Calculation steps</span>
+<span class="k">function</span> <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">,</span> <span class="n">mu</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; calculate Green function G(iw,k) &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">iy</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="n">ix</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">iw</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span>
+        <span class="n">iv</span><span class="o">::</span><span class="kt">ComplexF64</span> <span class="o">=</span> <span class="p">(</span><span class="nb">im</span> <span class="o">*</span> <span class="nb">π</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span> <span class="o">*</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">[</span><span class="n">iw</span><span class="p">]</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">iw</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">iv</span> <span class="o">-</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="n">iy</span><span class="p">]</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">[</span><span class="n">iw</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">])</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">grit_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;</span>
+    <span class="c"># Fourier transform</span>
+    <span class="n">grio</span> <span class="o">=</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">grit</span> <span class="o">.=</span> <span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">fermion</span><span class="p">,</span> <span class="n">grio</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Calculate irreducible susciptibility chi0(iv,q) &quot;&quot;&quot;</span>
+    <span class="n">crit</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">bntau</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">iy</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="n">ix</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">it</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">bntau</span>
+        <span class="n">crit</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">grit</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span> <span class="o">*</span> <span class="n">solver</span><span class="o">.</span><span class="n">grit</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">bntau</span><span class="o">-</span><span class="n">it</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span>
+    <span class="k">end</span>
+
+    <span class="c"># Fourier transform</span>
+    <span class="n">ckit</span> <span class="o">=</span> <span class="n">r_to_k</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">crit</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">.=</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">boson</span><span class="p">,</span> <span class="n">ckit</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma &quot;&quot;&quot;</span>
+    <span class="c"># check whether U is too large and give warning</span>
+    <span class="k">if</span> <span class="n">findmax</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+        <span class="n">error</span><span class="p">(</span><span class="s">&quot;U*max(chi0) &gt;= 1! Paramagnetic phase is left and calculations will turn unstable!&quot;</span><span class="p">)</span>
+    <span class="k">end</span>
+        
+    <span class="c"># spin and charge susceptibility</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+
+    <span class="n">Vkio</span> <span class="o">=</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">.+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span>
+    <span class="c"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
+
+    <span class="c"># Fourier transform</span>
+    <span class="n">Vrio</span> <span class="o">=</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">Vkio</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">V</span> <span class="o">.=</span> <span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">boson</span><span class="p">,</span> <span class="n">Vrio</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">sigma_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Calculate self-energy Sigma(iw,k) &quot;&quot;&quot;</span>
+    <span class="n">sigmarit</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">V</span> <span class="o">.*</span> <span class="n">solver</span><span class="o">.</span><span class="n">grit</span>
+    
+    <span class="c"># Fourier transform</span>
+    <span class="n">sigmakit</span> <span class="o">=</span> <span class="n">r_to_k</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">sigmarit</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">sigma</span> <span class="o">.=</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">fermion</span><span class="p">,</span> <span class="n">sigmakit</span><span class="p">)</span>
+<span class="k">end</span>
+    
+    
+<span class="c">#%%%%%%%%%%% Setting chemical potential mu</span>
+<span class="k">function</span> <span class="n">calc_electron_density</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">,</span><span class="n">mu</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="o">::</span><span class="kt">Float64</span>
+    <span class="s">&quot;&quot;&quot; Calculate electron density from Green function &quot;&quot;&quot;</span>
+    <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">mu</span><span class="p">)</span>
+    <span class="n">gio</span> <span class="o">=</span> <span class="n">dropdims</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">,</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
+    
+    <span class="n">g_l</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span><span class="n">gio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">g_tau0</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">g_l</span><span class="p">)</span>
+    
+    <span class="n">n</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
+    <span class="n">n</span>  <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span> <span class="c">#for spin</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="o">::</span><span class="kt">Float64</span>
+    <span class="s">&quot;&quot;&quot; Find chemical potential for a given filling n0 via brent&#39;s root finding algorithm &quot;&quot;&quot;</span>
+    <span class="n">f</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">calc_electron_density</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">solver</span><span class="o">.</span><span class="n">n</span>
+        
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">find_zero</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">findmin</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="n">findmax</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">),</span> <span class="n">Roots</span><span class="o">.</span><span class="n">Brent</span><span class="p">())</span> 
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>mu_calc (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="execute-flex-loop">
+<h3>Execute FLEX loop<a class="headerlink" href="#execute-flex-loop" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># initialize calculation</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">IR_basis_set</span><span class="p">)</span>
+<span class="n">sigma_init</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,(</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">))</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">)</span>
+
+<span class="c"># perform FLEX loop</span>
+<span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+Initiate U renormalization loop.
+1	2.3679802693786214	4.0
+2	2.663153051191142	4.0
+3	2.952843202009315	4.0
+4	3.2372665069550735	4.0
+5	3.517535371127706	4.0
+6	3.7950747789596018	4.0
+Leaving U renormalization...
+1	0.08757050701877743
+2	0.14458517806202595
+3	0.022496516962790866
+4	0.011826075022234503
+5	0.007576749380838455
+6	0.005298268436796196
+7	0.003862726088048176
+8	0.002873781663749198
+9	0.0021584597623235946
+10	0.001628450793408866
+11	0.0012315292636737073
+12	0.0009331890338136107
+13	0.0007086077737298643
+14	0.0005394112523576509
+15	0.00041186893614117404
+16	0.00031563153401890356
+17	0.00024290673624813888
+18	0.00018780238679959066
+19	0.00014592983406607168
+20	0.00011401152358306506
+21	8.956735422605699e-5
+FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualize-results">
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span>
+<span class="n">myx</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">.*</span> <span class="n">collect</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nk1</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">./</span> <span class="n">nk1</span>
+<span class="n">myy</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">.*</span> <span class="n">collect</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nk1</span><span class="p">)</span> <span class="o">.-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">./</span> <span class="n">nk2</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span> <span class="n">myy</span><span class="p">,</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span> <span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_12_0.png" src="../_images/FLEX_jl_12_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sys:1: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span> <span class="n">myy</span><span class="p">,</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span> <span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_13_0.png" src="../_images/FLEX_jl_13_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sys:1: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="linearized-eliashberg-equation">
+<h2>Linearized Eliashberg equation<a class="headerlink" href="#linearized-eliashberg-equation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Code implementation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="linearized-eliashberg-solver">
+<h4>Linearized Eliashberg solver<a class="headerlink" href="#linearized-eliashberg-solver" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Solver struct for solving the linearized gap equation using the power method.</span>
+<span class="s">It takes FLEX results as an input.</span>
+<span class="s">&quot;&quot;&quot;</span>
+<span class="k">mutable struct</span> <span class="kt">LinearizedGapSolver</span>
+    <span class="n">mesh</span>      <span class="o">::</span><span class="kt">Mesh</span>
+    <span class="n">gkio</span>      <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">V_singlet</span> <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">delta</span>     <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">frit</span>      <span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="n">U</span>         <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">maxiter</span>   <span class="o">::</span><span class="kt">Int64</span>
+    <span class="n">sfc_tol</span>   <span class="o">::</span><span class="kt">Float64</span>
+    <span class="n">verbose</span>   <span class="o">::</span><span class="kt">Bool</span>
+    <span class="n">lam</span>       <span class="o">::</span><span class="kt">Float64</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span>
+        <span class="n">FLEX_solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">;</span>
+        <span class="n">maxiter</span>    <span class="o">::</span><span class="kt">Int64</span>  <span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">sfc_tol</span>    <span class="o">::</span><span class="kt">Float64</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+        <span class="n">verbose</span>    <span class="o">::</span><span class="kt">Bool</span>   <span class="o">=</span><span class="nb">true</span>
+        <span class="p">)</span><span class="o">::</span><span class="kt">LinearizedGapSolver</span>
+        
+    <span class="c">## Initialize necessary quantities from FLEX loop</span>
+    <span class="n">mesh</span>       <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span>
+    <span class="n">gkio</span>       <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">gkio</span>
+    <span class="n">U</span>          <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">U</span>
+        
+    <span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
+    <span class="n">sfc_tol</span> <span class="o">=</span> <span class="n">sfc_tol</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        
+    <span class="c">## Initialize trial gap function</span>
+    <span class="c"># Here we focus on a d-wave symmetric solution</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span><span class="p">,</span>   <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="n">frit</span>  <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">fntau</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">iy</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="n">ix</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">iw</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span>
+        <span class="n">kx</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span>
+        <span class="n">ky</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span>
+        <span class="n">delta</span><span class="p">[</span><span class="n">iw</span><span class="p">,</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">ky</span><span class="p">)</span> 
+    <span class="k">end</span>
+    
+    <span class="c">#normalize initial guess</span>
+    <span class="n">normalize!</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>   
+        
+    <span class="c"># Initialize interaction</span>
+    <span class="n">V_singlet</span> <span class="o">=</span> <span class="n">V_singlet_calc</span><span class="p">(</span><span class="n">FLEX_solver</span><span class="p">)</span>
+        
+    <span class="c">## Initialize eigenvalue</span>
+    <span class="n">lam</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">gap_solver</span> <span class="o">=</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">gkio</span><span class="p">,</span> <span class="n">V_singlet</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">frit</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">maxiter</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="p">,</span> <span class="n">verbose</span><span class="p">,</span> <span class="n">lam</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">solve</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">::</span><span class="kt">LinearizedGapSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Solving instance to find eigenvalue from power method &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">it</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">maxiter</span>
+        <span class="n">lam_old</span> <span class="o">=</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span>
+        <span class="n">delta_old</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
+    
+        <span class="n">frit_calc</span><span class="p">(</span><span class="n">gap_solver</span><span class="p">)</span>
+        <span class="n">deltarit</span> <span class="o">=</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">V_singlet</span> <span class="o">.*</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">frit</span>
+    
+        <span class="c"># Fourier transform to momentum space</span>
+        <span class="n">deltakit</span> <span class="o">=</span> <span class="n">r_to_k</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">deltarit</span><span class="p">)</span>
+        <span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span> <span class="o">.=</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">fermion</span><span class="p">,</span> <span class="n">deltakit</span><span class="p">)</span>
+    
+        <span class="c"># calculate eigenvalue</span>
+        <span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">conj</span><span class="o">.</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span><span class="o">.*</span> <span class="n">delta_old</span><span class="p">))</span>
+        
+        <span class="n">normalize!</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span> 
+    
+        <span class="k">if</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">verbose</span>
+            <span class="n">println</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="sc">&#39;\t&#39;</span><span class="p">,</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="p">,</span> <span class="sc">&#39;\t&#39;</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">))</span>
+        <span class="k">end</span>
+        <span class="k">if</span> <span class="n">abs</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">sfc_tol</span>
+            <span class="k">break</span>   
+        <span class="k">end</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+
+    
+<span class="c">#%%%%%%%%%%% Calculation steps</span>
+<span class="k">function</span> <span class="n">V_singlet_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
+    <span class="s">&quot;&quot;&quot; Set up interaction in real space and imaginary time &quot;&quot;&quot;</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    
+    <span class="n">Vkio</span> <span class="o">=</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span>
+    <span class="c"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+    <span class="c"># In the special case of d-wave symmetry, it can be neglected.</span>
+    
+    <span class="c"># Fourier transform</span>
+    <span class="n">Vrio</span> <span class="o">=</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">Vkio</span><span class="p">)</span>
+    <span class="n">V_singlet</span> <span class="o">=</span> <span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">boson</span><span class="p">,</span> <span class="n">Vrio</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">V_singlet</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">frit_calc</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">::</span><span class="kt">LinearizedGapSolver</span><span class="p">)</span>
+    <span class="s">&quot;&quot;&quot; Calculate (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation &quot;&quot;&quot;</span>
+    <span class="n">fkio</span> <span class="o">=</span> <span class="o">-</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="o">.*</span><span class="n">conj</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="o">.*</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span>
+        
+    <span class="c"># Fourier transform</span>
+    <span class="n">frit</span> <span class="o">=</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">fkio</span><span class="p">)</span>
+    <span class="n">gap_solver</span><span class="o">.</span><span class="n">frit</span> <span class="o">=</span> <span class="n">wn_to_tau</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="n">fermion</span><span class="p">,</span> <span class="n">frit</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>frit_calc (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="executing-the-gap-equation-solver">
+<h4>Executing the gap equation solver<a class="headerlink" href="#executing-the-gap-equation-solver" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gap_solver</span> <span class="o">=</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">)</span>
+<span class="n">solve</span><span class="p">(</span><span class="n">gap_solver</span><span class="p">)</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;The superconducting eigenvalue at T=&quot;</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="s">&quot; is lambda_d=&quot;</span><span class="p">,</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.1088584690977758	0.1088584690977758
+2	0.4058444924129143	0.2969860233151385
+3	0.44941824910853034	0.04357375669561603
+4	0.4561726903392733	0.00675444123074298
+5	0.45777562430921903	0.001602933969945708
+6	0.45815514021376913	0.0003795159045500984
+7	0.45825720409294224	0.00010206387917310877
+8	0.45828371844137505	2.6514348432815638e-5
+The superconducting eigenvalue at T=0.1 is lambda_d=0.45828371844137505
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h4>Visualize results<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of the gap vs. initial guess</span>
+<span class="n">delta0</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">iy</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="n">ix</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span>
+    <span class="n">kx</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">nk1</span>
+    <span class="n">ky</span><span class="o">::</span><span class="kt">Float64</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">π</span><span class="o">*</span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="n">nk2</span>
+    <span class="n">delta0</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="p">)</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">ky</span><span class="p">)</span> 
+<span class="k">end</span>
+<span class="n">normalize!</span><span class="p">(</span><span class="n">delta0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span> <span class="n">myy</span><span class="p">,</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">delta0</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="c">#plt.pcolormesh(myx, myy, real.(gap_solver.delta[gap_solver.mesh.iw0_f,:,:]&#39;))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta^0_d(k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span> <span class="n">myy</span><span class="p">,</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">[</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta_d(k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_20_0.png" src="../_images/FLEX_jl_20_0.png" />
+<img alt="../_images/FLEX_jl_20_1.png" src="../_images/FLEX_jl_20_1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of the anomalous Green function</span>
+<span class="n">fkio</span> <span class="o">=</span> <span class="o">-</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="o">.*</span><span class="n">conj</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="o">.*</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span> <span class="n">myy</span><span class="p">,</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">fkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta_d(k)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_21_0.png" src="../_images/FLEX_jl_21_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
+<h2>Example: Antiferromagnetic fluctuations and <span class="math notranslate nohighlight">\(d\)</span>-wave superconductivity in the square-lattice Hubbard model<a class="headerlink" href="#example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#%%%%%%%%%%%%%%% Parameter settings</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Initialization...&quot;</span><span class="p">)</span>
+<span class="c"># system parameters</span>
+<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c"># hopping amplitude</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mf">4.0</span>    <span class="c"># Hubbard interaction</span>
+
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c"># bandwidth</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c"># set wmax &gt;= W</span>
+<span class="n">T_values</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">,</span> <span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">]</span><span class="c"># temperature</span>
+
+<span class="c"># numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span>    <span class="c"># k-mesh sufficiently dense!</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_Lambda</span> <span class="o">=</span> <span class="mi">10</span><span class="o">^</span><span class="mi">3</span>      <span class="c"># dimensionless IR parameter &gt;= w_max * beta_min = 400</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-7</span>      <span class="c"># accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c"># accuracy for self-consistent iteration</span>
+<span class="n">it_max</span>    <span class="o">=</span> <span class="mi">30</span>        <span class="c"># maximal number of iterations in self-consistent cycle</span>
+<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c"># mixing parameter for new </span>
+<span class="n">U_it_max</span>  <span class="o">=</span> <span class="mi">50</span>        <span class="c"># maximal number of iteration steps in U renormalization loop</span>
+
+<span class="c"># initialize first IR basis set (no recalculation afterwrds)</span>
+<span class="n">beta_init</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="n">T_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">IR_Lambda</span><span class="o">/</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">IR_tol</span><span class="p">)</span>
+
+<span class="c"># set initial self_energy - will be set to previous calculation step afterwards</span>
+<span class="n">sigma_init</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,(</span><span class="n">length</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">),</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">))</span>
+
+<span class="c"># empty arrays for results</span>
+<span class="n">lam_T</span>     <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">T_values</span><span class="p">))</span>
+<span class="n">chiSmax_T</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">T_values</span><span class="p">))</span>
+<span class="n">chi_s_plt</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">)</span>
+
+<span class="c">#%%%%%%%%%%%%%%% Calculations for different T values</span>
+<span class="k">for</span> <span class="n">T_it</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">T_values</span><span class="p">)</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">T_values</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span>
+    <span class="n">println</span><span class="p">(</span><span class="s">&quot;Now: T = &quot;</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+
+    <span class="c"># initialize meshes</span>
+    <span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">IR_Lambda</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">IR_tol</span><span class="p">,</span> <span class="n">sve_result</span><span class="o">=</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">sve_result</span><span class="p">)</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">IR_basis_set</span><span class="p">)</span>
+    
+    <span class="c"># calculate FLEX loop</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">it_max</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_it_max</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+    <span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    
+    <span class="n">sigma_init</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+    
+    <span class="c"># calculate linearized gap equation</span>
+    <span class="n">gap_solver</span> <span class="o">=</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">it_max</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+    <span class="n">solve</span><span class="p">(</span><span class="n">gap_solver</span><span class="p">)</span>
+    
+    <span class="c"># save data for plotting</span>
+    <span class="n">lam_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chiSmax_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">real</span><span class="p">(</span><span class="n">findmax</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">chi_spin</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="k">if</span> <span class="n">T</span> <span class="o">==</span> <span class="mf">0.03</span>
+        <span class="n">chi_s_plt</span> <span class="o">.=</span> <span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">chi_spin</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">])</span>
+    <span class="k">end</span>
+
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization...
+Now: T = 0.08
+WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+Initiate U renormalization loop.
+1	2.287146848844517	4.0
+2	2.4856847792275247	4.0
+3	2.6890780722931	4.0
+4	2.8952476523534485	4.0
+5	3.100419614820726	4.0
+6	3.3068380779984254	4.0
+7	3.5156371206561516	4.0
+8	3.727284542114751	4.0
+9	3.9417174850402317	4.0
+Leaving U renormalization...
+FLEX loop converged at desired accuracy
+Now: T = 0.07
+FLEX loop converged at desired accuracy
+Now: T = 0.06
+FLEX loop converged at desired accuracy
+Now: T = 0.05
+FLEX loop converged at desired accuracy
+Now: T = 0.04
+FLEX loop converged at desired accuracy
+Now: T = 0.03
+FLEX loop converged at desired accuracy
+Now: T = 0.025
+FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span>   <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">spec</span>  <span class="o">=</span> <span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="n">f_ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">f_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="c"># first panel with momentum dependence of static spin susceptibility</span>
+<span class="n">chi_s_HSP</span><span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">chi_s_HSP</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">chi_s_plt</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">chi_s_HSP</span><span class="p">[</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">chi_s_plt</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">chi_s_HSP</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">chi_s_plt</span><span class="p">[</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+<span class="k">end</span>
+
+<span class="n">k_HSP</span><span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span>
+    <span class="n">k_HSP</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">nk1</span>
+<span class="k">end</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">k_HSP</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">+</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span>
+<span class="k">end</span>
+
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span> <span class="n">chi_s_HSP</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">L</span><span class="s">&quot;\Gamma&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;M&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;\Gamma&quot;</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\chi_{\mathrm{s}}(i</span><span class="se">\n</span><span class="s">u=0,{</span><span class="se">\b</span><span class="s">f{q}})&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">Ones</span>      <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">T_values</span><span class="p">))</span>
+<span class="c"># second panel with T-dependence of lambda_d and 1/chi_s,max</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">lam_T</span><span class="p">,</span> <span class="s">&quot;-x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;\lambda_d&quot;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">Ones</span><span class="o">./</span><span class="n">chiSmax_T</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;1/\chi_{\mathrm{s},\mathrm{max}}&quot;</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;T/t&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\lambda_d, 1/\chi_{\mathrm{s},\mathrm{max}}&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_24_0.png" src="../_images/FLEX_jl_24_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sys:1: UserWarning: Matplotlib is currently using agg, which is a non-GUI backend, so cannot show the figure.
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.7"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.7",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.7'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="transformation_jl.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Transformation from/to IR</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="second_order_perturbation_fort.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Second-order perturbation (Fortran)</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Many authors<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
