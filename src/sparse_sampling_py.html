@@ -164,11 +164,6 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="magnetic_susceptibility_py.html">
-   Magnetic susceptibility calculations
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lichtenstein_formula_py.html">
    Lichtenstein formula
   </a>
@@ -406,7 +401,16 @@ From experience, the fitting can be done in the most stable way using SVD of the
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/sparse_sampling_py_2_0.png" src="../_images/sparse_sampling_py_2_0.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/basis.py:292: UserWarning: 
+Basis cutoff is 1e-10, which is below sqrt(eps) with
+eps = 2.2e-16.  Expect singular values and basis functions
+for large l to have lower precision than the cutoff.
+You can install the xprec package to gain more precision.
+
+  sve_result = sve.compute(self._kernel, eps)
+</pre></div>
+</div>
+<img alt="../_images/sparse_sampling_py_2_1.png" src="../_images/sparse_sampling_py_2_1.png" />
 </div>
 </div>
 <p>One can transform numerical data in the Matsubara-frequency domain using sparse-sampling techniques <span id="id1">[<a class="reference internal" href="bibliography.html#id3" title="Jia Li, Markus Wallerberger, Naoya Chikano, Chia-Nan Yeh, Emanuel Gull, and Hiroshi Shinaoka. Sparse sampling approach to efficient ab initio calculations at finite temperature. Physical Review B, 101(3):035144, 01 2020. doi:10.1103/physrevb.101.035144.">Li <em>et al.</em>, 2020</a>]</span>.

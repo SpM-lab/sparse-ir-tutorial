@@ -164,11 +164,6 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="magnetic_susceptibility_py.html">
-   Magnetic susceptibility calculations
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="lichtenstein_formula_py.html">
    Lichtenstein formula
   </a>
@@ -493,6 +488,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="spm-analytic-continuation">
 <h1>SpM analytic continuation<a class="headerlink" href="#spm-analytic-continuation" title="Permalink to this headline">¶</a></h1>
+<p>Author: Kazuyoshi Yoshimi &amp; Junya Otsuki</p>
 <p>This example provides an application of <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> to the sparse-modeling analytic continuation (SpM) algorithm. We reproduce the result presented in the original paper <span id="id1">[<a class="reference internal" href="bibliography.html#id23" title="Junya Otsuki, Masayuki Ohzeki, Hiroshi Shinaoka, and Kazuyoshi Yoshimi. Sparse modeling approach to analytical continuation of imaginary-time quantum Monte Carlo data. Physical Review E, 95(6):061302(R), 06 2017. URL: https://journals.aps.org/pre/pdf/10.1103/PhysRevE.95.061302, doi:10.1103/physreve.95.061302.">Otsuki <em>et al.</em>, 2017</a>]</span>.</p>
 <p>The analytic continuation can be formulated as the inverse problem of the equation</p>
 <div class="math notranslate nohighlight" id="equation-lehmann-spm">
@@ -635,6 +631,17 @@ On a discrete grid of <span class="math notranslate nohighlight">\(\{ \tau_i \}\
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/basis.py:292: UserWarning: 
+Basis cutoff is 1e-10, which is below sqrt(eps) with
+eps = 2.2e-16.  Expect singular values and basis functions
+for large l to have lower precision than the cutoff.
+You can install the xprec package to gain more precision.
+
+  sve_result = sve.compute(self._kernel, eps)
+</pre></div>
+</div>
+</div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">U</span></code> and <code class="docutils literal notranslate"><span class="pre">V</span></code> are two-dimensional ndarray (matrices), while <code class="docutils literal notranslate"><span class="pre">S</span></code> is a one-dimensional ndarray. Let us confirm it by printing the shapes explictly.</p>
 <div class="cell docutils container">
@@ -645,9 +652,6 @@ On a discrete grid of <span class="math notranslate nohighlight">\(\{ \tau_i \}\
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(4001, 43), (43,), (1001, 43)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -755,9 +759,6 @@ The import statement below shows all necessary classes for implementing the pres
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>admmsolver==0.7.4
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>
@@ -877,9 +878,6 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(43,), (43,), (1001,)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 </div>

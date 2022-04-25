@@ -17,36 +17,23 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-using SparseIR
-#ENV["MPLBACKEND"]="tkagg"
 using PyPlot
-using OMEinsum
+rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
+rcParams["text.usetex"] = true
+rcParams["font.family"] = "serif"
+rcParams["font.size"] = 16
+rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
 
-
-beta = 15
-wmax = 10
-basis_b = FiniteTempBasis(boson, beta, wmax, 1e-7)
-
-coeff = [1.0]
-omega_p = [0.1]
-
-rhol_pole = ein"lp,p->l"(
-    basis_b.v(omega_p),
-    coeff ./ tanh.(0.5*beta*omega_p)
-)
-gl_pole = - basis_b.s .* rhol_pole
-
-plt.semilogy(abs.(rhol_pole), marker="o", label=L"|\rho_l|")
-plt.semilogy(abs.(gl_pole), marker="x", label=L"|g_l|")
-
-plt.xlabel(L"$l$")
-plt.ylim([1e-5, 1e+1])
-plt.legend()
-;
+using Revise
+using FFTW
+using LinearAlgebra
+using Roots
+using SparseIR
+import SparseIR: Statistics
 ------------------
 
-ArgumentError: Package OMEinsum not found in current path:
-- Run `import Pkg; Pkg.add("OMEinsum")` to install the OMEinsum package.
+ArgumentError: Package Revise not found in current path:
+- Run `import Pkg; Pkg.add("Revise")` to install the Revise package.
 
 
 Stacktrace:
@@ -56,7 +43,7 @@ Stacktrace:
    @ ./boot.jl:373 [inlined]
  [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
    @ Base ./loading.jl:1196
-LoadError: ArgumentError: Package OMEinsum not found in current path:
-- Run `import Pkg; Pkg.add("OMEinsum")` to install the OMEinsum package.
+LoadError: ArgumentError: Package Revise not found in current path:
+- Run `import Pkg; Pkg.add("Revise")` to install the Revise package.
 
 

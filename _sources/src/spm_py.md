@@ -11,6 +11,7 @@ kernelspec:
 ---
 
 # SpM analytic continuation
+Author: Kazuyoshi Yoshimi & Junya Otsuki
 
 This example provides an application of `sparse-ir` to the sparse-modeling analytic continuation (SpM) algorithm. We reproduce the result presented in the original paper {cite:p}`Otsuki:2017er`.
 
