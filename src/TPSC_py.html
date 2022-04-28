@@ -653,17 +653,6 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/basis.py:372: UserWarning: 
-Basis cutoff is 1e-10, which is below sqrt(eps) with
-eps = 2.2e-16.  Expect singular values and basis functions
-for large l to have lower precision than the cutoff.
-You can install the xprec package to gain more precision.
-
-  sve_result = sve.compute(_kernel.LogisticKernel(beta*wmax), eps)
-</pre></div>
-</div>
-</div>
 </div>
 </div>
 <div class="section" id="tpsc-solver">
@@ -973,22 +962,15 @@ You can install the xprec package to gain more precision.
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization...
-Start TPSC loop...
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/basis.py:372: UserWarning: 
-Basis cutoff is 1e-08, which is below sqrt(eps) with
-eps = 2.2e-16.  Expect singular values and basis functions
-for large l to have lower precision than the cutoff.
-You can install the xprec package to gain more precision.
-
-  sve_result = sve.compute(_kernel.LogisticKernel(beta*wmax), eps)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Start TPSC loop...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. Plotting now.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f6780d3e370&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f175fada760&gt;
 </pre></div>
 </div>
 <img alt="../_images/TPSC_py_16_4.png" src="../_images/TPSC_py_16_4.png" />
