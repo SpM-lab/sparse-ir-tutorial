@@ -52,13 +52,14 @@ From experience, the fitting can be done in the most stable way using SVD of the
 
 The following figure shows the sampling points in the imaginary-time domain generated for $\beta=10$ and $\wmax=10$ as well as the basis function $U_{L-1}(\tau)$ with $L=30$.
 
-```{code-cell}
+```{code-cell} ipython3
 :tags: [hide-input]
 
 import sparse_ir
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
+plt.rcParams['font.size'] = 15
 
 beta = 10
 wmax = 10
@@ -102,7 +103,7 @@ $$
 
 The following figure shows the sampling points in the imaginary-frequency domain generated for $\beta=10$ and $\wmax=10$.
 
-```{code-cell}
+```{code-cell} ipython3
 :tags: [hide-input]
 
 smpl_matsu = sparse_ir.MatsubaraSampling(basis)
@@ -133,4 +134,27 @@ ax.set_xscale("log")
 ax.set_yscale("symlog", linthresh=1e-6)
 
 plt.tight_layout()
+```
+
+## Condition number
+The condition number of the fitting scales roughly as $\sqrt{\Lambda}$.
+
+```{code-cell} ipython3
+cond_tau = []
+cond_matsu = []
+lambdas = [1e+1, 1e+2, 1e+3, 1e+4, 1e+5]
+for lambda_ in lambdas:
+    basis = sparse_ir.FiniteTempBasis("F", beta, lambda_/beta, eps=1e-15)
+    cond_tau.append(sparse_ir.TauSampling(basis).cond)
+    cond_matsu.append(sparse_ir.MatsubaraSampling(basis).cond)
+```
+
+```{code-cell} ipython3
+plt.loglog(lambdas, cond_tau, marker="o", label="time")
+plt.loglog(lambdas, cond_matsu, marker="x", label="frequency")
+plt.loglog(lambdas, np.sqrt(lambdas), marker="", ls="--", label=r"$\sqrt{\Lambda}$")
+plt.xlabel(r"$\Lambda$")
+plt.ylabel("Condition number")
+plt.legend(frameon=False)
+plt.show()
 ```
