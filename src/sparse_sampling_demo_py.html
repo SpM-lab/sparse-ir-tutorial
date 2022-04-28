@@ -405,6 +405,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
 </pre></div>
 </div>
 </div>
@@ -416,7 +417,8 @@ const thebe_selector_output = ".output, .cell_output"
 \[
 \rho(\omega) = \frac{2}{\pi}\sqrt{1-\omega^2}.
 \]</div>
-<p>First, we compute the numerically exact expansion coefficients <span class="math notranslate nohighlight">\(g_l\)</span>.</p>
+<p>First, we compute the numerically exact expansion coefficients <span class="math notranslate nohighlight">\(g_l\)</span>.
+Below, we plot the data for even <span class="math notranslate nohighlight">\(l\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
@@ -425,14 +427,15 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mf">0.0</span>
 
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>
 
 <span class="n">rhol</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
 <span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-15</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
@@ -458,33 +461,33 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sampling times:  [8.31587808e-03 1.66317562e-02 5.59200332e-02 1.18143645e-01
- 2.03947191e-01 3.14246915e-01 4.50258218e-01 6.13536426e-01
- 8.06029765e-01 1.03014593e+00 1.28883391e+00 1.58568265e+00
- 1.92503770e+00 2.31213652e+00 2.75326206e+00 3.25591383e+00
- 3.82899524e+00 4.48301679e+00 5.23031657e+00 6.08530255e+00
- 7.06472437e+00 8.18798420e+00 9.47749803e+00 1.09591176e+01
- 1.26626234e+01 1.46222974e+01 1.68775857e+01 1.94738594e+01
- 2.24632846e+01 2.59058095e+01 2.98702768e+01 3.44356665e+01
- 3.96924657e+01 4.57441536e+01 5.27087701e+01 6.07205075e+01
- 6.99312213e+01 8.05116904e+01 9.26523584e+01 1.06563154e+02
- 1.22471811e+02 1.40619863e+02 1.61255276e+02 1.84620401e+02
- 2.10933930e+02 2.40365799e+02 2.73005010e+02 3.08822305e+02
- 3.47632675e+02 3.89066195e+02 4.32558093e+02 4.77367971e+02
- 5.22632029e+02 5.67441907e+02 6.10933805e+02 6.52367325e+02
- 6.91177695e+02 7.26994990e+02 7.59634201e+02 7.89066070e+02
- 8.15379599e+02 8.38744724e+02 8.59380137e+02 8.77528189e+02
- 8.93436846e+02 9.07347642e+02 9.19488310e+02 9.30068779e+02
- 9.39279493e+02 9.47291230e+02 9.54255846e+02 9.60307534e+02
- 9.65564333e+02 9.70129723e+02 9.74094191e+02 9.77536715e+02
- 9.80526141e+02 9.83122414e+02 9.85377703e+02 9.87337377e+02
- 9.89040882e+02 9.90522502e+02 9.91812016e+02 9.92935276e+02
- 9.93914697e+02 9.94769683e+02 9.95516983e+02 9.96171005e+02
- 9.96744086e+02 9.97246738e+02 9.97687863e+02 9.98074962e+02
- 9.98414317e+02 9.98711166e+02 9.98969854e+02 9.99193970e+02
- 9.99386464e+02 9.99549742e+02 9.99685753e+02 9.99796053e+02
- 9.99881856e+02 9.99944080e+02 9.99983368e+02 9.99991684e+02]
-Condition number:  56.795150177411955
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sampling times:  [8.31587808e-02 1.66317562e-01 5.59200332e-01 1.18143645e+00
+ 2.03947191e+00 3.14246915e+00 4.50258218e+00 6.13536426e+00
+ 8.06029765e+00 1.03014593e+01 1.28883391e+01 1.58568265e+01
+ 1.92503770e+01 2.31213652e+01 2.75326206e+01 3.25591383e+01
+ 3.82899524e+01 4.48301679e+01 5.23031657e+01 6.08530255e+01
+ 7.06472437e+01 8.18798420e+01 9.47749803e+01 1.09591176e+02
+ 1.26626234e+02 1.46222974e+02 1.68775857e+02 1.94738594e+02
+ 2.24632846e+02 2.59058095e+02 2.98702768e+02 3.44356665e+02
+ 3.96924657e+02 4.57441536e+02 5.27087701e+02 6.07205075e+02
+ 6.99312213e+02 8.05116904e+02 9.26523584e+02 1.06563154e+03
+ 1.22471811e+03 1.40619863e+03 1.61255276e+03 1.84620401e+03
+ 2.10933930e+03 2.40365799e+03 2.73005010e+03 3.08822305e+03
+ 3.47632675e+03 3.89066195e+03 4.32558093e+03 4.77367971e+03
+ 5.22632029e+03 5.67441907e+03 6.10933805e+03 6.52367325e+03
+ 6.91177695e+03 7.26994990e+03 7.59634201e+03 7.89066070e+03
+ 8.15379599e+03 8.38744724e+03 8.59380137e+03 8.77528189e+03
+ 8.93436846e+03 9.07347642e+03 9.19488310e+03 9.30068779e+03
+ 9.39279493e+03 9.47291230e+03 9.54255846e+03 9.60307534e+03
+ 9.65564333e+03 9.70129723e+03 9.74094191e+03 9.77536715e+03
+ 9.80526141e+03 9.83122414e+03 9.85377703e+03 9.87337377e+03
+ 9.89040882e+03 9.90522502e+03 9.91812016e+03 9.92935276e+03
+ 9.93914697e+03 9.94769683e+03 9.95516983e+03 9.96171005e+03
+ 9.96744086e+03 9.97246738e+03 9.97687863e+03 9.98074962e+03
+ 9.98414317e+03 9.98711166e+03 9.98969854e+03 9.99193970e+03
+ 9.99386464e+03 9.99549742e+03 9.99685753e+03 9.99796053e+03
+ 9.99881856e+03 9.99944080e+03 9.99983368e+03 9.99991684e+03]
+Condition number:  56.79515017747359
 </pre></div>
 </div>
 </div>
@@ -532,7 +535,7 @@ Condition number:  56.795150177411955
     169    195    225    261    301    347    399    461    533    615
     711    823    953   1107   1289   1505   1765   2083   2481   2991
    3671   4627   6089   8629  14203  32897  34629  36361]
-Condition number:  113.86630312218674
+Condition number:  113.86630312218618
 </pre></div>
 </div>
 </div>
@@ -562,14 +565,13 @@ Condition number:  113.86630312218674
 <p>We now compare the reconstructed expansion coefficients with the exact one. For clarity, we plot only the data for even <span class="math notranslate nohighlight">\(l\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst_from_tau</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling times&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst_from_matsu</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling frequencies&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-15</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-17</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>

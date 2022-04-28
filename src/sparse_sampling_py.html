@@ -322,6 +322,19 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#condition-number">
+   Condition number
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -334,6 +347,19 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#condition-number">
+   Condition number
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -381,6 +407,7 @@ From experience, the fitting can be done in the most stable way using SVD of the
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
 
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
@@ -461,6 +488,39 @@ one can evaluate the expansion coefficients as</p>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/sparse_sampling_py_4_0.png" src="../_images/sparse_sampling_py_4_0.png" />
+</div>
+</div>
+<div class="section" id="condition-number">
+<h2>Condition number<a class="headerlink" href="#condition-number" title="Permalink to this headline">¶</a></h2>
+<p>The condition number of the fitting scales roughly as <span class="math notranslate nohighlight">\(\sqrt{\Lambda}\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cond_tau</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">cond_matsu</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">lambdas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e+1</span><span class="p">,</span> <span class="mf">1e+2</span><span class="p">,</span> <span class="mf">1e+3</span><span class="p">,</span> <span class="mf">1e+4</span><span class="p">,</span> <span class="mf">1e+5</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">lambda_</span> <span class="ow">in</span> <span class="n">lambdas</span><span class="p">:</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>
+    <span class="n">cond_tau</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+    <span class="n">cond_matsu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="n">cond_tau</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="n">cond_matsu</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;frequency&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">lambdas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">lambdas</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$\sqrt{\Lambda}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\Lambda$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Condition number&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sparse_sampling_py_7_0.png" src="../_images/sparse_sampling_py_7_0.png" />
+</div>
 </div>
 </div>
 </div>

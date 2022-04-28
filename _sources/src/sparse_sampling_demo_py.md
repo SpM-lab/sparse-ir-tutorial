@@ -19,6 +19,7 @@ import sparse_ir
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
+plt.rcParams['font.size'] = 15
 ```
 
 ## Setup
@@ -29,6 +30,7 @@ $$
 $$
 
 First, we compute the numerically exact expansion coefficients $g_l$.
+Below, we plot the data for even $l$.
 
 ```{code-cell} ipython3
 def rho(omega):
@@ -37,14 +39,15 @@ def rho(omega):
     else:
         return 0.0
 
-beta = 1000
-wmax = 10
+beta = 10000
+wmax = 1
 basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-15)
 
 rhol = basis.v.overlap(rho)
 gl = - basis.s * rhol
 
-plt.semilogy(np.abs(gl), marker="x", label=r"$|g_l|$")
+ls = np.arange(basis.size)
+plt.semilogy(ls[::2], np.abs(gl[::2]), marker="x", label=r"$|g_l|$")
 plt.xlabel(r"$l$")
 plt.ylabel(r"$|g_l|$")
 plt.ylim([1e-15, 10])
@@ -104,14 +107,13 @@ gl_reconst_from_matsu = smpl_matsu.fit(giv_smpl)
 We now compare the reconstructed expansion coefficients with the exact one. For clarity, we plot only the data for even $l$.
 
 ```{code-cell} ipython3
-ls = np.arange(basis.size)
 plt.semilogy(ls[::2], np.abs(gl[::2]), marker="", ls="-", label="Exact")
 plt.semilogy(ls[::2], np.abs(gl_reconst_from_tau[::2]), marker="x", label="from sampling times")
 plt.semilogy(ls[::2], np.abs(gl_reconst_from_matsu[::2]), marker="+", label="from sampling frequencies")
 plt.xlabel(r"$l$")
 plt.ylabel(r"$|g_l|$")
-plt.ylim([1e-15, 10])
-plt.legend()
+plt.ylim([1e-17, 10])
+plt.legend(frameon=False)
 plt.show()
 ```
 
