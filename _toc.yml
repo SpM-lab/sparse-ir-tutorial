@@ -3,20 +3,20 @@ root: index
 parts:
 - caption: Basic theory
   chapters:
-  - file: src/IR_py
-  - file: src/sparse_sampling_py
+  - file: src/IR_py.md
+  - file: src/sparse_sampling_py.md
 - caption: Reference
   chapters:
-  - file: src/api
-  - file: src/additional_material
+  - file: src/api.md
+  - file: src/additional_material.md
 - caption: Sample codes
   chapters:
-  - file: src/transformation_py
-  - file: src/sparse_sampling_demo_py
-  - file: src/second_order_perturbation_py
-  - file: src/GW_py
-  - file: src/FLEX_py
-  - file: src/TPSC_py
+  - file: src/transformation_py.md
+  - file: src/sparse_sampling_demo_py.md
+  - file: src/second_order_perturbation_py.md
+  - file: src/GW_py.md
+  - file: src/FLEX_py.md
+  - file: src/TPSC_py.md
   - file: src/eliashberg_holstein_py.md
   #- file: src/chi_sample.ipynb
   - file: src/lichtenstein_formula_py.md
@@ -27,12 +27,12 @@ parts:
   - file: src/nevanlinna.md
 - caption: Sample codes (Julia)
   chapters:
-  - file: src/transformation_jl
-  - file: src/FLEX_jl
+  - file: src/transformation_jl.md
+  - file: src/FLEX_jl.md
 - caption: Sample codes (Fortran)
   chapters:
-  #- file: src/readme_fortran
-  - file: src/second_order_perturbation_fort
+  #- file: src/readme_fortran.md
+  - file: src/second_order_perturbation_fort.md
 - caption: Reference
   chapters:
   - file: src/citation

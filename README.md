@@ -11,10 +11,10 @@ pip3 install jupyter-book ghp-import jupytext
 
 1. Write a jupyter notebook. Your notebook must be placed under the  `src` directory with a name `*_py.ipynb` (python) or `*_jl.ipyb` (julia).
 
-2. Convert the notebook to a paired MyST markdown file.
+2. Convert the notebook to a MyST markdown file.
 
 ```bash
-jupytext --sync --to md:myst notebook_py.ipynb
+jupytext --to md:myst notebook_py.ipynb
 ```
 
 3. Make html files
