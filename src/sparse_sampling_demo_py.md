@@ -4,8 +4,6 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.13.7
 kernelspec:
   display_name: Python 3
   language: python
@@ -21,10 +19,9 @@ import sparse_ir
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
-from scipy.integrate import quad
 ```
 
-## Set up
+## Setup
 We consider a semicircular spectral modeli (full bandwidth of 2):
 
 $$
