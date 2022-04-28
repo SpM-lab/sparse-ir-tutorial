@@ -27,7 +27,7 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        pip install -U sparse-ir matplotlib jupyter-book
+        pip install -U sparse-ir xprec matplotlib jupyter-book
   
     # Set up Julia 1.7
     - uses: julia-actions/setup-julia@v1
