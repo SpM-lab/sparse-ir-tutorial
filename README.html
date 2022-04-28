@@ -414,9 +414,9 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>How to build html<a class="headerlink" href="#how-to-build-html" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>Write a jupyter notebook. Your notebook must be placed under the  <code class="docutils literal notranslate"><span class="pre">src</span></code> directory with a name <code class="docutils literal notranslate"><span class="pre">*_py.ipynb</span></code> (python) or <code class="docutils literal notranslate"><span class="pre">*_jl.ipyb</span></code> (julia).</p></li>
-<li><p>Convert the notebook to a paired MyST markdown file.</p></li>
+<li><p>Convert the notebook to a MyST markdown file.</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst notebook_py.ipynb
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to md:myst notebook_py.ipynb
 </pre></div>
 </div>
 <ol class="simple">

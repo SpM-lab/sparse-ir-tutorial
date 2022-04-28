@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Second-order perturbation" href="second_order_perturbation_py.html" />
@@ -320,6 +322,34 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-sampling-times">
+   From sampling times
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-sampling-frequencies">
+   From sampling frequencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-with-exact-results">
+   Comparison with exact results
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -332,6 +362,34 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-up">
+   Set up
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-sampling-times">
+   From sampling times
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#from-sampling-frequencies">
+   From sampling frequencies
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#comparison-with-exact-results">
+   Comparison with exact results
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -340,6 +398,225 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="sparse-sampling">
 <h1>Sparse sampling<a class="headerlink" href="#sparse-sampling" title="Permalink to this headline">¶</a></h1>
+<p>In this page, we describe how to infer IR expansion coefficients using the sparse-sampling techiniques.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="set-up">
+<h2>Set up<a class="headerlink" href="#set-up" title="Permalink to this headline">¶</a></h2>
+<p>We consider a semicircular spectral modeli (full bandwidth of 2):</p>
+<div class="math notranslate nohighlight">
+\[
+\rho(\omega) = \frac{2}{\pi}\sqrt{1-\omega^2}.
+\]</div>
+<p>First, we compute the numerically exact expansion coefficients <span class="math notranslate nohighlight">\(g_l\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mf">0.0</span>
+
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>
+
+<span class="n">rhol</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-15</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/basis.py:292: UserWarning: 
+Basis cutoff is 1e-15, which is below sqrt(eps) with
+eps = 2.2e-16.  Expect singular values and basis functions
+for large l to have lower precision than the cutoff.
+You can install the xprec package to gain more precision.
+
+  sve_result = sve.compute(self._kernel, eps)
+</pre></div>
+</div>
+<img alt="../_images/sparse_sampling_demo_py_3_1.png" src="../_images/sparse_sampling_demo_py_3_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="from-sampling-times">
+<h2>From sampling times<a class="headerlink" href="#from-sampling-times" title="Permalink to this headline">¶</a></h2>
+<p>We first create a <code class="docutils literal notranslate"><span class="pre">TauSampling</span></code> object for the default sampling times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sampling times: &quot;</span><span class="p">,</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Condition number: &quot;</span><span class="p">,</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sampling times:  [9.89903246e-03 1.97980649e-02 4.02518231e-02 4.06480568e-02
+ 6.59907157e-02 9.44362240e-02 9.47543762e-02 1.16173849e-01
+ 1.66169624e-01 1.67247415e-01 2.06636082e-01 3.15738891e-01
+ 4.45069618e-01 6.08696374e-01 6.64264422e-01 6.65080834e-01
+ 8.05490934e-01 9.24671175e-01 9.25931690e-01 1.03231277e+00
+ 1.28641293e+00 1.48643151e+00 2.02096482e+00 2.29623603e+00
+ 2.72023795e+00 3.25781780e+00 3.81281689e+00 4.48710254e+00
+ 4.93133562e+00 6.09110497e+00 7.07287299e+00 8.19429949e+00
+ 9.47354155e+00 1.09696747e+01 1.17976352e+01 1.45986747e+01
+ 1.68952374e+01 1.94895866e+01 2.24552053e+01 2.58977921e+01
+ 2.98872057e+01 3.44102172e+01 3.97255879e+01 4.57736524e+01
+ 5.27100998e+01 6.07549436e+01 6.99749948e+01 8.05114829e+01
+ 9.26866155e+01 1.06532307e+02 1.22551862e+02 1.40615060e+02
+ 1.61218638e+02 1.84477934e+02 2.10855779e+02 2.40396879e+02
+ 2.73017504e+02 3.08855290e+02 3.47618962e+02 3.89042587e+02
+ 4.32526077e+02 4.77386024e+02 5.22613976e+02 5.67473923e+02
+ 6.10957413e+02 6.52381038e+02 6.91144710e+02 7.26982496e+02
+ 7.59603121e+02 7.89144221e+02 8.15522066e+02 8.38781362e+02
+ 8.59384940e+02 8.77448138e+02 8.93467693e+02 9.07313385e+02
+ 9.19488517e+02 9.30025005e+02 9.39245056e+02 9.47289900e+02
+ 9.54226348e+02 9.60274412e+02 9.65589783e+02 9.70112794e+02
+ 9.74102208e+02 9.77544795e+02 9.80510413e+02 9.83104763e+02
+ 9.85401325e+02 9.88202365e+02 9.89030325e+02 9.90526458e+02
+ 9.91805701e+02 9.92927127e+02 9.93908895e+02 9.95068664e+02
+ 9.95512897e+02 9.96187183e+02 9.96742182e+02 9.97279762e+02
+ 9.97703764e+02 9.97979035e+02 9.98513568e+02 9.98713587e+02
+ 9.98967687e+02 9.99074068e+02 9.99075329e+02 9.99194509e+02
+ 9.99334919e+02 9.99335736e+02 9.99391304e+02 9.99554930e+02
+ 9.99684261e+02 9.99793364e+02 9.99832753e+02 9.99833830e+02
+ 9.99883826e+02 9.99905246e+02 9.99905564e+02 9.99934009e+02
+ 9.99959352e+02 9.99959748e+02 9.99980202e+02 9.99990101e+02]
+Condition number:  60.231122307593104
+</pre></div>
+</div>
+</div>
+</div>
+<p>The condition number is around 50, indicating that 1–2 significant digits may be lost in a fit from the sampling times. Let us fit from the sampling times!</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate G(τ) on the sampling times</span>
+<span class="n">gtau_smpl</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">gtau_smpl</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Fit G(τ) on the sampling times</span>
+<span class="n">gl_reconst_from_tau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gtau_smpl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sparse_sampling_demo_py_7_0.png" src="../_images/sparse_sampling_demo_py_7_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="from-sampling-frequencies">
+<h2>From sampling frequencies<a class="headerlink" href="#from-sampling-frequencies" title="Permalink to this headline">¶</a></h2>
+<p>We create a <code class="docutils literal notranslate"><span class="pre">MatsubaraSampling</span></code> object for the default sampling frequencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;sampling frequencies: &quot;</span><span class="p">,</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Condition number: &quot;</span><span class="p">,</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>sampling frequencies:  [-415361 -395581 -375801 -359123 -341317 -336261 -320613 -292151 -243631
+ -231103 -220085 -213431 -196129 -185455 -171155 -158017  -97053  -90871
+  -82447  -76357  -38557  -37185  -35239  -34153  -31739  -14107   -8759
+   -6027   -4633   -3679   -3001   -2485   -2085   -1763   -1505   -1291
+   -1107    -953    -823    -711    -615    -533    -461    -399    -345
+    -301    -261    -225    -195    -169    -147    -127    -111     -97
+     -83     -73     -63     -55     -49     -41     -37     -33     -29
+     -25     -23     -21     -19     -17     -15     -13     -11      -9
+      -7      -5      -3      -1       1       3       5       7       9
+      11      13      15      17      19      21      23      25      29
+      33      37      41      49      55      63      73      83      97
+     111     127     147     169     195     225     261     301     345
+     399     461     533     615     711     823     953    1107    1291
+    1505    1763    2085    2485    3001    3679    4633    6027    8759
+   14107   31739   34153   35239   37185   38557   76357   82447   90871
+   97053  158017  171155  185455  196129  213431  220085  231103  243631
+  292151  320613  336261  341317  359123  375801  395581  415361]
+Condition number:  74.4015757604482
+</pre></div>
+</div>
+</div>
+</div>
+<p>The condition number is slightly larger than that for the sampling times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate G(iv) on the sampling frequencies</span>
+<span class="n">giv_smpl</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span><span class="o">*</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span> <span class="n">giv_smpl</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Im $G(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Fit G(τ) on the sampling times</span>
+<span class="n">gl_reconst_from_matsu</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">giv_smpl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sparse_sampling_demo_py_11_0.png" src="../_images/sparse_sampling_demo_py_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="comparison-with-exact-results">
+<h2>Comparison with exact results<a class="headerlink" href="#comparison-with-exact-results" title="Permalink to this headline">¶</a></h2>
+<p>We now compare the reconstructed expansion coefficients with the exact one. For clarity, we plot only the data for even <span class="math notranslate nohighlight">\(l\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst_from_tau</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling times&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst_from_matsu</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling frequencies&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-15</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sparse_sampling_demo_py_13_0.png" src="../_images/sparse_sampling_demo_py_13_0.png" />
+</div>
+</div>
+<p>We saw a perfect match! Let us plot the differences from the exact one.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">gl_reconst_from_tau</span><span class="o">-</span><span class="n">gl</span><span class="p">)[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling times&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">gl_reconst_from_matsu</span><span class="o">-</span><span class="n">gl</span><span class="p">)[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;from sampling frequencies&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Error in $g_l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-18</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/sparse_sampling_demo_py_15_0.png" src="../_images/sparse_sampling_demo_py_15_0.png" />
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
