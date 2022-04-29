@@ -4,8 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Julia 1.7
+  display_name: Julia 1.7.2
   language: julia
   name: julia-1.7
 ---
@@ -138,17 +140,14 @@ end
 
 gl_reconst = [overlap(basis.u[l], eval_gtau) for l in 1:size(basis)]
 
-plt.semilogy(abs.(gl_reconst), label="reconstructed", marker="o")
-plt.semilogy(abs.(gl), label="exact", marker="x")
-plt.semilogy(abs.(gl_reconst - gl), label="error", marker="")
+ls = collect(0:size(basis)-1)
+plt.semilogy(ls[1:2:end], abs.(gl_reconst[1:2:end]), label="reconstructed", marker="o")
+plt.semilogy(ls[1:2:end], abs.(gl[1:2:end]), label="exact", marker="x")
+plt.semilogy(ls[1:2:end], abs.(gl_reconst - gl)[1:2:end], label="error", marker="")
 plt.xlabel(L"l")
 plt.ylabel(L"|g_l|")
 plt.ylim([1e-20, 1])
 plt.legend()
 #plt.show()
 ;
-```
-
-```{code-cell}
-
 ```

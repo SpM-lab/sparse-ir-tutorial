@@ -4,6 +4,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
   display_name: Python 3
   language: python
@@ -138,7 +140,7 @@ For the peculiar choice of the regularization for the bosonic kernel using $K^\m
 The basis functions $U_l(\tau)$ are transformed to the imaginary-frequency axis as
 
 $$
-U_l(\iv) \equiv \int_0^\beta \dd \omega e^{\iv \tau} U_l(\tau).
+U_l(\iv) \equiv \int_0^\beta \dd \tau e^{\iv \tau} U_l(\tau).
 $$
 
 Some of the information regarding real-frequency properties of the system is often lost during transition into the imaginary-time domain, so that the imaginary-frequency Green's function does hold less information than the real-frequency Green's function. The reason for using IR lies within its compactness and ability to display that information in imaginary quantities.
@@ -146,7 +148,7 @@ Some of the information regarding real-frequency properties of the system is oft
 The decay of the singular values depends on $\beta$ and $\wmax$ only through the dimensionless parameter $\Lambda\equiv \beta\wmax$.
 The following plots show the singular values and the basis functions computed for $\beta=10$ and $\wmax=10$.
 
-```{code-cell}
+```{code-cell} ipython3
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
@@ -169,7 +171,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 fig = plt.figure(figsize=(6,12))
 ax1 = plt.subplot(311)
 ax2 = plt.subplot(312)
@@ -208,4 +210,92 @@ for ax in axes:
     ax.legend(loc='best', frameon=False)
 
 plt.tight_layout()
+```
+
+We expand $G(\tau)$ and $\rho(\omega)$ as
+
+$$
+G(\tau) = \sum_{l=0}^{L-1} G_l U_l(\tau) + \epsilon_L,
+$$
+
+$$
+\hat{G}(\mathrm{i}\nu) = \sum_{l=0}^{L-1} G_l \hat{U}_l(\mathrm{i}\nu) + \hat{\epsilon}_L,
+$$
+
+where $\epsilon_L,~\hat{\epsilon}_L \approx S_L$. The expansion coefficients $G_l$ can be determined from the spectral function as 
+
+$$
+G_l = -S_l \rho_l,
+$$
+
+where
+
+$$
+\rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \mathrm{d} \omega \rho(\omega) V_l(\omega).
+$$
+
+As a simple example, we consider a particle-hole-symmetric simple spectral function 
+$\rho(\omega) = \frac{1}{2} (\delta(\omega-1) + \delta(\omega+1))$ for fermions.
+The expansion coefficients are given by
+
+$$
+\rho_l = \frac{1}{2}(V_l(1) + V_l(-1)).
+$$
+
+```{code-cell} ipython3
+rho_l = 0.5 * (basis.v(1) + basis.v(-1))
+gl = - basis.s * rho_l
+
+ls = np.arange(basis.size)
+plt.semilogy(ls[::2], np.abs(rho_l[::2]), label=r"$|\rho_l|$", marker="o", ls="")
+plt.semilogy(ls[::2], np.abs(gl[::2]), label=r"$|G_l|$", marker="x", ls="")
+plt.semilogy(ls, basis.s, label=r"$S_l$", marker="", ls="--")
+plt.xlabel(r"$l$")
+plt.legend(frameon=False)
+plt.show()
+#plt.savefig("plot.pdf")
+```
+
+## Remark: What happens if $\omega_\mathrm{max}$ is too small?
+
+If you expand $G(\tau)$ using $U_l(\tau)$ for too small $\omega_\mathrm{max}$,
+$|G_l|$ decays slower than $S_l$.
+Let us demonstrate it with $\omega_\mathrm{max} = 0.5$.
+
+```{code-cell} ipython3
+def gtau_exact(tau):
+    return -0.5*(np.exp(-tau)/(1 + np.exp(-beta)) + np.exp(tau)/(1 + np.exp(beta)))
+
+plt.plot(taus, gtau_exact(taus))
+plt.xlabel(r"$\tau$")
+plt.ylabel(r"$G(\tau)$")
+plt.show()
+#plt.savefig("gtau.pdf")
+```
+
+```{code-cell} ipython3
+from scipy.integrate import quad
+from matplotlib.ticker import MaxNLocator
+
+for wmax_bad in [10, 1, 0.5, 0.2]:
+    basis_bad = sparse_ir.FiniteTempBasis("F", beta, wmax_bad, eps=1e-10)
+
+    # We expand G(τ).
+    gl_bad = [quad(lambda x: gtau_exact(x) * basis_bad.u[l](x), 0, beta)[0] for l in range(basis_bad.size)]
+
+    ax = plt.figure().gca()
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True)) # Force xtics to be integer
+    plt.semilogy(np.abs(gl_bad), marker="s", ls="", label=r"$|g_l|$")
+    plt.semilogy(np.abs(basis_bad.s), marker="x", ls="--", label=r"$S_l$")
+    plt.title(r"$\omega_\mathrm{max}$ = " + str(wmax_bad))
+    plt.xlabel(r"$l$")
+    plt.xlim([0, 30])
+    plt.ylim([1e-5, 10])
+    plt.legend(frameon=False)
+    plt.show()
+    #plt.savefig(f"coeff_bad_{wmax_bad}.pdf")
+```
+
+```{code-cell} ipython3
+
 ```

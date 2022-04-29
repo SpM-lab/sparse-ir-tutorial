@@ -4,6 +4,8 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
   display_name: Python 3
   language: python
@@ -64,11 +66,12 @@ $$
 
 The following code demostrates this transformation for bosons.
 
-```{code-cell}
+```{code-cell} ipython3
 import sparse_ir
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
+plt.rcParams['font.size'] = 15
 
 beta = 15
 wmax = 10
@@ -85,13 +88,13 @@ plt.semilogy(np.abs(gl_pole), marker="x", label=r"$|g_l|$")
 
 plt.xlabel(r"$l$")
 plt.ylim([1e-5, 1e+1])
-plt.legend()
+plt.legend(frameon=False)
 plt.show()
 ```
 
 Alternatively, we can use ``spr`` (sparse pole presentation) module.
 
-```{code-cell}
+```{code-cell} ipython3
 from sparse_ir.spr import SparsePoleRepresentation
 sp = SparsePoleRepresentation(basis_b, omega_p)
 gl_pole2 = sp.to_IR(coeff)
@@ -102,7 +105,7 @@ plt.semilogy(np.abs(gl_pole), marker="x", label=r"$|g_l|$")
 
 plt.xlabel(r"$l$")
 plt.ylim([1e-5, 1e+1])
-plt.legend()
+plt.legend(frameon=False)
 plt.show()
 ```
 
@@ -129,7 +132,7 @@ the result converges exponentially with increasing the degree of the Gauss-Legen
 Below, we demonstrate how to compute $\rho_l$ for a spectral function consisting of of three Gausssian peaks using the composite Gauss-Legendre quadrature.
 Then, $\rho_l$ can be transformed to $g_l$ by multiplying it with $- S_l$.
 
-```{code-cell}
+```{code-cell} ipython3
 # Three Gaussian peaks (normalized to 1)
 gaussian = lambda x, mu, sigma:\
     np.exp(-((x-mu)/sigma)**2)/(np.sqrt(np.pi)*sigma)
@@ -144,7 +147,7 @@ plt.plot(omegas, rho(omegas))
 plt.show()
 ```
 
-```{code-cell}
+```{code-cell} ipython3
 beta = 10
 wmax = 10
 basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
@@ -152,23 +155,26 @@ basis = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
 rhol = basis.v.overlap(rho)
 gl = - basis.s * rhol
 
-plt.semilogy(np.abs(rhol), marker="o", label=r"$|\rho_l|$")
-plt.semilogy(np.abs(gl), marker="x", label=r"$|g_l|$")
+plt.semilogy(np.abs(rhol), marker="o", ls="", label=r"$|\rho_l|$")
+plt.semilogy(np.abs(gl), marker="s", ls="", label=r"$|g_l|$")
+plt.semilogy(np.abs(basis.s), marker="", ls="--", label=r"$S_l$")
 plt.xlabel(r"$l$")
-plt.ylim([1e-5, 1])
-plt.legend()
+plt.ylim([1e-5, 10])
+plt.legend(frameon=False)
 plt.show()
+#plt.savefig("coeff.pdf")
 ```
 
 $\rho_l$ is evaluated on arbitrary real frequencies as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 rho_omgea_reconst = basis.v(omegas).T @ rhol
 
 plt.xlabel(r"$\omega$")
 plt.ylabel(r"$\rho(\omega)$")
 plt.plot(omegas, rho(omegas))
-plt.show()
+#plt.show()
+plt.savefig("plot.pdf")
 ```
 
 ## From IR to imaginary time
@@ -176,7 +182,7 @@ plt.show()
 We are now ready to evaluate $g_l$ on arbitrary $\tau$ points.
 A naive way is as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 taus = np.linspace(0, beta, 1000)
 gtau1 = basis.u(taus).T @ gl
 plt.plot(taus, gtau1)
@@ -187,7 +193,7 @@ plt.show()
 
 Alternatively, we can use ``TauSampling`` as follows.
 
-```{code-cell}
+```{code-cell} ipython3
 smpl = sparse_ir.TauSampling(basis, taus)
 gtau2 = smpl.evaluate(gl)
 plt.plot(taus, gtau1)
@@ -207,19 +213,53 @@ $$
 
 You can use `overlap` function as well.
 
-```{code-cell}
+```{code-cell} ipython3
 def eval_gtau(taus):
     uval = basis.u(taus) #(nl, ntau)
-    return uval.T @ gl
+    if isinstance(taus, np.ndarray):
+       print(uval.shape, gl.shape)
+       return uval.T @ gl
+    else:
+       return uval.T @ gl
 
 gl_reconst = basis.u.overlap(eval_gtau)
 
-plt.semilogy(np.abs(gl_reconst), label="reconstructed", marker="o")
-plt.semilogy(np.abs(gl), label="exact", marker="x")
-plt.semilogy(np.abs(gl_reconst - gl), label="error", marker="")
+ls = np.arange(basis.size)
+plt.semilogy(ls[::2], np.abs(gl_reconst)[::2], label="reconstructed", marker="+", ls="")
+plt.semilogy(ls[::2], np.abs(gl)[::2], label="exact", marker="x", ls="")
+plt.semilogy(ls[::2], np.abs(gl_reconst - gl)[::2], label="error", marker="p")
 plt.xlabel(r"$l$")
 plt.xlabel(r"$|g_l|$")
 plt.ylim([1e-20, 1])
-plt.legend()
+plt.legend(frameon=False)
 plt.show()
+```
+
+## Remark: What happens if $\omega_\mathrm{max}$ is too small?
+
+If $G_l$ do not decay like $S_l$,  $\omega_\mathrm{max}$ may be too small.
+Below, we numerically demonstrate it.
+
+```{code-cell} ipython3
+from scipy.integrate import quad
+
+beta = 10
+wmax = 0.5
+basis_bad = sparse_ir.FiniteTempBasis("F", beta, wmax, eps=1e-10)
+
+# We expand G(τ).
+gl_bad = [quad(lambda x: eval_gtau(x) * basis_bad.u[l](x), 0, beta)[0] for l in range(basis_bad.size)]
+
+plt.semilogy(np.abs(gl_bad), marker="s", ls="", label=r"$|g_l|$")
+plt.semilogy(np.abs(basis_bad.s), marker="x", ls="--", label=r"$S_l$")
+plt.xlabel(r"$l$")
+plt.ylim([1e-5, 10])
+#plt.xlim([0, basis.size])
+plt.legend(frameon=False)
+plt.show()
+#plt.savefig("coeff_bad.pdf")
+```
+
+```{code-cell} ipython3
+
 ```
