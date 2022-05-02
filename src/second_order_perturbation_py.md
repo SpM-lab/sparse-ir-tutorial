@@ -57,6 +57,7 @@ where $\boldsymbol{r}$ represents a position in real space.
 Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potentail.
 Thus, we take $\mu=0$ for half filling.
 The Fourier transform of Green's functions and self-energies between the momentum and real-space domains is defined as follows:
+
 $$
     A(\boldsymbol{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
 $$
@@ -71,7 +72,6 @@ where $A$ is either a Green's function or a self-energy.
 
 We use regular 2D meshes for the real-space and momen spaces.
 More specifically, a point in the real space $\boldsymbol{r}$ is represented by three integers as
-
 $\boldsymbol{r}=(r_1, r_2)$, where $0 \le r_\alpha \le L-1$.
 A point in the momentum space $\boldsymbol{k}$ is represented by three integers as
 $\boldsymbol{k}=(2\pi k_1/L, 2\pi k_2/L)$, where $0 \le k_\alpha \le L-1$.
