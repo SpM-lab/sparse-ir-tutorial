@@ -478,18 +478,19 @@ Hereafter, we ignore the spin dependence.</p>
 <p>where <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> represents a position in real space.
 Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potentail.
 Thus, we take <span class="math notranslate nohighlight">\(\mu=0\)</span> for half filling.
-The Fourier transform of Green’s functions and self-energies between the momentum and real-space domains is defined as follows:
-$<span class="math notranslate nohighlight">\(
+The Fourier transform of Green’s functions and self-energies between the momentum and real-space domains is defined as follows:</p>
+<div class="math notranslate nohighlight">
+\[
     A(\boldsymbol{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
-\)</span>$</p>
+\]</div>
 <div class="math notranslate nohighlight">
 \[
     A(\boldsymbol{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(A\)</span> is either a Green’s function or a self-energy.</p>
 <p>We use regular 2D meshes for the real-space and momen spaces.
-More specifically, a point in the real space <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> is represented by three integers as</p>
-<p><span class="math notranslate nohighlight">\(\boldsymbol{r}=(r_1, r_2)\)</span>, where <span class="math notranslate nohighlight">\(0 \le r_\alpha \le L-1\)</span>.
+More specifically, a point in the real space <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> is represented by three integers as
+<span class="math notranslate nohighlight">\(\boldsymbol{r}=(r_1, r_2)\)</span>, where <span class="math notranslate nohighlight">\(0 \le r_\alpha \le L-1\)</span>.
 A point in the momentum space <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span> is represented by three integers as
 <span class="math notranslate nohighlight">\(\boldsymbol{k}=(2\pi k_1/L, 2\pi k_2/L)\)</span>, where <span class="math notranslate nohighlight">\(0 \le k_\alpha \le L-1\)</span>.</p>
 <div class="math notranslate nohighlight">
