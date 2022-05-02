@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The GF2 &amp; GW method" href="GW_py.html" />
@@ -320,6 +322,56 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">
+     Step 1: Generate IR basis and associated sampling points
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2">
+     Step 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-3">
+     Step 3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-4">
+     Step 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-5">
+     Step 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-6">
+     Step 6
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -332,6 +384,56 @@ const thebe_selector_output = ".output, .cell_output"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation">
+   Implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">
+     Step 1: Generate IR basis and associated sampling points
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-2">
+     Step 2
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-3">
+     Step 3
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-4">
+     Step 4
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-5">
+     Step 5
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#step-6">
+     Step 6
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -340,6 +442,351 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="second-order-perturbation">
 <h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>We consider the Hubbard model on a square lattice at half filling,
+whose Hamiltonian is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\mathcal{H} = -t \sum_{\langle i, j\rangle}
+        c^\dagger_{i\sigma} c_{j\sigma}
+        + U \sum_i n_{i\uparrow} n_{i\downarrow}
+        - \mu \sum_i (n_{i\uparrow} + n_{i\downarrow}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu = U/2\)</span>, <span class="math notranslate nohighlight">\(t~(=1)\)</span> a hopping integral,
+<span class="math notranslate nohighlight">\(c^\dagger_{i\sigma}~(c_{i\sigma})\)</span> a creation (annihilation) operator
+for an electron with spin <span class="math notranslate nohighlight">\(\sigma\)</span> at site <span class="math notranslate nohighlight">\(i\)</span>,
+<span class="math notranslate nohighlight">\(\mu\)</span> chemical potential.
+The non-interacting band dispersion is given by</p>
+<div class="math notranslate nohighlight">
+\[
+    \epsilon(\boldsymbol{k}) = -2 (\cos{k_x} + \cos{k_y}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{k}=(k_x, k_y)\)</span>.
+Hereafter, we ignore the spin dependence.</p>
+<p>The corresponding non-interacting Green’s function is given by</p>
+<div class="math notranslate nohighlight">
+\[
+    G(\mathrm{i}\nu, \boldsymbol{k}) = \frac{1}{\mathrm{i}\nu - \epsilon(\boldsymbol{k}) - \mu},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\nu\)</span> is a fermionic frequency.</p>
+<p>In the imaginary-time domain, the self-energy reads</p>
+<div class="math notranslate nohighlight">
+\[
+    \Sigma(\tau, \boldsymbol{r}) = U^2 G^2(\tau, \boldsymbol{r}) G(\beta-\tau, \boldsymbol{r}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> represents a position in real space.
+Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potentail.
+Thus, we take <span class="math notranslate nohighlight">\(\mu=0\)</span> for half filling.
+The Fourier transform of Green’s functions and self-energies between the momentum and real-space domains is defined as follows:
+$<span class="math notranslate nohighlight">\(
+    A(\boldsymbol{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+    A(\boldsymbol{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(A\)</span> is either a Green’s function or a self-energy.</p>
+<p>We use regular 2D meshes for the real-space and momen spaces.
+More specifically, a point in the real space <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> is represented by three integers as</p>
+<p><span class="math notranslate nohighlight">\(\boldsymbol{r}=(r_1, r_2)\)</span>, where <span class="math notranslate nohighlight">\(0 \le r_\alpha \le L-1\)</span>.
+A point in the momentum space <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span> is represented by three integers as
+<span class="math notranslate nohighlight">\(\boldsymbol{k}=(2\pi k_1/L, 2\pi k_2/L)\)</span>, where <span class="math notranslate nohighlight">\(0 \le k_\alpha \le L-1\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[
+    G_{m,r_1, r_2} = \frac{1}{N} F(G_{m, k_1, k_2}),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    G_{m,k_1, k_2} = N F^{-1}(G_{m, r_1, r_2}).
+\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(F\)</span> denotes two-dimentional discrete Fourier transform (DFT) and <span class="math notranslate nohighlight">\(F^{-1}\)</span> its inverse transform,
+which are defined as</p>
+<div class="math notranslate nohighlight">
+\[
+    x_{n_1, n_2} = \sum_{m_1,m_2=0}^{L-1} x_{m_1,m_2} e^{-\frac{2\pi \sum_\alpha n_\alpha m_\alpha}{L}\mathrm{i}}= F(x_{m_1, m_2}),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    y_{m_1, m_2} = \frac{1}{L^2} \sum_{n_1,n_2=0}^{L-1} x_{n_1,n_2} e^{\frac{2\pi \sum_\alpha n_\alpha m_\alpha}{L}\mathrm{i}} = F^{-1}(x_{n_1, n_2}).
+\]</div>
+<p>The DFT can be performed efficiently by the fast Fourier transform algorithm,
+which is implemented in many numerical libraries such as FFTW and FFTPACK.
+The computational complexity of FFT scales as <span class="math notranslate nohighlight">\(O(L^2 \log L)\)</span>,
+which is considerably smaller than that of the naive implementation [<span class="math notranslate nohighlight">\(O(L^3)\)</span>] for large <span class="math notranslate nohighlight">\(L\)</span>.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">fftn</span><span class="p">,</span> <span class="n">ifftn</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="step-1-generate-ir-basis-and-associated-sampling-points">
+<h3>Step 1: Generate IR basis and associated sampling points<a class="headerlink" href="#step-1-generate-ir-basis-and-associated-sampling-points" title="Permalink to this headline">¶</a></h3>
+<p>The following code works only for a single-orbital problem.
+<code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv</span></code> can be used instead for computing matrix-valued Green’s functons, i.e., for multi-orbital systems.
+The condition numbers are around 180 and 250 for imaginary-time and Matsubara-frequency samplings,
+repspectively.
+This means that we may lose two significant digits when fitting numerical data on the sampling points.
+Thus, the results of fits are expected to have an accuracy of five significant digits (<span class="math notranslate nohighlight">\(10^{-7} \times 10^2 = 10^{-5}\)</span>).
+If you want more significant digits, you can decrease the cutoff.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_</span> <span class="o">=</span> <span class="mf">1e+5</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">1e+3</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
+<span class="c1"># Number of divisions along each reciprocal lattice vector</span>
+<span class="c1"># Note: For a smaller nk (e.g., 64), an unphysical small structures appear in the self-energy at low frequencies.</span>
+<span class="c1">#nk_lin = 256</span>
+<span class="n">nk_lin</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="c1"># Onsite repulsion</span>
+
+<span class="n">wmax</span> <span class="o">=</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">beta</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c1"># Sparse sampling in tau</span>
+<span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">ntau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cond (tau): &quot;</span><span class="p">,</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+
+<span class="c1"># Sparse sampling in Matsubara frequencies</span>
+<span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">nw</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cond (matsu): &quot;</span><span class="p">,</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cond (tau):  178.70757079875403
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cond (matsu):  248.85182514455107
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="step-2">
+<h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">¶</a></h3>
+<p>Compute the non-interacting Green’s function on a mesh.
+The Green’s function computed at <span class="math notranslate nohighlight">\(\boldsymbol{k}=\Gamma=(0,0)\)</span> is plotted below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kps</span> <span class="o">=</span> <span class="p">(</span><span class="n">nk_lin</span><span class="p">,</span> <span class="n">nk_lin</span><span class="p">)</span>
+<span class="n">nk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">kps</span><span class="p">)</span>
+<span class="n">nr</span> <span class="o">=</span> <span class="n">nk</span>
+<span class="n">kgrid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span><span class="o">/</span><span class="n">kp</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kps</span><span class="p">]</span>
+<span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">kgrid</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">k2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">k1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">k2</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ek</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="n">beta</span>
+<span class="n">gkf</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">iv</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">ek</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="kc">None</span><span class="p">,:])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">gkf</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~G(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(256, 256) (256, 256) (256, 256)
+</pre></div>
+</div>
+<img alt="../_images/second_order_perturbation_py_8_1.png" src="../_images/second_order_perturbation_py_8_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="step-3">
+<h3>Step 3<a class="headerlink" href="#step-3" title="Permalink to this headline">¶</a></h3>
+<p>Transform the Green’s function to sampling times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># G(l, k): (L, nk)</span>
+<span class="n">gkl</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gkf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">gkl</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gkl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|G(l, \Gamma)|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_10_0.png" src="../_images/second_order_perturbation_py_10_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gkt</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gkl</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">gkt</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">gkt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> 
+    <span class="n">gkt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">*</span><span class="n">kps</span><span class="p">)[:,</span><span class="n">nk_lin</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span><span class="n">nk_lin</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$M$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~G(\tau, k)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_11_0.png" src="../_images/second_order_perturbation_py_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="step-4">
+<h3>Step 4<a class="headerlink" href="#step-4" title="Permalink to this headline">¶</a></h3>
+<p>Transform the Green’s function to the real space and evaluate the self-energy</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute G(tau, r): (ntau, nk)</span>
+<span class="c1">#  (1) Reshape gkt into shape of (ntau, nk_lin, nk_lin).</span>
+<span class="c1">#  (2) Apply FFT to the axes 1, 2.</span>
+<span class="c1">#  (3) Reshape the result to (ntau, nk)</span>
+<span class="c1"># G(tau, k): (ntau, nk)</span>
+<span class="n">grt</span> <span class="o">=</span> <span class="n">fftn</span><span class="p">(</span><span class="n">gkt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="n">nk</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">grt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~G(\tau, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_13_0.png" src="../_images/second_order_perturbation_py_13_0.png" />
+</div>
+</div>
+<p>Compute the second-order term of the self-energy on the sampling points</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(tau, r): (ntau, nr)</span>
+<span class="n">srt</span> <span class="o">=</span> <span class="n">U</span><span class="o">*</span><span class="n">U</span><span class="o">*</span><span class="n">grt</span><span class="o">*</span><span class="n">grt</span><span class="o">*</span><span class="n">grt</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">srt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~\Sigma(\tau, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_15_0.png" src="../_images/second_order_perturbation_py_15_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="step-5">
+<h3>Step 5<a class="headerlink" href="#step-5" title="Permalink to this headline">¶</a></h3>
+<p>Tansform the self-energy to the IR basis and then transform it to the momentum spacre</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(l, r): (L, nr)</span>
+<span class="n">srl</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">srt</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">srl</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">nr</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">srl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~\Sigma(l, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-8</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_17_0.png" src="../_images/second_order_perturbation_py_17_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(l, k): (L, nk)</span>
+<span class="n">srl</span> <span class="o">=</span> <span class="n">srl</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">)</span>
+<span class="n">skl</span> <span class="o">=</span> <span class="n">ifftn</span><span class="p">(</span><span class="n">srl</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">nk</span>
+<span class="n">skl</span> <span class="o">=</span> <span class="n">skl</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">)</span>
+
+<span class="c1">#plt.semilogy(np.max(np.abs(skl),axis=(1,2)), label=&quot;max, abs&quot;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">skl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Singular values&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|\Sigma(l, k)|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_18_0.png" src="../_images/second_order_perturbation_py_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="step-6">
+<h3>Step 6<a class="headerlink" href="#step-6" title="Permalink to this headline">¶</a></h3>
+<p>Evaluate the self-energy on sampling frequencies</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma_iv</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">skl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/second_order_perturbation_py_20_0.png" src="../_images/second_order_perturbation_py_20_0.png" />
+</div>
+</div>
+<p>You can evaluate the self-energy on arbitrary frequencies.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_freqs</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># odd</span>
+<span class="n">smpl_matsu2</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">my_freqs</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">smpl_matsu2</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">skl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">my_freqs</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sparse_ir/sampling.py:34: ConditioningWarning: Sampling matrix is poorly conditioned (cond = 5.7e+14)
+  warn(&quot;Sampling matrix is poorly conditioned (cond = %.2g)&quot;
+</pre></div>
+</div>
+<img alt="../_images/second_order_perturbation_py_22_1.png" src="../_images/second_order_perturbation_py_22_1.png" />
+</div>
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">
