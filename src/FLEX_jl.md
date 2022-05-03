@@ -33,6 +33,23 @@ using LinearAlgebra
 using Roots
 using SparseIR
 import SparseIR: Statistics
+#using JET
+
+# Check if a given function called with given types is type stable
+function typestable(@nospecialize(f), @nospecialize(t))
+    v = code_typed(f, t)
+    stable = true
+    for vi in v
+        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
+            !(ty isa Type) && continue
+            if ty === Any
+                stable = false
+                println("Type instability is detected! the variable is $(name) ::$ty")
+            end
+        end
+    end
+    return stable
+end
 ```
 
 #### Parameter setting
@@ -70,7 +87,7 @@ struct Mesh
     nk1         ::Int64
     nk2         ::Int64
     nk          ::Int64
-    ek          ::Array{ComplexF64,2} 
+    ek          ::Array{Float64,2} 
     iw0_f       ::Int64
     iw0_b       ::Int64
     fnw         ::Int64
@@ -111,7 +128,7 @@ function Mesh(
     Mesh(nk1, nk2, nk, ek, iw0_f, iw0_b, fnw, fntau, bnw, bntau, IR_basis_set)
 end
 
-function smpl_obj(mesh::Mesh, statistics::SparseIR.Statistics)::Tuple{TauSampling, MatsubaraSampling}
+function smpl_obj(mesh::Mesh, statistics::SparseIR.Statistics)
     """ Return sampling object for given statistic """
     if statistics == fermion
         smpl_tau = mesh.IR_basis_set.smpl_tau_f
@@ -124,12 +141,12 @@ function smpl_obj(mesh::Mesh, statistics::SparseIR.Statistics)::Tuple{TauSamplin
 end
 
 """Fourier transformation"""    
-function tau_to_wn(mesh::Mesh, statistics::Statistics, obj_tau)
+function tau_to_wn(mesh::Mesh, statistics, obj_tau) where {T <: SparseIR.Statistics}
     """ Fourier transform from tau to iw_n via IR basis """
     smpl_tau, smpl_wn = smpl_obj(mesh, statistics)
 
-    obj_l   = fit(smpl_tau, obj_tau, axis=1)
-    obj_wn  = evaluate(smpl_wn, obj_l, axis=1)
+    obj_l = fit(smpl_tau, obj_tau, dim=1)
+    obj_wn = evaluate(smpl_wn, obj_l, dim=1)
     return obj_wn
 end
 
@@ -137,12 +154,11 @@ function wn_to_tau(mesh::Mesh, statistics::Statistics, obj_wn)
     """ Fourier transform from iw_n to tau via IR basis """
     smpl_tau, smpl_wn = smpl_obj(mesh, statistics)
 
-    obj_l   = fit(smpl_wn, obj_wn, axis=1)
-    obj_tau = evaluate(smpl_tau, obj_l, axis=1)
+    obj_l   = fit(smpl_wn, obj_wn, dim=1)
+    obj_tau = evaluate(smpl_tau, obj_l, dim=1)
     return obj_tau
 end
-
-    
+ 
 function k_to_r(mesh::Mesh, obj_k)
     """ Fourier transform from k-space to real space """
     obj_r = fft(obj_k,[2,3])
@@ -154,7 +170,9 @@ function r_to_k(mesh::Mesh, obj_r)
     obj_k = ifft(obj_r,[2,3])/mesh.nk
     return obj_k
 end
-;
+
+@assert typestable(tau_to_wn, (Mesh, SparseIR.Statistics, Array{ComplexF64,4}))
+@assert typestable(wn_to_tau, (Mesh, SparseIR.Statistics, Array{ComplexF64,4}))
 ```
 
 #### FLEX loop solver
@@ -218,7 +236,7 @@ end
 function solve(solver::FLEXSolver)
     """ FLEXSolver.solve() executes FLEX loop until convergence """
     # check whether U < U_crit! Otherwise, U needs to be renormalized.
-    if findmax(abs.(solver.ckio*solver.U))[1] >= 1
+    if maximum(abs, solver.ckio) * solver.U >= 1
         U_renormalization(solver)
     end
             
@@ -242,18 +260,27 @@ end
     
 function loop(solver::FLEXSolver)
     """ FLEX loop """
+    #t1 = time_ns()
     gkio_old = copy(solver.gkio)
     
+    #t2 = time_ns()
+
     V_calc(solver)
     sigma_calc(solver)
+    
+    #t3 = time_ns()
         
     solver.mu = mu_calc(solver)
+    #t4 = time_ns()
     gkio_calc(solver,solver.mu)
+    #t5 = time_ns()
     
     solver.gkio .= solver.mix*solver.gkio .+ (1-solver.mix)*gkio_old
         
     grit_calc(solver)
     ckio_calc(solver)
+    #t6 = time_ns()
+    #println("debug ", (t2-t1)*1e-9, " ", (t3-t2)*1e-9, (t4-t3)*1e-9, " ", (t5-t4)*1e-9, " ", (t6-t5)*1e-9)
 end
 
 
@@ -268,11 +295,11 @@ function U_renormalization(solver::FLEXSolver)
     # renormalization loop may run infinitely! Insert break condition after U_it_max steps
     U_it::Int64 = 0
     
-    while (U_old*findmax(abs.(solver.ckio))[1]) >= 1.0
+    while U_old*maximum(abs, solver.ckio) >= 1.0
         U_it += 1
         
         # remormalize U such that U*chi0 < 1
-        solver.U = solver.U / ((findmax(abs.(solver.ckio))[1])*solver.U + 0.01)
+        solver.U = solver.U / (maximum(abs, solver.ckio)*solver.U + 0.01)
         println(U_it, '\t', solver.U, '\t', U_old)
         
         # perform one shot FLEX loop
@@ -321,15 +348,15 @@ end
 function V_calc(solver::FLEXSolver)
     """ Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma """
     # check whether U is too large and give warning
-    if findmax(abs.(solver.ckio*solver.U))[1] >= 1
+    if maximum(abs.(solver.ckio))*solver.U >= 1
         error("U*max(chi0) >= 1! Paramagnetic phase is left and calculations will turn unstable!")
     end
         
     # spin and charge susceptibility
-    chi_spin   = solver.ckio ./ (1 .- solver.U*solver.ckio)
-    chi_charge = solver.ckio ./ (1 .+ solver.U*solver.ckio)
+    chi_spin   = solver.ckio ./ (1 .- solver.U .* solver.ckio)
+    chi_charge = solver.ckio ./ (1 .+ solver.U .* solver.ckio)
 
-    Vkio = 1.5*solver.U^2 * chi_spin .+ 0.5*solver.U^2 * chi_charge .- solver.U^2 * solver.ckio
+    Vkio = (1.5*solver.U^2) .* chi_spin .+ (0.5*solver.U^2) .* chi_charge .- (solver.U^2) .* solver.ckio
     # Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.
     # In the single-band case, the Hartree term can be absorbed into the chemical potential.
 
@@ -351,11 +378,16 @@ end
 #%%%%%%%%%%% Setting chemical potential mu
 function calc_electron_density(solver::FLEXSolver,mu::Float64)::Float64
     """ Calculate electron density from Green function """
+    #t1 = time_ns()
     gkio_calc(solver,mu)
     gio = dropdims(sum(solver.gkio,dims=(2,3)),dims=(2,3))/solver.mesh.nk
+    #t2 = time_ns()
     
-    g_l = fit(solver.mesh.IR_basis_set.smpl_wn_f,gio,axis=1)
-    g_tau0 = dot(solver.mesh.IR_basis_set.basis_f.u(0),g_l)
+    g_l = fit(solver.mesh.IR_basis_set.smpl_wn_f,gio, dim=1)
+    #t3 = time_ns()
+    g_tau0 = dot(solver.mesh.IR_basis_set.basis_f.u(0), g_l)
+    #t4 = time_ns()
+    #println("timing ", 1e-9*(t2-t1),  " ", 1e-9*(t3-t2), " ", 1e-9*(t4-t3))
     
     n  = 1.0 + real(g_tau0)
     n  = 2.0 * n #for spin
@@ -365,21 +397,59 @@ function mu_calc(solver::FLEXSolver)::Float64
     """ Find chemical potential for a given filling n0 via brent's root finding algorithm """
     f  = x -> calc_electron_density(solver,x) - solver.n
         
-    mu = find_zero(f, (findmin(real.(solver.mesh.ek))[1]*3,findmax(real.(solver.mesh.ek))[1]*3), Roots.Brent()) 
+    mu = find_zero(f, (3*minimum(solver.mesh.ek), 3*maximum(solver.mesh.ek)), Roots.Brent()) 
 end
+@assert typestable(U_renormalization, FLEXSolver)
+@assert typestable(solve, FLEXSolver)
 ```
 
 ### Execute FLEX loop
 
 ```{code-cell}
 # initialize calculation
+#t1 = time_ns()
 IR_basis_set = FiniteTempBasisSet(beta, wmax, IR_tol)
+#t2 = time_ns()
 mesh = Mesh(nk1, nk2, IR_basis_set)
 sigma_init = zeros(ComplexF64,(mesh.fnw, nk1, nk2))
 solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
+#t3 = time_ns()
 
 # perform FLEX loop
 solve(solver)
+#t4 = time_ns()
+#println((t2-t1)*1e-9)
+#println((t3-t2)*1e-9)
+#println((t4-t3)*1e-9)
+```
+
+```{code-cell}
+#using BenchmarkTools
+#@benchmark loop(solver)
+```
+
+```{code-cell}
+#@benchmark gkio_calc(solver, 0.0)
+#@code_warntype gkio_calc(solver, 0.0)
+```
+
+```{code-cell}
+#@benchmark calc_electron_density(solver, 0.0)
+```
+
+```{code-cell}
+#@report_opt target_modules=(@__MODULE__,)  U_renormalization(solver)
+#using BenchmarkTools
+#@benchmark loop(solver)
+#@benchmark V_calc(solver)
+```
+
+```{code-cell}
+#@benchmark sigma_calc(solver)
+```
+
+```{code-cell}
+#@benchmark mu_calc(solver)
 ```
 
 #### Visualize results
@@ -703,4 +773,12 @@ f_ax2.set_ylabel(L"\lambda_d, 1/\chi_{\mathrm{s},\mathrm{max}}", fontsize=14)
 f_ax2.legend()
 f_ax2.grid()
 plt.show()
+```
+
+```{code-cell}
+
+```
+
+```{code-cell}
+
 ```
