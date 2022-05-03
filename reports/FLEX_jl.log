@@ -17,50 +17,57 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-using PyPlot
-rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
-rcParams["text.usetex"] = true
-rcParams["font.family"] = "serif"
-rcParams["font.size"] = 16
-rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
+# initialize calculation
+#t1 = time_ns()
+IR_basis_set = FiniteTempBasisSet(beta, wmax, IR_tol)
+#t2 = time_ns()
+mesh = Mesh(nk1, nk2, IR_basis_set)
+sigma_init = zeros(ComplexF64,(mesh.fnw, nk1, nk2))
+solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
+#t3 = time_ns()
 
-using Revise
-using FFTW
-using LinearAlgebra
-using Roots
-using SparseIR
-import SparseIR: Statistics
-#using JET
-
-# Check if a given function called with given types is type stable
-function typestable(@nospecialize(f), @nospecialize(t))
-    v = code_typed(f, t)
-    stable = true
-    for vi in v
-        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
-            !(ty isa Type) && continue
-            if ty === Any
-                stable = false
-                println("Type instability is detected! the variable is $(name) ::$ty")
-            end
-        end
-    end
-    return stable
-end
+# perform FLEX loop
+solve(solver)
+#t4 = time_ns()
+#println((t2-t1)*1e-9)
+#println((t3-t2)*1e-9)
+#println((t4-t3)*1e-9)
 ------------------
 
-ArgumentError: Package Revise not found in current path:
-- Run `import Pkg; Pkg.add("Revise")` to install the Revise package.
-
+MethodError: no method matching fit(::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, ComplexF64, Float64}, ::Vector{ComplexF64}; dim=1)
+[0mClosest candidates are:
+[0m  fit(::SparseIR.AbstractSampling, ::Any; dims) at ~/.julia/packages/SparseIR/ukACp/src/sampling.jl:114[91m got unsupported keyword argument "dim"[39m
 
 Stacktrace:
- [1] require(into::Module, mod::Symbol)
-   @ Base ./loading.jl:967
- [2] eval
-   @ ./boot.jl:373 [inlined]
- [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
-   @ Base ./loading.jl:1196
-LoadError: ArgumentError: Package Revise not found in current path:
-- Run `import Pkg; Pkg.add("Revise")` to install the Revise package.
-
+  [1] kwerr(::NamedTuple{(:dim,), Tuple{Int64}}, ::Function, ::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, ComplexF64, Float64}, ::Vector{ComplexF64})
+    @ Base ./error.jl:163
+  [2] calc_electron_density(solver::FLEXSolver, mu::Float64)
+    @ Main ./In[4]:206
+  [3] (::var"#6#7"{FLEXSolver})(x::Float64)
+    @ Main ./In[4]:218
+  [4] (::Roots.Callable_Function{Val{1}, Val{false}, var"#6#7"{FLEXSolver}, Nothing})(x::Float64)
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/functions.jl:27
+  [5] init_state(M::Roots.Brent, F::Roots.Callable_Function{Val{1}, Val{false}, var"#6#7"{FLEXSolver}, Nothing}, x::Tuple{Float64, Float64})
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/Bracketing/bracketing.jl:5
+  [6] init(𝑭𝑿::ZeroProblem{var"#6#7"{FLEXSolver}, Tuple{Float64, Float64}}, M::Roots.Brent, p′::Nothing; p::Nothing, verbose::Bool, tracks::Roots.NullTracks, kwargs::Base.Pairs{Symbol, Union{}, Tuple{}, NamedTuple{(), Tuple{}}})
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/find_zero.jl:260
+  [7] solve(𝑭𝑿::ZeroProblem{var"#6#7"{FLEXSolver}, Tuple{Float64, Float64}}, args::Roots.Brent; verbose::Bool, kwargs::Base.Pairs{Symbol, Union{Nothing, Roots.NullTracks}, Tuple{Symbol, Symbol}, NamedTuple{(:p, :tracks), Tuple{Nothing, Roots.NullTracks}}})
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/find_zero.jl:439
+  [8] find_zero(f::Function, x0::Tuple{Float64, Float64}, M::Roots.Brent; p::Nothing, verbose::Bool, tracks::Roots.NullTracks, kwargs::Base.Pairs{Symbol, Union{}, Tuple{}, NamedTuple{(), Tuple{}}})
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/find_zero.jl:197
+  [9] find_zero(f::Function, x0::Tuple{Float64, Float64}, M::Roots.Brent)
+    @ Roots ~/.julia/packages/Roots/kyxnO/src/find_zero.jl:197
+ [10] mu_calc(solver::FLEXSolver)
+    @ Main ./In[4]:220
+ [11] FLEXSolver(mesh::Mesh, beta::Float64, U::Float64, n::Float64, sigma_init::Array{ComplexF64, 3}; sfc_tol::Float64, maxiter::Int64, U_maxiter::Int64, mix::Float64, verbose::Bool)
+    @ Main ./In[4]:48
+ [12] top-level scope
+    @ In[5]:7
+ [13] eval
+    @ ./boot.jl:373 [inlined]
+ [14] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+    @ Base ./loading.jl:1196
+LoadError: MethodError: no method matching fit(::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, ComplexF64, Float64}, ::Vector{ComplexF64}; dim=1)
+[0mClosest candidates are:
+[0m  fit(::SparseIR.AbstractSampling, ::Any; dims) at ~/.julia/packages/SparseIR/ukACp/src/sampling.jl:114[91m got unsupported keyword argument "dim"[39m
 
