@@ -520,19 +520,36 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">PyPlot</span>
-<span class="n">rcParams</span> <span class="o">=</span> <span class="n">PyPlot</span><span class="o">.</span><span class="n">PyDict</span><span class="p">(</span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="s2">&quot;rcParams&quot;</span><span class="p">)</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;text.usetex&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">true</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.family&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;serif&quot;</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;font.size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;text.latex.preamble&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw</span><span class="s2">&quot;\usepackage</span><span class="si">{amsmath}</span><span class="s2">&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using PyPlot
+rcParams = PyPlot.PyDict(PyPlot.matplotlib.&quot;rcParams&quot;)
+rcParams[&quot;text.usetex&quot;] = true
+rcParams[&quot;font.family&quot;] = &quot;serif&quot;
+rcParams[&quot;font.size&quot;] = 16
+rcParams[&quot;text.latex.preamble&quot;] = raw&quot;\usepackage{amsmath}&quot;
 
-<span class="n">using</span> <span class="n">Revise</span>
-<span class="n">using</span> <span class="n">FFTW</span>
-<span class="n">using</span> <span class="n">LinearAlgebra</span>
-<span class="n">using</span> <span class="n">Roots</span>
-<span class="n">using</span> <span class="n">SparseIR</span>
-<span class="kn">import</span> <span class="nn">SparseIR</span><span class="p">:</span> <span class="n">Statistics</span>
+using Revise
+using FFTW
+using LinearAlgebra
+using Roots
+using SparseIR
+import SparseIR: Statistics
+#using JET
+
+# Check if a given function called with given types is type stable
+function typestable(@nospecialize(f), @nospecialize(t))
+    v = code_typed(f, t)
+    stable = true
+    for vi in v
+        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
+            !(ty isa Type) &amp;&amp; continue
+            if ty === Any
+                stable = false
+                println(&quot;Type instability is detected! the variable is $(name) ::$ty&quot;)
+            end
+        end
+    end
+    return stable
+end
 </pre></div>
 </div>
 </div>
@@ -577,7 +594,7 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">nk1</span>         <span class="p">::</span><span class="n">Int64</span>
     <span class="n">nk2</span>         <span class="p">::</span><span class="n">Int64</span>
     <span class="n">nk</span>          <span class="p">::</span><span class="n">Int64</span>
-    <span class="n">ek</span>          <span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span> 
+    <span class="n">ek</span>          <span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="n">Float64</span><span class="p">,</span><span class="mi">2</span><span class="p">}</span> 
     <span class="n">iw0_f</span>       <span class="p">::</span><span class="n">Int64</span>
     <span class="n">iw0_b</span>       <span class="p">::</span><span class="n">Int64</span>
     <span class="n">fnw</span>         <span class="p">::</span><span class="n">Int64</span>
@@ -618,7 +635,7 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">nk</span><span class="p">,</span> <span class="n">ek</span><span class="p">,</span> <span class="n">iw0_f</span><span class="p">,</span> <span class="n">iw0_b</span><span class="p">,</span> <span class="n">fnw</span><span class="p">,</span> <span class="n">fntau</span><span class="p">,</span> <span class="n">bnw</span><span class="p">,</span> <span class="n">bntau</span><span class="p">,</span> <span class="n">IR_basis_set</span><span class="p">)</span>
 <span class="n">end</span>
 
-<span class="n">function</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">::</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">::</span><span class="n">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">)::</span><span class="n">Tuple</span><span class="p">{</span><span class="n">TauSampling</span><span class="p">,</span> <span class="n">MatsubaraSampling</span><span class="p">}</span>
+<span class="n">function</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">::</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">::</span><span class="n">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">statistics</span> <span class="o">==</span> <span class="n">fermion</span>
         <span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span>
@@ -631,12 +648,12 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">end</span>
 
 <span class="sd">&quot;&quot;&quot;Fourier transformation&quot;&quot;&quot;</span>    
-<span class="n">function</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">mesh</span><span class="p">::</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">::</span><span class="n">Statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">)</span>
+<span class="n">function</span> <span class="n">tau_to_wn</span><span class="p">(</span><span class="n">mesh</span><span class="p">::</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">)</span> <span class="n">where</span> <span class="p">{</span><span class="n">T</span> <span class="o">&lt;</span><span class="p">:</span> <span class="n">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">}</span>
     <span class="sd">&quot;&quot;&quot; Fourier transform from tau to iw_n via IR basis &quot;&quot;&quot;</span>
     <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">)</span>
 
-    <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_l</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_wn</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">obj_wn</span>
 <span class="n">end</span>
 
@@ -644,12 +661,11 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="sd">&quot;&quot;&quot; Fourier transform from iw_n to tau via IR basis &quot;&quot;&quot;</span>
     <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">statistics</span><span class="p">)</span>
 
-    <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">smpl_wn</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_tau</span><span class="p">,</span> <span class="n">obj_l</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">obj_tau</span>
 <span class="n">end</span>
-
-    
+ 
 <span class="n">function</span> <span class="n">k_to_r</span><span class="p">(</span><span class="n">mesh</span><span class="p">::</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">obj_k</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;</span>
     <span class="n">obj_r</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">obj_k</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
@@ -661,7 +677,9 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="n">obj_k</span> <span class="o">=</span> <span class="n">ifft</span><span class="p">(</span><span class="n">obj_r</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span><span class="o">/</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
     <span class="k">return</span> <span class="n">obj_k</span>
 <span class="n">end</span>
-<span class="p">;</span>
+
+<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">tau_to_wn</span><span class="p">,</span> <span class="p">(</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">,</span> <span class="n">Array</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">,</span><span class="mi">4</span><span class="p">}))</span>
+<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">wn_to_tau</span><span class="p">,</span> <span class="p">(</span><span class="n">Mesh</span><span class="p">,</span> <span class="n">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">,</span> <span class="n">Array</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">,</span><span class="mi">4</span><span class="p">}))</span>
 </pre></div>
 </div>
 </div>
@@ -729,7 +747,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">function</span> <span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="p">::</span><span class="n">FLEXSolver</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot; FLEXSolver.solve() executes FLEX loop until convergence &quot;&quot;&quot;</span>
     <span class="c1"># check whether U &lt; U_crit! Otherwise, U needs to be renormalized.</span>
-    <span class="k">if</span> <span class="n">findmax</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">maximum</span><span class="p">(</span><span class="nb">abs</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span> <span class="o">*</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span>
         <span class="n">U_renormalization</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
     <span class="n">end</span>
             
@@ -753,18 +771,27 @@ const thebe_selector_output = ".output, .cell_output"
     
 <span class="n">function</span> <span class="n">loop</span><span class="p">(</span><span class="n">solver</span><span class="p">::</span><span class="n">FLEXSolver</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot; FLEX loop &quot;&quot;&quot;</span>
+    <span class="c1">#t1 = time_ns()</span>
     <span class="n">gkio_old</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span>
     
+    <span class="c1">#t2 = time_ns()</span>
+
     <span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
     <span class="n">sigma_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    
+    <span class="c1">#t3 = time_ns()</span>
         
     <span class="n">solver</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="c1">#t4 = time_ns()</span>
     <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">solver</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+    <span class="c1">#t5 = time_ns()</span>
     
     <span class="n">solver</span><span class="o">.</span><span class="n">gkio</span> <span class="o">.=</span> <span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span> <span class="o">.+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
         
     <span class="n">grit_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
     <span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="c1">#t6 = time_ns()</span>
+    <span class="c1">#println(&quot;debug &quot;, (t2-t1)*1e-9, &quot; &quot;, (t3-t2)*1e-9, (t4-t3)*1e-9, &quot; &quot;, (t5-t4)*1e-9, &quot; &quot;, (t6-t5)*1e-9)</span>
 <span class="n">end</span>
 
 
@@ -779,11 +806,11 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="c1"># renormalization loop may run infinitely! Insert break condition after U_it_max steps</span>
     <span class="n">U_it</span><span class="p">::</span><span class="n">Int64</span> <span class="o">=</span> <span class="mi">0</span>
     
-    <span class="k">while</span> <span class="p">(</span><span class="n">U_old</span><span class="o">*</span><span class="n">findmax</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span> <span class="o">&gt;=</span> <span class="mf">1.0</span>
+    <span class="k">while</span> <span class="n">U_old</span><span class="o">*</span><span class="n">maximum</span><span class="p">(</span><span class="nb">abs</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mf">1.0</span>
         <span class="n">U_it</span> <span class="o">+=</span> <span class="mi">1</span>
         
         <span class="c1"># remormalize U such that U*chi0 &lt; 1</span>
-        <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">/</span> <span class="p">((</span><span class="n">findmax</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">))[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">/</span> <span class="p">(</span><span class="n">maximum</span><span class="p">(</span><span class="nb">abs</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
         <span class="n">println</span><span class="p">(</span><span class="n">U_it</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">U_old</span><span class="p">)</span>
         
         <span class="c1"># perform one shot FLEX loop</span>
@@ -832,15 +859,15 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">function</span> <span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">::</span><span class="n">FLEXSolver</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma &quot;&quot;&quot;</span>
     <span class="c1"># check whether U is too large and give warning</span>
-    <span class="k">if</span> <span class="n">findmax</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">maximum</span><span class="p">(</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span>
         <span class="n">error</span><span class="p">(</span><span class="s2">&quot;U*max(chi0) &gt;= 1! Paramagnetic phase is left and calculations will turn unstable!&quot;</span><span class="p">)</span>
     <span class="n">end</span>
         
     <span class="c1"># spin and charge susceptibility</span>
-    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
-    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_spin</span>   <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">.*</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+    <span class="n">chi_charge</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span> <span class="o">./</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.+</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span> <span class="o">.*</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
 
-    <span class="n">Vkio</span> <span class="o">=</span> <span class="mf">1.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_spin</span> <span class="o">.+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">chi_charge</span> <span class="o">.-</span> <span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span>
+    <span class="n">Vkio</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">chi_spin</span> <span class="o">.+</span> <span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">chi_charge</span> <span class="o">.-</span> <span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">solver</span><span class="o">.</span><span class="n">ckio</span>
     <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
     <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
 
@@ -862,11 +889,16 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="c1">#%%%%%%%%%%% Setting chemical potential mu</span>
 <span class="n">function</span> <span class="n">calc_electron_density</span><span class="p">(</span><span class="n">solver</span><span class="p">::</span><span class="n">FLEXSolver</span><span class="p">,</span><span class="n">mu</span><span class="p">::</span><span class="n">Float64</span><span class="p">)::</span><span class="n">Float64</span>
     <span class="sd">&quot;&quot;&quot; Calculate electron density from Green function &quot;&quot;&quot;</span>
+    <span class="c1">#t1 = time_ns()</span>
     <span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">mu</span><span class="p">)</span>
     <span class="n">gio</span> <span class="o">=</span> <span class="n">dropdims</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">,</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
+    <span class="c1">#t2 = time_ns()</span>
     
-    <span class="n">g_l</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span><span class="n">gio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">g_tau0</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="n">g_l</span><span class="p">)</span>
+    <span class="n">g_l</span> <span class="o">=</span> <span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span><span class="n">gio</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1">#t3 = time_ns()</span>
+    <span class="n">g_tau0</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">g_l</span><span class="p">)</span>
+    <span class="c1">#t4 = time_ns()</span>
+    <span class="c1">#println(&quot;timing &quot;, 1e-9*(t2-t1),  &quot; &quot;, 1e-9*(t3-t2), &quot; &quot;, 1e-9*(t4-t3))</span>
     
     <span class="n">n</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
     <span class="n">n</span>  <span class="o">=</span> <span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span> <span class="c1">#for spin</span>
@@ -876,8 +908,10 @@ const thebe_selector_output = ".output, .cell_output"
     <span class="sd">&quot;&quot;&quot; Find chemical potential for a given filling n0 via brent&#39;s root finding algorithm &quot;&quot;&quot;</span>
     <span class="n">f</span>  <span class="o">=</span> <span class="n">x</span> <span class="o">-&gt;</span> <span class="n">calc_electron_density</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">solver</span><span class="o">.</span><span class="n">n</span>
         
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">find_zero</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">findmin</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span><span class="n">findmax</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">))[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">3</span><span class="p">),</span> <span class="n">Roots</span><span class="o">.</span><span class="n">Brent</span><span class="p">())</span> 
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">find_zero</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">minimum</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">),</span> <span class="mi">3</span><span class="o">*</span><span class="n">maximum</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">)),</span> <span class="n">Roots</span><span class="o">.</span><span class="n">Brent</span><span class="p">())</span> 
 <span class="n">end</span>
+<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">U_renormalization</span><span class="p">,</span> <span class="n">FLEXSolver</span><span class="p">)</span>
+<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">solve</span><span class="p">,</span> <span class="n">FLEXSolver</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -888,13 +922,67 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize calculation</span>
+<span class="c1">#t1 = time_ns()</span>
 <span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">IR_tol</span><span class="p">)</span>
+<span class="c1">#t2 = time_ns()</span>
 <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">IR_basis_set</span><span class="p">)</span>
 <span class="n">sigma_init</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,(</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">))</span>
 <span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">)</span>
+<span class="c1">#t3 = time_ns()</span>
 
 <span class="c1"># perform FLEX loop</span>
 <span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+<span class="c1">#t4 = time_ns()</span>
+<span class="c1">#println((t2-t1)*1e-9)</span>
+<span class="c1">#println((t3-t2)*1e-9)</span>
+<span class="c1">#println((t4-t3)*1e-9)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#using BenchmarkTools</span>
+<span class="c1">#@benchmark loop(solver)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@benchmark gkio_calc(solver, 0.0)</span>
+<span class="c1">#@code_warntype gkio_calc(solver, 0.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@benchmark calc_electron_density(solver, 0.0)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@report_opt target_modules=(@__MODULE__,)  U_renormalization(solver)</span>
+<span class="c1">#using BenchmarkTools</span>
+<span class="c1">#@benchmark loop(solver)</span>
+<span class="c1">#@benchmark V_calc(solver)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@benchmark sigma_calc(solver)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#@benchmark mu_calc(solver)</span>
 </pre></div>
 </div>
 </div>

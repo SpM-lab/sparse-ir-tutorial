@@ -23,8 +23,8 @@ using PyPlot
 using OMEinsum
 
 
-beta = 15
-wmax = 10
+beta = 15.0
+wmax = 10.0
 basis_b = FiniteTempBasis(boson, beta, wmax, 1e-7)
 
 coeff = [1.0]

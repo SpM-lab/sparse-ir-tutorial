@@ -30,6 +30,23 @@ using LinearAlgebra
 using Roots
 using SparseIR
 import SparseIR: Statistics
+#using JET
+
+# Check if a given function called with given types is type stable
+function typestable(@nospecialize(f), @nospecialize(t))
+    v = code_typed(f, t)
+    stable = true
+    for vi in v
+        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
+            !(ty isa Type) && continue
+            if ty === Any
+                stable = false
+                println("Type instability is detected! the variable is $(name) ::$ty")
+            end
+        end
+    end
+    return stable
+end
 ------------------
 
 ArgumentError: Package Revise not found in current path:
