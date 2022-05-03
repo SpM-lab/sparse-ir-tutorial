@@ -33,7 +33,7 @@ jobs:
     - uses: julia-actions/setup-julia@v1
       with:
         version: 1.7.2
-    - run: julia -e 'using Pkg;Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR"])'
+    - run: julia -e 'using Pkg;Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots"])'
     #- run: julia -e 'using Pkg;Pkg.add(name="SparseIR", version="0.9.1")'
 
     # Build the book
