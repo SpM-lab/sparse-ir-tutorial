@@ -14,6 +14,7 @@ kernelspec:
 
 ```{code-cell} ipython3
 import numpy as np
+%matplotlib inline
 import matplotlib.pyplot as pl
 import sparse_ir
 import sys 

@@ -11,7 +11,7 @@ kernelspec:
 ---
 
 # FLEX approximation
-Author: [Kosuke Nogaki](nogaki.kosuke.83v@st.kyoto-u.ac.jp)
+Author: [Kosuke Nogaki](mailto:nogaki.kosuke.83v@st.kyoto-u.ac.jp)
 
 ## Theory of FLEX in the paramagnetic state
 

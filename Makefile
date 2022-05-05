@@ -1,5 +1,5 @@
 build:
-	jupyter book build --all .
+	jupyter book build --all -v .
 
 update_header:
 	find src -name "*.md" |xargs ./bin/update_metadata.py
