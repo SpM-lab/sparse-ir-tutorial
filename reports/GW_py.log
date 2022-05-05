@@ -1,0 +1,87 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 1093, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 559, in async_execute
+    await self.async_execute_cell(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 854, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 756, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+import matplotlib.pyplot as pl
+import sparse_ir
+import sys 
+import math
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[0;32m/var/folders/1t/fxgqx0n17z33mplwpw4n1d8r0000gn/T/ipykernel_27419/3278869332.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0;32mimport[0m [0mnumpy[0m [0;32mas[0m [0mnp[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 2[0;31m [0;32mimport[0m [0mmatplotlib[0m[0;34m.[0m[0mpyplot[0m [0;32mas[0m [0mpl[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      3[0m [0;32mimport[0m [0msparse_ir[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      4[0m [0;32mimport[0m [0msys[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m [0;32mimport[0m [0mmath[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/pyplot.py[0m in [0;36m<module>[0;34m[0m
+[1;32m   2228[0m     [0mdict[0m[0;34m.[0m[0m__setitem__[0m[0;34m([0m[0mrcParams[0m[0;34m,[0m [0;34m"backend"[0m[0;34m,[0m [0mrcsetup[0m[0;34m.[0m[0m_auto_backend_sentinel[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   2229[0m [0;31m# Set up the backend.[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 2230[0;31m [0mswitch_backend[0m[0;34m([0m[0mrcParams[0m[0;34m[[0m[0;34m"backend"[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   2231[0m [0;34m[0m[0m
+[1;32m   2232[0m [0;31m# Just to be safe.  Interactive mode can be turned on without[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/pyplot.py[0m in [0;36mswitch_backend[0;34m(newbackend)[0m
+[1;32m    265[0m     [0mbackend_name[0m [0;34m=[0m [0mcbook[0m[0;34m.[0m[0m_backend_module_name[0m[0;34m([0m[0mnewbackend[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    266[0m [0;34m[0m[0m
+[0;32m--> 267[0;31m     [0;32mclass[0m [0mbackend_mod[0m[0;34m([0m[0mmatplotlib[0m[0;34m.[0m[0mbackend_bases[0m[0;34m.[0m[0m_Backend[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    268[0m         [0mlocals[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mupdate[0m[0;34m([0m[0mvars[0m[0;34m([0m[0mimportlib[0m[0;34m.[0m[0mimport_module[0m[0;34m([0m[0mbackend_name[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    269[0m [0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/pyplot.py[0m in [0;36mbackend_mod[0;34m()[0m
+[1;32m    266[0m [0;34m[0m[0m
+[1;32m    267[0m     [0;32mclass[0m [0mbackend_mod[0m[0;34m([0m[0mmatplotlib[0m[0;34m.[0m[0mbackend_bases[0m[0;34m.[0m[0m_Backend[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 268[0;31m         [0mlocals[0m[0;34m([0m[0;34m)[0m[0;34m.[0m[0mupdate[0m[0;34m([0m[0mvars[0m[0;34m([0m[0mimportlib[0m[0;34m.[0m[0mimport_module[0m[0;34m([0m[0mbackend_name[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    269[0m [0;34m[0m[0m
+[1;32m    270[0m     [0mrequired_framework[0m [0;34m=[0m [0m_get_required_interactive_framework[0m[0;34m([0m[0mbackend_mod[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/lib/python3.9/importlib/__init__.py[0m in [0;36mimport_module[0;34m(name, package)[0m
+[1;32m    125[0m                 [0;32mbreak[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    126[0m             [0mlevel[0m [0;34m+=[0m [0;36m1[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 127[0;31m     [0;32mreturn[0m [0m_bootstrap[0m[0;34m.[0m[0m_gcd_import[0m[0;34m([0m[0mname[0m[0;34m[[0m[0mlevel[0m[0;34m:[0m[0;34m][0m[0;34m,[0m [0mpackage[0m[0;34m,[0m [0mlevel[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    128[0m [0;34m[0m[0m
+[1;32m    129[0m [0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/backends/backend_tkagg.py[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0;32mfrom[0m [0;34m.[0m [0;32mimport[0m [0m_backend_tk[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;32mfrom[0m [0;34m.[0m[0mbackend_agg[0m [0;32mimport[0m [0mFigureCanvasAgg[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m from ._backend_tk import (
+[1;32m      4[0m     _BackendTk, FigureCanvasTk, FigureManagerTk, NavigationToolbar2Tk)
+[1;32m      5[0m [0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/matplotlib/backends/_backend_tk.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      5[0m [0;32mimport[0m [0mos[0m[0;34m.[0m[0mpath[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      6[0m [0;32mimport[0m [0msys[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 7[0;31m [0;32mimport[0m [0mtkinter[0m [0;32mas[0m [0mtk[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      8[0m [0;32mimport[0m [0mtkinter[0m[0;34m.[0m[0mfiledialog[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      9[0m [0;32mimport[0m [0mtkinter[0m[0;34m.[0m[0mfont[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/Cellar/python@3.9/3.9.10/Frameworks/Python.framework/Versions/3.9/lib/python3.9/tkinter/__init__.py[0m in [0;36m<module>[0;34m[0m
+[1;32m     35[0m [0;32mimport[0m [0mtypes[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     36[0m [0;34m[0m[0m
+[0;32m---> 37[0;31m [0;32mimport[0m [0m_tkinter[0m [0;31m# If this fails your Python may not be configured for Tk[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     38[0m [0mTclError[0m [0;34m=[0m [0m_tkinter[0m[0;34m.[0m[0mTclError[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     39[0m [0;32mfrom[0m [0mtkinter[0m[0;34m.[0m[0mconstants[0m [0;32mimport[0m [0;34m*[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mModuleNotFoundError[0m: No module named '_tkinter'
+ModuleNotFoundError: No module named '_tkinter'
+

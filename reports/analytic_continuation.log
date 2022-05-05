@@ -1,0 +1,88 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 1093, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/homebrew/Cellar/python@3.9/3.9.12/Frameworks/Python.framework/Versions/3.9/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 559, in async_execute
+    await self.async_execute_cell(
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 854, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/opt/homebrew/lib/python3.9/site-packages/nbclient/client.py", line 756, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+w = np.linspace(-wmax, wmax, 21)
+K = -basis.s[:, None] * np.array(
+        [basis.v.overlap(lambda w: f(w - wi)) for wi in w]).T
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mKeyboardInterrupt[0m                         Traceback (most recent call last)
+[0;32m/var/folders/1t/fxgqx0n17z33mplwpw4n1d8r0000gn/T/ipykernel_41015/3241163158.py[0m in [0;36m<module>[0;34m[0m
+[1;32m      1[0m [0mw[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;34m-[0m[0mwmax[0m[0;34m,[0m [0mwmax[0m[0;34m,[0m [0;36m21[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m K = -basis.s[:, None] * np.array(
+[0;32m----> 3[0;31m         [basis.v.overlap(lambda w: f(w - wi)) for wi in w]).T
+[0m
+[0;32m/var/folders/1t/fxgqx0n17z33mplwpw4n1d8r0000gn/T/ipykernel_41015/3241163158.py[0m in [0;36m<listcomp>[0;34m(.0)[0m
+[1;32m      1[0m [0mw[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;34m-[0m[0mwmax[0m[0;34m,[0m [0mwmax[0m[0;34m,[0m [0;36m21[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m K = -basis.s[:, None] * np.array(
+[0;32m----> 3[0;31m         [basis.v.overlap(lambda w: f(w - wi)) for wi in w]).T
+[0m
+[0;32m/opt/homebrew/lib/python3.9/site-packages/sparse_ir/poly.py[0m in [0;36moverlap[0;34m(self, f, rtol, return_error)[0m
+[1;32m    131[0m             [0mof[0m [0mthe[0m [0mfunction[0m [0mf[0m[0;34m([0m[0mx[0m[0;34m)[0m[0;34m.[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    132[0m         """
+[0;32m--> 133[0;31m         [0mint_result[0m[0;34m,[0m [0mint_error[0m [0;34m=[0m [0m_compute_overlap[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mf[0m[0;34m,[0m [0mrtol[0m[0;34m=[0m[0mrtol[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    134[0m         [0;32mif[0m [0mreturn_error[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    135[0m             [0;32mreturn[0m [0mint_result[0m[0;34m,[0m [0mint_error[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/sparse_ir/poly.py[0m in [0;36m_compute_overlap[0;34m(poly, f, rtol, radix, max_refine_levels, max_refine_points)[0m
+[1;32m    512[0m         [0mrule[0m [0;34m=[0m [0mbase_rule[0m[0;34m.[0m[0mreseat[0m[0;34m([0m[0mxstart[0m[0;34m[[0m[0;34m:[0m[0;34m,[0m [0;32mNone[0m[0;34m][0m[0;34m,[0m [0mxstop[0m[0;34m[[0m[0;34m:[0m[0;34m,[0m [0;32mNone[0m[0;34m][0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    513[0m [0;34m[0m[0m
+[0;32m--> 514[0;31m         [0mfx[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0marray[0m[0;34m([0m[0mlist[0m[0;34m([0m[0mmap[0m[0;34m([0m[0mf[0m[0;34m,[0m [0mrule[0m[0;34m.[0m[0mx[0m[0;34m.[0m[0mravel[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    515[0m         [0;32mif[0m [0mf_shape[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    516[0m             [0mf_shape[0m [0;34m=[0m [0mfx[0m[0;34m.[0m[0mshape[0m[0;34m[[0m[0;36m1[0m[0;34m:[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/var/folders/1t/fxgqx0n17z33mplwpw4n1d8r0000gn/T/ipykernel_41015/3241163158.py[0m in [0;36m<lambda>[0;34m(w)[0m
+[1;32m      1[0m [0mw[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0mlinspace[0m[0;34m([0m[0;34m-[0m[0mwmax[0m[0;34m,[0m [0mwmax[0m[0;34m,[0m [0;36m21[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      2[0m K = -basis.s[:, None] * np.array(
+[0;32m----> 3[0;31m         [basis.v.overlap(lambda w: f(w - wi)) for wi in w]).T
+[0m
+[0;32m~/Library/Python/3.9/lib/python/site-packages/scipy/stats/_distn_infrastructure.py[0m in [0;36mpdf[0;34m(self, x)[0m
+[1;32m    451[0m [0;34m[0m[0m
+[1;32m    452[0m     [0;32mdef[0m [0mpdf[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mx[0m[0;34m)[0m[0;34m:[0m   [0;31m# raises AttributeError in frozen discrete distribution[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 453[0;31m         [0;32mreturn[0m [0mself[0m[0;34m.[0m[0mdist[0m[0;34m.[0m[0mpdf[0m[0;34m([0m[0mx[0m[0;34m,[0m [0;34m*[0m[0mself[0m[0;34m.[0m[0margs[0m[0;34m,[0m [0;34m**[0m[0mself[0m[0;34m.[0m[0mkwds[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    454[0m [0;34m[0m[0m
+[1;32m    455[0m     [0;32mdef[0m [0mlogpdf[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mx[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/Library/Python/3.9/lib/python/site-packages/scipy/stats/_distn_infrastructure.py[0m in [0;36mpdf[0;34m(self, x, *args, **kwds)[0m
+[1;32m   1875[0m         [0mputmask[0m[0;34m([0m[0moutput[0m[0;34m,[0m [0;34m([0m[0;36m1[0m[0;34m-[0m[0mcond0[0m[0;34m)[0m[0;34m+[0m[0mnp[0m[0;34m.[0m[0misnan[0m[0;34m([0m[0mx[0m[0;34m)[0m[0;34m,[0m [0mself[0m[0;34m.[0m[0mbadvalue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1876[0m         [0;32mif[0m [0mnp[0m[0;34m.[0m[0many[0m[0;34m([0m[0mcond[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1877[0;31m             [0mgoodargs[0m [0;34m=[0m [0margsreduce[0m[0;34m([0m[0mcond[0m[0;34m,[0m [0;34m*[0m[0;34m([0m[0;34m([0m[0mx[0m[0;34m,[0m[0;34m)[0m[0;34m+[0m[0margs[0m[0;34m+[0m[0;34m([0m[0mscale[0m[0;34m,[0m[0;34m)[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m   1878[0m             [0mscale[0m[0;34m,[0m [0mgoodargs[0m [0;34m=[0m [0mgoodargs[0m[0;34m[[0m[0;34m-[0m[0;36m1[0m[0;34m][0m[0;34m,[0m [0mgoodargs[0m[0;34m[[0m[0;34m:[0m[0;34m-[0m[0;36m1[0m[0;34m][0m[0;34m[0m[0;34m[0m[0m
+[1;32m   1879[0m             [0mplace[0m[0;34m([0m[0moutput[0m[0;34m,[0m [0mcond[0m[0;34m,[0m [0mself[0m[0;34m.[0m[0m_pdf[0m[0;34m([0m[0;34m*[0m[0mgoodargs[0m[0;34m)[0m [0;34m/[0m [0mscale[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/Library/Python/3.9/lib/python/site-packages/scipy/stats/_distn_infrastructure.py[0m in [0;36margsreduce[0;34m(cond, *args)[0m
+[1;32m    561[0m     """
+[1;32m    562[0m     [0;31m# some distributions assume arguments are iterable.[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 563[0;31m     [0mnewargs[0m [0;34m=[0m [0mnp[0m[0;34m.[0m[0matleast_1d[0m[0;34m([0m[0;34m*[0m[0margs[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    564[0m [0;34m[0m[0m
+[1;32m    565[0m     [0;31m# np.atleast_1d returns an array if only one argument, or a list of arrays[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/numpy/core/overrides.py[0m in [0;36matleast_1d[0;34m(*args, **kwargs)[0m
+
+[0;32m/opt/homebrew/lib/python3.9/site-packages/numpy/core/shape_base.py[0m in [0;36matleast_1d[0;34m(*arys)[0m
+[1;32m     65[0m         [0mary[0m [0;34m=[0m [0masanyarray[0m[0;34m([0m[0mary[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     66[0m         [0;32mif[0m [0mary[0m[0;34m.[0m[0mndim[0m [0;34m==[0m [0;36m0[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 67[0;31m             [0mresult[0m [0;34m=[0m [0mary[0m[0;34m.[0m[0mreshape[0m[0;34m([0m[0;36m1[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     68[0m         [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     69[0m             [0mresult[0m [0;34m=[0m [0mary[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mKeyboardInterrupt[0m: 
+KeyboardInterrupt: 
+
