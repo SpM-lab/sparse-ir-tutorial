@@ -15,7 +15,7 @@ Author: [Niklas Witt](mailto:niklas.witt@physik.uni-hamburg.de)
 
 ## Theory of FLEX in the paramagnetic state
 
-The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the `sparse-ir` package for diagrammatic methods.
+The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. {cite:p}`Bickers89a,Bickers89b`. It can be derived from a Luttinger-Ward functional {cite:p}`Luttinger60` containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin and charge fluctuations is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction $U$ to illustrate the practical implementation of the `sparse-ir` package for diagrammatic methods.
 
 For the implementation of a multi-orbital code, please have a look at {cite:p}`Witt21` and [FLEX_IR package](https://github.com/nikwitt/FLEX_IR).
 
@@ -33,11 +33,11 @@ for the interacting Green function $G$ from the non-interacting Green function $
 
 $$ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;.$$
 
-$N_{\boldsymbol{k}}$ denotes the number of $\boldsymbol{k}$-points. This equation is convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary time and real space, resulting in a simple multiplication
+$N_{\boldsymbol{k}}$ denotes the number of $\boldsymbol{k}$-points. This equation is a convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication
 
 $$ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.$$
 
-In our practical implementation, we will perform this step using the 'sparse-ir' package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction {cite:p}`Berk1966`
+In our practical implementation, we will perform this step using the `sparse-ir` package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction {cite:p}`Berk1966`
 
 $$ V(i\nu_m, \boldsymbol{q}) = \frac{3}{2} U^2 \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + \frac{1}{2} U^2 \chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) - U^2 \chi_0(i\nu_m, \boldsymbol{q}) + U $$
 
@@ -49,7 +49,7 @@ The self-energy can be calculated from the convolution
 
 $$ \Sigma(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V(i\nu_m, \boldsymbol{q}) G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q}) $$
 
-which Fourier transformed to real space takes the form
+which Fourier transformed to real space and imaginary-times takes the form
 
 $$ \Sigma(\tau, \boldsymbol{r}) = V(\tau, \boldsymbol{r}) G(\tau, \boldsymbol{r})\;. $$
 
@@ -59,11 +59,11 @@ $$ n = 2n_{\sigma} = 2 - \frac{2}{N_{\boldsymbol{k}}} \sum_{\boldsymbol{k}} G(\t
 
 with a factor 2 from spin degeneracy and $0^+ = \lim_{\eta\to 0+} \eta$ by using some root finding algorithm like bisection method or Brent's method.
 
-#### Practical implementation
-When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we discuss in the following.
+#### Notes on practical implementation
+When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we adress in the following:
 
-* The constant Hartree term $V_{\mathrm{H}} = U$ in the interaction $V$ and respective self-energy term $\Sigma_H = U\frac{n}{2}$ can be absorbed into the definition of the chemical potential $\mu$.
-* We include a mixing $p<1$ in each iteration step, such that the Green function of step $n+1$ is partially constructed from the old and new Green function: $$G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}$$ This smoothes down too strong oscillations of the solution.
+* The constant Hartree term $V_{\mathrm{H}} = U$ in the interaction $V$ and respective self-energy term $\Sigma_H = U\frac{n}{2}$ can be absorbed into the definition of the chemical potential $\mu$. Otherwise we would have to treat them separately.
+* We include a mixing $p<1$ in each iteration step, such that the Green function of step $n+1$ is partially constructed from the old and new Green function as $G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}$. This smoothes too strong oscillations of the solution.
 * A bottleneck of the FLEX approximation is the case of too strong interactions. The solution turns numerically unstable, if the denominator of $\chi_{\mathrm{s}}$ approaches zero, i.e., $U\max\!\{\chi_{0}\} \to 1$. Typically, this can be solved by starting with a smaller $U$ value and slowly turning it up. We call this "$U$ renormalization".
 
 +++
@@ -179,7 +179,7 @@ class Mesh:
 ```
 
 #### FLEX loop solver
-We wrap the calculation steps of the FLEX loop in a Solver class. We use the `Mesh` class defined above to perform calculation steps.
+We wrap the calculation steps of the FLEX loop in the `FLEXSolver` class. We use the `Mesh` class defined above to perform calculation steps.
 
 ```{code-cell} ipython3
 class FLEXSolver:
@@ -277,6 +277,7 @@ class FLEXSolver:
                 break
         print('Leaving U renormalization...')
     
+    
     #%%%%%%%%%%% Calculation steps
     def gkio_calc(self, mu):
         """ calculate Green function G(iw,k) """
@@ -371,6 +372,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
+ax.set_title('Re $G(k,i\omega_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -384,6 +386,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
+ax.set_title('Re $\chi_0(k,i\nu_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -398,7 +401,7 @@ $$
 \end{align}
  $$
 
-for the gap function $\Delta$ ('order parameter') in either the spin singlet ($\xi=\mathrm{S}$) or spin triplet ($\xi=\mathrm{T}$) pairing channel. $F^{(\xi)} = -|G|^2\Delta^{(\xi)}$ is the anomalous Green function. Just like the convoluted sum for the self-energywe can calculate this equation easily after Fourier transforming to
+for the gap function $\Delta$ ('order parameter') in either the spin singlet ($\xi=\mathrm{S}$) or spin triplet ($\xi=\mathrm{T}$) pairing channel. $F^{(\xi)} = -|G|^2\Delta^{(\xi)}$ is the anomalous Green function. Just like the convoluted sum for the self-energy, we can compute this equation easily after Fourier transforming to
 
 $$
 \begin{align}
@@ -429,7 +432,7 @@ $$
 
 #### Linearized Eliashberg solver
 
-As for the FLEX loop, we implement a solver class that takes the FLEX_Solver instance as an argument to solve the linearized Eliashberg equation.
+As for the FLEX loop, we implement a solver class that takes the `FLEXSolver` instance as an argument to solve the linearized Eliashberg equation.
 
 ```{code-cell} ipython3
 class LinearizedGapSolver:
@@ -538,7 +541,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
-ax.set_title('$\\Delta_d(k)$')
+ax.set_title('$\\Delta_d(k,i\omega_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -553,7 +556,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
-ax.set_title('$\\Delta_d(k)$')
+ax.set_title('Re $F(k,i\omega_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -561,9 +564,9 @@ plt.show()
 ## Example: Antiferromagnetic fluctuations and $d$-wave superconductivity in the square-lattice Hubbard model
 In this section, we will reproduce Figs. 3(b) and 4 of {cite:p}`Arita00` or respective Fig. 2(a) of {cite:p}`Witt21` using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue $\lambda_d$ (as calculated above) and the inverse maximal spin susceptibility $1/\chi_{\mathrm{s,max}}$, which indicates tendency towards (quasi-)magnetic ordering.
 
-In order to perform calcualtions for different $T$, we will initiate the IR basis with a $\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}$ that is sufficient for the lowest temperature $T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}$ we plan to do calculations for. Since $T$ changes, we have to recalculate the IR basis set instance for every step. We start from high $T$ and lower its value and initialize each $T$ calculation by using the previously converged solution, since it does not change drastically and speeds up convergence.
+In order to perform calculations for different $T$, we will initiate the IR basis with a $\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}$ that is sufficient for the lowest temperature $T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}$ we plan to do calculations for. Since $T$ changes, we have to recalculate the IR basis set instance for every step. We start from high $T$ and lower its value and initialize each $T$ calculation by using the previously converged solution, since it does not change drastically and speeds up convergence.
 
-You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the references above.
+You can simply execute the following two code blocks which will first perform the calculation and then generate a figure similar to those in the references above.
 
 ```{code-cell} ipython3
 :tags: [output_scroll]
