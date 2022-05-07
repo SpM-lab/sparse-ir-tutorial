@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eliashberg theory for the Holstein-Hubbard model &#8212; sparse-ir</title>
+    <title>Eliashberg theory for Holstein-Hubbard model &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -160,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Eliashberg theory for the Holstein-Hubbard model
+   Eliashberg theory for Holstein-Hubbard model
   </a>
  </li>
  <li class="toctree-l1">
@@ -331,6 +331,18 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#theory">
    Theory
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-orbital-case">
+     Single-orbital case
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#connection-to-the-three-orbital-case">
+     Connection to the three-orbital case
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
@@ -345,6 +357,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#paramaters">
      Paramaters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup-ir-basis">
+     Setup IR basis
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -374,7 +391,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Eliashberg theory for the Holstein-Hubbard model</h1>
+                <h1>Eliashberg theory for Holstein-Hubbard model</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -388,6 +405,18 @@ const thebe_selector_output = ".output, .cell_output"
   <a class="reference internal nav-link" href="#theory">
    Theory
   </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#single-orbital-case">
+     Single-orbital case
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#connection-to-the-three-orbital-case">
+     Connection to the three-orbital case
+    </a>
+   </li>
+  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
@@ -402,6 +431,11 @@ const thebe_selector_output = ".output, .cell_output"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#paramaters">
      Paramaters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#setup-ir-basis">
+     Setup IR basis
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -430,22 +464,93 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="eliashberg-theory-for-the-holstein-hubbard-model">
-<h1>Eliashberg theory for the Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-the-holstein-hubbard-model" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="eliashberg-theory-for-holstein-hubbard-model">
+<h1>Eliashberg theory for Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-holstein-hubbard-model" title="Permalink to this headline">¶</a></h1>
+<p>Author: <a class="reference external" href="mailto:shintaro&#46;hoshino&#37;&#52;&#48;gmail&#46;com">Shintaro Hoshino</a> and <a class="reference external" href="mailto:h&#46;shinaoka&#37;&#52;&#48;gmail&#46;com">Hiroshi Shinaoka</a></p>
 <div class="section" id="theory">
 <h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
-<p>To be written</p>
+<div class="section" id="single-orbital-case">
+<h3>Single-orbital case<a class="headerlink" href="#single-orbital-case" title="Permalink to this headline">¶</a></h3>
+<p>We consider the single-orbital Holstein-Hubbard model</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    \mathscr H &amp;= \mathscr H_{e0} + \sum_i \mathscr H_{\rm loc} (i),\\
+    \mathscr H_{\rm loc} &amp;=
+    \frac{1}{2} U n (n-1)
+    + \omega_0 a^\dagger a
+    + g (a+a^\dagger) n,
+\end{align*}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(n=\sum_{\sigma} c^\dagger_\sigma c_\sigma\)</span>.</p>
+<p>The Eliashberg equations are written as</p>
+<div class="math notranslate nohighlight">
+\[
+    \Sigma(\tau) = - U_{\rm eff}(\tau) G(\tau),\hspace{5em}(1)
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \Delta(\tau) = U_{\rm eff}(\tau) F(\tau),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \Pi(\tau) = 2 g^2 [ G(\tau)G(-\tau) - F(\tau)^2 ],
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\Sigma\)</span> and <span class="math notranslate nohighlight">\(\Delta\)</span> are fermionic objects, while <span class="math notranslate nohighlight">\(\Pi\)</span> is bosonic.</p>
+<p>The Green functions are given in the Fourier domain:</p>
+<div class="math notranslate nohighlight">
+\[
+    G(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
+    \frac{\zeta (\mathrm{i}\omega_n) + \varepsilon}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    F(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
+    \frac{\Delta (\mathrm{i}\omega_n)}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \zeta(\mathrm{i}\omega_n) =  \mathrm{i}\omega_n+\mu-\Sigma(\mathrm{i}\omega_n)
+\]</div>
+<p>for electrons, where the phase of the pair potential is chosen as real, and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align*}
+    D(\mathrm{i}\nu_m)^{-1} &amp;= D_0(\mathrm{i}\nu_m)^{-1} - \Pi(\mathrm{i}\nu_m)
+    \\
+    D_0(\mathrm{i}\nu_m) &amp;= \frac{2\omega_0}{(\mathrm{i}\nu_m)^2 - \omega_0^2}
+\end{align*}
+\end{split}\]</div>
+<p>for phonons.
+The effective interaction is</p>
+<div class="math notranslate nohighlight">
+\[
+    U_{\rm eff}(\tau) = U\delta(\tau) + g^2 D(\tau)
+\]</div>
+<p>The static limit is given by <span class="math notranslate nohighlight">\(U(\mathrm{i}\nu_m \to 0) = U-\lambda\)</span> where <span class="math notranslate nohighlight">\(\lambda = \frac{2g^2}{\omega_0}\)</span> is the effective attraction by coupling to phonons.
+Since the Coulomb interaction in the normal self-energy just shifts the chemical potential, the equation (1) may be replaced by</p>
+<div class="math notranslate nohighlight">
+\[
+    \Sigma(\tau) = - U_{\rm eff,ph}(\tau) G(\tau),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(U_{\rm eff,ph} \equiv  g^2 D(\tau)\)</span> represents the phonon contribution of <span class="math notranslate nohighlight">\(U_{\rm eff}\)</span>.</p>
+</div>
+<div class="section" id="connection-to-the-three-orbital-case">
+<h3>Connection to the three-orbital case<a class="headerlink" href="#connection-to-the-three-orbital-case" title="Permalink to this headline">¶</a></h3>
+<p>The abovementioned Eliashberg equations for the single-orbital model can be regarded as the Eliashberg equations for the three-orbital model with the rotationally invariant three-orbital model [1] [WHAT CASE].
+In this case, we replace the parameters <span class="math notranslate nohighlight">\(g\)</span> and <span class="math notranslate nohighlight">\(U\)</span> as
+$<span class="math notranslate nohighlight">\(
+g \leftarrow \sqrt{2} g_0,
+\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[
+U \leftarrow U + 2J,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(J\)</span> is the Hund’s coupling.</p>
+</div>
 </div>
 <div class="section" id="implementation-eliashberg-solver">
 <h2>Implementation: Eliashberg solver<a class="headerlink" href="#implementation-eliashberg-solver" title="Permalink to this headline">¶</a></h2>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
-<span class="o">%</span><span class="k">autoreload</span> 2
-</pre></div>
-</div>
-</div>
-</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -590,26 +695,6 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">500.0</span>
-
-<span class="n">D</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">rho_omega</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-
-<span class="c1">#from scipy.integrate import quad</span>
-<span class="c1">#assert np.abs(quad(rho_omega, -D, D)[0] - 1) &lt; 1e-9 # Check sum rule</span>
-
-<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">D</span>
-<span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-<span class="c1">#bases = sparse_ir.basis.finite_temp_bases(beta, wmax, eps)</span>
-<span class="c1">#smpl_tau = [sparse_ir.TauSampling(b) for b in bases]</span>
-<span class="c1">#smpl_matsu = [sparse_ir.MatsubaraSampling(b) for b in bases]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Solve the self-consistent equation</span>
@@ -703,18 +788,38 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Self-consistent calculation<a class="headerlink" href="#self-consistent-calculation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="paramaters">
 <h3>Paramaters<a class="headerlink" href="#paramaters" title="Permalink to this headline">¶</a></h3>
-<p>The parameters are corresponding to ***** in ****.</p>
+<p>We now reproduce the results for <span class="math notranslate nohighlight">\(\lambda_0 = 0.125\)</span> shown in Fig. 1 of Ref. [1].
+The parameter <span class="math notranslate nohighlight">\(g_0\)</span> is related to <span class="math notranslate nohighlight">\(\lambda_0\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
-g = \sqrt{3 \lambda_0 \omega_0/4}
+g_0 = \sqrt{\frac{3 \lambda_0 \omega_0}{4}}.
 \]</div>
+<p>(In the code, we drop the suffix 0 for simplicity.)
+We consider a semicircular density of state with a half bandwidth of <span class="math notranslate nohighlight">\(1/2\)</span>, <span class="math notranslate nohighlight">\(T=0.002\)</span>, <span class="math notranslate nohighlight">\(U=2\)</span>, <span class="math notranslate nohighlight">\(J/U = 0.03\)</span> and half filling.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">500.0</span>
+
+<span class="n">D</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">rho_omega</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+<span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
 <span class="n">J</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">U</span>
 <span class="n">omega0</span> <span class="o">=</span> <span class="mf">0.15</span>
 <span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.125</span>
 <span class="n">mu</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setup-ir-basis">
+<h3>Setup IR basis<a class="headerlink" href="#setup-ir-basis" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">D</span>
+<span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -749,37 +854,37 @@ g = \sqrt{3 \lambda_0 \omega_0/4}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.037079359405071365, diff_delta=1.9896751819545777
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.045464277710229, diff_delta=1.9927151659031965
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 100 : diff_sigma= 0.0003665146802168682, diff_delta=0.000859037975410579
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 100 : diff_sigma= 0.0003692745263600108, diff_delta=0.0008663069853822267
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 200 : diff_sigma= 8.51490098289346e-06, diff_delta=1.9873517567437084e-05
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 200 : diff_sigma= 8.58971117143067e-06, diff_delta=2.0048369195210816e-05
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 300 : diff_sigma= 1.9368922744844586e-07, diff_delta=4.515080175709896e-07
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 300 : diff_sigma= 1.9539616412378447e-07, diff_delta=4.5548667920725094e-07
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 400 : diff_sigma= 4.3956380479937e-09, diff_delta=1.024595139287429e-08
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 400 : diff_sigma= 4.4343714811212465e-09, diff_delta=1.0336234146369713e-08
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 500 : diff_sigma= 9.974374104437852e-11, diff_delta=2.3249610574862019e-10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 500 : diff_sigma= 1.0062262134624752e-10, diff_delta=2.3454446722946494e-10
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -800,7 +905,7 @@ g = \sqrt{3 \lambda_0 \omega_0/4}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_13_0.png" src="../_images/eliashberg_holstein_py_13_0.png" />
+<img alt="../_images/eliashberg_holstein_py_15_0.png" src="../_images/eliashberg_holstein_py_15_0.png" />
 </div>
 </div>
 </div>
@@ -866,19 +971,19 @@ g = \sqrt{3 \lambda_0 \omega_0/4}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_15_0.png" src="../_images/eliashberg_holstein_py_15_0.png" />
-<img alt="../_images/eliashberg_holstein_py_15_1.png" src="../_images/eliashberg_holstein_py_15_1.png" />
-<img alt="../_images/eliashberg_holstein_py_15_2.png" src="../_images/eliashberg_holstein_py_15_2.png" />
-<img alt="../_images/eliashberg_holstein_py_15_3.png" src="../_images/eliashberg_holstein_py_15_3.png" />
-<img alt="../_images/eliashberg_holstein_py_15_4.png" src="../_images/eliashberg_holstein_py_15_4.png" />
-<img alt="../_images/eliashberg_holstein_py_15_5.png" src="../_images/eliashberg_holstein_py_15_5.png" />
+<img alt="../_images/eliashberg_holstein_py_17_0.png" src="../_images/eliashberg_holstein_py_17_0.png" />
+<img alt="../_images/eliashberg_holstein_py_17_1.png" src="../_images/eliashberg_holstein_py_17_1.png" />
+<img alt="../_images/eliashberg_holstein_py_17_2.png" src="../_images/eliashberg_holstein_py_17_2.png" />
+<img alt="../_images/eliashberg_holstein_py_17_3.png" src="../_images/eliashberg_holstein_py_17_3.png" />
+<img alt="../_images/eliashberg_holstein_py_17_4.png" src="../_images/eliashberg_holstein_py_17_4.png" />
+<img alt="../_images/eliashberg_holstein_py_17_5.png" src="../_images/eliashberg_holstein_py_17_5.png" />
 </div>
 </div>
 </div>
 </div>
 <div class="section" id="second-calculation-on-temperature-dependence">
 <h2>Second calculation on temperature dependence<a class="headerlink" href="#second-calculation-on-temperature-dependence" title="Permalink to this headline">¶</a></h2>
-<p>We now compute the temperature dependence of the specific heat for <span class="math notranslate nohighlight">\(\lambda_0=0.175\)</span>.</p>
+<p>We now compute the temperature dependence of the specific heat for <span class="math notranslate nohighlight">\(\lambda_0=0.175\)</span> shown in Fig. 5 of Ref. [1].</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.175</span>
@@ -949,12 +1054,12 @@ g = \sqrt{3 \lambda_0 \omega_0/4}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_20_0.png" src="../_images/eliashberg_holstein_py_20_0.png" />
+<img alt="../_images/eliashberg_holstein_py_22_0.png" src="../_images/eliashberg_holstein_py_22_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">temp</span><span class="p">:</span> <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>  <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">temp</span><span class="p">:</span> <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">}</span>
 <span class="n">specific_heat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="o">+</span><span class="n">dt</span><span class="p">]</span> <span class="o">-</span> <span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps</span><span class="p">])</span><span class="o">/</span><span class="n">dt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temps</span><span class="p">,</span> <span class="n">specific_heat</span><span class="o">/</span><span class="n">temps</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1200</span><span class="p">])</span>
@@ -965,9 +1070,10 @@ g = \sqrt{3 \lambda_0 \omega_0/4}
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_21_0.png" src="../_images/eliashberg_holstein_py_21_0.png" />
+<img alt="../_images/eliashberg_holstein_py_23_0.png" src="../_images/eliashberg_holstein_py_23_0.png" />
 </div>
 </div>
+<p>[1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946.</p>
 </div>
 </div>
 
