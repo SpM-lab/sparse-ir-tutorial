@@ -10,20 +10,106 @@ kernelspec:
   name: python3
 ---
 
-# Eliashberg theory for the Holstein-Hubbard model
+# Eliashberg theory for Holstein-Hubbard model
 
-+++
+Author: [Shintaro Hoshino](mailto:shintaro.hoshino@gmail.com) and [Hiroshi Shinaoka](mailto:h.shinaoka@gmail.com)
 
 ## Theory
 
-To be written
+### Single-orbital case
+We consider the single-orbital Holstein-Hubbard model
+
+$$
+\begin{align*}
+    \mathscr H &= \mathscr H_{e0} + \sum_i \mathscr H_{\rm loc} (i),\\
+    \mathscr H_{\rm loc} &=
+    \frac{1}{2} U n (n-1)
+    + \omega_0 a^\dagger a
+    + g (a+a^\dagger) n,
+\end{align*}
+$$
+
+where $n=\sum_{\sigma} c^\dagger_\sigma c_\sigma$.
+
++++
+
+The Eliashberg equations are written as
+
+$$
+    \Sigma(\tau) = - U_{\rm eff}(\tau) G(\tau),\hspace{5em}(1)
+$$
+
+$$
+    \Delta(\tau) = U_{\rm eff}(\tau) F(\tau),
+$$
+
+$$
+    \Pi(\tau) = 2 g^2 [ G(\tau)G(-\tau) - F(\tau)^2 ],
+$$
+
+where $\Sigma$ and $\Delta$ are fermionic objects, while $\Pi$ is bosonic.
+
+The Green functions are given in the Fourier domain:
+
+$$
+    G(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
+    \frac{\zeta (\mathrm{i}\omega_n) + \varepsilon}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
+$$
+
+$$
+    F(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
+    \frac{\Delta (\mathrm{i}\omega_n)}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
+$$
+
+$$
+    \zeta(\mathrm{i}\omega_n) =  \mathrm{i}\omega_n+\mu-\Sigma(\mathrm{i}\omega_n)
+$$
+
+for electrons, where the phase of the pair potential is chosen as real, and
+
+$$
+\begin{align*}
+    D(\mathrm{i}\nu_m)^{-1} &= D_0(\mathrm{i}\nu_m)^{-1} - \Pi(\mathrm{i}\nu_m)
+    \\
+    D_0(\mathrm{i}\nu_m) &= \frac{2\omega_0}{(\mathrm{i}\nu_m)^2 - \omega_0^2}
+\end{align*}
+$$
+
+for phonons.
+The effective interaction is
+
+$$
+    U_{\rm eff}(\tau) = U\delta(\tau) + g^2 D(\tau)
+$$
+
+The static limit is given by $U(\mathrm{i}\nu_m \to 0) = U-\lambda$ where $\lambda = \frac{2g^2}{\omega_0}$ is the effective attraction by coupling to phonons.
+Since the Coulomb interaction in the normal self-energy just shifts the chemical potential, the equation (1) may be replaced by
+
+$$
+    \Sigma(\tau) = - U_{\rm eff,ph}(\tau) G(\tau),
+$$
+
+where $U_{\rm eff,ph} \equiv  g^2 D(\tau)$ represents the phonon contribution of $U_{\rm eff}$.
+
++++
+
+### Connection to the three-orbital case
+
+The abovementioned Eliashberg equations for the single-orbital model can be regarded as the Eliashberg equations for the three-orbital model with the rotationally invariant three-orbital model [1] [WHAT CASE].
+In this case, we replace the parameters $g$ and $U$ as
+$$
+g \leftarrow \sqrt{2} g_0,
+$$
+
+$$
+U \leftarrow U + 2J,
+$$
+
+where $J$ is the Hund's coupling.
+
++++
 
 ## Implementation: Eliashberg solver
-
-```{code-cell} ipython3
-%load_ext autoreload
-%autoreload 2
-```
 
 ```{code-cell} ipython3
 import numpy as np
@@ -162,23 +248,6 @@ class Eliashberg:
 ```
 
 ```{code-cell} ipython3
-beta = 500.0
-
-D = 0.5
-rho_omega = lambda omega: np.sqrt(D**2 - omega**2) / (0.5 * D**2 * np.pi)
-
-#from scipy.integrate import quad
-#assert np.abs(quad(rho_omega, -D, D)[0] - 1) < 1e-9 # Check sum rule
-
-eps = 1e-7
-wmax = 10*D
-bset = sparse_ir.FiniteTempBasisSet(beta, wmax, eps)
-#bases = sparse_ir.basis.finite_temp_bases(beta, wmax, eps)
-#smpl_tau = [sparse_ir.TauSampling(b) for b in bases]
-#smpl_matsu = [sparse_ir.MatsubaraSampling(b) for b in bases]
-```
-
-```{code-cell} ipython3
 def solve(elsh, sigma_iv, delta_iv, niter, mixing, verbose=False, ph=False, atol=1e-10):
     """
     Solve the self-consistent equation
@@ -268,18 +337,36 @@ def add_noise(arr, noise):
 
 ### Paramaters
 
-The parameters are corresponding to ***** in ****.
+We now reproduce the results for $\lambda_0 = 0.125$ shown in Fig. 1 of Ref. [1].
+The parameter $g_0$ is related to $\lambda_0$ as
 
 $$
-g = \sqrt{3 \lambda_0 \omega_0/4}
+g_0 = \sqrt{\frac{3 \lambda_0 \omega_0}{4}}.
 $$
+
+(In the code, we drop the suffix 0 for simplicity.)
+We consider a semicircular density of state with a half bandwidth of $1/2$, $T=0.002$, $U=2$, $J/U = 0.03$ and half filling.
 
 ```{code-cell} ipython3
+beta = 500.0
+
+D = 0.5
+rho_omega = lambda omega: np.sqrt(D**2 - omega**2) / (0.5 * D**2 * np.pi)
+
 U = 2.0
 J = 0.03 * U
 omega0 = 0.15
 lambda0 = 0.125
 mu = 0.0
+```
+
+### Setup IR basis
+
+```{code-cell} ipython3
+
+eps = 1e-7
+wmax = 10*D
+bset = sparse_ir.FiniteTempBasisSet(beta, wmax, eps)
 ```
 
 ### Solve the equation
@@ -381,7 +468,7 @@ plot_res(res)
 
 ## Second calculation on temperature dependence
 
-We now compute the temperature dependence of the specific heat for $\lambda_0=0.175$.
+We now compute the temperature dependence of the specific heat for $\lambda_0=0.175$ shown in Fig. 5 of Ref. [1].
 
 ```{code-cell} ipython3
 lambda0 = 0.175
@@ -446,7 +533,7 @@ plt.show()
 ```
 
 ```{code-cell} ipython3
-u_dict = {temp: res_temp[temp]["u"].real  for temp in temps_all}
+u_dict = {temp: res_temp[temp]["u"].real for temp in temps_all}
 specific_heat = np.array([u_dict[temp+dt] - u_dict[temp] for temp in temps])/dt
 plt.plot(temps, specific_heat/temps, marker="o")
 plt.ylim([0, 1200])
@@ -454,3 +541,5 @@ plt.xlabel(r"$T$")
 plt.ylabel(r"$C(T)$")
 plt.show()
 ```
+
+[1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946.
