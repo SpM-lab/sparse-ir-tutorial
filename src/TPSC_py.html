@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Eliashberg equation for Holstein Hubbard model" href="eliashberg_holstein_py.html" />
+    <link rel="next" title="Eliashberg theory for the Holstein-Hubbard model" href="eliashberg_holstein_py.html" />
     <link rel="prev" title="FLEX approximation" href="FLEX_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
@@ -160,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg equation for Holstein Hubbard model
+   Eliashberg theory for the Holstein-Hubbard model
   </a>
  </li>
  <li class="toctree-l1">
@@ -338,8 +338,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#practical-implementation">
-     Practical implementation
+    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
+     Notes on practical implementation
     </a>
    </li>
   </ul>
@@ -414,8 +414,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#practical-implementation">
-     Practical implementation
+    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
+     Notes on practical implementation
     </a>
    </li>
   </ul>
@@ -483,7 +483,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>with the irreducible susceptibility (“bubble diagram”)</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;,\]</div>
-<p>where <span class="math notranslate nohighlight">\(i\nu_m = 2n\pi T\)</span> [<span class="math notranslate nohighlight">\(i\omega_n=(2n+1)\pi T\)</span>] and <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> [<span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>] are bosonic [fermionic] Matsubara frequencies and momentum at temperature <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points, and <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> is the bare (non-interacting) Green function with with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Please note that sometimes a factor of 2 is included in the definition of <span class="math notranslate nohighlight">\(\chi_0\)</span> leading to slightly different factors in all equations given here. The convolution sum to calculate <span class="math notranslate nohighlight">\(\chi_0\)</span> can be easily evaluated by Fourier transforming to imaginary time and real space, resulting in a simple multiplication</p>
+<p>where <span class="math notranslate nohighlight">\(\nu_m = 2n\pi T\)</span> [<span class="math notranslate nohighlight">\(\omega_n=(2n+1)\pi T\)</span>] and <span class="math notranslate nohighlight">\(\boldsymbol{q}\)</span> [<span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>] are bosonic [fermionic] Matsubara frequencies and momentum at temperature <span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points, and <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> is the bare (non-interacting) Green function with with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Please note that sometimes a factor of 2 is included in the definition of <span class="math notranslate nohighlight">\(\chi_0\)</span> leading to slightly different factors in all equations given here. The convolution sum to calculate <span class="math notranslate nohighlight">\(\chi_0\)</span> can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.\]</div>
 <p>In our practical implementation, we will perform this step using the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package. A similar calculation is necessary to set the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> for fixed electron density <span class="math notranslate nohighlight">\(n\)</span>, as</p>
@@ -512,7 +512,7 @@ const thebe_selector_output = ".output, .cell_output"
 \[ g(U_{\mathrm{ch}}) = 2 \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} \chi_{\mathrm{ch}}(U_{\mathrm{ch}}) - n - 2\langle n_{\uparrow}n_{\downarrow}\rangle^2 + n^2\;. \]</div>
 <p>In TPSC, a self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> can be derived that is calculated from the interaction <span id="id4">[<a class="reference internal" href="bibliography.html#id50" title="S. Moukouri, S. Allen, F. Lemay, B. Kyung, D. Poulin, Y. M. Vilk, and A.-M. S. Tremblay. Many-body theory versus simulations for the pseudogap in the hubbard model. Phys. Rev. B, 61:7887–7892, Mar 2000. URL: https://link.aps.org/doi/10.1103/PhysRevB.61.7887, doi:10.1103/PhysRevB.61.7887.">Moukouri <em>et al.</em>, 2000</a>]</span></p>
 <div class="math notranslate nohighlight">
-\[ V(i\nu_m, \boldsymbol{q}) = \frac{U}{4} \left(3 U_{\mathrm{sp}} \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + U_{\mathrm{ch}} \chi_{\mathrm{ch}}(i\nu_m, \boldsymbol{q})\right) + U\;. \]</div>
+\[ V(i\nu_m, \boldsymbol{q}) = \frac{U}{4} \left(3 U_{\mathrm{sp}} \chi_{\mathrm{sp}}(i\nu_m, \boldsymbol{q}) + U_{\mathrm{ch}} \chi_{\mathrm{ch}}(i\nu_m, \boldsymbol{q})\right) + U\;. \]</div>
 <p>The self-energy itself is given by a convolution in <span class="math notranslate nohighlight">\((i\omega_n, \boldsymbol{k})\)</span> space</p>
 <div class="math notranslate nohighlight">
 \[ \Sigma(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V(i\nu_m, \boldsymbol{q}) G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q}) \]</div>
@@ -524,17 +524,17 @@ const thebe_selector_output = ".output, .cell_output"
 \[\begin{split}
 \begin{align}
 G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} \\
-&amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
+&amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
 \end{align}
 \end{split}\]</div>
 </div>
-<div class="section" id="practical-implementation">
-<h3>Practical implementation<a class="headerlink" href="#practical-implementation" title="Permalink to this headline">¶</a></h3>
-<p>When implementing the TPSC, a few points need to be treated carefully which we discuss in the following.</p>
+<div class="section" id="notes-on-practical-implementation">
+<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">¶</a></h3>
+<p>When implementing the TPSC, a few points need to be treated carefully which we adress in the following:</p>
 <ul class="simple">
-<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
+<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat them separately.</p></li>
 <li><p>An upper bound for the renormalized spin vertex <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> exists. Since the denominator spin susceptibility <span class="math notranslate nohighlight">\(\chi_{\mathrm{sp}}\)</span> should not diverge, the upper bound is given by the RPA critical interaction value <span class="math notranslate nohighlight">\(U_{\mathrm{crit}} = 1/\mathrm{max}\{\chi^0\}\)</span>. Mathematically, the function <span class="math notranslate nohighlight">\(f(U_{\mathrm{sp}}) = 2\sum \chi_{\mathrm{sp}}(U_{\mathrm{sp}}) - n + \frac{U_{\mathrm{sp}}}{2U}n^2\)</span>, from which <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> is determined, turns unstable for <span class="math notranslate nohighlight">\(U_{\mathrm{sp}} \geq U_{\mathrm{crit}}\)</span> (try plotting <span class="math notranslate nohighlight">\(f(U_{\mathrm{sp}})\)</span>!). At this point, TPSC is not applicable and, e.g., the temperature <span class="math notranslate nohighlight">\(T\)</span> is too low or the (unrenormalized) interaction <span class="math notranslate nohighlight">\(U\)</span> too large.</p></li>
-<li><p>An internal accuracy check <span class="math notranslate nohighlight">\(\frac{1}{2}\mathrm{Tr}(\Sigma G) = U \langle n_{\uparrow} n_{\downarrow}\rangle\)</span> can be employed to test the validity of TPSC.</p></li>
+<li><p>An internal accuracy check <span class="math notranslate nohighlight">\(\frac{1}{2}\mathrm{Tr}(\Sigma G) = U \langle n_{\uparrow} n_{\downarrow}\rangle\)</span> can be employed to test the validity of TPSC (not done here).</p></li>
 </ul>
 </div>
 </div>
@@ -657,7 +657,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 <div class="section" id="tpsc-solver">
 <h3>TPSC solver<a class="headerlink" href="#tpsc-solver" title="Permalink to this headline">¶</a></h3>
-<p>We wrap the calculation steps of TPSC (i.e. determining <span class="math notranslate nohighlight">\(U_{\mathrm{sp}},U_{\mathrm{ch}}\)</span>) in a Solver class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
+<p>We wrap the calculation steps of TPSC (i.e. determining <span class="math notranslate nohighlight">\(U_{\mathrm{sp}},U_{\mathrm{ch}}\)</span>) in the <code class="docutils literal notranslate"><span class="pre">TPSCSolver</span></code> class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TPSCSolver</span><span class="p">:</span>
@@ -847,6 +847,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $G(k,i\omega_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -866,6 +867,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Im $\Sigma(k,i\omega_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -885,6 +887,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$\chi_{\mathrm</span><span class="si">{sp}</span><span class="s1">}(k,i</span><span class="se">\n</span><span class="s1">u_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -899,8 +902,8 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 <div class="section" id="example-interaction-dependent-renormalization">
 <h2>Example: Interaction dependent renormalization<a class="headerlink" href="#example-interaction-dependent-renormalization" title="Permalink to this headline">¶</a></h2>
-<p>As a simple example demonstration of our SparseIR TPSC code developed above, we will reproduce Fig. 2 of <span id="id5">[]</span>. It shows the <span class="math notranslate nohighlight">\(U\)</span> dependence of renormalized/effective spin and charge interactions <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> and <span class="math notranslate nohighlight">\(U_{\mathrm{ch}}\)</span> (irreducible vertices) at half filling <span class="math notranslate nohighlight">\(n=1\)</span> and <span class="math notranslate nohighlight">\(T&gt;T_{\mathrm{crit}}\)</span> for all considered <span class="math notranslate nohighlight">\(U\)</span> (i.e. <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}&lt;U_{\mathrm{crit}}\)</span> is ensured).</p>
-<p>You can simply execute the following two code blocks which will first perform the calculatn and then generate a figure like in the reference above.</p>
+<p>As a simple example demonstration of our <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> TPSC code developed above, we will reproduce Fig. 2 of <span id="id5">[<a class="reference internal" href="bibliography.html#id46" title="Y. M. Vilk and A.-M. S. Tremblay. Non-Perturbative Many-Body Approach to the Hubbard Model and Single-Particle Pseudogap. Journal de Physique I, 7(11):1309–1368, nov 1997. arXiv:cond-mat/9702188, doi:10.1051/jp1:1997135.">Vilk and Tremblay, 1997</a>]</span>. It shows the <span class="math notranslate nohighlight">\(U\)</span> dependence of renormalized/effective spin and charge interactions <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> and <span class="math notranslate nohighlight">\(U_{\mathrm{ch}}\)</span> (irreducible vertices) at half filling <span class="math notranslate nohighlight">\(n=1\)</span> and <span class="math notranslate nohighlight">\(T&gt;T_{\mathrm{crit}}\)</span> for all considered <span class="math notranslate nohighlight">\(U\)</span> (i.e. <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}&lt;U_{\mathrm{crit}}\)</span> is ensured).</p>
+<p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the reference above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
@@ -979,7 +982,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x127a65670&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x12ee057c0&gt;
 </pre></div>
 </div>
 <img alt="../_images/TPSC_py_16_7.png" src="../_images/TPSC_py_16_7.png" />
@@ -1023,7 +1026,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
     <a class='right-next' id="next-link" href="eliashberg_holstein_py.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Eliashberg equation for Holstein Hubbard model</p>
+        <p class="prev-next-title">Eliashberg theory for the Holstein-Hubbard model</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

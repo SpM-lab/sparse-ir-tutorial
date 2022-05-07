@@ -29,7 +29,7 @@ with the irreducible susceptibility ("bubble diagram")
 
 $$ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;,$$
 
-where $i\nu_m = 2n\pi T$ [$i\omega_n=(2n+1)\pi T$] and $\boldsymbol{q}$ [$\boldsymbol{k}$] are bosonic [fermionic] Matsubara frequencies and momentum at temperature $T$, $N_{\boldsymbol{k}}$ denotes the number of $\boldsymbol{k}$-points, and $G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}$ is the bare (non-interacting) Green function with with single-particle dispersion $\varepsilon_{\boldsymbol{k}}$ and chemical potential $\mu$. Please note that sometimes a factor of 2 is included in the definition of $\chi_0$ leading to slightly different factors in all equations given here. The convolution sum to calculate $\chi_0$ can be easily evaluated by Fourier transforming to imaginary time and real space, resulting in a simple multiplication
+where $\nu_m = 2n\pi T$ [$\omega_n=(2n+1)\pi T$] and $\boldsymbol{q}$ [$\boldsymbol{k}$] are bosonic [fermionic] Matsubara frequencies and momentum at temperature $T$, $N_{\boldsymbol{k}}$ denotes the number of $\boldsymbol{k}$-points, and $G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}$ is the bare (non-interacting) Green function with with single-particle dispersion $\varepsilon_{\boldsymbol{k}}$ and chemical potential $\mu$. Please note that sometimes a factor of 2 is included in the definition of $\chi_0$ leading to slightly different factors in all equations given here. The convolution sum to calculate $\chi_0$ can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication
 
 $$ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.$$
 
@@ -66,7 +66,7 @@ $$ g(U_{\mathrm{ch}}) = 2 \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} \
 
 In TPSC, a self-energy $\Sigma$ can be derived that is calculated from the interaction {cite:p}`Moukouri2000`
 
-$$ V(i\nu_m, \boldsymbol{q}) = \frac{U}{4} \left(3 U_{\mathrm{sp}} \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + U_{\mathrm{ch}} \chi_{\mathrm{ch}}(i\nu_m, \boldsymbol{q})\right) + U\;. $$
+$$ V(i\nu_m, \boldsymbol{q}) = \frac{U}{4} \left(3 U_{\mathrm{sp}} \chi_{\mathrm{sp}}(i\nu_m, \boldsymbol{q}) + U_{\mathrm{ch}} \chi_{\mathrm{ch}}(i\nu_m, \boldsymbol{q})\right) + U\;. $$
 
 The self-energy itself is given by a convolution in $(i\omega_n, \boldsymbol{k})$ space
 
@@ -81,18 +81,18 @@ The interacting Green function is determined by the Dyson equation
 $$
 \begin{align}
 G(i\omega_n,\boldsymbol{k}) &= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1} \\
-& = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
+& = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
 \end{align}
 $$
 
 
 
-#### Practical implementation
-When implementing the TPSC, a few points need to be treated carefully which we discuss in the following.
+#### Notes on practical implementation
+When implementing the TPSC, a few points need to be treated carefully which we adress in the following:
 
-* The constant Hartree term $V_{\mathrm{H}} = U$ in the interaction $V$ and respective self-energy term $\Sigma_H = U n_{\sigma} = U\frac{n}{2}$ can be absorbed into the definition of the chemical potential $\mu$.
+* The constant Hartree term $V_{\mathrm{H}} = U$ in the interaction $V$ and respective self-energy term $\Sigma_H = U n_{\sigma} = U\frac{n}{2}$ can be absorbed into the definition of the chemical potential $\mu$. Otherwise we would have to treat them separately.
 * An upper bound for the renormalized spin vertex $U_{\mathrm{sp}}$ exists. Since the denominator spin susceptibility $\chi_{\mathrm{sp}}$ should not diverge, the upper bound is given by the RPA critical interaction value $U_{\mathrm{crit}} = 1/\mathrm{max}\{\chi^0\}$. Mathematically, the function $f(U_{\mathrm{sp}}) = 2\sum \chi_{\mathrm{sp}}(U_{\mathrm{sp}}) - n + \frac{U_{\mathrm{sp}}}{2U}n^2$, from which $U_{\mathrm{sp}}$ is determined, turns unstable for $U_{\mathrm{sp}} \geq U_{\mathrm{crit}}$ (try plotting $f(U_{\mathrm{sp}})$!). At this point, TPSC is not applicable and, e.g., the temperature $T$ is too low or the (unrenormalized) interaction $U$ too large.
-* An internal accuracy check $\frac{1}{2}\mathrm{Tr}(\Sigma G) = U \langle n_{\uparrow} n_{\downarrow}\rangle$ can be employed to test the validity of TPSC.
+* An internal accuracy check $\frac{1}{2}\mathrm{Tr}(\Sigma G) = U \langle n_{\uparrow} n_{\downarrow}\rangle$ can be employed to test the validity of TPSC (not done here).
 
 +++
 
@@ -203,7 +203,7 @@ class Mesh:
 ```
 
 #### TPSC solver
-We wrap the calculation steps of TPSC (i.e. determining $U_{\mathrm{sp}},U_{\mathrm{ch}}$) in a Solver class. We use the `Mesh` class defined above to perform calculation steps.
+We wrap the calculation steps of TPSC (i.e. determining $U_{\mathrm{sp}},U_{\mathrm{ch}}$) in the `TPSCSolver` class. We use the `Mesh` class defined above to perform calculation steps.
 
 ```{code-cell} ipython3
 class TPSCSolver:
@@ -390,6 +390,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
+ax.set_title('Re $G(k,i\omega_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -403,6 +404,7 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
+ax.set_title('Im $\Sigma(k,i\omega_0)$')
 plt.colorbar()
 plt.show()
 ```
@@ -416,14 +418,15 @@ ax.set_xlim([0,2])
 ax.set_ylabel('$k_y/\pi$')
 ax.set_ylim([0,2])
 ax.set_aspect('equal')
+ax.set_title('$\chi_{\mathrm{sp}}(k,i\nu_0)$')
 plt.colorbar()
 plt.show()
 ```
 
 ## Example: Interaction dependent renormalization
-As a simple example demonstration of our SparseIR TPSC code developed above, we will reproduce Fig. 2 of {cite:p}`Vilk97`. It shows the $U$ dependence of renormalized/effective spin and charge interactions $U_{\mathrm{sp}}$ and $U_{\mathrm{ch}}$ (irreducible vertices) at half filling $n=1$ and $T>T_{\mathrm{crit}}$ for all considered $U$ (i.e. $U_{\mathrm{sp}}<U_{\mathrm{crit}}$ is ensured).
+As a simple example demonstration of our `sparse-ir` TPSC code developed above, we will reproduce Fig. 2 of {cite:p}`Vilk1997`. It shows the $U$ dependence of renormalized/effective spin and charge interactions $U_{\mathrm{sp}}$ and $U_{\mathrm{ch}}$ (irreducible vertices) at half filling $n=1$ and $T>T_{\mathrm{crit}}$ for all considered $U$ (i.e. $U_{\mathrm{sp}}<U_{\mathrm{crit}}$ is ensured).
 
-You can simply execute the following two code blocks which will first perform the calculatn and then generate a figure like in the reference above.
+You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the reference above.
 
 ```{code-cell} ipython3
 :tags: []

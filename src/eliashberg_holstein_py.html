@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eliashberg equation for Holstein Hubbard model &#8212; sparse-ir</title>
+    <title>Eliashberg theory for the Holstein-Hubbard model &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Lichtenstein formula" href="lichtenstein_formula_py.html" />
@@ -158,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Eliashberg equation for Holstein Hubbard model
+   Eliashberg theory for the Holstein-Hubbard model
   </a>
  </li>
  <li class="toctree-l1">
@@ -303,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/eliashberg_holstein_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/eliashberg_holstein_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -320,6 +322,51 @@ const thebe_selector_output = ".output, .cell_output"
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
+   Implementation: Eliashberg solver
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-consistent-calculation">
+   Self-consistent calculation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#paramaters">
+     Paramaters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solve-the-equation">
+     Solve the equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-results">
+     Plot results
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">
+   Second calculation on temperature dependence
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -327,19 +374,601 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Eliashberg equation for Holstein Hubbard model</h1>
+                <h1>Eliashberg theory for the Holstein-Hubbard model</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
+   Implementation: Eliashberg solver
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#self-consistent-calculation">
+   Self-consistent calculation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#paramaters">
+     Paramaters
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#solve-the-equation">
+     Solve the equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-results">
+     Plot results
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">
+   Second calculation on temperature dependence
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="eliashberg-equation-for-holstein-hubbard-model">
-<h1>Eliashberg equation for Holstein Hubbard model<a class="headerlink" href="#eliashberg-equation-for-holstein-hubbard-model" title="Permalink to this headline">¶</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="eliashberg-theory-for-the-holstein-hubbard-model">
+<h1>Eliashberg theory for the Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-the-holstein-hubbard-model" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<p>To be written</p>
+</div>
+<div class="section" id="implementation-eliashberg-solver">
+<h2>Implementation: Eliashberg solver<a class="headerlink" href="#implementation-eliashberg-solver" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;serif&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+<span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.polynomial.legendre</span> <span class="kn">import</span> <span class="n">leggauss</span>
+
+<span class="k">def</span> <span class="nf">scale_quad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Scale weights and notes of quadrature to the interval [xmin, xmax] &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">xmin</span> <span class="o">&lt;</span> <span class="n">xmax</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span>
+    <span class="n">w_</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">w</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">xmin</span>
+    <span class="k">return</span> <span class="n">x_</span><span class="p">,</span> <span class="n">w_</span>
+
+
+<span class="k">class</span> <span class="nc">Eliashberg</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bset</span><span class="p">:</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="n">omega_range</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omega_range</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">J</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bset</span> <span class="o">=</span> <span class="n">bset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_omega</span> <span class="o">=</span> <span class="n">rho_omega</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span> <span class="o">=</span> <span class="n">omega0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
+
+        <span class="n">x_</span><span class="p">,</span> <span class="n">w_</span> <span class="o">=</span> <span class="n">leggauss</span><span class="p">(</span><span class="n">deg_leggauss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span> <span class="o">=</span> <span class="n">scale_quad</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">w_</span><span class="p">,</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span> <span class="o">=</span> <span class="n">rho_omega</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Sparse sampling in Matsubara frequencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+
+        <span class="c1"># Phonon propagator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d0_iv</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega0</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> 
+
+    <span class="k">def</span> <span class="nf">xi_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute xi(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">sigma_iv</span>
+
+    <span class="k">def</span> <span class="nf">g_f_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute G(iv) and F(iv) from sigma(iv), Delta(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">xi_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xi_iv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">)</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="n">xi_iv</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">delta_iv</span><span class="o">**</span><span class="mi">2</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">numerator_G</span> <span class="o">=</span> <span class="n">xi_iv</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">numerator_F</span> <span class="o">=</span> <span class="n">delta_iv</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">g_iv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;q,wq-&gt;w&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span><span class="p">,</span> <span class="n">numerator_G</span><span class="o">/</span><span class="n">denominator</span><span class="p">,</span>
+                        <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">f_iv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;q,wq-&gt;w&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span><span class="p">,</span> <span class="n">numerator_F</span><span class="o">/</span><span class="n">denominator</span><span class="p">,</span>
+                        <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g_iv</span><span class="p">,</span> <span class="n">f_iv</span>
+
+    <span class="k">def</span> <span class="nf">pi_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g_tau</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Pi(tau)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g_tau</span> <span class="o">*</span> <span class="n">g_tau</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">f_tau</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  
+    <span class="k">def</span> <span class="nf">d_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi_iv</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute D(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">d0_iv</span> <span class="o">-</span> <span class="n">phi_iv</span><span class="p">)</span>
+  
+    <span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Sigma(tau) and Sigma(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sigma_tau</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_tau</span> <span class="o">*</span> <span class="n">g_tau</span>
+        <span class="n">sigma_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">sigma_tau</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sigma_tau</span><span class="p">,</span> <span class="n">sigma_iv</span>
+
+    <span class="k">def</span> <span class="nf">delta_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Delta(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tl_delta_tau</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_tau</span> <span class="o">*</span> <span class="n">f_tau</span>
+        <span class="n">tl_delta_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">tl_delta_tau</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tl_delta_iv</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">f_tau</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    
+    <span class="k">def</span> <span class="nf">_smpl_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="p">}[</span><span class="n">stat</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_smpl_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="p">}[</span><span class="n">stat</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_iv</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform to tau</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smpl_tau</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_smpl_wn</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_iv</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">to_matsu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform to Matsubara</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smpl_wn</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_smpl_tau</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">internal_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delta_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">g_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute internal energy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stat_sign</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}[</span><span class="n">tau</span><span class="p">]</span>
+        <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="p">[</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="p">[</span><span class="n">tau</span><span class="p">])</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_b</span><span class="p">]]</span>
+
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">stat_sign</span> <span class="o">*</span> <span class="n">smpl_tau0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">*</span> <span class="n">g_iv</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">stat_sign</span> <span class="o">*</span> <span class="n">smpl_tau0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="n">g_iv</span> <span class="o">*</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">-</span> <span class="n">sigma_iv</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">delta_iv</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">-</span> <span class="n">sigma_iv</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">f2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega0</span><span class="o">**-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_iv</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">e1</span> <span class="o">+</span> <span class="n">e2</span>  <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span> <span class="o">*</span> <span class="n">f2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">500.0</span>
+
+<span class="n">D</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">rho_omega</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+<span class="c1">#from scipy.integrate import quad</span>
+<span class="c1">#assert np.abs(quad(rho_omega, -D, D)[0] - 1) &lt; 1e-9 # Check sum rule</span>
+
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">D</span>
+<span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+<span class="c1">#bases = sparse_ir.basis.finite_temp_bases(beta, wmax, eps)</span>
+<span class="c1">#smpl_tau = [sparse_ir.TauSampling(b) for b in bases]</span>
+<span class="c1">#smpl_matsu = [sparse_ir.MatsubaraSampling(b) for b in bases]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve the self-consistent equation</span>
+
+<span class="sd">    ph: Force ph symmetry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sigma_iv_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">delta_iv_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">converged</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">niter</span><span class="p">):</span>
+        <span class="c1"># Update G and F</span>
+        <span class="n">g_iv</span><span class="p">,</span> <span class="n">f_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">g_f_iv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">)</span>
+        <span class="n">g_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">g_iv</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="n">f_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">f_iv</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ph</span><span class="p">:</span>
+            <span class="n">g_tau</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">g_tau</span> <span class="o">+</span> <span class="n">g_tau</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">g_tau</span><span class="p">[</span><span class="n">g_tau</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        
+        <span class="c1"># Update Phi</span>
+        <span class="n">phi_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">pi_tau</span><span class="p">(</span><span class="n">g_tau</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">)</span>
+        <span class="n">phi_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">phi_tau</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
+        <span class="n">phi_iv</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="mi">0</span>
+    
+        <span class="c1"># Update D</span>
+        <span class="n">d_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">d_iv</span><span class="p">(</span><span class="n">phi_iv</span><span class="p">)</span>
+        <span class="n">d_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">d_iv</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
+    
+        <span class="c1"># Update Sigma</span>
+        <span class="n">sigma_tau</span><span class="p">,</span> <span class="n">sigma_iv_new</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">sigma</span><span class="p">(</span><span class="n">g_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">)</span>
+        <span class="n">sigma_iv_prev</span> <span class="o">=</span> <span class="n">sigma_iv</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">sigma_iv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixing</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_iv</span> <span class="o">+</span> <span class="n">mixing</span> <span class="o">*</span> <span class="n">sigma_iv_new</span>
+    
+        <span class="c1"># Update Delta</span>
+        <span class="n">delta_iv_new</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">delta_iv</span><span class="p">(</span><span class="n">f_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">)</span>
+        <span class="n">delta_iv_prev</span> <span class="o">=</span> <span class="n">delta_iv</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">delta_iv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixing</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_iv</span> <span class="o">+</span> <span class="n">mixing</span> <span class="o">*</span> <span class="n">delta_iv_new</span>
+        <span class="n">delta_iv</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">delta_iv</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">delta_iv</span> <span class="o">+</span> <span class="n">delta_iv</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">diff_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sigma_iv_new</span> <span class="o">-</span> <span class="n">sigma_iv_prev</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">diff_delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delta_iv_new</span> <span class="o">-</span> <span class="n">delta_iv_prev</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="nb">iter</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;iter= </span><span class="si">{</span><span class="nb">iter</span><span class="si">}</span><span class="s2"> : diff_sigma= </span><span class="si">{</span><span class="n">diff_sigma</span><span class="si">}</span><span class="s2">, diff_delta=</span><span class="si">{</span><span class="n">diff_delta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        
+        <span class="c1">#print(max(diff_sigma, diff_delta), atol)</span>
+        <span class="k">if</span> <span class="n">atol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="n">diff_sigma</span><span class="p">,</span> <span class="n">diff_delta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">atol</span><span class="p">:</span>
+            <span class="n">converged</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">converged</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not converged!&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Internal energy</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">internal_energy</span><span class="p">(</span>
+        <span class="n">sigma_iv</span><span class="o">=</span><span class="n">sigma_iv</span><span class="p">,</span>
+        <span class="n">delta_iv</span><span class="o">=</span><span class="n">delta_iv</span><span class="p">,</span>
+        <span class="n">g_iv</span><span class="o">=</span><span class="n">g_iv</span><span class="p">,</span> <span class="n">d_iv</span><span class="o">=</span><span class="n">d_iv</span><span class="p">,</span>
+        <span class="n">tau</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="n">others</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;sigma_tau&#39;</span><span class="p">:</span> <span class="n">sigma_tau</span><span class="p">,</span>
+        <span class="s1">&#39;phi_iv&#39;</span><span class="p">:</span> <span class="n">phi_iv</span><span class="p">,</span>
+        <span class="s1">&#39;g_iv&#39;</span><span class="p">:</span> <span class="n">g_iv</span><span class="p">,</span>
+        <span class="s1">&#39;f_iv&#39;</span><span class="p">:</span> <span class="n">f_iv</span><span class="p">,</span>
+        <span class="s1">&#39;d_iv&#39;</span><span class="p">:</span> <span class="n">d_iv</span><span class="p">,</span>
+        <span class="s1">&#39;d_tau&#39;</span><span class="p">:</span> <span class="n">d_tau</span><span class="p">,</span>
+        <span class="s1">&#39;f_tau&#39;</span><span class="p">:</span> <span class="n">f_tau</span><span class="p">,</span>
+        <span class="s1">&#39;g_tau&#39;</span><span class="p">:</span> <span class="n">g_tau</span><span class="p">,</span>
+        <span class="s1">&#39;u&#39;</span> <span class="p">:</span> <span class="n">u</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">noise</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add Gaussian noise to an array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arr</span> <span class="o">+=</span> <span class="n">noise</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">+=</span> <span class="n">noise</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="self-consistent-calculation">
+<h2>Self-consistent calculation<a class="headerlink" href="#self-consistent-calculation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="paramaters">
+<h3>Paramaters<a class="headerlink" href="#paramaters" title="Permalink to this headline">¶</a></h3>
+<p>The parameters are corresponding to ***** in ****.</p>
+<div class="math notranslate nohighlight">
+\[
+g = \sqrt{3 \lambda_0 \omega_0/4}
+\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">J</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">U</span>
+<span class="n">omega0</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.125</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="solve-the-equation">
+<h3>Solve the equation<a class="headerlink" href="#solve-the-equation" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of fermionic sampling frequencies</span>
+<span class="n">nw_f</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span>
+
+<span class="c1"># Initial guess</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nw_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">noise</span><span class="p">)</span>
+<span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">nw_f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+
+<span class="n">max_niter</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">mixing</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="n">deg_leggauss</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># Degree of Gauss quadrature for DOS integration</span>
+
+<span class="c1"># Construct a solver</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">lambda0</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">elsh</span> <span class="o">=</span> <span class="n">Eliashberg</span><span class="p">(</span><span class="n">bset</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span><span class="n">D</span><span class="p">),</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="n">deg_leggauss</span><span class="p">)</span>
+
+<span class="c1"># Solve the equation</span>
+<span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv0</span><span class="p">,</span> <span class="n">delta_iv0</span><span class="p">,</span> <span class="n">max_niter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Result</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bset&quot;</span><span class="p">:</span> <span class="n">bset</span><span class="p">,</span> <span class="s2">&quot;sigma_iv&quot;</span><span class="p">:</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="s2">&quot;delta_iv&quot;</span><span class="p">:</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="o">**</span><span class="n">others</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.037079359405071365, diff_delta=1.9896751819545777
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 100 : diff_sigma= 0.0003665146802168682, diff_delta=0.000859037975410579
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 200 : diff_sigma= 8.51490098289346e-06, diff_delta=1.9873517567437084e-05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 300 : diff_sigma= 1.9368922744844586e-07, diff_delta=4.515080175709896e-07
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 400 : diff_sigma= 4.3956380479937e-09, diff_delta=1.024595139287429e-08
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 500 : diff_sigma= 9.974374104437852e-11, diff_delta=2.3249610574862019e-10
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let us check `F` is represented compactly in IR</span>
+<span class="n">f_l</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;f_iv&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f_l</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|F_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span><span class="o">/</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l/S_0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eliashberg_holstein_py_13_0.png" src="../_images/eliashberg_holstein_py_13_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="plot-results">
+<h3>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_res</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; For plotting results &quot;&quot;&quot;</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">beta</span>
+    <span class="n">iv_f</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">iv_b</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;sigma_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_n$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Im $\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\omega_n)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;d_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $D(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="c1">#plt.ylim([-0.1, 0.1])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;d_tau&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $D(\tau)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;delta_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $\Delta(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;f_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_n$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $F(\mathrm</span><span class="si">{i}</span><span class="s2">\omega_n)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">elsh</span><span class="o">.</span><span class="n">iv_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;phi_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $\Pi(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">plot_res</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eliashberg_holstein_py_15_0.png" src="../_images/eliashberg_holstein_py_15_0.png" />
+<img alt="../_images/eliashberg_holstein_py_15_1.png" src="../_images/eliashberg_holstein_py_15_1.png" />
+<img alt="../_images/eliashberg_holstein_py_15_2.png" src="../_images/eliashberg_holstein_py_15_2.png" />
+<img alt="../_images/eliashberg_holstein_py_15_3.png" src="../_images/eliashberg_holstein_py_15_3.png" />
+<img alt="../_images/eliashberg_holstein_py_15_4.png" src="../_images/eliashberg_holstein_py_15_4.png" />
+<img alt="../_images/eliashberg_holstein_py_15_5.png" src="../_images/eliashberg_holstein_py_15_5.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="second-calculation-on-temperature-dependence">
+<h2>Second calculation on temperature dependence<a class="headerlink" href="#second-calculation-on-temperature-dependence" title="Permalink to this headline">¶</a></h2>
+<p>We now compute the temperature dependence of the specific heat for <span class="math notranslate nohighlight">\(\lambda_0=0.175\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.175</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">lambda0</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We now compute solutions by changing the temperature gradually. To use the same number of IR functions all the temperatures, we fix the UV cutoff <span class="math notranslate nohighlight">\(\Lambda\)</span> to a common value.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_temp</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.009</span><span class="p">,</span> <span class="mf">0.013</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># Set Lambda to a large enough value for the lowest temperature</span>
+<span class="n">Lambda_common</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">D</span><span class="p">)</span><span class="o">/</span><span class="n">temps</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
+
+<span class="c1"># Shift the mesh points by dt, which doubles the mesh size,</span>
+<span class="c1"># to compute the specific heat</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">temps_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">temps</span><span class="p">,</span> <span class="n">temps</span> <span class="o">+</span> <span class="n">dt</span><span class="p">)))</span>
+
+<span class="n">bset</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">sigma_iv0</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">elta_iv0</span>  <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">temp</span>
+
+    <span class="k">if</span> <span class="n">bset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Lambda_common</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Reuse the SVE results</span>
+        <span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Lambda_common</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sve_result</span><span class="o">=</span><span class="n">bset</span><span class="o">.</span><span class="n">sve_result</span><span class="p">)</span>
+
+    <span class="n">elsh</span> <span class="o">=</span> <span class="n">Eliashberg</span><span class="p">(</span><span class="n">bset</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="n">deg_leggauss</span><span class="p">)</span>
+    
+    <span class="c1"># Initial guess</span>
+    <span class="k">if</span> <span class="n">sigma_iv0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="mf">1e-5</span>
+        <span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">noise</span><span class="p">)</span>
+        <span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
+    
+    <span class="c1"># Solve!</span>
+    <span class="c1">#sigma_iv, delta_iv, others = solve(elsh, sigma_iv0, delta_iv0, niter, mixing, verbose=True, ph=True)</span>
+    <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv0</span><span class="p">,</span> <span class="n">delta_iv0</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sigma_iv&quot;</span><span class="p">:</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="s2">&quot;delta_iv&quot;</span><span class="p">:</span> <span class="n">delta_iv</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">others</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
+
+    <span class="c1"># Use the converged result for an initial guess for the next temperature</span>
+    <span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;sigma_iv&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;delta_iv&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temps_all</span><span class="p">,</span> <span class="n">u_temps</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$E(T)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eliashberg_holstein_py_20_0.png" src="../_images/eliashberg_holstein_py_20_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">temp</span><span class="p">:</span> <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span>  <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">}</span>
+<span class="n">specific_heat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="o">+</span><span class="n">dt</span><span class="p">]</span> <span class="o">-</span> <span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps</span><span class="p">])</span><span class="o">/</span><span class="n">dt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temps</span><span class="p">,</span> <span class="n">specific_heat</span><span class="o">/</span><span class="n">temps</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1200</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$C(T)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/eliashberg_holstein_py_21_0.png" src="../_images/eliashberg_holstein_py_21_0.png" />
+</div>
+</div>
+</div>
 </div>
 
     <script type="text/x-thebe-config">

@@ -160,7 +160,7 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg equation for Holstein Hubbard model
+   Eliashberg theory for the Holstein-Hubbard model
   </a>
  </li>
  <li class="toctree-l1">
@@ -338,8 +338,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#practical-implementation">
-     Practical implementation
+    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
+     Notes on practical implementation
     </a>
    </li>
   </ul>
@@ -447,8 +447,8 @@ const thebe_selector_output = ".output, .cell_output"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#practical-implementation">
-     Practical implementation
+    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
+     Notes on practical implementation
     </a>
    </li>
   </ul>
@@ -539,7 +539,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
 <div class="section" id="theory-of-flex-in-the-paramagnetic-state">
 <h2>Theory of FLEX in the paramagnetic state<a class="headerlink" href="#theory-of-flex-in-the-paramagnetic-state" title="Permalink to this headline">¶</a></h2>
-<p>The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. <span id="id1">[<a class="reference internal" href="bibliography.html#id40" title="N. E. Bickers, D. J. Scalapino, and S. R. White. Conserving approximations for strongly correlated electron systems: bethe-salpeter equation and dynamics for the two-dimensional hubbard model. Phys. Rev. Lett., 62:961–964, Feb 1989. URL: https://link.aps.org/doi/10.1103/PhysRevLett.62.961, doi:10.1103/PhysRevLett.62.961.">Bickers <em>et al.</em>, 1989</a>, <a class="reference internal" href="bibliography.html#id41" title="N.E Bickers and D.J Scalapino. Conserving approximations for strongly fluctuating electron systems. i. formalism and calculational approach. Annals of Physics, 193(1):206-251, 1989. URL: https://www.sciencedirect.com/science/article/pii/000349168990359X, doi:https://doi.org/10.1016/0003-4916(89)90359-X.">Bickers and Scalapino, 1989</a>]</span>. It can be derived from a Luttinger-Ward functional <span id="id2">[<a class="reference internal" href="bibliography.html#id43" title="J. M. Luttinger and J. C. Ward. Ground-state energy of a many-fermion system. ii. Phys. Rev., 118:1417–1427, Jun 1960. URL: https://link.aps.org/doi/10.1103/PhysRev.118.1417, doi:10.1103/PhysRev.118.1417.">Luttinger and Ward, 1960</a>]</span> containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin- and charge fluctuatiosn is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> to illustrate the practical implementation of the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package for diagrammatic methods.</p>
+<p>The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. <span id="id1">[<a class="reference internal" href="bibliography.html#id40" title="N. E. Bickers, D. J. Scalapino, and S. R. White. Conserving approximations for strongly correlated electron systems: bethe-salpeter equation and dynamics for the two-dimensional hubbard model. Phys. Rev. Lett., 62:961–964, Feb 1989. URL: https://link.aps.org/doi/10.1103/PhysRevLett.62.961, doi:10.1103/PhysRevLett.62.961.">Bickers <em>et al.</em>, 1989</a>, <a class="reference internal" href="bibliography.html#id41" title="N.E Bickers and D.J Scalapino. Conserving approximations for strongly fluctuating electron systems. i. formalism and calculational approach. Annals of Physics, 193(1):206-251, 1989. URL: https://www.sciencedirect.com/science/article/pii/000349168990359X, doi:https://doi.org/10.1016/0003-4916(89)90359-X.">Bickers and Scalapino, 1989</a>]</span>. It can be derived from a Luttinger-Ward functional <span id="id2">[<a class="reference internal" href="bibliography.html#id43" title="J. M. Luttinger and J. C. Ward. Ground-state energy of a many-fermion system. ii. Phys. Rev., 118:1417–1427, Jun 1960. URL: https://link.aps.org/doi/10.1103/PhysRev.118.1417, doi:10.1103/PhysRev.118.1417.">Luttinger and Ward, 1960</a>]</span> containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin and charge fluctuations is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> to illustrate the practical implementation of the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package for diagrammatic methods.</p>
 <p>For the implementation of a multi-orbital code, please have a look at <span id="id3">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> and <a class="reference external" href="https://github.com/nikwitt/FLEX_IR">FLEX_IR package</a>.</p>
 <div class="section" id="set-of-flex-equations">
 <h3>Set of FLEX equations<a class="headerlink" href="#set-of-flex-equations" title="Permalink to this headline">¶</a></h3>
@@ -551,13 +551,13 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 &amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}\;.
 \end{align}
 \end{split}\]</div>
-<p>for the interacting Green function <span class="math notranslate nohighlight">\(G\)</span> from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> as well as self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> as a function of Matsubara frequencies <span class="math notranslate nohighlight">\(i\omega_n=(2n+1)\pi T\)</span> and momentum <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>. Using the Green function, we calculate the irreducible susceptibility (“bubble diagram”) as</p>
+<p>for the interacting Green function <span class="math notranslate nohighlight">\(G\)</span> from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> as well as self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> as a function of Matsubara frequencies <span class="math notranslate nohighlight">\(\omega_n=(2n+1)\pi T\)</span> and momentum <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>. Using the Green function, we calculate the irreducible susceptibility (“bubble diagram”) as</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;.\]</div>
-<p><span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points. This equation is convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary time and real space, resulting in a simple multiplication</p>
+<p><span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points. This equation is a convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.\]</div>
-<p>In our practical implementation, we will perform this step using the ‘sparse-ir’ package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction <span id="id4">[<a class="reference internal" href="bibliography.html#id44" title="N. F. Berk and J. R. Schrieffer. Effect of Ferromagnetic Spin Correlations on Superconductivity. Physical Review Letters, 17(8):433–435, aug 1966. URL: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.17.433, doi:10.1103/physrevlett.17.433.">Berk and Schrieffer, 1966</a>]</span></p>
+<p>In our practical implementation, we will perform this step using the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction <span id="id4">[<a class="reference internal" href="bibliography.html#id44" title="N. F. Berk and J. R. Schrieffer. Effect of Ferromagnetic Spin Correlations on Superconductivity. Physical Review Letters, 17(8):433–435, aug 1966. URL: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.17.433, doi:10.1103/physrevlett.17.433.">Berk and Schrieffer, 1966</a>]</span></p>
 <div class="math notranslate nohighlight">
 \[ V(i\nu_m, \boldsymbol{q}) = \frac{3}{2} U^2 \chi_{\mathrm{s}}(i\nu_m, \boldsymbol{q}) + \frac{1}{2} U^2 \chi_{\mathrm{c}}(i\nu_m, \boldsymbol{q}) - U^2 \chi_0(i\nu_m, \boldsymbol{q}) + U \]</div>
 <p>with spin and charge susceptibility like in the Random-Phase-Approximation (RPA)</p>
@@ -566,7 +566,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <p>The self-energy can be calculated from the convolution</p>
 <div class="math notranslate nohighlight">
 \[ \Sigma(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V(i\nu_m, \boldsymbol{q}) G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q}) \]</div>
-<p>which Fourier transformed to real space takes the form</p>
+<p>which Fourier transformed to real space and imaginary-times takes the form</p>
 <div class="math notranslate nohighlight">
 \[ \Sigma(\tau, \boldsymbol{r}) = V(\tau, \boldsymbol{r}) G(\tau, \boldsymbol{r})\;. \]</div>
 <p>Thus, we have the set of self-consistent equations complete. In every iteration, the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> needs to be adjusted to keep the electron density <span class="math notranslate nohighlight">\(n\)</span> fixed. It can be calculated via solving</p>
@@ -574,12 +574,12 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 \[ n = 2n_{\sigma} = 2 - \frac{2}{N_{\boldsymbol{k}}} \sum_{\boldsymbol{k}} G(\tau=0^+, \boldsymbol{k}) \]</div>
 <p>with a factor 2 from spin degeneracy and <span class="math notranslate nohighlight">\(0^+ = \lim_{\eta\to 0+} \eta\)</span> by using some root finding algorithm like bisection method or Brent’s method.</p>
 </div>
-<div class="section" id="practical-implementation">
-<h3>Practical implementation<a class="headerlink" href="#practical-implementation" title="Permalink to this headline">¶</a></h3>
-<p>When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we discuss in the following.</p>
+<div class="section" id="notes-on-practical-implementation">
+<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">¶</a></h3>
+<p>When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we adress in the following:</p>
 <ul class="simple">
-<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>.</p></li>
-<li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function: $<span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>$ This smoothes down too strong oscillations of the solution.</p></li>
+<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat them separately.</p></li>
+<li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function as <span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>. This smoothes too strong oscillations of the solution.</p></li>
 <li><p>A bottleneck of the FLEX approximation is the case of too strong interactions. The solution turns numerically unstable, if the denominator of <span class="math notranslate nohighlight">\(\chi_{\mathrm{s}}\)</span> approaches zero, i.e., <span class="math notranslate nohighlight">\(U\max\!\{\chi_{0}\} \to 1\)</span>. Typically, this can be solved by starting with a smaller <span class="math notranslate nohighlight">\(U\)</span> value and slowly turning it up. We call this “<span class="math notranslate nohighlight">\(U\)</span> renormalization”.</p></li>
 </ul>
 </div>
@@ -707,7 +707,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 <div class="section" id="flex-loop-solver">
 <h3>FLEX loop solver<a class="headerlink" href="#flex-loop-solver" title="Permalink to this headline">¶</a></h3>
-<p>We wrap the calculation steps of the FLEX loop in a Solver class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
+<p>We wrap the calculation steps of the FLEX loop in the <code class="docutils literal notranslate"><span class="pre">FLEXSolver</span></code> class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FLEXSolver</span><span class="p">:</span>
@@ -804,6 +804,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U renormalization reached breaking point&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leaving U renormalization...&#39;</span><span class="p">)</span>
+    
     
     <span class="c1">#%%%%%%%%%%% Calculation steps</span>
     <span class="k">def</span> <span class="nf">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
@@ -1288,6 +1289,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $G(k,i\omega_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1307,6 +1309,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $\chi_0(k,i</span><span class="se">\n</span><span class="s1">u_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1329,7 +1332,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
  &amp;= -\frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V^{(\xi)}(i\nu_m, \boldsymbol{q}) |G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q})|^2 \Delta^{(\xi)}(i\omega_n - i\nu_m, \boldsymbol{k}-\boldsymbol{q})
 \end{align}
  \end{split}\]</div>
-<p>for the gap function <span class="math notranslate nohighlight">\(\Delta\)</span> (‘order parameter’) in either the spin singlet (<span class="math notranslate nohighlight">\(\xi=\mathrm{S}\)</span>) or spin triplet (<span class="math notranslate nohighlight">\(\xi=\mathrm{T}\)</span>) pairing channel. <span class="math notranslate nohighlight">\(F^{(\xi)} = -|G|^2\Delta^{(\xi)}\)</span> is the anomalous Green function. Just like the convoluted sum for the self-energywe can calculate this equation easily after Fourier transforming to</p>
+<p>for the gap function <span class="math notranslate nohighlight">\(\Delta\)</span> (‘order parameter’) in either the spin singlet (<span class="math notranslate nohighlight">\(\xi=\mathrm{S}\)</span>) or spin triplet (<span class="math notranslate nohighlight">\(\xi=\mathrm{T}\)</span>) pairing channel. <span class="math notranslate nohighlight">\(F^{(\xi)} = -|G|^2\Delta^{(\xi)}\)</span> is the anomalous Green function. Just like the convoluted sum for the self-energy, we can compute this equation easily after Fourier transforming to</p>
 <div class="math notranslate nohighlight">
 \[
 \begin{align}
@@ -1354,7 +1357,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <h3>Code implementation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="linearized-eliashberg-solver">
 <h4>Linearized Eliashberg solver<a class="headerlink" href="#linearized-eliashberg-solver" title="Permalink to this headline">¶</a></h4>
-<p>As for the FLEX loop, we implement a solver class that takes the FLEX_Solver instance as an argument to solve the linearized Eliashberg equation.</p>
+<p>As for the FLEX loop, we implement a solver class that takes the <code class="docutils literal notranslate"><span class="pre">FLEXSolver</span></code> instance as an argument to solve the linearized Eliashberg equation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinearizedGapSolver</span><span class="p">:</span>
@@ -1621,7 +1624,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta_d(k)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta_d(k,i\omega_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1643,7 +1646,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta_d(k)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $F(k,i\omega_0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -1659,8 +1662,8 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <div class="section" id="example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
 <h2>Example: Antiferromagnetic fluctuations and <span class="math notranslate nohighlight">\(d\)</span>-wave superconductivity in the square-lattice Hubbard model<a class="headerlink" href="#example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model" title="Permalink to this headline">¶</a></h2>
 <p>In this section, we will reproduce Figs. 3(b) and 4 of <span id="id7">[<a class="reference internal" href="bibliography.html#id45" title="Ryotaro Arita, Kazuhiko Kuroki, and Hideo Aoki. D- and p-wave superconductivity mediated by spin fluctuations in two- and three-dimensional single-band repulsive hubbard model. Journal of the Physical Society of Japan, 69(4):1181-1191, 2000. URL: https://doi.org/10.1143/JPSJ.69.1181, arXiv:https://doi.org/10.1143/JPSJ.69.1181, doi:10.1143/JPSJ.69.1181.">Arita <em>et al.</em>, 2000</a>]</span> or respective Fig. 2(a) of <span id="id8">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue <span class="math notranslate nohighlight">\(\lambda_d\)</span> (as calculated above) and the inverse maximal spin susceptibility <span class="math notranslate nohighlight">\(1/\chi_{\mathrm{s,max}}\)</span>, which indicates tendency towards (quasi-)magnetic ordering.</p>
-<p>In order to perform calcualtions for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to recalculate the IR basis set instance for every step. We start from high <span class="math notranslate nohighlight">\(T\)</span> and lower its value and initialize each <span class="math notranslate nohighlight">\(T\)</span> calculation by using the previously converged solution, since it does not change drastically and speeds up convergence.</p>
-<p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the references above.</p>
+<p>In order to perform calculations for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to recalculate the IR basis set instance for every step. We start from high <span class="math notranslate nohighlight">\(T\)</span> and lower its value and initialize each <span class="math notranslate nohighlight">\(T\)</span> calculation by using the previously converged solution, since it does not change drastically and speeds up convergence.</p>
+<p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure similar to those in the references above.</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
