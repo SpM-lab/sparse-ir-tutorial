@@ -28,6 +28,7 @@ notebook_interface            : "jupyterlab"
 repository:
   url                         : https://github.com/SpM-lab/sparse-ir-doc.git
   path_to_book                : ""
+  branch                    : master
 
 latex:
   latex_engine                : "xelatex"
