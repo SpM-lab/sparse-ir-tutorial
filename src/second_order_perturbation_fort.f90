@@ -1,13 +1,13 @@
 MODULE kinds
   IMPLICIT NONE
-  INTEGER, PARAMETER :: DP = KIND(0d0)
+  INTEGER, PARAMETER :: DP = KIND(0D0)
   PUBLIC :: DP
 END MODULE kinds
 
 MODULE constants
   USE kinds
   IMPLICIT NONE
-  REAL(KIND=DP) ,PARAMETER :: pi = ATAN(1.0_DP)*4.0_DP
+  REAL(KIND=DP), PARAMETER :: pi = ATAN(1.0_DP)*4.0_DP
   COMPLEX(KIND=DP), PARAMETER :: ci = (0.0_DP,1.0_DP)
   COMPLEX(KIND=DP), PARAMETER :: czero = (0.0_DP,0.0_DP)
   PUBLIC :: pi,ci,czero
@@ -26,6 +26,7 @@ MODULE input_variables
   LOGICAL use_preset
   !
   PUBLIC :: nk_lin, lambda, beta, eps, hubbardu, use_preset
+  PUBLIC :: read_input
   !
 CONTAINS
   !
@@ -79,6 +80,8 @@ MODULE fftw3_run
   IMPLICIT NONE
   INCLUDE "fftw3.f"
   !
+  PUBLIC :: do_fft_2d
+  !
 CONTAINS
   !
   SUBROUTINE do_fft_2d(n1, n2, in, out, num, isign)
@@ -87,9 +90,7 @@ CONTAINS
     COMPLEX(KIND=DP), INTENT(OUT) :: out(n1, n2, num)
     INTEGER, INTENT(IN) ::  isign
     INTEGER, PARAMETER:: rank = 2
-    COMPLEX(KIND=DP) in_(n1, n2), out_(n1, n2)
     REAL(KIND=DP) rdum
-    INTEGER i
     INTEGER n(rank) ! array of dimension
     INTEGER plan, dist
     !
@@ -105,42 +106,8 @@ CONTAINS
       STOP
     ENDIF
     !
-    !IF (isign < 0) THEN
-    !  CALL dfftw_plan_dft_2d(plan, n1, n2, in_, out_, FFTW_FORWARD, FFTW_ESTIMATE)
-    !ELSEIF (isign > 0) THEN
-    !  CALL dfftw_plan_dft_2d(plan, n1, n2, in_, out_, FFTW_BACKWARD, FFTW_ESTIMATE)
-    !ELSE
-    !  PRINT*, 'ERROR in do_fft_2d: invalid isign.'
-    !  STOP
-    !ENDIF
-    !!
-    !DO i = 1, num
-    !  in_ = in(:,:,i)
-    !  CALL dfftw_execute_dft(plan, in_, out_)
-    !  out(:,:,i) = out_(:,:)
-    !ENDDO
-    !!
-    !CALL dfftw_destroy_plan(plan)
-    !
     n(1) = n1
     n(2) = n2
-    !
-    !IF (isign < 0) THEN
-    !  CALL dfftw_plan_dft(plan, rank, n, in_, out_, FFTW_FORWARD, FFTW_ESTIMATE)
-    !ELSEIF (isign > 0) THEN
-    !  CALL dfftw_plan_dft(plan, rank, n, in_, out_, FFTW_BACKWARD, FFTW_ESTIMATE)
-    !ELSE
-    !  PRINT*, 'ERROR in do_fft_2d: invalid isign.'
-    !  STOP
-    !ENDIF
-    !!
-    !DO i = 1, num
-    !  in_ = in(:,:,i)
-    !  CALL dfftw_execute_dft(plan, in_, out_)
-    !  out(:,:,i) = out_(:,:)
-    !ENDDO
-    !!
-    !CALL dfftw_destroy_plan(plan)
     !
     dist = n(1) * n(2)
     !inembed = n
@@ -177,7 +144,6 @@ PROGRAM main
   !
   !! ALLOCATABLE ARRAYS
   INTEGER, ALLOCATABLE :: smpl_matsu(:)
-  INTEGER, ALLOCATABLE :: my_freqs(:)
   REAL(KIND=DP), ALLOCATABLE :: smpl_tau(:)
   REAL(KIND=DP), ALLOCATABLE :: k1(:,:), k2(:,:), ek_(:,:)
   REAL(KIND=DP), ALLOCATABLE :: kp(:,:), ek(:)
@@ -200,6 +166,7 @@ PROGRAM main
   REAL(KIND=DP) rdum
   COMPLEX(KIND=DP) iv
   CHARACTER(LEN=100) filename
+  CHARACTER(LEN=100) strdum1, strdum2
   !
   CALL read_input
   !
@@ -227,7 +194,9 @@ PROGRAM main
   IF (use_preset) THEN
     ir_obj = mk_ir_preset(nlambda, ndigit, beta)
   ELSE
-    WRITE(filename, *) "ir_nlambda", nlambda, "_ndigit", ndigit, ".dat"
+    WRITE(strdum1, *) nlambda
+    WRITE(strdum2, *) ndigit
+    filename = "ir_nlambda" // TRIM(ADJUSTL(strdum1)) // "_ndigit" // TRIM(ADJUSTL(strdum2)) // ".dat"
     OPEN(99, FILE=filename, STATUS='old',IOSTAT=ios)
     IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
     ir_obj = read_ir(99, beta)
@@ -250,7 +219,6 @@ PROGRAM main
   smpl_tau(:) = ir_obj%tau(:)
   smpl_tau_cond = ir_obj%u%inv_s(ir_obj%u%ns) / ir_obj%u%inv_s(1)
   !
-  !PRINT*, 1.0_DP / ir_obj%u%inv_s(:)
   PRINT*, "cond (tau): ", smpl_tau_cond
   !
   nw = ir_obj%nfreq_f
@@ -261,7 +229,7 @@ PROGRAM main
   PRINT*, "cond (matsu): ", smpl_matsu_cond
   !
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 2: Compute the non-interacting band dispersion on a mesh   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !!!!!!   STEP 2: Compute the non-interacting Green’s function on a mesh   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !
   kps1 = nk_lin
@@ -290,7 +258,7 @@ PROGRAM main
   ENDDO
   !
   PRINT*, "Shape of k1: (", SHAPE(k1), ")"
-  PRINT*, "Shape of k1: (", SHAPE(k2), ")"
+  PRINT*, "Shape of k2: (", SHAPE(k2), ")"
   PRINT*, "Shape of ek_: (", SHAPE(ek_), ")"
   !
   ALLOCATE(kp(2, nk), ek(nk))
@@ -307,12 +275,10 @@ PROGRAM main
   !
   DEALLOCATE(k1, k2, ek_)
   !
-  PRINT*, "Shape of k1: (", SHAPE(kp), ")"
+  PRINT*, "Shape of kp: (", SHAPE(kp), ")"
   PRINT*, "Shape of ek: (", SHAPE(ek), ")"
   !
-  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 2: Compute non-interacting Green's function on sampling frequencies   !!!!!!!!!!!!!!!!!!!
-  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !! Compute non-interacting Green's function on sampling frequencies
   !
   !! G(k, iv): (nk, nw)
   ALLOCATE(gkf(nk, nw))
@@ -327,15 +293,18 @@ PROGRAM main
   filename = "second_order_gkf_gamma.txt"
   OPEN(100,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
-  WRITE(100,'(A)') "#       v      iv              Re(G(k,iv))      Im(G(k,iv))      abs(G(k,iv))"
+  WRITE(100,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
+  WRITE(100,'(A)') "#       v      Im(iv)          Re(G(k,iv))      Im(G(k,iv))      abs(G(k,iv))"
   DO ix = 1, nw
-    iv = pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
-    WRITE(100,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), REAL(iv, KIND=DP), gkf(1, ix), ABS(gkf(1, ix))
+    !iv = ci * pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
+    !WRITE(100,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), AIMAG(iv), gkf(1, ix), ABS(gkf(1, ix))
+    WRITE(100,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), &
+          pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta, gkf(1, ix), ABS(gkf(1, ix))
   ENDDO
   CLOSE(100)
   !
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 3: Evaluate the Green's function on sampling points in the imaginary-time domain   !!!!!!
+  !!!!!!   STEP 3: Transform the Green’s function to sampling times.   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !
   !! G(k, l): (nk, size)
@@ -346,6 +315,7 @@ PROGRAM main
   filename = "second_order_gkl_gamma.txt"
   OPEN(101,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
+  WRITE(101,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
   WRITE(101,'(A)') "#    l      s_l            Re(G(k,l))       Im(G(k,l))      abs(G(k,l))"
   DO ix = 1, size_l
     WRITE(101,"(I6, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), gkl(1, ix), ABS(gkl(1, ix))
@@ -359,6 +329,7 @@ PROGRAM main
   filename = "second_order_gkt_gamma.txt"
   OPEN(102,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
+  WRITE(102,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
   WRITE(102,'(A)') "#     tau           Re(G(k,tau))     Im(G(k,tau))    abs(G(k,tau))"
   DO ix = 1, ntau
     WRITE(102,"(3(ES16.8, 1x), ES16.8)") ir_obj%tau(ix), gkt(1, ix), ABS(gkt(1, ix))
@@ -368,8 +339,9 @@ PROGRAM main
   filename = "second_order_gkt_m.txt"
   OPEN(103,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
-  WRITE(103,'(A)') "#     tau           Re(G(k,tau))     Im(G(k,tau))    abs(G(k,tau))"
   idum = kps1 * (kps2 + 1) / 2 + 1
+  WRITE(103,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, idum), ", ", kp(2, idum), " )"
+  WRITE(103,'(A)') "#     tau           Re(G(k,tau))     Im(G(k,tau))    abs(G(k,tau))"
   DO ix = 1, ntau
     WRITE(103,"(3(ES16.8, 1x), ES16.8)") ir_obj%tau(ix), gkt(idum, ix), ABS(gkt(idum, ix))
   ENDDO
@@ -382,7 +354,7 @@ PROGRAM main
   !! Compute G(r, tau): (nk, ntau)
   !!  (1) Reshape gkt into shape of (nk_lin, nk_lin, ntau).
   !!  (2) Apply FFT to the 1st and 2nd axes.
-  !!  (3) Reshape the result to (ntau, nk)
+  !!  (3) Reshape the result to (nk, ntau)
   !! G(k, tau): (nk, ntau)
   ALLOCATE(cdummy_k(kps1, kps2, ntau))
   ALLOCATE(cdummy_r(kps1, kps2, ntau))
@@ -423,9 +395,7 @@ PROGRAM main
   ENDDO
   CLOSE(104)
   !
-  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 5: Compute the second-order term of the self-energy on the sampling points   !!!!!!!!!!!!
-  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !! Compute the second-order term of the self-energy on the sampling points
   !
   !! Sigma(r, tau): (nr, ntau)
   ALLOCATE(srt(nk, ntau))
@@ -451,7 +421,7 @@ PROGRAM main
   CLOSE(105)
   !
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 6: Transform the self-energy to the IR basis and then transform it to the k space   !!!!!
+  !!!!!!   STEP 5: Transform the self-energy to the IR basis and then transform it to the k space   !!!!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !
   !! Sigma(r, l): (nr, size)
@@ -498,9 +468,12 @@ PROGRAM main
     ENDDO
   ENDDO
   !
+  DEALLOCATE(cdummy_k)
+  !
   filename = "second_order_skl_gamma.txt"
   OPEN(107,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
+  WRITE(107,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
   WRITE(107,'(A)') "#    l      s_l          Re(Sigma(k,l))   Im(Sigma(k,l))   abs(Sigma(k,l))"
   DO ix = 1, size_l
     WRITE(107,"(I6, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), skl(1, ix), ABS(skl(1, ix))
@@ -508,11 +481,10 @@ PROGRAM main
   CLOSE(107)
   !
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  !!!!!!   STEP 7: Evaluate the self-energy on arbitrary frequencies/times   !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  !!!!!!   STEP 6: Evaluate the self-energy on sampling frequencies   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   !
-  ALLOCATE(my_freqs(nw))
-  my_freqs = ir_obj%freq_f
+  ! my_freqs = ir_obj%freq_f
   !
   ALLOCATE(uhat(nw, size_l))
   uhat = ir_obj%uhat_f%a
@@ -534,11 +506,20 @@ PROGRAM main
   filename = "second_order_skf_gamma.txt"
   OPEN(108,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
-  WRITE(108,'(A)') "#       v      iv            Re(Sigma(k,iv))  Im(Sigma(k,iv))   abs(Sigma(k,iv))"
+  WRITE(108,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
+  WRITE(108,'(A)') "#       v      Im(iv)        Re(Sigma(k,iv))  Im(Sigma(k,iv))   abs(Sigma(k,iv))"
   DO ix = 1, nw
-    iv = pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
-    WRITE(108,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), REAL(iv, KIND=DP), res(1, ix), ABS(res(1, ix))
+    !iv = ci * pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
+    !WRITE(108,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), AIMAG(iv), res(1, ix), ABS(res(1, ix))
+    WRITE(108,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), &
+          pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta, res(1, ix), ABS(res(1, ix))
   ENDDO
   CLOSE(108)
+  !
+  DEALLOCATE(smpl_tau, smpl_matsu)
+  DEALLOCATE(kp, ek)
+  DEALLOCATE(gkf, gkl, gkt, grt)
+  DEALLOCATE(srt, srl, skl, res)
+  DEALLOCATE(uhat)
   !
 END PROGRAM ! main

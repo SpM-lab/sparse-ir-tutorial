@@ -54,16 +54,16 @@ $$
 $$
 
 where $\boldsymbol{r}$ represents a position in real space.
-Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potentail.
+Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potential.
 Thus, we take $\mu=0$ for half filling.
 The Fourier transform of Green's functions and self-energies between the momentum and real-space domains is defined as follows:
 
 $$
-    A(\boldsymbol{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
+    A(\mathrm{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
 $$
 
 $$
-    A(\boldsymbol{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
+    A(\mathrm{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
 $$
 
 where $A$ is either a Green's function or a self-energy.
@@ -237,7 +237,7 @@ plt.show()
 ```
 
 ### Step 5
-Tansform the self-energy to the IR basis and then transform it to the momentum spacre
+Transform the self-energy to the IR basis and then transform it to the momentum space
 
 ```{code-cell} ipython3
 # Sigma(l, r): (L, nr)
@@ -246,7 +246,7 @@ assert srl.shape == (L, nr)
 
 plt.semilogy(np.abs(srl[:,0]), label='$r=(0,0)$')
 plt.xlabel(r"$l$")
-plt.ylabel(r"$\mathrm{Re}~\Sigma(l, r)$")
+plt.ylabel(r"$|\Sigma(l, r)|$")
 plt.ylim([1e-8,1])
 plt.legend()
 plt.show()
