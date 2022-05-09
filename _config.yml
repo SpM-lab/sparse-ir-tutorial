@@ -21,14 +21,15 @@ html:
 
 # #######################################################################################
 # Interact link settings
-notebook_interface            : "jupyterlab"
+#notebook_interface            : "jupyterlab"
 
 #######################################################################################
 # Launch button settings
 repository:
   url                         : https://github.com/SpM-lab/sparse-ir-doc.git
-  path_to_book                : ""
-  branch                    : master
+  path_to_book                : src
+  branch                      : main
+  notebook_interface          : classic
 
 latex:
   latex_engine                : "xelatex"
