@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Second-order perturbation (Fortran) &#8212; sparse-ir</title>
+    <title>Second-order perturbation &#8212; sparse-ir</title>
     
   <link href="../_static/css/theme.css" rel="stylesheet">
   <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -51,6 +51,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Citation" href="citation.html" />
@@ -214,7 +216,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Second-order perturbation (Fortran)
+   Second-order perturbation
   </a>
  </li>
 </ul>
@@ -316,8 +318,14 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-code">
-   Running the code
+  <a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">
+   Running the code “
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     second_order_perturbation_fort.x
+    </span>
+   </code>
+   ”
   </a>
  </li>
 </ul>
@@ -330,7 +338,7 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Second-order perturbation (Fortran)</h1>
+                <h1>Second-order perturbation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -351,8 +359,14 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-code">
-   Running the code
+  <a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">
+   Running the code “
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     second_order_perturbation_fort.x
+    </span>
+   </code>
+   ”
   </a>
  </li>
 </ul>
@@ -364,22 +378,221 @@ const thebe_selector_output = ".output, .cell_output"
             
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="second-order-perturbation-fortran">
-<h1>Second-order perturbation (Fortran)<a class="headerlink" href="#second-order-perturbation-fortran" title="Permalink to this headline">¶</a></h1>
-<p>Author: <a class="reference external" href="mailto:XXXX">Hitoshi Mori</a></p>
+  <div class="tex2jax_ignore mathjax_ignore section" id="second-order-perturbation">
+<h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this headline">¶</a></h1>
+<p>Author: <a class="reference external" href="mailto:h&#46;mori&#46;pro&#46;xyz&#46;will&#46;inge&#37;&#52;&#48;gmail&#46;com">Hitoshi Mori</a></p>
 <div class="section" id="how-to-use-sparse-ir-fortran">
 <h2>How to use sparse-ir-fortran<a class="headerlink" href="#how-to-use-sparse-ir-fortran" title="Permalink to this headline">¶</a></h2>
-<p>Please refer to <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-fortran">README of sparse-ir-fortran</a> for how to link the library to your program and a list of functions.</p>
+<p>Please refer to <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-fortran">README of sparse-ir-fortran</a> for how to link the library to your program and a list of functions. If you have not downloaded <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran</span></code> modules, please download the project from the repository <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-fortran">sparse-ir-fortran</a>, and install some required Python modules and the FFTW3 library for Fortran compiler before starting the tutorial.</p>
 </div>
 <div class="section" id="building-the-tutorial-code">
 <h2>Building the tutorial code<a class="headerlink" href="#building-the-tutorial-code" title="Permalink to this headline">¶</a></h2>
-<p>First, please download the source code <a class="reference download internal" download="" href="../_downloads/2e1a218e7d8015ff1764e73c5f697310/2nd_order_pert_theory.f90"><code class="xref download docutils literal notranslate"><span class="pre">2nd_order_pert_theory.f90</span></code></a>.</p>
-<p>We can build the program as follows:</p>
+<ol class="simple">
+<li><p>Generate a data file and a fortran source file for <span class="math notranslate nohighlight">\(\Lambda = 10^5\)</span> and <span class="math notranslate nohighlight">\(\epsilon = 10^{-7}\)</span> on the sparse-ir-fortran directory.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /somewhere/sparse-ir-fortran/
+python3 dump.py 1e+5 1e-7 ir_nlambda5_ndigit7.dat
+python3 mk_preset.py --nlambda <span class="m">5</span> --ndigit <span class="m">7</span> &gt; sparse_ir_preset.f90
+</pre></div>
 </div>
-<div class="section" id="running-the-code">
-<h2>Running the code<a class="headerlink" href="#running-the-code" title="Permalink to this headline">¶</a></h2>
-<p>Running the program, we obtain the following output:</p>
-<p>We can plot the result using <code class="docutils literal notranslate"><span class="pre">gnuplot</span></code> as follows:</p>
+<ol class="simple">
+<li><p>Download the source code <code class="xref download docutils literal notranslate"><span class="pre">2nd_order_pert_theory.f90</span></code> and then copy all the f90 files and the data file from the <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran/</span></code> directory to a working directory.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> /your/preferred/dir/
+&gt; cp /somewhere/sparse-ir-fortran/*f90 ./
+&gt; cp /somewhere/sparse-ir-fortran/*dat ./
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Create Makefile and edit it. The example is shown here.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FC = gfortran
+
+LDLIBS = -lblas -llapack
+LDFLAGS = -L/usr/lib/x86_64-linux-gnu
+F90FLAGS = -std=f2003 -Wall -fbounds-check -g -fcheck=array-temps,bounds,do,mem,pointer,recursion
+IFLAGS = -I/usr/include
+FFT_LIBS = -lfftw3
+
+OBJS = sparse_ir.o sparse_ir_io.o sparse_ir_preset.o
+
+.SUFFIXES: .f90
+
+%.o: %.f90
+	$(COMPILE.f) $(OUTPUT_OPTION) $&lt; $(F90FLAGS) $(IFLAGS)
+
+%.mod: %.f90 %.o
+	@:
+
+second_order_perturbation_fort.o: sparse_ir.mod sparse_ir_io.mod sparse_ir_preset.mod
+
+.PHONY: second_order_perturbation_fort
+second_order_perturbation_fort: 2nd_order_pert_theory.o $(OBJS)
+	$(LINK.f) $^ $(FFT_LIBS) $(LDLIBS) $(LDFLAGS) -o $@.x
+
+.PHONY: tutorial
+tutorial: second_order_perturbation_fort
+
+.PHONY: clean
+clean:
+	rm -f *.o *.mod
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>You can build <code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code> as follows:</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; make tutorial
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-the-code-second-order-perturbation-fort-x">
+<h2>Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”<a class="headerlink" href="#running-the-code-second-order-perturbation-fort-x" title="Permalink to this headline">¶</a></h2>
+<p>Before running “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”, please create the input file <code class="docutils literal notranslate"><span class="pre">input.in</span></code> as follows:</p>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span><span class="n">input</span>
+    <span class="n">lambda</span> <span class="o">=</span> <span class="mf">1.0D5</span><span class="p">,</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0D3</span><span class="p">,</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1.0D-7</span><span class="p">,</span>
+    <span class="n">nk_lin</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
+    <span class="n">hubbardu</span> <span class="o">=</span> <span class="mf">2.0D0</span><span class="p">,</span>
+    <span class="n">use_preset</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span> <span class="c">! .false. if you want to pull data from ir_nlambda*_ndigit**.dat</span>
+<span class="o">/</span>
+</pre></div>
+</div>
+<p>Run the program. You can obtain the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; ./second_order_perturbation_fort.x &lt; input.in
+ cond <span class="o">(</span>tau<span class="o">)</span>:    <span class="m">334</span>.877581832775
+ cond <span class="o">(</span>matsu<span class="o">)</span>:    <span class="m">248</span>.851825144482
+ Shape of k1: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
+ Shape of k2: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
+ Shape of ek_: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
+ Shape of kp: <span class="o">(</span>           <span class="m">2</span>       <span class="m">65536</span> <span class="o">)</span>
+ Shape of ek: <span class="o">(</span>       <span class="m">65536</span> <span class="o">)</span>
+</pre></div>
+</div>
+<p>The first two rows show the condition numbers of SVD of the IR-basis sets for imaginary time and Matsubara frequency. When obtaining the IR-basis functions for imaginary time, sampling points of imaginary time is given as <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>. In the tutorial of Sec. 8, the Python script does not use both endpoints as sampling points, but <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran</span></code> always takes them into the sampling points. That is the reason why the condition number for imaginary time, <code class="docutils literal notranslate"><span class="pre">cond</span> <span class="pre">(tau)</span></code>, is different from the one obtained by the Python script.</p>
+<!-- When the smallest singular value is quite small compared with the largest one, it follows that solving this fitting problem using SVD is not a good way. This is because it corresponds to the fact that the pseudo-inverse matrix $\Sigma^+$ obtained by SVD can be sensitive to numerical errors.
+To judge whether a given fitting problem (that is, a given matrix) is suitable to be solved using SVD, one can check the ratio of the largest eigenvalue to the smallest one, which is a quantity known as the "condition number". When employing double precision, the problem can be considered to be stably solved using SVD as long as it does not reach a rather large value such as $10^{14}$.-->
+<p>We can plot the results by running <code class="docutils literal notranslate"><span class="pre">gnuplot</span></code> as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gnuplot</span> <span class="n">script</span><span class="o">.</span><span class="n">plt</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">script.plt</span></code> is:</p>
+<div class="highlight-gnuplot notranslate"><div class="highlight"><pre><span></span>set terminal pdfcairo color enhanced font &quot;Times,20&quot; size 5,3.5
+set colorsequence classic
+set lmargin 10
+set rmargin 5
+set bmargin 3
+set samples 200
+
+set xrange[-580:580]
+set xtics 200
+set format x &quot;% g&quot;
+set xlabel &quot;ν&quot; offset 0, 0.5
+set yrange[-0.14:0.14]
+set ytics 0.05
+set format y &quot;% g&quot;
+set ylabel &quot;Im G(iν, k)&quot; offset 1, 0
+set nologscale
+set key right top
+set out &quot;second_order_g_k_freq_fort.pdf&quot;
+plot &quot;./second_order_gkf_gamma.txt&quot; u 2:4 w lp lw 2 lt 1 pt 2 lc 3 title &quot;k = Γ&quot;
+
+set xrange[-4:74]
+set xtics 20
+set format x &quot;% g&quot;
+set xlabel &quot;l&quot; offset 0, 0.5
+set yrange[1E-9:2E0]
+set ytics 1E2
+set format y &quot;%.0E&quot;
+set ylabel &quot;|G(l, k)|&quot; offset 1, 0
+set logscale y
+set key right top
+set out &quot;second_order_abs-g_k_l_fort.pdf&quot;
+plot &quot;./second_order_gkl_gamma.txt&quot; u 1:5 w l lw 2 lt 1 lc 3 title &quot;k = Γ&quot;, \
+     &quot;./second_order_gkl_gamma.txt&quot; u 1:2 w l lw 2 lt 1 dt (10,10) lc rgb &quot;orange&quot; title &quot;Singular values&quot;
+
+set xrange[-50:1050]
+set xtics 200
+set format x &quot;% g&quot;
+set xlabel &quot;τ&quot; offset 0, 0.5
+set yrange[-1.05:0.05]
+set ytics 0.2
+set format y &quot;% g&quot;
+set ylabel &quot;Re G(τ, k)&quot; offset 1, 0
+set nologscale
+set key right bottom
+set out &quot;second_order_g_k_tau_fort.pdf&quot;
+plot &quot;./second_order_gkt_gamma.txt&quot; u 1:2 w lp lw 2 lt 1 pt 2 lc 3 title &quot;k = Γ&quot;, \
+     &quot;./second_order_gkt_m.txt&quot; u 1:2 w lp lw 2 lt 1 pt 1 lc rgb &quot;orange&quot; title &quot;k = M&quot;
+
+set xrange[-50:1050]
+set xtics 200
+set format x &quot;% g&quot;
+set xlabel &quot;τ&quot; offset 0, 0.5
+set yrange[-0.51:0.01]
+set ytics 0.1
+set format y &quot;% g&quot;
+set ylabel &quot;Re G(τ, r)&quot; offset 1, 0
+set nologscale
+set key center bottom
+set out &quot;second_order_g_r_tau_fort.pdf&quot;
+plot &quot;./second_order_grt_r_0.txt&quot; u 1:2 w l lw 2 lt 1 lc 3 title &quot;r = (0, 0)&quot;
+
+set xrange[-50:1050]
+set xtics 200
+set format x &quot;% g&quot;
+set xlabel &quot;τ&quot; offset 0, 0.5
+set yrange[-0.51:0.01]
+set ytics 0.1
+set format y &quot;% g&quot;
+set ylabel &quot;Re Σ(τ, r)&quot; offset 1, 0
+set nologscale
+set key center bottom
+set out &quot;second_order_sigma_r_tau_fort.pdf&quot;
+plot &quot;./second_order_srt_r_0.txt&quot; u 1:2 w lp lw 2 lt 1 pt 2 lc 3 title &quot;r = (0, 0)&quot;
+
+set xrange[-4:74]
+set xtics 20
+set format x &quot;% g&quot;
+set xlabel &quot;l&quot; offset 0, 0.5
+set yrange[1E-8:1E0]
+set ytics 1E2
+set format y &quot;%.0E&quot;
+set ylabel &quot;|Σ(l, r)|&quot; offset 1, 0
+set logscale y
+set key right top
+set out &quot;second_order_abs-sigma_r_l_fort.pdf&quot;
+plot &quot;./second_order_srl_r_0.txt&quot; u 1:4 w l lw 2 lt 1 lc 3 title &quot;r = (0, 0)&quot;
+
+set xrange[-4:74]
+set xtics 20
+set format x &quot;% g&quot;
+set xlabel &quot;l&quot; offset 0, 0.5
+set yrange[1E-10:5E0]
+set ytics 1E-9, 1E+2, 1E-1
+set format y &quot;%.0E&quot;
+set ylabel &quot;|Σ(l, r)|&quot; offset 1, 0
+set logscale y
+set key right top
+set out &quot;second_order_sigma_k_l_fort.pdf&quot;
+plot &quot;./second_order_skl_gamma.txt&quot; u 1:5 w l lw 2 lt 1 lc 3 title &quot;k = Γ&quot;, \
+     &quot;./second_order_skl_gamma.txt&quot; u 1:2 w l lw 2 lt 1 dt (10,10) lc rgb &quot;orange&quot; title &quot;Singular values&quot;
+
+set xrange[-580:580]
+set xtics 200
+set format x &quot;% g&quot;
+set xlabel &quot;ν&quot; offset 0, 0.5
+set yrange[-0.14:0.14]
+set ytics 0.05
+set format y &quot;% g&quot;
+set ylabel &quot;Im Σ(iν, k)&quot; offset 1, 0
+set nologscale
+set key right top
+set out &quot;second_order_sigma_k_freq_fort.pdf&quot;
+plot &quot;./second_order_skf_gamma.txt&quot; u 2:4 w lp lw 2 lt 1 pt 2 lc 3 title &quot;k = Γ&quot;
+</pre></div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran</span></code> interface can evaluate functions only on sampling frequency points from a set of expansion coefficients. This tutorial does not evaluate the self-energy on a finer mesh of frequency.</p>
 </div>
 </div>
 

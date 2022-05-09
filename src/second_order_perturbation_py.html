@@ -216,7 +216,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation (Fortran)
+   Second-order perturbation
   </a>
  </li>
 </ul>
@@ -305,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/master?urlpath=tree/src/second_order_perturbation_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/second_order_perturbation_py.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -476,16 +476,16 @@ Hereafter, we ignore the spin dependence.</p>
     \Sigma(\tau, \boldsymbol{r}) = U^2 G^2(\tau, \boldsymbol{r}) G(\beta-\tau, \boldsymbol{r}),
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\boldsymbol{r}\)</span> represents a position in real space.
-Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potentail.
+Note that the first-order term of the self-energy, i.e., a Hartree term, is absorbed into the chemical potential.
 Thus, we take <span class="math notranslate nohighlight">\(\mu=0\)</span> for half filling.
 The Fourier transform of Green’s functions and self-energies between the momentum and real-space domains is defined as follows:</p>
 <div class="math notranslate nohighlight">
 \[
-    A(\boldsymbol{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
+    A(\mathrm{i}\nu, \boldsymbol{r}) = \frac{1}{N} \sum_{\boldsymbol{k}} e^{-\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{k}),
 \]</div>
 <div class="math notranslate nohighlight">
 \[
-    A(\boldsymbol{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
+    A(\mathrm{i}\nu, \boldsymbol{k}) = \sum_{\boldsymbol{r}} e^{\mathrm{i} \boldsymbol{k} \cdot \boldsymbol{r}} A(\mathrm{i}\nu, \boldsymbol{r}),
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(A\)</span> is either a Green’s function or a self-energy.</p>
 <p>We use regular 2D meshes for the real-space and momen spaces.
@@ -734,7 +734,7 @@ The Green’s function computed at <span class="math notranslate nohighlight">\(
 </div>
 <div class="section" id="step-5">
 <h3>Step 5<a class="headerlink" href="#step-5" title="Permalink to this headline">¶</a></h3>
-<p>Tansform the self-energy to the IR basis and then transform it to the momentum spacre</p>
+<p>Transform the self-energy to the IR basis and then transform it to the momentum space</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(l, r): (L, nr)</span>
@@ -743,7 +743,7 @@ The Green’s function computed at <span class="math notranslate nohighlight">\(
 
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">srl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~\Sigma(l, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|\Sigma(l, r)|$&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-8</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
