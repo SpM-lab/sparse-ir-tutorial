@@ -35,7 +35,6 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
     && \
     apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
 
-# We need install jupyterlab with sudo user, NOT ${USER}
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter-book \
@@ -61,28 +60,15 @@ RUN mkdir -p ${HOME}/.julia/config && \
 RUN julia -e 'using Pkg; Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR"])'
 
 
-
 USER ${USER}
 
 WORKDIR /workspace/sparse_ir_tutorial
 
-#RUN julia -e 'using Pkg; Pkg.add(["Revise", "LiveServer"])'
-
-#ENV JULIA_PROJECT "@."
-
 COPY ./src /workspace/sparse_ir_tutorial/src
-#COPY ./docs/Project.toml /workspace/sparse_ir_tutorial//docs
-#COPY ./Project.toml /workspace/sparse_ir_tutorial/
 
 USER root
 RUN chown -R ${NB_UID} /workspace/sparse_ir_tutorial
 USER ${USER}
-
-#RUN rm -f Manifest.toml && julia -e 'using Pkg; \
-#    Pkg.instantiate(); \
-#    Pkg.precompile()' && \
-# Check Julia version \
-#    julia -e 'using InteractiveUtils; versioninfo()'
 
 
 WORKDIR ${HOME}
