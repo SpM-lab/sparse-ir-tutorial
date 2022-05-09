@@ -19,7 +19,7 @@ parts:
   - file: src/TPSC_py.md
   - file: src/eliashberg_holstein_py.md
   #- file: src/chi_sample.ipynb
-  - file: src/lichtenstein_formula_py.md
+  - file: src/liechtenstein_py.md
 - caption: Analytic continuation
   chapters:
   - file: src/analytic_continuation.md

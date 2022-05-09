@@ -1,4 +1,4 @@
-FROM julia:1.7.0
+FROM julia:1.7.2
 
 # create user with a home directory
 ARG NB_USER=jovyan
@@ -38,6 +38,7 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
 RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     pip3 install \
     jupyter-book \
+    jupytext \
     sparse-ir \
     xprec \
     matplotlib \

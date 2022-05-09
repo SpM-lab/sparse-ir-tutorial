@@ -28,5 +28,6 @@
         "usernamehw.errorlens",
         "ms-vscode.live-server",
         "congyiwu.vscode-jupytext",
+        "ms-toolsai.jupyter"
     ]
 }
