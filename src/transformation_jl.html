@@ -162,8 +162,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lichtenstein_formula_py.html">
-   Lichtenstein formula
+  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="liechtenstein_py.html">
+   Estimation of exchange interactions
   </a>
  </li>
 </ul>
@@ -400,56 +405,52 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Poles<a class="headerlink" href="#poles" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">SparseIR</span>
-<span class="c">#ENV[&quot;MPLBACKEND&quot;]=&quot;tkagg&quot;</span>
-<span class="k">using</span> <span class="n">PyPlot</span>
-<span class="k">using</span> <span class="n">OMEinsum</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">SparseIR</span><span class="w"></span>
+<span class="c">#ENV[&quot;MPLBACKEND&quot;]=&quot;tkagg&quot;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">PyPlot</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">OMEinsum</span><span class="w"></span>
 
 
-<span class="n">beta</span> <span class="o">=</span> <span class="mf">15.0</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="n">basis_b</span> <span class="o">=</span> <span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">boson</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">15.0</span><span class="w"></span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
+<span class="n">basis_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">boson</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-7</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">coeff</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-<span class="n">omega_p</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">]</span>
+<span class="n">coeff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.0</span><span class="p">]</span><span class="w"></span>
+<span class="n">omega_p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">0.1</span><span class="p">]</span><span class="w"></span>
 
-<span class="n">rhol_pole</span> <span class="o">=</span> <span class="sa">ein</span><span class="s">&quot;lp,p-&gt;l&quot;</span><span class="p">(</span>
-    <span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span>
-    <span class="n">coeff</span> <span class="o">./</span> <span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">)</span>
-<span class="p">)</span>
-<span class="n">gl_pole</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">s</span> <span class="o">.*</span> <span class="n">rhol_pole</span>
+<span class="n">rhol_pole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">ein</span><span class="s">&quot;lp,p-&gt;l&quot;</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">coeff</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">)</span><span class="w"></span>
+<span class="p">)</span><span class="w"></span>
+<span class="n">gl_pole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">basis_b</span><span class="o">.</span><span class="n">s</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">rhol_pole</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="p">;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span><span class="w"> </span><span class="mf">1e+1</span><span class="p">])</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: PyPlot is using tkagg backend, which is known to cause crashes on MacOS (#410); use the MPLBACKEND environment variable to request a different backend.
-└ @ PyPlot /Users/hiroshi/.julia/packages/PyPlot/XaELc/src/init.jl:198
-</pre></div>
-</div>
-<img alt="../_images/transformation_jl_2_1.png" src="../_images/transformation_jl_2_1.png" />
+<img alt="../_images/transformation_jl_2_0.png" src="../_images/transformation_jl_2_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span> <span class="o">=</span> <span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span> <span class="n">omega_p</span><span class="p">)</span>
-<span class="n">gl_pole2</span> <span class="o">=</span> <span class="n">to_IR</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span><span class="w"> </span><span class="n">omega_p</span><span class="p">)</span><span class="w"></span>
+<span class="n">gl_pole2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_IR</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">coeff</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$ from SPR&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$ from SPR&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$|g_l|$&quot;</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="si">$l</span><span class="s">$&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span><span class="w"> </span><span class="mf">1e+1</span><span class="p">])</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -462,19 +463,19 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Three Gaussian peaks (normalized to 1)</span>
-<span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Three Gaussian peaks (normalized to 1)</span><span class="w"></span>
+<span class="n">gaussian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">mu</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span> <span class="o">+</span> 
-    <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.15</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span>
+<span class="w">    </span><span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">omegas</span> <span class="o">=</span> <span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
-<span class="p">;</span>
+<span class="n">omegas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -484,20 +485,20 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="n">basis</span> <span class="o">=</span> <span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">fermion</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
+<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-7</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">rhol</span> <span class="o">=</span> <span class="p">[</span><span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">rho</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)]</span>
-<span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">.*</span> <span class="n">rhol</span>
+<span class="n">rhol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">l</span><span class="p">],</span><span class="w"> </span><span class="n">rho</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)]</span><span class="w"></span>
+<span class="n">gl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">rhol</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">rhol</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|</span><span class="se">\r</span><span class="s">ho_l|&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -507,13 +508,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rho_omgea_reconst</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span> <span class="o">*</span> <span class="n">rhol</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rho_omgea_reconst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">rhol</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\omega&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\r</span><span class="s">ho(\omega)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -526,13 +527,13 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From IR to imaginary time<a class="headerlink" href="#from-ir-to-imaginary-time" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">taus</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">))</span>
-<span class="n">gtau1</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">))</span> <span class="o">*</span> <span class="n">gl</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">taus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">))</span><span class="w"></span>
+<span class="n">gtau1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gl</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span><span class="w"> </span><span class="n">gtau1</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -542,13 +543,13 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span> <span class="o">=</span> <span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">taus</span><span class="p">)</span>
-<span class="n">gtau2</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">smpl</span><span class="p">,</span> <span class="n">gl</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">taus</span><span class="p">)</span><span class="w"></span>
+<span class="n">gtau2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evaluate</span><span class="p">(</span><span class="n">smpl</span><span class="p">,</span><span class="w"> </span><span class="n">gl</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span><span class="w"> </span><span class="n">gtau1</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;</span><span class="se">\t</span><span class="s">au&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;G(</span><span class="se">\t</span><span class="s">au)&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -561,23 +562,23 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>From full imaginary-time data<a class="headerlink" href="#from-full-imaginary-time-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">eval_gtau</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span>
-    <span class="n">uval</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span> <span class="c">#(nl, ntau)</span>
-    <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="n">uval</span><span class="p">)</span> <span class="o">*</span> <span class="n">gl</span>
-<span class="k">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">eval_gtau</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">uval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span><span class="w"> </span><span class="c">#(nl, ntau)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">transpose</span><span class="p">(</span><span class="n">uval</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">gl</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">gl_reconst</span> <span class="o">=</span> <span class="p">[</span><span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">eval_gtau</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)]</span>
+<span class="n">gl_reconst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">overlap</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">],</span><span class="w"> </span><span class="n">eval_gtau</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)]</span><span class="w"></span>
 
-<span class="n">ls</span> <span class="o">=</span> <span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;reconstructed&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;exact&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span> <span class="o">-</span> <span class="n">gl</span><span class="p">)[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-20</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="c">#plt.show()</span>
-<span class="p">;</span>
+<span class="n">ls</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;reconstructed&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;o&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;exact&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_reconst</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gl</span><span class="p">)[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;l&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;|g_l|&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-20</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="w"></span>
+<span class="c">#plt.show()</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 </div>

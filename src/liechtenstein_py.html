@@ -1,0 +1,748 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estimation of exchange interactions &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Numerical analytic continuation" href="analytic_continuation.html" />
+    <link rel="prev" title="Orbital magnetic susceptibility" href="orbital_magnetic_susceptibility_py.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR_py.html">
+   Intermediate representation (IR)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_py.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API reference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="additional_material.html">
+   Additional material
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_py.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GW_py.html">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_py.html">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="TPSC_py.html">
+   TPSC approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg theory for Holstein-Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Estimation of exchange interactions
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Analytic continuation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   SpM analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_jl.html">
+   FLEX approximation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Fortran)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_fort.html">
+   Second-order perturbation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="citation.html">
+   Citation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/liechtenstein_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/liechtenstein_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/liechtenstein_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#liechtenstein-method">
+   Liechtenstein method
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">
+     Liechtenstein formula in single-orbital model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sparse-ir">
+     Sparse_ir
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#liechtenstein-solver">
+     Liechtenstein solver
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#instantiation">
+     Instantiation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-solver-for-j-0">
+     Executing the solver for J_0
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">
+     Executing the solver for J_ij
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Estimation of exchange interactions</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#liechtenstein-method">
+   Liechtenstein method
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">
+     Liechtenstein formula in single-orbital model
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#sparse-ir">
+     Sparse_ir
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#liechtenstein-solver">
+     Liechtenstein solver
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#instantiation">
+     Instantiation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-solver-for-j-0">
+     Executing the solver for J_0
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">
+     Executing the solver for J_ij
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="estimation-of-exchange-interactions">
+<h1>Estimation of exchange interactions<a class="headerlink" href="#estimation-of-exchange-interactions" title="Permalink to this headline">¶</a></h1>
+<p>Author: <a class="reference external" href="mailto:nomoto&#37;&#52;&#48;ap&#46;t&#46;u-tokyo&#46;ac&#46;jp">Takuya Nomoto</a></p>
+<div class="section" id="liechtenstein-method">
+<h2>Liechtenstein method<a class="headerlink" href="#liechtenstein-method" title="Permalink to this headline">¶</a></h2>
+<p>The Liechtenstein method is a method for deriving the classical spin models from the itinerant electron models. Initially developed by Liechtenstein et al.[1] in the framework of the spin density functional theory, the method has been applied to various systems and is successful in understanding many magnetic behaviors, including finite temperature effects and long-period magnetic structures, which are not accessible from the spin density functional theory alone. Here, as the simplest case, we will see the formulation for the single-orbital model, where we can use the sparse_ir library to accelerate the calculations.</p>
+<div class="section" id="liechtenstein-formula-in-single-orbital-model">
+<h3>Liechtenstein formula in single-orbital model<a class="headerlink" href="#liechtenstein-formula-in-single-orbital-model" title="Permalink to this headline">¶</a></h3>
+<p>Let us consider to derive exchange interactions from the following one-body Hamiltonian:</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+H=-t\sum_{&lt;i,j&gt;}\sum_s c^\dagger_{is} c_{js} - \sum_i \sum_{ss'} c^\dagger_{is} (\boldsymbol{B_i} \cdot \boldsymbol{\sigma}_{ss'}) c_{is'}
+\end{align}
+\]</div>
+<p>If we set the effective magnetic field <span class="math notranslate nohighlight">\(\boldsymbol{B}_i\)</span> to <span class="math notranslate nohighlight">\(\boldsymbol{B}_i=JS\boldsymbol{e}_i/2\)</span>, this is a classical Kondo lattice model, while if <span class="math notranslate nohighlight">\(\boldsymbol{B}_i=U\boldsymbol{m}_i/2\)</span>, this is a Hubbard model with the mean-field approximation. The basic idea of the Liechtenstein method is to impose the equivalence of the spin-angle-derivatives of the total energies in the itinerant systems and the classical spin systems. Note that the derivatives generally depend on a reference magnetic structure. Here, let us consider the classical Heisenberg model <span class="math notranslate nohighlight">\(E=-2\sum_{&lt;i,j&gt;}J_{ij}\boldsymbol{e}_i\cdot \boldsymbol{e}_j\)</span> as a spin model and the <span class="math notranslate nohighlight">\(\hat{z}\)</span>-polarized ferromagnetic state (namely, <span class="math notranslate nohighlight">\(\boldsymbol{B_i}=B\hat{z}\)</span>) as a reference magnetic structure. Then, we will get</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+J_{ij} = -B^2T\sum_{\omega_n} G_{ij,+}(i\omega_n)G_{ji ,-}(i\omega_n)
+\end{align}
+\]</div>
+<p>where the Green function <span class="math notranslate nohighlight">\(G_{ij,\sigma}(i\omega_n)\)</span> is a Fourier transform of <span class="math notranslate nohighlight">\(G_{\boldsymbol{k},\sigma}(i\omega_n) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-B\sigma-\mu)]^{-1}\)</span> with the single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. <span class="math notranslate nohighlight">\(i\omega_n=(2n+1)\pi T\)</span> is the Matsubara frequency and <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span> is the crystal momentum. An important quantity here is defined by <span class="math notranslate nohighlight">\(J_0=\sum_{0\neq i}J_{0i}\)</span>, which is related to the mean-filed transition temperature <span class="math notranslate nohighlight">\(T_c^{\rm mf}\)</span> in the classical Heisenberg model by <span class="math notranslate nohighlight">\(T_c^{\rm mf}=2J_0/3\)</span>. This can be evaluated from the above <span class="math notranslate nohighlight">\(J_{ij}\)</span>, or the direct comparison of the second derivatives of the total energy, which gives</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{00,-}(i\omega_n)
+\end{align}
+\]</div>
+<p>In practice, <span class="math notranslate nohighlight">\(G_{00,\sigma}(i\omega_n)\)</span> can be obtained by the <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span> summation of <span class="math notranslate nohighlight">\(G_{\boldsymbol{k},\sigma}(i\omega_n)\)</span> since all sites are equivalent in this model. Thus, the number of operations is <span class="math notranslate nohighlight">\(\mathcal{O}(N_M N_k^{tot})\)</span> where <span class="math notranslate nohighlight">\(N_M\)</span> is the number of Matsubara frequency and <span class="math notranslate nohighlight">\(N_k^{tot}\)</span> is the total number of k-points. Since the typical value of <span class="math notranslate nohighlight">\(N_M\)</span> is <span class="math notranslate nohighlight">\(N_M\sim \beta W\)</span>, the total cost is given by <span class="math notranslate nohighlight">\(\mathcal{O}(\beta W  N_k)\)</span>. On the other hand, we need <span class="math notranslate nohighlight">\(G_{ij,+}(i\omega_n)\)</span> to evaluate <span class="math notranslate nohighlight">\(J_{ij}\)</span>, and in this case, the number of operations becomes <span class="math notranslate nohighlight">\(\mathcal{O}(N_M (N_k\ln N_k)^d)\)</span> since the Fourier transform requires <span class="math notranslate nohighlight">\(N_k\ln N_k\)</span> operations for a single axis, where <span class="math notranslate nohighlight">\(N_k\)</span> is the number of k-points for a single axis and <span class="math notranslate nohighlight">\(d\)</span> is the dimension. Thus, we need <span class="math notranslate nohighlight">\(\mathcal{O}(\beta W (N_k\ln N_k)^d)\)</span> in total.</p>
+</div>
+<div class="section" id="sparse-ir">
+<h3>Sparse_ir<a class="headerlink" href="#sparse-ir" title="Permalink to this headline">¶</a></h3>
+<p>Since <span class="math notranslate nohighlight">\(G_{ij,\sigma}(i\omega_n)\)</span> as well as <span class="math notranslate nohighlight">\(G_{00,\sigma}(i\omega_n)\)</span> are just linear conbinations of <span class="math notranslate nohighlight">\(G_{\boldsymbol{k},\sigma}(i\omega_n)\)</span>, all terms we need take the following form,</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+\frac{1}{i\omega_n - \varepsilon_a}\frac{1}{i\omega_n - \varepsilon_b}=\frac{1}{\varepsilon_a-\varepsilon_b}\left(\frac{1}{i\omega_n - \varepsilon_a}-\frac{1}{i\omega_n - \varepsilon_b} \right)
+\end{align}
+\]</div>
+<p>Thus, we can expand <span class="math notranslate nohighlight">\(G_{ij,+}(i\omega_n)G_{ji ,-}(i\omega_n)\)</span> in the expression for <span class="math notranslate nohighlight">\(J_{ij}\)</span> and <span class="math notranslate nohighlight">\(G_{00,+}(i\omega_n)G_{00,-}(i\omega_n)\)</span> for <span class="math notranslate nohighlight">\(J_{0}\)</span> by the intermadiate representation. Since the summation over <span class="math notranslate nohighlight">\(i\omega_n\)</span> is equivalent to evaluating the Fourier transform at <span class="math notranslate nohighlight">\(\tau=0\)</span>, we need only <span class="math notranslate nohighlight">\(\mathcal{O}(\ln (\beta W))\)</span> operations for the Matsubara frequancy axis. Thus, the computational cost becomes <span class="math notranslate nohighlight">\(\mathcal{O}(\ln(\beta W)  N_k^{tot})\)</span> for <span class="math notranslate nohighlight">\(J_0\)</span> and <span class="math notranslate nohighlight">\(\mathcal{O}(\ln(\beta W) (N_k\ln N_k)^d)\)</span> for <span class="math notranslate nohighlight">\(J_{ij}\)</span>.</p>
+</div>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+<p>Here, let us see an example code in a square lattice tight-binding model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span>. First, we load all necessary modules that we need:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parameter-setting">
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h3>
+<p>The parameters to define the system are as follows; <span class="math notranslate nohighlight">\(t\)</span>: the nearest-neighbor hopping amplitude, <span class="math notranslate nohighlight">\(\beta\)</span>:  the inverse temperature, <span class="math notranslate nohighlight">\(N_k\)</span>: the numer of k-poitns for a single-axis and <span class="math notranslate nohighlight">\(B\)</span>: the strengh of the effective magnetic field.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># means the bandwidth W is W=8t in a square lattice model</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># inverse temperature</span>
+<span class="n">nk</span> <span class="o">=</span> <span class="mi">36</span> <span class="c1"># number of k-points for a signle-axis</span>
+<span class="n">b_eff</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># strength of the effective magnetic field</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="liechtenstein-solver">
+<h3>Liechtenstein solver<a class="headerlink" href="#liechtenstein-solver" title="Permalink to this headline">¶</a></h3>
+<p>This class contains two solvers, j0_calc for calculation of <span class="math notranslate nohighlight">\(J_{0}\)</span> and jij_calc for <span class="math notranslate nohighlight">\(J_{ij}\)</span>. Both can be called after instantiating the class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">liechtenstein</span><span class="p">:</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="c1"># constructor of liechtenstein class</span>
+    <span class="c1"># the class requires five arguments: sparse_ir basis object, t, beta, nk, and b_eff</span>
+    
+    <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">basis</span><span class="p">,</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="o">**</span><span class="mi">2</span>
+
+  <span class="k">def</span> <span class="nf">j0_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">NM</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># solver to evaluate J_0</span>
+    <span class="c1"># e_range: numpy ndarray object to specify the chemical potentials at which we evaluate J_0</span>
+    <span class="c1"># NM: maximum number of Matsubara frequency. if None, sparse sampling will be used</span>
+  
+    <span class="c1"># set Matsubara frequency grid</span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    <span class="k">else</span>         <span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">NM</span><span class="p">,</span><span class="n">NM</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+
+    <span class="c1"># calculate the first term in the expresson of J_0</span>
+    <span class="n">n_up</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="n">e_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="p">)))</span>
+    <span class="n">n_dn</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="n">e_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="p">)))</span>
+    <span class="n">j0_1</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">n_up</span> <span class="o">-</span> <span class="n">n_dn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+        
+    <span class="c1"># calculate the second term in the expression of J_0 as a function of iw </span>
+    <span class="n">gkio_up</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">e_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]))</span>
+    <span class="n">gkio_dn</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">e_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]))</span>
+    <span class="n">gio_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gkio_up</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">gio_dn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gkio_dn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">j0_2_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gio_up</span> <span class="o">*</span> <span class="n">gio_dn</span>
+    
+    <span class="c1"># evaluate a summation over iw </span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">j0_2_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">j0_2_w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">e_range</span><span class="p">)))</span> <span class="c1"># transform to the intermediate representation</span>
+      <span class="n">j0_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@j0_2_l</span> <span class="c1"># evaluate the function at \tau=0</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">j0_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">j0_2_w</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    
+    <span class="c1"># sum up the two terms</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">j0_1</span> <span class="o">+</span> <span class="n">j0_2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j0_e_range</span> <span class="o">=</span> <span class="n">e_range</span>
+
+  <span class="k">def</span> <span class="nf">jij_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">NM</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># solver to evaluate J_ij</span>
+    <span class="c1"># mu: the chemical potential at which we evaluate J_ij</span>
+    <span class="c1"># NM: maximum number of Matsubara frequency. if None, sparse sampling will be used</span>
+    
+    <span class="c1"># set Matsubara frequency grid</span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    <span class="k">else</span>         <span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">NM</span><span class="p">,</span><span class="n">NM</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+        
+    <span class="c1"># calculate J_ij as a function of iw </span>
+    <span class="n">gkio_up</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">mu</span><span class="p">))</span>
+    <span class="n">gkio_dn</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">mu</span><span class="p">))</span>
+    <span class="n">grio_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">gkio_up</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nkt</span>
+    <span class="n">grio_dn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">gkio_dn</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">jij_w</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">grio_up</span> <span class="o">*</span> <span class="n">grio_dn</span>
+    
+    <span class="c1"># evaluate a summation of J_ij over iw </span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">jij_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">jij_w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">nkt</span><span class="p">))</span>
+      <span class="n">jij</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@jij_l</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">jij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jij_w</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    
+    <span class="c1"># arrange the format to ouput the data</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">jij</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="instantiation">
+<h3>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">¶</a></h3>
+<p>In the instantation, we have to pass a sparse_ir.basis object as the first argument of the liechtenstein class.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Lambda</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span> <span class="o">*</span> <span class="n">beta</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">statistics</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">Lambda</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">liechtenstein</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">nk</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="executing-the-solver-for-j-0">
+<h3>Executing the solver for J_0<a class="headerlink" href="#executing-the-solver-for-j-0" title="Permalink to this headline">¶</a></h3>
+<p>Here, let us evaluate J_0 as a function of the chemmical potential <span class="math notranslate nohighlight">\(\mu\)</span>. To check the validity of the sparse sampleing method, we will compare it with that evaluated by the conventional Matsubara frequency grid. This can be done as follows:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_0&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1600</span><span class="p">]):</span>
+      <span class="n">l</span><span class="o">.</span><span class="n">j0_calc</span><span class="p">(</span><span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">41</span><span class="p">),</span> <span class="n">NM</span><span class="o">=</span><span class="n">nm</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">j0_e_range</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mf">5.</span><span class="p">))</span>
+<span class="n">l</span><span class="o">.</span><span class="n">j0_calc</span><span class="p">(</span><span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">41</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">j0_e_range</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sparse_IR&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/liechtenstein_py_10_0.png" src="../_images/liechtenstein_py_10_0.png" />
+</div>
+</div>
+<p>As is expected, the system favors the antiferromagnetic state at the half-filling while it favors the ferromagnetic state at the low-carrier regime. This feature is consistent with the super-exchange and the doule-exchange interactions.</p>
+</div>
+<div class="section" id="executing-the-solver-for-j-ij">
+<h3>Executing the solver for J_ij<a class="headerlink" href="#executing-the-solver-for-j-ij" title="Permalink to this headline">¶</a></h3>
+<p>We can also evaluate J_ij by using jij_calc function as follows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_ij&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">l</span><span class="o">.</span><span class="n">jij_calc</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">jij_r</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">jij</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/liechtenstein_py_13_0.png" src="../_images/liechtenstein_py_13_0.png" />
+</div>
+</div>
+<p>We can easily check <span class="math notranslate nohighlight">\(J_0=\sum_j J_{0j}\)</span> as follows.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J0_1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>   <span class="c1"># J0 at mu=0 evaluated by j0_calc</span>
+<span class="n">J0_2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">jij</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">J0_1</span><span class="p">,</span><span class="n">J0_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.29545913777987787 -0.29545913808706603
+</pre></div>
+</div>
+</div>
+</div>
+<p>[1] Liechtenstein et al., J. Phys. F: Met. Phys. 14 L125 (1984).</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="orbital_magnetic_susceptibility_py.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Orbital magnetic susceptibility</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="analytic_continuation.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Numerical analytic continuation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Many authors<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

@@ -164,8 +164,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lichtenstein_formula_py.html">
-   Lichtenstein formula
+  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="liechtenstein_py.html">
+   Estimation of exchange interactions
   </a>
  </li>
 </ul>
@@ -448,14 +453,14 @@ clean:
 <div class="section" id="running-the-code-second-order-perturbation-fort-x">
 <h2>Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”<a class="headerlink" href="#running-the-code-second-order-perturbation-fort-x" title="Permalink to this headline">¶</a></h2>
 <p>Before running “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”, please create the input file <code class="docutils literal notranslate"><span class="pre">input.in</span></code> as follows:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span><span class="n">input</span>
-    <span class="n">lambda</span> <span class="o">=</span> <span class="mf">1.0D5</span><span class="p">,</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0D3</span><span class="p">,</span>
-    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1.0D-7</span><span class="p">,</span>
-    <span class="n">nk_lin</span> <span class="o">=</span> <span class="mi">256</span><span class="p">,</span>
-    <span class="n">hubbardu</span> <span class="o">=</span> <span class="mf">2.0D0</span><span class="p">,</span>
-    <span class="n">use_preset</span> <span class="o">=</span> <span class="p">.</span><span class="n">true</span><span class="p">.</span> <span class="c">! .false. if you want to pull data from ir_nlambda*_ndigit**.dat</span>
-<span class="o">/</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span><span class="n">input</span><span class="w"></span>
+<span class="w">    </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D5</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D3</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D-7</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">nk_lin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">hubbardu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0D0</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">use_preset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! .false. if you want to pull data from ir_nlambda*_ndigit**.dat</span>
+<span class="o">/</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Run the program. You can obtain the following output:</p>

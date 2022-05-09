@@ -1,5 +1,9 @@
 # sparse-ir
 
+## Author guideline
+
+* In Markdown cells, use the `$$`, `$$ $$` environments for equations.
+* References are listed in the markdown cell at the bottom of each notebook.
 
 ## Set up tools
 
@@ -19,7 +23,7 @@ jupytext --to md:myst notebook_py.ipynb
 
 3. Make html files
 
-The following command builds html files. 
+The following command builds html files.
 
 ```bash
 make build

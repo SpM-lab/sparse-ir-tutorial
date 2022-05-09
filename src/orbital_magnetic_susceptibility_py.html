@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orbital magnetic susceptibility &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Estimation of exchange interactions" href="liechtenstein_py.html" />
+    <link rel="prev" title="Eliashberg theory for Holstein-Hubbard model" href="eliashberg_holstein_py.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR_py.html">
+   Intermediate representation (IR)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_py.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API reference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="additional_material.html">
+   Additional material
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_py.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GW_py.html">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_py.html">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="TPSC_py.html">
+   TPSC approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg theory for Holstein-Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="liechtenstein_py.html">
+   Estimation of exchange interactions
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Analytic continuation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   SpM analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_jl.html">
+   FLEX approximation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Fortran)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_fort.html">
+   Second-order perturbation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="citation.html">
+   Citation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/orbital_magnetic_susceptibility_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/orbital_magnetic_susceptibility_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/orbital_magnetic_susceptibility_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-the-orbital-magnetism">
+   Theory of the orbital magnetism
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-orbital-magnetic-susceptibility-formula">
+   The orbital magnetic susceptibility formula
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-for-the-orbital-magnetic-susceptibility">
+     Function for the orbital magnetic susceptibility
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#two-dimensional-square-lattice">
+     Two-dimensional square lattice
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphene">
+     Graphene
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Orbital magnetic susceptibility</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory-of-the-orbital-magnetism">
+   Theory of the orbital magnetism
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#the-orbital-magnetic-susceptibility-formula">
+   The orbital magnetic susceptibility formula
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#code-implementation">
+   Code implementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#parameter-setting">
+     Parameter setting
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#function-for-the-orbital-magnetic-susceptibility">
+     Function for the orbital magnetic susceptibility
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#two-dimensional-square-lattice">
+     Two-dimensional square lattice
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#graphene">
+     Graphene
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="orbital-magnetic-susceptibility">
+<h1>Orbital magnetic susceptibility<a class="headerlink" href="#orbital-magnetic-susceptibility" title="Permalink to this headline">¶</a></h1>
+<p>Author: <span class="xref myst">Soshun Ozaki</span>, <span class="xref myst">Takashi Koretsune</span></p>
+<div class="section" id="theory-of-the-orbital-magnetism">
+<h2>Theory of the orbital magnetism<a class="headerlink" href="#theory-of-the-orbital-magnetism" title="Permalink to this headline">¶</a></h2>
+<p>The orbital magnetism is the magnetism induced by a vector potential coupled with the momentum,
+and is one of fundamental thermodynamic properties of itenerant systems.
+A lot of efforts were dedicated to the formulation of the orbital magnetic susceptibility,
+and the simple but complete formula was derived by Fukuyama [1].
+Recently, a new formula for the tight-binding model, which is based on Fukuyama’s formula,
+has been derived and is applied to various lattice models[2,3,4].
+These formulas are written in terms of the thermal Green’s functions and suitable for the demonstration
+of the Matsubara summation using the IR basis.
+We present codes for the computation of the orbital magnetic susceptibility using the newly developed formula for the tight-binding models on the two basic lattices, the square and honeycomb lattices.</p>
+</div>
+<div class="section" id="the-orbital-magnetic-susceptibility-formula">
+<h2>The orbital magnetic susceptibility formula<a class="headerlink" href="#the-orbital-magnetic-susceptibility-formula" title="Permalink to this headline">¶</a></h2>
+<p>The orbital magnetic susceptibility formula for tight-binding models is given by</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\chi &amp;= k_B T\sum_n \chi(i \omega_n)\\
+\chi(i \omega_n) &amp;= \frac{e^2}{\hbar^2} \sum_{{\boldsymbol k}} {\rm Tr} 
+[\gamma_x G \gamma_y G \gamma_x G \gamma_y G + \frac{1}{2} (\gamma_x G \gamma_y G + \gamma_y G \gamma_x G)\gamma_{xy} G]
+\end{align*}\]</div>
+<p>where <span class="math notranslate nohighlight">\(G=G(i\omega_n, {\boldsymbol k})\)</span> is the thermal Green’s function,
+<span class="math notranslate nohighlight">\(\gamma_i({\boldsymbol k})=\frac{\partial H_{\boldsymbol k}}{\partial k_i}, (i=x,y)\)</span>
+and <span class="math notranslate nohighlight">\(\gamma_{xy}({\boldsymbol k})= \frac{\partial^2 H_{\boldsymbol k}}{\partial k_x \partial k_y}\)</span> represent the derivative of
+the tight-binding Hamiltonian <span class="math notranslate nohighlight">\(H_{\boldsymbol k}\)</span>,
+and <span class="math notranslate nohighlight">\(n\)</span> summation represents the Matsubara summation.
+We evaluate the orbital magnetic susceptibility for the square and honeycomb lattice model with transfer integral <span class="math notranslate nohighlight">\(t\)</span>, lattice constant <span class="math notranslate nohighlight">\(a\)</span>.
+Note that these calculations for tight-binding models and continuum models are shown in
+Ref.[2,3] and Ref.[5,6], respectively.
+In our practical implementation, we perform the Matsubara summation using the ‘sparse ir’ package,
+and <span class="math notranslate nohighlight">\({\boldsymbol k}\)</span> summation over the Brillouin zone is evaluated by  a simple discrete summation.
+We show the results as functions of the chemical potential.</p>
+<p>Ref:<br>
+[1] H. Fukuyama, Prog. Theor. Phys. 45, 704 (1971).<br>
+[2] G. Gómez-Santos and T. Stauber, Phys. Rev. Lett. 106, 045504 (2011).<br>
+[3] A. Raoux, F. Piéchon, J. N. Fuchs, and G. Montambaux, Phys. Rev. B 91, 085120 (2015).<br>
+[4] F. Piéchon, A. Raoux, J.-N. Fuchs, and G. Montambaux, Phys. Rev. B 94, 134423 (2016).<br>
+[5] M. Ogata, J. Phys. Soc. of Jpn. 85, 064709 (2016).<br>
+[6] M. Ogata, J. Phys. Soc. of Jpn. 85, 104708 (2016).</p>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+<p>We load basic modules used in the following.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="parameter-setting">
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h3>
+<p>We use the units of <span class="math notranslate nohighlight">\(k_B=1\)</span> in the following.
+We set <span class="math notranslate nohighlight">\(t=a=1\)</span> and <span class="math notranslate nohighlight">\(T = 0.1\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># hopping amplitude</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># lattice constant</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nk1</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">nk2</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">IR_tol</span> <span class="o">=</span> <span class="mf">1e-10</span>
+<span class="n">mu_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mi">91</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="function-for-the-orbital-magnetic-susceptibility">
+<h3>Function for the orbital magnetic susceptibility<a class="headerlink" href="#function-for-the-orbital-magnetic-susceptibility" title="Permalink to this headline">¶</a></h3>
+<p>Here, we implement a function to calculate the orbital magnetic susceptibility from <span class="math notranslate nohighlight">\(H_{\boldsymbol k}\)</span>, <span class="math notranslate nohighlight">\(\gamma_x(\boldsymbol k)\)</span>, <span class="math notranslate nohighlight">\(\gamma_y(\boldsymbol k)\)</span>, and <span class="math notranslate nohighlight">\(\gamma_{xy}(\boldsymbol k)\)</span>.
+First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n)\)</span> for sampling Matsubara points and then obtain <span class="math notranslate nohighlight">\(k_B T\sum_n \chi(i \omega_n)\)</span> using the IR basis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orbital_chi</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">):</span>
+    <span class="n">smpl_iwn</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">wn</span>
+    <span class="n">chi_iw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">mu_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">smpl_iwn</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">:</span>
+        <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span> <span class="o">=</span> <span class="n">hkgk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">ek</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">hk</span><span class="p">)</span>
+        <span class="n">vd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">giw</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">smpl_iwn</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">-</span> <span class="p">(</span><span class="n">ek</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]))</span>
+        <span class="n">gx</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gx</span> <span class="o">@</span> <span class="n">v</span>
+        <span class="n">gy</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gy</span> <span class="o">@</span> <span class="n">v</span>
+        <span class="n">gxy</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gxy</span> <span class="o">@</span> <span class="n">v</span>
+        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, cd, dmn, da, amn-&gt;mn&quot;</span><span class="p">,</span> 
+                            <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;</span><span class="p">,</span>
+                                    <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gxy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;</span><span class="p">,</span>
+                                    <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gxy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">chil</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">chi_iw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="n">sampling_points</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">chi_tau</span> <span class="o">=</span> <span class="n">smpl_tau0</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">chil</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chi_tau</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We also implement a single band version of the function.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orbital_chi1</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">):</span>
+    <span class="n">smpl_iwn</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">wn</span>
+    <span class="n">chi_iw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">mu_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">smpl_iwn</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">:</span>
+        <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span> <span class="o">=</span> <span class="n">hkgk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+        <span class="n">giw</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">smpl_iwn</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">-</span> <span class="p">(</span><span class="n">hk</span> <span class="o">-</span> <span class="n">mu_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]))</span>
+        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">gx</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gy</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">giw</span><span class="o">**</span><span class="mi">4</span>
+        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">gx</span> <span class="o">*</span> <span class="n">gy</span> <span class="o">*</span> <span class="n">gxy</span> <span class="o">*</span> <span class="n">giw</span><span class="o">**</span><span class="mi">3</span>
+    <span class="n">chil</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">chi_iw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="n">sampling_points</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
+    <span class="n">chi_tau</span> <span class="o">=</span> <span class="n">smpl_tau0</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">chil</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">chi_tau</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We set the IR basis set and <span class="math notranslate nohighlight">\(\boldsymbol k\)</span> mesh.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">kx_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="n">nk1</span>
+<span class="n">ky_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="n">nk2</span>
+<span class="n">klist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">kx_list</span><span class="p">,</span> <span class="n">ky_list</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="two-dimensional-square-lattice">
+<h3>Two-dimensional square lattice<a class="headerlink" href="#two-dimensional-square-lattice" title="Permalink to this headline">¶</a></h3>
+<p>Now, we evaluate the orbital magnetic susceptibility as a function of chemical potential, <span class="math notranslate nohighlight">\(\chi(\mu)\)</span>, for the two-dimensional square lattice.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hkgk_square</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="n">hk</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">gx</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">gy</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">gxy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span>
+
+<span class="n">chi_mu</span> <span class="o">=</span> <span class="n">orbital_chi1</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk_square</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>For comparison, we calculate the analytic result at <span class="math notranslate nohighlight">\(T=0\)</span> [3,5].</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">mu_range</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">16</span>
+<span class="n">chi_anltc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">ellipe</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">ellipk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_mu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;IR Basis (T=0.1)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_anltc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Analytic (T=0)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$\chi$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/orbital_magnetic_susceptibility_py_14_0.png" src="../_images/orbital_magnetic_susceptibility_py_14_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="graphene">
+<h3>Graphene<a class="headerlink" href="#graphene" title="Permalink to this headline">¶</a></h3>
+<p>Next, we evaluate the orbital magnetic suscepitbility for graphene.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sq3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hkgk_graphene</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+    <span class="n">kx</span><span class="p">,</span> <span class="n">ky</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">sq3</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">sq3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">)))</span>
+    <span class="n">hk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+    
+    <span class="n">hx</span> <span class="o">=</span>  <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))</span>
+    <span class="n">hy</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="n">sq3</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="n">sq3</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))))</span>
+    <span class="n">gx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hx</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hx</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+    <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hy</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hy</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+    
+    <span class="n">hxy</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))</span>
+    <span class="n">gxy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hxy</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hxy</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span>
+
+<span class="n">chi_mu</span> <span class="o">=</span> <span class="n">orbital_chi</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk_graphene</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_mu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;IR Basis&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$\chi$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/orbital_magnetic_susceptibility_py_17_0.png" src="../_images/orbital_magnetic_susceptibility_py_17_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="eliashberg_holstein_py.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Eliashberg theory for Holstein-Hubbard model</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="liechtenstein_py.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Estimation of exchange interactions</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By Many authors<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

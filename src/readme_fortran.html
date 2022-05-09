@@ -162,8 +162,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="lichtenstein_formula_py.html">
-   Lichtenstein formula
+  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="liechtenstein_py.html">
+   Estimation of exchange interactions
   </a>
  </li>
 </ul>
@@ -794,37 +799,37 @@ This allows you to avoid loading data files at runtime.</p>
 <div class="section" id="how-to-use-sparse-ir-modules-in-your-fortran-program">
 <h2>How to use sparse-ir modules in your Fortran program<a class="headerlink" href="#how-to-use-sparse-ir-modules-in-your-fortran-program" title="Permalink to this headline">¶</a></h2>
 <p>If your program reads data from the file, you should declare the use of the sparse-ir modules to initiate IR basis objects as follows:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span>
-  <span class="k">use </span><span class="n">sparse_ir</span>
-  <span class="k">use </span><span class="n">sparse_ir_io</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir_io</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Or, if you want to use the embed data of IR basis objects, you should do this instead:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span>
-  <span class="k">use </span><span class="n">sparse_ir</span>
-  <span class="k">use </span><span class="n">sparse_ir_preset</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir_preset</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In either case, the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>” should be declared.</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="k">implicit none</span>
-<span class="k">  type</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ir_obj</span> <span class="c">! You can declare with any name you wish.</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ir_obj</span><span class="w"> </span><span class="c">! You can declare with any name you wish.</span>
 </pre></div>
 </div>
 <p>Hereafter it is assumed that you will set the parameters as <span class="math notranslate nohighlight">\(\Lambda = 10^4\)</span>, <span class="math notranslate nohighlight">\(\beta = 10^3\)</span>, and <span class="math notranslate nohighlight">\(\epsilon = 10^{-10}\)</span>.
 You can store the IR basis objects into the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>” as follows:</p>
 <p>Using <code class="docutils literal notranslate"><span class="pre">sparse_ir_io</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="kt">double precision</span> <span class="kd">::</span> <span class="n">beta</span> <span class="c">! inverse temperature</span>
-  <span class="p">...</span>
-  <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0d3</span>
-  <span class="k">open</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s2">&quot;ir_nlambda4_ndigit10.dat&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">)</span> <span class="c">! Any unit number is OK.</span>
-  <span class="n">ir_obj</span> <span class="o">=</span> <span class="n">read_ir</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">double precision</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="c">! inverse temperature</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d3</span><span class="w"></span>
+<span class="w">  </span><span class="k">open</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s2">&quot;ir_nlambda4_ndigit10.dat&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! Any unit number is OK.</span>
+<span class="w">  </span><span class="n">ir_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_ir</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Using <code class="docutils literal notranslate"><span class="pre">sparse_ir_preset</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="kt">double precision</span> <span class="kd">::</span> <span class="n">beta</span> <span class="c">! inverse temperature</span>
-  <span class="p">...</span>
-  <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0d3</span>
-  <span class="n">ir_obj</span> <span class="o">=</span> <span class="n">mk_ir_preset</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">double precision</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="c">! inverse temperature</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d3</span><span class="w"></span>
+<span class="w">  </span><span class="n">ir_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mk_ir_preset</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Here you are ready to use the IR basis objects and call the IR basis subroutines for a given value of <code class="docutils literal notranslate"><span class="pre">beta</span></code> in your program. Note that a derived type of <code class="docutils literal notranslate"><span class="pre">IR</span></code> (<code class="docutils literal notranslate"><span class="pre">ir_obj</span></code> here) should be updated by using the functions <code class="docutils literal notranslate"><span class="pre">read_ir</span></code> or <code class="docutils literal notranslate"><span class="pre">mk_ir_preset</span></code> each time you change the value of <code class="docutils literal notranslate"><span class="pre">beta</span></code>.</p>
@@ -928,7 +933,7 @@ G(\mathrm{i}\nu_n) = \sum_{l}\hat{U}_l(\mathrm{i}\nu_n)G_l
 \end{align*}\]</div>
 <p>$$
 The Usage is</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">call </span><span class="n">evaluate_matsubara_f</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">g_in</span><span class="p">,</span> <span class="n">g_out</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">call </span><span class="n">evaluate_matsubara_f</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">g_in</span><span class="p">,</span><span class="w"> </span><span class="n">g_out</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and <code class="docutils literal notranslate"><span class="pre">g_out</span></code> correspond to <span class="math notranslate nohighlight">\(G_l\)</span> and <span class="math notranslate nohighlight">\(G(\mathrm{i}\nu_n)\)</span>, respectively. <code class="docutils literal notranslate"><span class="pre">obj</span></code> is the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>”, and <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and <code class="docutils literal notranslate"><span class="pre">g_out</span></code> are 2-dimensional <code class="docutils literal notranslate"><span class="pre">COMPLEX(KIND(0D0))</span></code> arrays. The inputs are <code class="docutils literal notranslate"><span class="pre">obj</span></code> and <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and the output is <code class="docutils literal notranslate"><span class="pre">g_out</span></code>. Before calling this subroutine, you should reshape the array of <span class="math notranslate nohighlight">\(G_l\)</span> to a 2-dimensional array whose last axis corresponds to <span class="math notranslate nohighlight">\(\mathrm{i}\nu_n\)</span> and allocate <code class="docutils literal notranslate"><span class="pre">g_out</span></code> with appropriate shape.

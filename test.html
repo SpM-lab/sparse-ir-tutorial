@@ -160,8 +160,13 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="src/lichtenstein_formula_py.html">
-   Lichtenstein formula
+  <a class="reference internal" href="src/orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="src/liechtenstein_py.html">
+   Estimation of exchange interactions
   </a>
  </li>
 </ul>
@@ -351,19 +356,19 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Test</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Test</span><span class="w"></span>
 
-<span class="n">global_var</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">function</span> <span class="n">myfastfunc</span><span class="p">()</span><span class="o">::</span><span class="kt">Float64</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">global_var</span> <span class="c"># i::Any</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">10000</span>
-        <span class="n">i</span> <span class="o">+=</span> <span class="kt">Float64</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-    <span class="k">end</span>
-    <span class="k">return</span> <span class="n">i</span>
-<span class="k">end</span>
+<span class="n">global_var</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">myfastfunc</span><span class="p">()</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">global_var</span><span class="w"> </span><span class="c"># i::Any</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10000</span><span class="w"></span>
+<span class="w">        </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="kt">Float64</span><span class="p">(</span><span class="n">j</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="nd">@inferred</span> <span class="n">myfastfunc</span><span class="p">()</span>
-<span class="c">#@code_warntype myfastfunc()</span>
+<span class="nd">@inferred</span><span class="w"> </span><span class="n">myfastfunc</span><span class="p">()</span><span class="w"></span>
+<span class="c">#@code_warntype myfastfunc()</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
