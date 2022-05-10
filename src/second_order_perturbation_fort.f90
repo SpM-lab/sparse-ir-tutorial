@@ -52,21 +52,15 @@ CONTAINS
       STOP
     ENDIF
     !
-    rdum = LOG(REAL(nk_lin, KIND=DP)) / LOG(2.0E0_DP)
-    IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-      PRINT*, 'ERROR in read_input: nk_lin is not a integer power of 2.'
-      STOP
-    ENDIF
-    !
     rdum = LOG(lambda) / LOG(1.0E1_DP)
     IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-      PRINT*, 'ERROR in read_input: lambda is not a integer power of 10.'
+      PRINT*, 'ERROR in read_input: lambda is not a positive integer power of 10.'
       STOP
     ENDIF
     !
     rdum = LOG(eps) / LOG(1.0E-1_DP)
     IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-      PRINT*, 'ERROR in read_input: eps is not a integer power of 0.1.'
+      PRINT*, 'ERROR in read_input: eps is not a positive integer power of 0.1.'
       STOP
     ENDIF
     !
@@ -93,18 +87,6 @@ CONTAINS
     REAL(KIND=DP) rdum
     INTEGER n(rank) ! array of dimension
     INTEGER plan, dist
-    !
-    rdum = LOG(REAL(n1, KIND=DP)) / LOG(2.0E0_DP)
-    IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-      PRINT*, 'ERROR in do_fft_2d: n1 is not a integer power of 2.'
-      STOP
-    ENDIF
-    !
-    rdum = LOG(REAL(n2, KIND=DP)) / LOG(2.0E0_DP)
-    IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-      PRINT*, 'ERROR in do_fft_2d: n2 is not a integer power of 2.'
-      STOP
-    ENDIF
     !
     n(1) = n1
     n(2) = n2
@@ -148,7 +130,7 @@ PROGRAM main
   REAL(KIND=DP), ALLOCATABLE :: k1(:,:), k2(:,:), ek_(:,:)
   REAL(KIND=DP), ALLOCATABLE :: kp(:,:), ek(:)
   COMPLEX(KIND=DP), ALLOCATABLE :: gkf(:,:), gkl(:,:), gkt(:,:), grt(:,:), grt_(:,:)
-  COMPLEX(KIND=DP), ALLOCATABLE :: srt(:,:), srl(:,:), skl(:,:), uhat(:,:), res(:,:)
+  COMPLEX(KIND=DP), ALLOCATABLE :: srt(:,:), srl(:,:), skl(:,:), uhat(:,:), sigma_iv(:,:)
   COMPLEX(KIND=DP), ALLOCATABLE :: cdummy_k(:,:,:), cdummy_r(:,:,:)
   !
   !! FUNCTIONS
@@ -175,14 +157,14 @@ PROGRAM main
   !
   rdum = LOG(lambda) / LOG(1.0E1_DP)
   IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-    PRINT*, 'ERROR in main: lambda is not a integer power of 10.'
+    PRINT*, 'ERROR in main: lambda is not a positive integer power of 10.'
     STOP
   ENDIF
   nlambda = NINT(rdum)
   !
   rdum = LOG(eps) / LOG(1.0E-1_DP)
   IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
-    PRINT*, 'ERROR in main: lambda is not a integer power of 0.1.'
+    PRINT*, 'ERROR in main: lambda is not a positive integer power of 0.1.'
     STOP
   ENDIF
   ndigit = NINT(rdum)
@@ -296,8 +278,6 @@ PROGRAM main
   WRITE(100,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
   WRITE(100,'(A)') "#       v      Im(iv)          Re(G(k,iv))      Im(G(k,iv))      abs(G(k,iv))"
   DO ix = 1, nw
-    !iv = ci * pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
-    !WRITE(100,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), AIMAG(iv), gkf(1, ix), ABS(gkf(1, ix))
     WRITE(100,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), &
           pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta, gkf(1, ix), ABS(gkf(1, ix))
   ENDDO
@@ -316,9 +296,9 @@ PROGRAM main
   OPEN(101,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
   WRITE(101,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
-  WRITE(101,'(A)') "#    l      s_l            Re(G(k,l))       Im(G(k,l))      abs(G(k,l))"
+  WRITE(101,'(A)') "#    l       s_l            Re(G(k,l))       Im(G(k,l))      abs(G(k,l))"
   DO ix = 1, size_l
-    WRITE(101,"(I6, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), gkl(1, ix), ABS(gkl(1, ix))
+    WRITE(101,"(I6, 1x, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), gkl(1, ix), ABS(gkl(1, ix))
   ENDDO
   CLOSE(101)
   !
@@ -355,6 +335,7 @@ PROGRAM main
   !!  (1) Reshape gkt into shape of (nk_lin, nk_lin, ntau).
   !!  (2) Apply FFT to the 1st and 2nd axes.
   !!  (3) Reshape the result to (nk, ntau)
+  !
   !! G(k, tau): (nk, ntau)
   ALLOCATE(cdummy_k(kps1, kps2, ntau))
   ALLOCATE(cdummy_r(kps1, kps2, ntau))
@@ -432,9 +413,9 @@ PROGRAM main
   filename = "second_order_srl_r_0.txt"
   OPEN(106,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
-  WRITE(106,'(A)') "#    l   Re(Sigma(r,l))   Im(Sigma(r,l))  abs(Sigma(r,l))"
+  WRITE(106,'(A)') "#    l    Re(Sigma(r,l))   Im(Sigma(r,l))  abs(Sigma(r,l))"
   DO ix = 1, size_l
-    WRITE(106,"(I6, 2(ES16.8, 1x), ES16.8)") ix, srl(1, ix), ABS(srl(1, ix))
+    WRITE(106,"(I6, 1x, 2(ES16.8, 1x), ES16.8)") ix, srl(1, ix), ABS(srl(1, ix))
   ENDDO
   CLOSE(106)
   !
@@ -474,9 +455,9 @@ PROGRAM main
   OPEN(107,FILE=filename,STATUS="replace",IOSTAT=ios)
   IF(ios.NE.0) PRINT*, 'ERROR in main while opening file: ', filename
   WRITE(107,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
-  WRITE(107,'(A)') "#    l      s_l          Re(Sigma(k,l))   Im(Sigma(k,l))   abs(Sigma(k,l))"
+  WRITE(107,'(A)') "#    l       s_l          Re(Sigma(k,l))   Im(Sigma(k,l))   abs(Sigma(k,l))"
   DO ix = 1, size_l
-    WRITE(107,"(I6, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), skl(1, ix), ABS(skl(1, ix))
+    WRITE(107,"(I6, 1x, 3(ES16.8, 1x), ES16.8)") ix, ir_obj%s(ix), skl(1, ix), ABS(skl(1, ix))
   ENDDO
   CLOSE(107)
   !
@@ -492,13 +473,13 @@ PROGRAM main
   ! NOTE: nw     = ir_obj%nfreq_f = ir_obj%uhat_f%m
   !       size_l = ir_obj%size    = ir_obj%uhat_f%n
   !
-  ALLOCATE(res(nk, nw))
-  res(:,:) = czero
+  ALLOCATE(sigma_iv(nk, nw))
+  sigma_iv(:,:) = czero
   !
   DO ii = 1, size_l
     DO ix = 1, nw
       DO ik = 1, nk
-        res(ik, ix) = res(ik, ix) + uhat(ix, ii) * skl(ik, ii)
+        sigma_iv(ik, ix) = sigma_iv(ik, ix) + uhat(ix, ii) * skl(ik, ii)
       ENDDO
     ENDDO
   ENDDO
@@ -509,17 +490,15 @@ PROGRAM main
   WRITE(108,'(2(A, ES14.6), A)') "#   k = ( ", kp(1, 1), ", ", kp(2, 1), " )"
   WRITE(108,'(A)') "#       v      Im(iv)        Re(Sigma(k,iv))  Im(Sigma(k,iv))   abs(Sigma(k,iv))"
   DO ix = 1, nw
-    !iv = ci * pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta
-    !WRITE(108,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), AIMAG(iv), res(1, ix), ABS(res(1, ix))
     WRITE(108,"(I10, 1x, 3(ES16.8, 1x), ES16.8)") ir_obj%freq_f(ix), &
-          pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta, res(1, ix), ABS(res(1, ix))
+          pi * REAL(ir_obj%freq_f(ix), KIND=DP) * inv_beta, sigma_iv(1, ix), ABS(sigma_iv(1, ix))
   ENDDO
   CLOSE(108)
   !
   DEALLOCATE(smpl_tau, smpl_matsu)
   DEALLOCATE(kp, ek)
   DEALLOCATE(gkf, gkl, gkt, grt)
-  DEALLOCATE(srt, srl, skl, res)
+  DEALLOCATE(srt, srl, skl, sigma_iv)
   DEALLOCATE(uhat)
   !
 END PROGRAM ! main
