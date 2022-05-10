@@ -63,6 +63,28 @@ Then, you will be ready to commit updated files.
 make upload
 ```
 
+## Docker on VSCode
+1. Make sure you have Docker and VSCode installed.
+
+2. Install the ``Remote - Containers`` in VSCode Extensions.
+
+3. Go to the repository and open it in VS Code.
+
+```
+cd /path/to/this/repository
+
+code .
+```
+
+4. To use Docker with VS Code, execute the following command.
+
+```
+ln -s .dev/devcontainer .devcontainer
+```
+
+5. Press the green mark at the bottom left and press `` Reopen in Container`` from the command palette.
+   After the build is finished, you can enter the Docker container.
+
 ## References
 You can add references to `references.bib`.
 
