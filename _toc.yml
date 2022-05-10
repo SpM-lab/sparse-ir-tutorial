@@ -18,7 +18,7 @@ parts:
   - file: src/FLEX_py.md
   - file: src/TPSC_py.md
   - file: src/eliashberg_holstein_py.md
-  #- file: src/chi_sample.ipynb
+  - file: src/orbital_magnetic_susceptibility_py.md
   - file: src/liechtenstein_py.md
 - caption: Analytic continuation
   chapters:

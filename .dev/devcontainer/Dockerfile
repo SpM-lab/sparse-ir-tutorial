@@ -42,6 +42,7 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
     sparse-ir \
     xprec \
     matplotlib \
+    ghp-import \
     && \
     echo Done
 
