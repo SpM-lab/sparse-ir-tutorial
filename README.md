@@ -64,6 +64,8 @@ make upload
 ```
 
 ## Docker on VSCode
+We recommend to use VSCode + Docker to build HTML files.
+
 1. Make sure you have Docker and VSCode installed.
 
 2. Install the ``Remote - Containers`` in VSCode Extensions.
