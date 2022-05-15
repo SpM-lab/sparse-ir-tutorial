@@ -2,7 +2,7 @@
 #\.*
 \#*\#
 
-*.ipynb
+#*.ipynb
 *.md_update_work
 
 /_build/
