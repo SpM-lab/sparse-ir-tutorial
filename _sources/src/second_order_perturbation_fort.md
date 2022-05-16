@@ -14,9 +14,10 @@ python3 dump.py 1e+5 1e-7 ir_nlambda5_ndigit7.dat
 python3 mk_preset.py --nlambda 5 --ndigit 7 > sparse_ir_preset.f90
 ```
 
-2. Download the source code {download}`2nd_order_pert_theory.f90 <2nd_order_pert_theory.f90>` and then copy all the f90 files and the data file from the `sparse-ir-fortran/` directory to a working directory.
+2. Download the source code [`second_order_perturbation_fort.f90`](https://raw.githubusercontent.com/SpM-lab/sparse-ir-tutorial/main/src/second_order_perturbation_fort.f90) and then copy all the f90 files and the data file from the `sparse-ir-fortran/` directory to a working directory.
 ```bash
-> cd /your/preferred/dir/
+> cd /your/preferred/dir/      # a working directory
+> curl -OL https://raw.githubusercontent.com/SpM-lab/sparse-ir-tutorial/main/src/second_order_perturbation_fort.f90      # download the source code
 > cp /somewhere/sparse-ir-fortran/*f90 ./
 > cp /somewhere/sparse-ir-fortran/*dat ./
 ```

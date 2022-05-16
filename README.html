@@ -339,6 +339,11 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#docker-on-vscode">
+   Docker on VSCode
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
    References
   </a>
@@ -396,6 +401,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#upload-html-files">
    Upload html files
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#docker-on-vscode">
+   Docker on VSCode
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -459,9 +469,9 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <ol class="simple">
 <li><p>Update the notebook using jupyter notebook/lab</p></li>
-<li><p>Sync the markdown file and the notebook.</p></li>
+<li><p>Convert the notebook file to a Markdown file:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --sync --to md:myst notebook_py.ipynb
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>jupytext --to md:myst notebook_py.ipynb
 </pre></div>
 </div>
 </div>
@@ -478,6 +488,30 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make upload
 </pre></div>
 </div>
+</div>
+<div class="section" id="docker-on-vscode">
+<h2>Docker on VSCode<a class="headerlink" href="#docker-on-vscode" title="Permalink to this headline">¶</a></h2>
+<p>We recommend to use VSCode + Docker to build HTML files.</p>
+<ol class="simple">
+<li><p>Make sure you have Docker and VSCode installed.</p></li>
+<li><p>Install the <code class="docutils literal notranslate"><span class="pre">Remote</span> <span class="pre">-</span> <span class="pre">Containers</span></code> in VSCode Extensions.</p></li>
+<li><p>Go to the repository and open it in VS Code.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">this</span><span class="o">/</span><span class="n">repository</span>
+
+<span class="n">code</span> <span class="o">.</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>To use Docker with VS Code, execute the following command.</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">.</span><span class="n">dev</span><span class="o">/</span><span class="n">devcontainer</span> <span class="o">.</span><span class="n">devcontainer</span>
+</pre></div>
+</div>
+<ol class="simple">
+<li><p>Press the green mark at the bottom left and press <code class="docutils literal notranslate"> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code> from the command palette.
+After the build is finished, you can enter the Docker container.</p></li>
+</ol>
 </div>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>

@@ -39,10 +39,10 @@ jupytext --to ipynb notebook_py.md
 
 2. Update the notebook using jupyter notebook/lab
 
-3. Sync the markdown file and the notebook.
+3. Convert the notebook file to a Markdown file:
 
 ```bash
-jupytext --sync --to md:myst notebook_py.ipynb
+jupytext --to md:myst notebook_py.ipynb
 ```
 
 
@@ -62,6 +62,30 @@ Then, you will be ready to commit updated files.
 ```bash
 make upload
 ```
+
+## Docker on VSCode
+We recommend to use VSCode + Docker to build HTML files.
+
+1. Make sure you have Docker and VSCode installed.
+
+2. Install the ``Remote - Containers`` in VSCode Extensions.
+
+3. Go to the repository and open it in VS Code.
+
+```
+cd /path/to/this/repository
+
+code .
+```
+
+4. To use Docker with VS Code, execute the following command.
+
+```
+ln -s .dev/devcontainer .devcontainer
+```
+
+5. Press the green mark at the bottom left and press `` Reopen in Container`` from the command palette.
+   After the build is finished, you can enter the Docker container.
 
 ## References
 You can add references to `references.bib`.

@@ -310,7 +310,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/eliashberg_holstein_py.ipynb"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/eliashberg_holstein_py.md"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -333,25 +333,8 @@ const thebe_selector_output = ".output, .cell_output"
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#single-orbital-case">
-     Single-orbital case
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#connection-to-the-three-orbital-case">
-     Connection to the three-orbital case
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
-   Implementation: Eliashberg solver
+  <a class="reference internal nav-link" href="#equations">
+   Equations
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -407,25 +390,8 @@ const thebe_selector_output = ".output, .cell_output"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#single-orbital-case">
-     Single-orbital case
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#connection-to-the-three-orbital-case">
-     Connection to the three-orbital case
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation-eliashberg-solver">
-   Implementation: Eliashberg solver
+  <a class="reference internal nav-link" href="#equations">
+   Equations
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -472,90 +438,126 @@ const thebe_selector_output = ".output, .cell_output"
   <div class="tex2jax_ignore mathjax_ignore section" id="eliashberg-theory-for-holstein-hubbard-model">
 <h1>Eliashberg theory for Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-holstein-hubbard-model" title="Permalink to this headline">¶</a></h1>
 <p>Author: <a class="reference external" href="mailto:shintaro&#46;hoshino&#37;&#52;&#48;gmail&#46;com">Shintaro Hoshino</a> and <a class="reference external" href="mailto:h&#46;shinaoka&#37;&#52;&#48;gmail&#46;com">Hiroshi Shinaoka</a></p>
-<div class="section" id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="single-orbital-case">
-<h3>Single-orbital case<a class="headerlink" href="#single-orbital-case" title="Permalink to this headline">¶</a></h3>
-<p>We consider the single-orbital Holstein-Hubbard model</p>
+<div class="section" id="equations">
+<h2>Equations<a class="headerlink" href="#equations" title="Permalink to this headline">¶</a></h2>
+<p>The (multiorbital) Hubbard model coupled to local phonons describes a simplest case where the electrons and phonons are correlated.
+Such situation can be realized in a molecular-based systems such as fullerides.
+While the DMFT approach to electron-phonon coupled systems is still technically challenging, the Eliashberg approach [1,2] is a powerful method in the weakly correlated regime and provides an intuitive understanding for the underlying physics.</p>
+<p>The single-orbital case is known as a Holstein-Hubbard model whose Hamiltonian is given by</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+    \mathscr H &amp;= \mathscr H_{e0} + 
+    \frac{U}{2}\sum_i :n_{i}^2:
+    + \omega_0 \sum_i a_i^\dagger a_i
+    + g \sum_i (a_i+a_i^\dagger) n_i
+\end{align}
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(n_i=\sum_{\sigma} n_{i\sigma} = \sum_{\sigma} c^\dagger_{i\sigma} c_{i\sigma}\)</span> is the local number operator, and the colon represents a normal ordering.</p>
+<p>We generalize it so as to deal with the three-orbital case relevant to fulleride superconductors (the Jahn-Teller-Hubbard model).
+The details for the three-orbital model are provided in Ref [3], and here we explain the outline of the approach.
+We begin with the Hamiltonian <span class="math notranslate nohighlight">\(\mathscr H = \mathscr H_{e} + \mathscr H_{ee} + \mathscr H_p + \mathscr H_{ep}\)</span>
+where</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-\begin{align*}
-    \mathscr H &amp;= \mathscr H_{e0} + \sum_i \mathscr H_{\rm loc} (i),\\
-    \mathscr H_{\rm loc} &amp;=
-    \frac{1}{2} U n (n-1)
-    + \omega_0 a^\dagger a
-    + g (a+a^\dagger) n,
-\end{align*}
-\end{split}\]</div>
-<p>where <span class="math notranslate nohighlight">\(n=\sum_{\sigma} c^\dagger_\sigma c_\sigma\)</span>.</p>
-<p>The Eliashberg equations are written as</p>
-<div class="math notranslate nohighlight">
-\[
-    \Sigma(\tau) = - U_{\rm eff}(\tau) G(\tau),\hspace{5em}(1)
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-    \Delta(\tau) = U_{\rm eff}(\tau) F(\tau),
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-    \Pi(\tau) = 2 g^2 [ G(\tau)G(-\tau) - F(\tau)^2 ],
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(\Sigma\)</span> and <span class="math notranslate nohighlight">\(\Delta\)</span> are fermionic objects, while <span class="math notranslate nohighlight">\(\Pi\)</span> is bosonic.</p>
-<p>The Green functions are given in the Fourier domain:</p>
-<div class="math notranslate nohighlight">
-\[
-    G(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
-    \frac{\zeta (\mathrm{i}\omega_n) + \varepsilon}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-    F(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
-    \frac{\Delta (\mathrm{i}\omega_n)}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
-\]</div>
-<div class="math notranslate nohighlight">
-\[
-    \zeta(\mathrm{i}\omega_n) =  \mathrm{i}\omega_n+\mu-\Sigma(\mathrm{i}\omega_n)
-\]</div>
-<p>for electrons, where the phase of the pair potential is chosen as real, and</p>
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\begin{align*}
-    D(\mathrm{i}\nu_m)^{-1} &amp;= D_0(\mathrm{i}\nu_m)^{-1} - \Pi(\mathrm{i}\nu_m)
+\begin{align}
+    \mathscr H_{ee}  &amp;= \sum_{i\eta} I_\eta : T_{i\eta}^2:
+    \hspace{10mm}
+    \Big( T_{i\eta} = \sum_{\gamma\gamma'\sigma} c^\dagger_{i\gamma\sigma} \lambda^\eta_{\gamma\gamma'} c_{\gamma'\sigma}  \Big)
     \\
-    D_0(\mathrm{i}\nu_m) &amp;= \frac{2\omega_0}{(\mathrm{i}\nu_m)^2 - \omega_0^2}
-\end{align*}
+    \mathscr H_{p}  &amp;= \sum_{i\eta} \omega_\eta a_{i\eta}^\dagger a_{i\eta} = \sum_{i\eta} \frac{\omega_\eta}{4} (p_{i\eta}^2 + \phi_{i\eta}^2)
+    \equiv \mathscr H_{p,{\rm kin}} + \mathscr H_{p,{\rm pot}}
+    \\
+    \mathscr H_{ep}  &amp;= \sum_{i\eta} g_\eta 
+    \phi_{i\eta}
+    T_{i\eta}
+\end{align}
+\end{split}\]</div>
+<p><span class="math notranslate nohighlight">\(\gamma\)</span> is an orbital index. The <span class="math notranslate nohighlight">\(\eta\)</span> distinguish the types of charge-orbital moments for electrons and vibration modes for phonons, respectively,
+where <span class="math notranslate nohighlight">\(M=\sum_\gamma 1\)</span>, <span class="math notranslate nohighlight">\({\rm Tr}(\hat \lambda^\eta)^2=2\)</span>, <span class="math notranslate nohighlight">\(\sum_\eta 1 = \frac{M(M+1)}{2}\)</span>.
+We may use <span class="math notranslate nohighlight">\(M=1\)</span> (single-orbital) or <span class="math notranslate nohighlight">\(M=3\)</span> (three-orbital).
+For examples, the charge operator is given by <span class="math notranslate nohighlight">\(T_{i,\eta=0} = \sqrt 2 \sum_\sigma n_{i\sigma}\)</span> for <span class="math notranslate nohighlight">\(M=1\)</span> and <span class="math notranslate nohighlight">\(T_{i,\eta=0} = \sqrt{\tfrac 2 3} \sum_\sigma (n_{i1\sigma}+n_{i2\sigma}+n_{i3\sigma})\)</span> for <span class="math notranslate nohighlight">\(M=3\)</span>.</p>
+<p>We have introduced displacement and momentum operators by <span class="math notranslate nohighlight">\(\phi_{i\eta} = a_{i\eta}+ a_{i\eta}^\dagger\)</span> and <span class="math notranslate nohighlight">\(p_{i\eta} = (a_{i\eta} - a_{i\eta}^\dagger)/{\rm i}\)</span>, which satisfy the canonical commutation relation <span class="math notranslate nohighlight">\([\phi_{i\eta},p_{j\eta'}] = 2{\rm i} \delta_{ij} \delta_{\eta\eta'}\)</span>.
+Equation~\eqref{eq:ee} shows a compact multipole representation for the Hubbard or Slater-Kanamori interactions [4].
+More specifically, <span class="math notranslate nohighlight">\(I_0 = U/4\)</span> for the single-orbital case, and <span class="math notranslate nohighlight">\(I_0 = 3U/4 -J\)</span>, <span class="math notranslate nohighlight">\(I_{\eta\neq 0} = J/2\)</span> for the three-orbital case with the Hund’s coupling <span class="math notranslate nohighlight">\(J\)</span> [3].</p>
+<p>We assume that there is no <span class="math notranslate nohighlight">\(\eta\)</span>-dependence, i.e., we write <span class="math notranslate nohighlight">\(g_\eta = g_0\)</span> and <span class="math notranslate nohighlight">\(\omega_\eta = \omega_0\)</span>.
+Assuming also that the self-energy is local as in DMFT, we obtain the Eliashberg equations</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    \Sigma(\tau) &amp;= -U_{\rm eff}(\tau) G(\tau)
+    \\
+    \Delta(\tau) &amp;= U_{\rm eff}(\tau) F(\tau)
+    \\
+    U_{\rm eff}(\tau) &amp;= (U+2J)\delta(\tau) + (M+1)  g_0^2 D (\tau)
+    \\
+    \Pi  (\tau) &amp;=  4g_0^2 [ G(\tau) G(-\tau) - F(\tau)^2 ]
+\end{align}
+\end{split}\]</div>
+<p>where the local Green functions are defined by
+<span class="math notranslate nohighlight">\(G(\tau) = - \langle \mathcal T c_{i\gamma\sigma}(\tau) c^\dagger_{i\gamma\sigma} \rangle\)</span>,
+<span class="math notranslate nohighlight">\(F(\tau) = - \langle \mathcal T c_{i\gamma\uparrow}(\tau) c_{i\gamma\downarrow} \rangle\)</span>
+for electrons, and
+<span class="math notranslate nohighlight">\(D(\tau) = - \langle \mathcal T \phi_{i\eta}(\tau) \phi_{i\eta} \rangle\)</span> for phonons.
+We have simplified the equations using the cubic symmetry.
+The phase of the superconducting order parameter is fixed as <span class="math notranslate nohighlight">\(\Delta\in \mathbb R\)</span>.
+If we take <span class="math notranslate nohighlight">\(M=1\)</span> and correspondingly <span class="math notranslate nohighlight">\(J=0\)</span>, it reproduces the single-orbital Holstein-Hubbard model.</p>
+<p>The internal energy may be evaluated through the single-particle Green functions.
+In a manner similar to Ref. [5],
+we have the following relations</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    2MT\sum_{n}{\rm i}\omega_n G({\rm i}\omega_n) {\rm e}^{{\rm i} \omega_n 0^+}
+    &amp;= \langle \mathscr H_{e0} \rangle + 2\langle \mathscr H_{ee} \rangle
+    + \langle \mathscr H_{ep} \rangle
+    \\
+    \frac{M(M+1)}{2} T\sum_m \frac{({\rm i}\nu_m)^2}{2\omega_0} D({\rm i}\nu_m) {\rm e}^{{\rm i} \nu_m 0^+}
+    &amp;= - 2\langle \mathscr H_{p,{\rm pot}}\rangle
+    - \langle \mathscr H_{ep}\rangle
+    = - 2\langle \mathscr H_{p,{\rm kin}}\rangle
+    \\
+    2M T\sum_n \Sigma({\rm i}\omega_n) G({\rm i}\omega_n) {\rm e}^{{\rm i} \omega_n 0^+}
+    &amp;= 2\langle \mathscr H_{ee} \rangle
+    + \langle \mathscr H_{ep} \rangle
+    \\
+    \frac{M(M+1)}{2} T\sum_m \Pi({\rm i}\nu_m) D({\rm i}\nu_m) {\rm e}^{{\rm i} \nu_m 0^+}&amp;= - \langle \mathscr H_{ep} \rangle
+\end{align}
+\end{split}\]</div>
+<p>Thus the internal energy <span class="math notranslate nohighlight">\(\langle \mathscr H \rangle = \langle \mathscr H_{e0} + \mathscr H_{ee} + \mathscr H_{p,{\rm kin}} + \mathscr H_{p,{\rm pot}} + \mathscr H_{ep} \rangle\)</span> is obtained.
+The specific heat is then calculated numerically through differentiating it by temperature.</p>
+<p>In addition to the above Eliashberg equations, the Dyson equation completes a closed set of the self-consistent equations.
+The Green functions are given in the Fourier domain:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    G({\rm i}\omega_n) &amp;= \int {\rm d} \varepsilon \rho(\varepsilon)
+    \frac{\zeta ({\rm i}\omega_n) + \varepsilon}{\zeta({\rm i}\omega_n)^2- \Delta({\rm i}\omega_n)^2 - \varepsilon^2}
+    \\
+    F({\rm i}\omega_n) &amp;= \int {\rm d} \varepsilon \rho(\varepsilon)
+    \frac{\Delta ({\rm i}\omega_n)}{\zeta({\rm i}\omega_n)^2- \Delta({\rm i}\omega_n)^2 - \varepsilon^2}
+    \\
+    \zeta({\rm i}\omega_n) &amp;=  {\rm i}\omega_n+\mu-\Sigma({\rm i}\omega_n)
+\end{align}
+\end{split}\]</div>
+<p>for electrons, and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+    D({\rm i}\nu_m)^{-1} &amp;= D_0({\rm i}\nu_m)^{-1} - \Pi({\rm i}\nu_m)
+    \\
+    D_0({\rm i}\nu_m) &amp;= \frac{2\omega_0}{({\rm i}\nu_m)^2 - \omega_0^2}
+\end{align}
 \end{split}\]</div>
 <p>for phonons.
-The effective interaction is</p>
-<div class="math notranslate nohighlight">
-\[
-    U_{\rm eff}(\tau) = U\delta(\tau) + g^2 D(\tau)
-\]</div>
-<p>The static limit is given by <span class="math notranslate nohighlight">\(U(\mathrm{i}\nu_m \to 0) = U-\lambda\)</span> where <span class="math notranslate nohighlight">\(\lambda = \frac{2g^2}{\omega_0}\)</span> is the effective attraction by coupling to phonons.
-Since the Coulomb interaction in the normal self-energy just shifts the chemical potential, the equation (1) may be replaced by</p>
-<div class="math notranslate nohighlight">
-\[
-    \Sigma(\tau) = - U_{\rm eff,ph}(\tau) G(\tau),
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(U_{\rm eff,ph} \equiv  g^2 D(\tau)\)</span> represents the phonon contribution of <span class="math notranslate nohighlight">\(U_{\rm eff}\)</span>.</p>
-</div>
-<div class="section" id="connection-to-the-three-orbital-case">
-<h3>Connection to the three-orbital case<a class="headerlink" href="#connection-to-the-three-orbital-case" title="Permalink to this headline">¶</a></h3>
-<p>The abovementioned Eliashberg equations for the single-orbital model can be regarded as the Eliashberg equations for the three-orbital model with the rotationally invariant three-orbital model [1] [WHAT CASE].
-In this case, we replace the parameters <span class="math notranslate nohighlight">\(g\)</span> and <span class="math notranslate nohighlight">\(U\)</span> as
-$<span class="math notranslate nohighlight">\(
-g \leftarrow \sqrt{2} g_0,
-\)</span>$</p>
-<div class="math notranslate nohighlight">
-\[
-U \leftarrow U + 2J,
-\]</div>
-<p>where <span class="math notranslate nohighlight">\(J\)</span> is the Hund’s coupling.</p>
+We take the semi-circular density of states <span class="math notranslate nohighlight">\(\rho(\varepsilon) = \frac{2}{\pi D^2} \sqrt{D^2-\varepsilon^2}\)</span> for electron parts.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Implementation: Eliashberg solver</span>
+</pre></div>
 </div>
 </div>
-<div class="section" id="implementation-eliashberg-solver">
-<h2>Implementation: Eliashberg solver<a class="headerlink" href="#implementation-eliashberg-solver" title="Permalink to this headline">¶</a></h2>
+</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -793,7 +795,7 @@ U \leftarrow U + 2J,
 <h2>Self-consistent calculation<a class="headerlink" href="#self-consistent-calculation" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="paramaters">
 <h3>Paramaters<a class="headerlink" href="#paramaters" title="Permalink to this headline">¶</a></h3>
-<p>We now reproduce the results for <span class="math notranslate nohighlight">\(\lambda_0 = 0.125\)</span> shown in Fig. 1 of Ref. [1].
+<p>We now reproduce the results for <span class="math notranslate nohighlight">\(\lambda_0 = 0.125\)</span> shown in Fig. 1 of Ref. [3].
 The parameter <span class="math notranslate nohighlight">\(g_0\)</span> is related to <span class="math notranslate nohighlight">\(\lambda_0\)</span> as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -859,12 +861,12 @@ We consider a semicircular density of state with a half bandwidth of <span class
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.03836686740735969, diff_delta=1.9916756345286026
-iter= 100 : diff_sigma= 0.00036755656607894024, diff_delta=0.0008609975682266861
-iter= 200 : diff_sigma= 8.52813951922346e-06, diff_delta=1.9902713658093213e-05
-iter= 300 : diff_sigma= 1.939639088371914e-07, diff_delta=4.5214455147990495e-07
-iter= 400 : diff_sigma= 4.401813094578877e-09, diff_delta=1.0260337690581947e-08
-iter= 500 : diff_sigma= 9.988374016778553e-11, diff_delta=2.3282220596183502e-10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.052510798139970616, diff_delta=1.9940825470787
+iter= 100 : diff_sigma= 0.00037021719999579396, diff_delta=0.0008671884947800207
+iter= 200 : diff_sigma= 8.590904248001495e-06, diff_delta=2.0049921824555908e-05
+iter= 300 : diff_sigma= 1.9540311914367783e-07, diff_delta=4.555013663337659e-07
+iter= 400 : diff_sigma= 4.434504430328445e-09, diff_delta=1.0336542496936009e-08
+iter= 500 : diff_sigma= 1.006252581259305e-10, diff_delta=2.3455185016753784e-10
 </pre></div>
 </div>
 </div>
@@ -882,7 +884,7 @@ iter= 500 : diff_sigma= 9.988374016778553e-11, diff_delta=2.3282220596183502e-10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_15_0.png" src="../_images/eliashberg_holstein_py_15_0.png" />
+<img alt="../_images/eliashberg_holstein_py_13_0.png" src="../_images/eliashberg_holstein_py_13_0.png" />
 </div>
 </div>
 </div>
@@ -948,12 +950,12 @@ iter= 500 : diff_sigma= 9.988374016778553e-11, diff_delta=2.3282220596183502e-10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_17_0.png" src="../_images/eliashberg_holstein_py_17_0.png" />
-<img alt="../_images/eliashberg_holstein_py_17_1.png" src="../_images/eliashberg_holstein_py_17_1.png" />
-<img alt="../_images/eliashberg_holstein_py_17_2.png" src="../_images/eliashberg_holstein_py_17_2.png" />
-<img alt="../_images/eliashberg_holstein_py_17_3.png" src="../_images/eliashberg_holstein_py_17_3.png" />
-<img alt="../_images/eliashberg_holstein_py_17_4.png" src="../_images/eliashberg_holstein_py_17_4.png" />
-<img alt="../_images/eliashberg_holstein_py_17_5.png" src="../_images/eliashberg_holstein_py_17_5.png" />
+<img alt="../_images/eliashberg_holstein_py_15_0.png" src="../_images/eliashberg_holstein_py_15_0.png" />
+<img alt="../_images/eliashberg_holstein_py_15_1.png" src="../_images/eliashberg_holstein_py_15_1.png" />
+<img alt="../_images/eliashberg_holstein_py_15_2.png" src="../_images/eliashberg_holstein_py_15_2.png" />
+<img alt="../_images/eliashberg_holstein_py_15_3.png" src="../_images/eliashberg_holstein_py_15_3.png" />
+<img alt="../_images/eliashberg_holstein_py_15_4.png" src="../_images/eliashberg_holstein_py_15_4.png" />
+<img alt="../_images/eliashberg_holstein_py_15_5.png" src="../_images/eliashberg_holstein_py_15_5.png" />
 </div>
 </div>
 </div>
@@ -1031,7 +1033,7 @@ iter= 500 : diff_sigma= 9.988374016778553e-11, diff_delta=2.3282220596183502e-10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_22_0.png" src="../_images/eliashberg_holstein_py_22_0.png" />
+<img alt="../_images/eliashberg_holstein_py_20_0.png" src="../_images/eliashberg_holstein_py_20_0.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1047,10 +1049,17 @@ iter= 500 : diff_sigma= 9.988374016778553e-11, diff_delta=2.3282220596183502e-10
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_23_0.png" src="../_images/eliashberg_holstein_py_23_0.png" />
+<img alt="../_images/eliashberg_holstein_py_21_0.png" src="../_images/eliashberg_holstein_py_21_0.png" />
 </div>
 </div>
-<p>[1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946.</p>
+<!-- [1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946. -->
+<p>[1] G. M. Eliashberg, Zh. Eksperim. Teor. Fiz. <strong>38</strong>, 966
+(1960) [Sov. Phys. JETP <strong>11</strong>, 696 (1960)].</p>
+<p>[2] G. M. Eliashberg, Zh. Eksperim. Teor. Fiz. <strong>43</strong>, 1005
+(1962) [Sov. Phys. JETP <strong>16</strong>, 780 (1963)].</p>
+<p>[3] Y. Kaga, P. Werner, and S. Hoshino,  arXiv:2203.06946 (2022).</p>
+<p>[4] S. Iimura, M. Hirayama, and S. Hoshino, Phys. Rev. B <strong>104</strong>, L081108 (2021).</p>
+<p>[5] Y. Wada, Phys. Rev. <strong>135</strong>, A1481 (1964).</p>
 </div>
 </div>
 

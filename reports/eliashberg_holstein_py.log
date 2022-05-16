@@ -17,25 +17,18 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import sparse_ir
+eps = 1e-7
+wmax = 10*D
+bset = sparse_ir.FiniteTempBasisSet(beta, wmax, eps)
 ------------------
 
-ArgumentError: Package numpy not found in current path:
-- Run `import Pkg; Pkg.add("numpy")` to install the numpy package.
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mNameError[0m                                 Traceback (most recent call last)
+Input [0;32mIn [2][0m, in [0;36m<cell line: 3>[0;34m()[0m
+[1;32m      1[0m eps [38;5;241m=[39m [38;5;241m1e-7[39m
+[1;32m      2[0m wmax [38;5;241m=[39m [38;5;241m10[39m[38;5;241m*[39mD
+[0;32m----> 3[0m bset [38;5;241m=[39m [43msparse_ir[49m[38;5;241m.[39mFiniteTempBasisSet(beta, wmax, eps)
 
-
-Stacktrace:
- [1] require(into::Module, mod::Symbol)
-   @ Base ./loading.jl:967
- [2] eval
-   @ ./boot.jl:373 [inlined]
- [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
-   @ Base ./loading.jl:1196
-LoadError: ArgumentError: Package numpy not found in current path:
-- Run `import Pkg; Pkg.add("numpy")` to install the numpy package.
-
+[0;31mNameError[0m: name 'sparse_ir' is not defined
+NameError: name 'sparse_ir' is not defined
 

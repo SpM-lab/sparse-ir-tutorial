@@ -52,7 +52,7 @@ function typestable(@nospecialize(f), @nospecialize(t))
 end
 ```
 
-#### Parameter setting
+### Parameter setting
 
 ```{code-cell}
 ### System parameters
@@ -76,7 +76,7 @@ U_maxiter = 50        # maximal number of iteration steps in U renormalization l
 ;
 ```
 
-#### Generating meshes
+### Generating meshes
 
 ```{code-cell}
 """
@@ -175,7 +175,7 @@ end
 @assert typestable(wn_to_tau, (Mesh, SparseIR.Statistics, Array{ComplexF64,4}))
 ```
 
-#### FLEX loop solver
+### FLEX loop solver
 
 ```{code-cell}
 """

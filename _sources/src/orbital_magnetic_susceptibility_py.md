@@ -13,7 +13,7 @@ kernelspec:
 +++ {"id": "xHOySqkK12f5"}
 
 # Orbital magnetic susceptibility
-Author: [Soshun Ozaki](ozaki@hosi.phys.s.u-tokyo.ac.jp), [Takashi Koretsune](takashi.koretsune.c3@tohoku.ac.jp)
+Author: [Soshun Ozaki](mailto:ozaki@hosi.phys.s.u-tokyo.ac.jp), [Takashi Koretsune](mailto:takashi.koretsune.c3@tohoku.ac.jp)
 
 ## Theory of the orbital magnetism
 The orbital magnetism is the magnetism induced by a vector potential coupled with the momentum,
