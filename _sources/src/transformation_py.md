@@ -170,9 +170,8 @@ rho_omgea_reconst = basis.v(omegas).T @ rhol
 
 plt.xlabel(r"$\omega$")
 plt.ylabel(r"$\rho(\omega)$")
-plt.plot(omegas, rho(omegas))
-#plt.show()
-plt.savefig("plot.pdf")
+plt.plot(omegas, rho_omgea_reconst)
+plt.show()
 ```
 
 ## From IR to imaginary time
@@ -256,8 +255,4 @@ plt.ylim([1e-5, 10])
 plt.legend(frameon=False)
 plt.show()
 #plt.savefig("coeff_bad.pdf")
-```
-
-```{code-cell} ipython3
-
 ```
