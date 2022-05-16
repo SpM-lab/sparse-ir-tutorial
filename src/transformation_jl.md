@@ -4,8 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.8
 kernelspec:
-  display_name: Julia 1.7
+  display_name: Julia 1.7.2
   language: julia
   name: julia-1.7
 ---
@@ -20,9 +22,12 @@ kernelspec:
 
 ```{code-cell}
 using SparseIR
-#ENV["MPLBACKEND"]="tkagg"
-using PyPlot
+using Plots
+gr() # USE GR backend
 using OMEinsum
+using LaTeXStrings
+
+#import PyPlot #To be removed
 
 
 beta = 15.0
@@ -38,27 +43,18 @@ rhol_pole = ein"lp,p->l"(
 )
 gl_pole = - basis_b.s .* rhol_pole
 
-plt.semilogy(abs.(rhol_pole), marker="o", label=L"|\rho_l|")
-plt.semilogy(abs.(gl_pole), marker="x", label=L"|g_l|")
-
-plt.xlabel(L"$l$")
-plt.ylim([1e-5, 1e+1])
-plt.legend()
-;
+plot([abs.(rhol_pole), abs.(gl_pole)], yaxis=:log, label=[latexstring("|\\rho_l|") latexstring("|g_l|")], xlabel=latexstring("l"), ylims=(1e-5, 1e+1))
 ```
 
 ```{code-cell}
 sp = SparsePoleRepresentation(basis_b, omega_p)
 gl_pole2 = to_IR(sp, coeff)
 
-plt.semilogy(abs.(gl_pole2), marker="x", label=L"$|g_l|$ from SPR")
-plt.semilogy(abs.(gl_pole), marker="x", label=L"$|g_l|$")
-
-plt.xlabel(L"$l$")
-plt.ylim([1e-5, 1e+1])
-plt.legend()
-#plt.show()
-;
+plot(
+    [abs.(gl_pole2), abs.(gl_pole)],
+    label=["from SPR" "exact"],
+    yaxis=:log,
+    xlabel=latexstring("l"), ylabel=latexstring("g_l"), ylims=(1e-5, 1e+1), marker=[:cross :circle])
 ```
 
 ## From smooth spectral function
@@ -71,12 +67,7 @@ rho(omega) = 0.2*gaussian(omega, 0.0, 0.15) +
     0.4*gaussian(omega, 1.0, 0.8) + 0.4*gaussian(omega, -1.0, 0.8)
 
 omegas = LinRange(-5, 5, 1000)
-plt.xlabel(L"\omega")
-plt.ylabel(L"\rho(\omega)")
-plt.plot(omegas, rho.(omegas))
-#plt.show()
-;
-;
+plot(omegas, rho.(omegas), xlabel=latexstring("\\omega"), ylabel=latexstring("\\rho(\\omega)"), label="")
 ```
 
 ```{code-cell}
@@ -87,23 +78,13 @@ basis = FiniteTempBasis(fermion, beta, wmax, 1e-7)
 rhol = [overlap(basis.v[l], rho) for l in 1:length(basis)]
 gl = - basis.s .* rhol
 
-plt.semilogy(abs.(rhol), marker="o", label=L"|\rho_l|")
-plt.semilogy(abs.(gl), marker="x", label=L"|g_l|")
-plt.xlabel(L"l")
-plt.ylim([1e-5, 1])
-plt.legend()
-#plt.show()
-;
+plot([abs.(rhol), abs.(gl)], yaxis=:log, ylims=(1e-5,1), marker=[:circle :diamond], line=nothing, xlabel=latexstring("l"), label=[latexstring("\\rho_l") latexstring("|g_l|")])
 ```
 
 ```{code-cell}
-rho_omgea_reconst = transpose(basis.v(omegas)) * rhol
+rho_omega_reconst = transpose(basis.v(omegas)) * rhol
 
-plt.xlabel(L"\omega")
-plt.ylabel(L"\rho(\omega)")
-plt.plot(omegas, rho.(omegas))
-#plt.show()
-;
+plot(omegas, rho_omega_reconst, xlabel=latexstring("\\omega"), ylabel=latexstring("\\rho(\\omega)"), label="")
 ```
 
 ## From IR to imaginary time
@@ -111,21 +92,14 @@ plt.plot(omegas, rho.(omegas))
 ```{code-cell}
 taus = collect(LinRange(0, beta, 1000))
 gtau1 = transpose(basis.u(taus)) * gl
-plt.plot(taus, gtau1)
-plt.xlabel(L"\tau")
-plt.ylabel(L"G(\tau)")
-#plt.show()
-;
+
+plot(taus, gtau1, xlabel=latexstring("\\tau"), ylabel=latexstring("G(\\tau)"), label=nothing)
 ```
 
 ```{code-cell}
 smpl = TauSampling(basis, taus)
 gtau2 = evaluate(smpl, gl)
-plt.plot(taus, gtau1)
-plt.xlabel(L"\tau")
-plt.ylabel(L"G(\tau)")
-#plt.show()
-;
+plot(taus, gtau2, xlabel=latexstring("\\tau"), ylabel=latexstring("G(\\tau)"), label=nothing, marker=:cross)
 ```
 
 ## From full imaginary-time data
@@ -139,13 +113,11 @@ end
 gl_reconst = [overlap(basis.u[l], eval_gtau) for l in 1:length(basis)]
 
 ls = collect(0:length(basis)-1)
-plt.semilogy(ls[1:2:end], abs.(gl_reconst[1:2:end]), label="reconstructed", marker="o")
-plt.semilogy(ls[1:2:end], abs.(gl[1:2:end]), label="exact", marker="x")
-plt.semilogy(ls[1:2:end], abs.(gl_reconst - gl)[1:2:end], label="error", marker="")
-plt.xlabel(L"l")
-plt.ylabel(L"|g_l|")
-plt.ylim([1e-20, 1])
-plt.legend()
-#plt.show()
-;
+plot(
+    ls[1:2:end],
+    [abs.(gl_reconst[1:2:end]), abs.(gl[1:2:end]), abs.(gl_reconst - gl)[1:2:end]], xlabel=latexstring("l"), label=["reconstructed" "exact" "error"], marker=[:+ :x :none], markersize=10, yaxis=:log)
+```
+
+```{code-cell}
+
 ```

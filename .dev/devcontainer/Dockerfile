@@ -59,7 +59,7 @@ RUN mkdir -p ${HOME}/.julia/config && \
     ENV["JUPYTER"]=Sys.which("jupyter")\n\
     ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
 
-RUN julia -e 'using Pkg; Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR"])'
+RUN julia -e 'using Pkg; Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
 
 
 USER ${USER}
@@ -74,5 +74,7 @@ USER ${USER}
 WORKDIR ${HOME}
 USER ${USER}
 EXPOSE 8000
+
+RUN echo "alias python=python3" >> ${HOME}/.bashrc
 
 CMD ["julia"]
