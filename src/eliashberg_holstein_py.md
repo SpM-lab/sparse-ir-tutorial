@@ -14,104 +14,154 @@ kernelspec:
 
 Author: [Shintaro Hoshino](mailto:shintaro.hoshino@gmail.com) and [Hiroshi Shinaoka](mailto:h.shinaoka@gmail.com)
 
-## Theory
+### Equations
 
-### Single-orbital case
-We consider the single-orbital Holstein-Hubbard model
+The (multiorbital) Hubbard model coupled to local phonons describes a simplest case where the electrons and phonons are correlated.
+Such situation can be realized in a molecular-based systems such as fullerides.
+While the DMFT approach to electron-phonon coupled systems is still technically challenging, the Eliashberg approach [1,2] is a powerful method in the weakly correlated regime and provides an intuitive understanding for the underlying physics.
 
-$$
-\begin{align*}
-    \mathscr H &= \mathscr H_{e0} + \sum_i \mathscr H_{\rm loc} (i),\\
-    \mathscr H_{\rm loc} &=
-    \frac{1}{2} U n (n-1)
-    + \omega_0 a^\dagger a
-    + g (a+a^\dagger) n,
-\end{align*}
-$$
 
-where $n=\sum_{\sigma} c^\dagger_\sigma c_\sigma$.
-
-+++
-
-The Eliashberg equations are written as
+The single-orbital case is known as a Holstein-Hubbard model whose Hamiltonian is given by
 
 $$
-    \Sigma(\tau) = - U_{\rm eff}(\tau) G(\tau),\hspace{5em}(1)
+\begin{align}
+    \mathscr H &= \mathscr H_{e0} + 
+    \frac{U}{2}\sum_i :n_{i}^2:
+    + \omega_0 \sum_i a_i^\dagger a_i
+    + g \sum_i (a_i+a_i^\dagger) n_i
+\end{align}
 $$
 
-$$
-    \Delta(\tau) = U_{\rm eff}(\tau) F(\tau),
-$$
+where $n_i=\sum_{\sigma} n_{i\sigma} = \sum_{\sigma} c^\dagger_{i\sigma} c_{i\sigma}$ is the local number operator, and the colon represents a normal ordering.
+
+
+We generalize it so as to deal with the three-orbital case relevant to fulleride superconductors (the Jahn-Teller-Hubbard model).
+The details for the three-orbital model are provided in Ref [3], and here we explain the outline of the approach.
+We begin with the Hamiltonian $\mathscr H = \mathscr H_{e} + \mathscr H_{ee} + \mathscr H_p + \mathscr H_{ep}$
+where
 
 $$
-    \Pi(\tau) = 2 g^2 [ G(\tau)G(-\tau) - F(\tau)^2 ],
+\begin{align}
+    \mathscr H_{ee}  &= \sum_{i\eta} I_\eta : T_{i\eta}^2:
+    \hspace{10mm}
+    \Big( T_{i\eta} = \sum_{\gamma\gamma'\sigma} c^\dagger_{i\gamma\sigma} \lambda^\eta_{\gamma\gamma'} c_{\gamma'\sigma}  \Big)
+    \\
+    \mathscr H_{p}  &= \sum_{i\eta} \omega_\eta a_{i\eta}^\dagger a_{i\eta} = \sum_{i\eta} \frac{\omega_\eta}{4} (p_{i\eta}^2 + \phi_{i\eta}^2)
+    \equiv \mathscr H_{p,{\rm kin}} + \mathscr H_{p,{\rm pot}}
+    \\
+    \mathscr H_{ep}  &= \sum_{i\eta} g_\eta 
+    \phi_{i\eta}
+    T_{i\eta}
+\end{align}
 $$
 
-where $\Sigma$ and $\Delta$ are fermionic objects, while $\Pi$ is bosonic.
+$\gamma$ is an orbital index. The $\eta$ distinguish the types of charge-orbital moments for electrons and vibration modes for phonons, respectively,
+where $M=\sum_\gamma 1$, ${\rm Tr}(\hat \lambda^\eta)^2=2$, $\sum_\eta 1 = \frac{M(M+1)}{2}$.
+We may use $M=1$ (single-orbital) or $M=3$ (three-orbital).
+For examples, the charge operator is given by $T_{i,\eta=0} = \sqrt 2 \sum_\sigma n_{i\sigma}$ for $M=1$ and $T_{i,\eta=0} = \sqrt{\tfrac 2 3} \sum_\sigma (n_{i1\sigma}+n_{i2\sigma}+n_{i3\sigma})$ for $M=3$.
 
+
+We have introduced displacement and momentum operators by $\phi_{i\eta} = a_{i\eta}+ a_{i\eta}^\dagger$ and $p_{i\eta} = (a_{i\eta} - a_{i\eta}^\dagger)/{\rm i}$, which satisfy the canonical commutation relation $[\phi_{i\eta},p_{j\eta'}] = 2{\rm i} \delta_{ij} \delta_{\eta\eta'}$.
+Equation~\eqref{eq:ee} shows a compact multipole representation for the Hubbard or Slater-Kanamori interactions [4].
+More specifically, $I_0 = U/4$ for the single-orbital case, and $I_0 = 3U/4 -J$, $I_{\eta\neq 0} = J/2$ for the three-orbital case with the Hund's coupling $J$ [3].
+
+
+
+We assume that there is no $\eta$-dependence, i.e., we write $g_\eta = g_0$ and $\omega_\eta = \omega_0$.
+Assuming also that the self-energy is local as in DMFT, we obtain the Eliashberg equations
+
+$$
+\begin{align}
+    \Sigma(\tau) &= -U_{\rm eff}(\tau) G(\tau)
+    \\
+    \Delta(\tau) &= U_{\rm eff}(\tau) F(\tau)
+    \\
+    U_{\rm eff}(\tau) &= (U+2J)\delta(\tau) + (M+1)  g_0^2 D (\tau)
+    \\
+    \Pi  (\tau) &=  4g_0^2 [ G(\tau) G(-\tau) - F(\tau)^2 ]
+\end{align}
+$$
+
+where the local Green functions are defined by 
+$G(\tau) = - \langle \mathcal T c_{i\gamma\sigma}(\tau) c^\dagger_{i\gamma\sigma} \rangle$,
+$F(\tau) = - \langle \mathcal T c_{i\gamma\uparrow}(\tau) c_{i\gamma\downarrow} \rangle$
+for electrons, and 
+$D(\tau) = - \langle \mathcal T \phi_{i\eta}(\tau) \phi_{i\eta} \rangle$ for phonons.
+We have simplified the equations using the cubic symmetry.
+The phase of the superconducting order parameter is fixed as $\Delta\in \mathbb R$.
+If we take $M=1$ and correspondingly $J=0$, it reproduces the single-orbital Holstein-Hubbard model.
+
+
+The internal energy may be evaluated through the single-particle Green functions.
+In a manner similar to Ref. [5], 
+we have the following relations
+
+$$
+\begin{align}
+    2MT\sum_{n}{\rm i}\omega_n G({\rm i}\omega_n) {\rm e}^{{\rm i} \omega_n 0^+}
+    &= \langle \mathscr H_{e0} \rangle + 2\langle \mathscr H_{ee} \rangle
+    + \langle \mathscr H_{ep} \rangle
+    \\
+    \frac{M(M+1)}{2} T\sum_m \frac{({\rm i}\nu_m)^2}{2\omega_0} D({\rm i}\nu_m) {\rm e}^{{\rm i} \nu_m 0^+}
+    &= - 2\langle \mathscr H_{p,{\rm pot}}\rangle
+    - \langle \mathscr H_{ep}\rangle
+    = - 2\langle \mathscr H_{p,{\rm kin}}\rangle
+    \\
+    2M T\sum_n \Sigma({\rm i}\omega_n) G({\rm i}\omega_n) {\rm e}^{{\rm i} \omega_n 0^+}
+    &= 2\langle \mathscr H_{ee} \rangle
+    + \langle \mathscr H_{ep} \rangle
+    \\
+    \frac{M(M+1)}{2} T\sum_m \Pi({\rm i}\nu_m) D({\rm i}\nu_m) {\rm e}^{{\rm i} \nu_m 0^+}&= - \langle \mathscr H_{ep} \rangle
+\end{align}
+$$
+
+Thus the internal energy $\langle \mathscr H \rangle = \langle \mathscr H_{e0} + \mathscr H_{ee} + \mathscr H_{p,{\rm kin}} + \mathscr H_{p,{\rm pot}} + \mathscr H_{ep} \rangle$ is obtained.
+The specific heat is then calculated numerically through differentiating it by temperature.
+
+
+In addition to the above Eliashberg equations, the Dyson equation completes a closed set of the self-consistent equations.
 The Green functions are given in the Fourier domain:
 
 $$
-    G(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
-    \frac{\zeta (\mathrm{i}\omega_n) + \varepsilon}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
-$$
-
-$$
-    F(\mathrm{i}\omega_n) = \int \mathrm{d} \varepsilon \rho(\varepsilon)
-    \frac{\Delta (\mathrm{i}\omega_n)}{\zeta(\mathrm{i}\omega_n)^2- \Delta(\mathrm{i}\omega_n)^2 - \varepsilon^2},
-$$
-
-$$
-    \zeta(\mathrm{i}\omega_n) =  \mathrm{i}\omega_n+\mu-\Sigma(\mathrm{i}\omega_n)
-$$
-
-for electrons, where the phase of the pair potential is chosen as real, and
-
-$$
-\begin{align*}
-    D(\mathrm{i}\nu_m)^{-1} &= D_0(\mathrm{i}\nu_m)^{-1} - \Pi(\mathrm{i}\nu_m)
+\begin{align}
+    G({\rm i}\omega_n) &= \int {\rm d} \varepsilon \rho(\varepsilon)
+    \frac{\zeta ({\rm i}\omega_n) + \varepsilon}{\zeta({\rm i}\omega_n)^2- \Delta({\rm i}\omega_n)^2 - \varepsilon^2}
     \\
-    D_0(\mathrm{i}\nu_m) &= \frac{2\omega_0}{(\mathrm{i}\nu_m)^2 - \omega_0^2}
-\end{align*}
+    F({\rm i}\omega_n) &= \int {\rm d} \varepsilon \rho(\varepsilon)
+    \frac{\Delta ({\rm i}\omega_n)}{\zeta({\rm i}\omega_n)^2- \Delta({\rm i}\omega_n)^2 - \varepsilon^2}
+    \\
+    \zeta({\rm i}\omega_n) &=  {\rm i}\omega_n+\mu-\Sigma({\rm i}\omega_n)
+\end{align}
+$$
+
+for electrons, and 
+
+$$
+\begin{align}
+    D({\rm i}\nu_m)^{-1} &= D_0({\rm i}\nu_m)^{-1} - \Pi({\rm i}\nu_m)
+    \\
+    D_0({\rm i}\nu_m) &= \frac{2\omega_0}{({\rm i}\nu_m)^2 - \omega_0^2}
+\end{align}
 $$
 
 for phonons.
-The effective interaction is
+We take the semi-circular density of states $\rho(\varepsilon) = \frac{2}{\pi D^2} \sqrt{D^2-\varepsilon^2}$ for electron parts.
 
-$$
-    U_{\rm eff}(\tau) = U\delta(\tau) + g^2 D(\tau)
-$$
-
-The static limit is given by $U(\mathrm{i}\nu_m \to 0) = U-\lambda$ where $\lambda = \frac{2g^2}{\omega_0}$ is the effective attraction by coupling to phonons.
-Since the Coulomb interaction in the normal self-energy just shifts the chemical potential, the equation (1) may be replaced by
-
-$$
-    \Sigma(\tau) = - U_{\rm eff,ph}(\tau) G(\tau),
-$$
-
-where $U_{\rm eff,ph} \equiv  g^2 D(\tau)$ represents the phonon contribution of $U_{\rm eff}$.
-
-+++
-
-### Connection to the three-orbital case
-
-The abovementioned Eliashberg equations for the single-orbital model can be regarded as the Eliashberg equations for the three-orbital model with the rotationally invariant three-orbital model [1] [WHAT CASE].
-In this case, we replace the parameters $g$ and $U$ as
-$$
-g \leftarrow \sqrt{2} g_0,
-$$
-
-$$
-U \leftarrow U + 2J,
-$$
-
-where $J$ is the Hund's coupling.
-
-+++
-
+```{code-cell}
+---
+id: TKeCOaRVlBRv
+vscode:
+  languageId: python
+---
 ## Implementation: Eliashberg solver
+```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: gqzztjs3lBRw
+vscode:
+  languageId: python
+---
 import numpy as np
 %matplotlib inline
 import matplotlib.pyplot as plt
@@ -123,7 +173,12 @@ plt.rcParams.update({
 })
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: Lg31SRXclBRw
+vscode:
+  languageId: python
+---
 from numpy.polynomial.legendre import leggauss
 
 def scale_quad(x, w, xmin, xmax):
@@ -247,7 +302,12 @@ class Eliashberg:
         return (3 * (e1 + e2  - self.omega0 * f2))[0]
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: _Ao6y2AClBRx
+vscode:
+  languageId: python
+---
 def solve(elsh, sigma_iv, delta_iv, niter, mixing, verbose=False, ph=False, atol=1e-10):
     """
     Solve the self-consistent equation
@@ -321,7 +381,12 @@ def solve(elsh, sigma_iv, delta_iv, niter, mixing, verbose=False, ph=False, atol
     return sigma_iv, delta_iv, others
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: edkPwYn6lBRy
+vscode:
+  languageId: python
+---
 def add_noise(arr, noise):
     """
     Add Gaussian noise to an array
@@ -331,13 +396,15 @@ def add_noise(arr, noise):
     return arr
 ```
 
++++ {"id": "bbnN_XEUlBRy"}
+
 ## Self-consistent calculation
 
-+++
++++ {"id": "n9UpuKDUlBRz"}
 
 ### Paramaters
 
-We now reproduce the results for $\lambda_0 = 0.125$ shown in Fig. 1 of Ref. [1].
+We now reproduce the results for $\lambda_0 = 0.125$ shown in Fig. 1 of Ref. [3].
 The parameter $g_0$ is related to $\lambda_0$ as
 
 $$
@@ -347,7 +414,12 @@ $$
 (In the code, we drop the suffix 0 for simplicity.)
 We consider a semicircular density of state with a half bandwidth of $1/2$, $T=0.002$, $U=2$, $J/U = 0.03$ and half filling.
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: W4_hSqKOlBRz
+vscode:
+  languageId: python
+---
 beta = 500.0
 
 D = 0.5
@@ -360,20 +432,33 @@ lambda0 = 0.125
 mu = 0.0
 ```
 
++++ {"id": "tCZP_p5GlBRz"}
+
 ### Setup IR basis
 
-```{code-cell} ipython3
-
+```{code-cell}
+---
+id: jk8-i7TolBR1
+vscode:
+  languageId: python
+---
 eps = 1e-7
 wmax = 10*D
 bset = sparse_ir.FiniteTempBasisSet(beta, wmax, eps)
 ```
 
++++ {"id": "Hmt96VdGlBR1"}
+
 ### Solve the equation
 
-```{code-cell} ipython3
-:tags: [output_scroll]
-
+```{code-cell}
+---
+id: qUpSeHLMlBR1
+outputId: 00bc85c9-5a68-4c1e-d1a4-1c669ca03fdf
+tags: [output_scroll]
+vscode:
+  languageId: python
+---
 # Number of fermionic sampling frequencies
 nw_f = bset.wn_f.size
 
@@ -397,7 +482,13 @@ sigma_iv, delta_iv, others = solve(elsh, sigma_iv0, delta_iv0, max_niter, mixing
 res = {"bset": bset, "sigma_iv": sigma_iv, "delta_iv": delta_iv, **others}
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: PDEuUmFqlBR2
+outputId: b9086ef3-0f54-4dd3-fa2b-500cb047f310
+vscode:
+  languageId: python
+---
 # Let us check `F` is represented compactly in IR
 f_l = bset.smpl_wn_f.fit(res['f_iv'])
 plt.semilogy(np.abs(f_l), label=r"$|F_l|$", marker="o", ls="")
@@ -407,9 +498,17 @@ plt.legend(frameon=False)
 plt.show()
 ```
 
++++ {"id": "rLCRj5BzlBR2"}
+
 ### Plot results
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: GPObxMyLlBR2
+outputId: cc1ace67-2596-4343-ea17-ae85f5443bdb
+vscode:
+  languageId: python
+---
 def plot_res(res):
     """ For plotting results """
     beta = res["bset"].beta
@@ -466,18 +565,32 @@ def plot_res(res):
 plot_res(res)
 ```
 
++++ {"id": "8XbkZOtblBR3"}
+
 ## Second calculation on temperature dependence
 
 We now compute the temperature dependence of the specific heat for $\lambda_0=0.175$ shown in Fig. 5 of Ref. [1].
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: 6MmWde_WlBR3
+vscode:
+  languageId: python
+---
 lambda0 = 0.175
 g = np.sqrt(3 * lambda0 * omega0/4)
 ```
 
++++ {"id": "LbYYybDOlBR3"}
+
 We now compute solutions by changing the temperature gradually. To use the same number of IR functions all the temperatures, we fix the UV cutoff $\Lambda$ to a common value.
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: vVbBsh9AlBR3
+vscode:
+  languageId: python
+---
 res_temp = {}
 temps = np.linspace(0.009, 0.013, 10)
 
@@ -524,7 +637,13 @@ for temp in temps_all:
     delta_iv0 = res["delta_iv"].copy()
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: SpNV13PilBR3
+outputId: 05ff830b-9b48-4e92-d572-1baa8772e953
+vscode:
+  languageId: python
+---
 u_temps = np.array([res_temp[temp]["u"].real for temp in temps_all])
 plt.plot(temps_all, u_temps, marker="x")
 plt.xlabel(r"$T$")
@@ -532,7 +651,13 @@ plt.ylabel(r"$E(T)$")
 plt.show()
 ```
 
-```{code-cell} ipython3
+```{code-cell}
+---
+id: lWck_VXqlBR4
+outputId: 482b7aa3-ef92-48bd-90f4-4c69753b0082
+vscode:
+  languageId: python
+---
 u_dict = {temp: res_temp[temp]["u"].real for temp in temps_all}
 specific_heat = np.array([u_dict[temp+dt] - u_dict[temp] for temp in temps])/dt
 plt.plot(temps, specific_heat/temps, marker="o")
@@ -542,4 +667,18 @@ plt.ylabel(r"$C(T)$")
 plt.show()
 ```
 
-[1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946.
++++ {"id": "G4bMASdklBR4"}
+
+<!-- [1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946. -->
+
+[1] G. M. Eliashberg, Zh. Eksperim. Teor. Fiz. **38**, 966
+(1960) [Sov. Phys. JETP **11**, 696 (1960)].
+
+[2] G. M. Eliashberg, Zh. Eksperim. Teor. Fiz. **43**, 1005
+(1962) [Sov. Phys. JETP **16**, 780 (1963)].
+
+[3] Y. Kaga, P. Werner, and S. Hoshino,  arXiv:2203.06946 (2022).
+
+[4] S. Iimura, M. Hirayama, and S. Hoshino, Phys. Rev. B **104**, L081108 (2021).
+
+[5] Y. Wada, Phys. Rev. **135**, A1481 (1964).

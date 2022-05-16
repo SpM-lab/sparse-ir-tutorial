@@ -17,7 +17,7 @@ Author: [Niklas Witt](mailto:niklas.witt@physik.uni-hamburg.de)
 
 The Two-Particle Self-Consistent (TPSC) approximation is a non-perturbative semi-analytical method that was first introduced by Vilk and Tremblay {cite:p}`Vilk1997`. TPSC can be used to study magnetic fluctuations, while it also obeys the Mermin-Wagner theorem in two dimensions, i.e., a phase transtition at finite temperatures is prohibited. In addition, the TPSC method satisfies several conservation laws, sum rules and the Pauli principle (actually, it is constructed in a way to fulfill these, since they are used to determine model parameters self-consistently). TPSC is applicable in the weak to intermediate coupling regime, but it breaks down in the strong coupling regime and it cannot describe the Mott transition unlike other non-perturbative methods like Dynamical Mean-Field Theory (DMFT).
 
-For a (pedagogical) review, please have a look at {cite:p}`Allen2004,Trembley2012` for the single-orbital case implemented here and {cite:p}`Zantout2021` for the more complex multi-orbital theory.
+For a (pedagogical) review, please have a look at {cite:p}`Allen2004,Tremblay2012` for the single-orbital case implemented here and {cite:p}`Zantout2021` for the more complex multi-orbital theory.
 
 
 #### Set of TPSC equations

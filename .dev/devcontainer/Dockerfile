@@ -75,4 +75,6 @@ WORKDIR ${HOME}
 USER ${USER}
 EXPOSE 8000
 
+RUN echo "alias python=python3" >> ${HOME}/.bashrc
+
 CMD ["julia"]
