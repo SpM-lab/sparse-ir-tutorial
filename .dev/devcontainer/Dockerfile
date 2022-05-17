@@ -11,8 +11,6 @@ RUN adduser --disabled-password \
     --uid ${NB_UID} \
     ${NB_USER}
 
-USER root
-
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
     build-essential \
@@ -24,57 +22,55 @@ RUN apt-get update && \
     git \
     wget \
     zip \
-    && \
-    apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
-
-
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    libjpeg-dev \
     vim \
     openssh-server \
     tree \
+    sudo \
     && \
     apt-get clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/* # clean up
+RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3
 
-RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3 && \
-    pip3 install \
+# sudo
+RUN echo "%${USER}    ALL=(ALL)   NOPASSWD:    ALL" >> /etc/sudoers.d/${USER} && \
+    chmod 0440 /etc/sudoers.d/${USER}
+
+WORKDIR ${HOME}
+USER ${NB_USER}
+
+RUN chown -R ${NB_UID} ${HOME}
+
+# Install Python libraries
+RUN pip3 install \
     jupyter-book \
     jupytext \
     sparse-ir \
     xprec \
     matplotlib \
     ghp-import \
-    && \
-    echo Done
+    --user
 
-WORKDIR ${HOME}
-USER ${USER}
-
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
-
+# Install Julia packages
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
     # set environment variables\n\
     ENV["PYTHON"]=Sys.which("python3")\n\
     ENV["JUPYTER"]=Sys.which("jupyter")\n\
     ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
-
 RUN julia -e 'using Pkg; Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
 
+RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ${HOME}/.bashrc
 
-USER ${USER}
-
-WORKDIR /workspace/sparse_ir_tutorial
-
+# Workdir for VS code
 USER root
+WORKDIR /workspace/sparse_ir_tutorial
 RUN chown -R ${NB_UID} /workspace/sparse_ir_tutorial
-USER ${USER}
 
 
 WORKDIR ${HOME}
 USER ${USER}
 EXPOSE 8000
 
-RUN echo "alias python=python3" >> ${HOME}/.bashrc
+#RUN echo "alias python=python3" >> ${HOME}/.bashrc
 
 CMD ["julia"]
