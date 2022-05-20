@@ -4,12 +4,10 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
-    format_version: 0.13
-    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Julia 1.6.3
+  display_name: Julia 1.7
   language: julia
-  name: julia-1.6
+  name: julia-1.7
 ---
 
 # FLEX approximation
@@ -38,7 +36,6 @@ using LinearAlgebra
 using Roots
 using SparseIR
 import SparseIR: Statistics
-using JET
 
 # Check if a given function called with given types is type stable
 function typestable(@nospecialize(f), @nospecialize(t))
