@@ -4,14 +4,16 @@ jupytext:
   text_representation:
     extension: .md
     format_name: myst
+    format_version: 0.13
+    jupytext_version: 1.13.7
 kernelspec:
-  display_name: Julia 1.7
+  display_name: Julia 1.6.3
   language: julia
-  name: julia-1.7
+  name: julia-1.6
 ---
 
 # FLEX approximation
-Author: [Kosuke Nogaki](mailto:nogaki.kosuke.83v@st.kyoto-u.ac.jp)
+Author: [Kosuke Nogaki](mailto:kosuke.nogaki@yukawa.kyoto-u.ac.jp)
 
 ## Theory of FLEX in the paramagnetic state
 
@@ -20,12 +22,15 @@ Author: [Kosuke Nogaki](mailto:nogaki.kosuke.83v@st.kyoto-u.ac.jp)
 ## Code implementation
 
 ```{code-cell}
-using PyPlot
-rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
-rcParams["text.usetex"] = true
-rcParams["font.family"] = "serif"
-rcParams["font.size"] = 16
-rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
+#using PyPlot
+#rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
+#rcParams["text.usetex"] = true
+#rcParams["font.family"] = "serif"
+#rcParams["font.size"] = 16
+#rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
+using Plots
+gr()
+using LaTeXStrings
 
 using Revise
 using FFTW
@@ -33,7 +38,7 @@ using LinearAlgebra
 using Roots
 using SparseIR
 import SparseIR: Statistics
-#using JET
+using JET
 
 # Check if a given function called with given types is type stable
 function typestable(@nospecialize(f), @nospecialize(t))
@@ -72,7 +77,7 @@ IR_tol    = 1e-10     # accuary for l-cutoff of IR basis functions
 sfc_tol   = 1e-4      # accuracy for self-consistent iteration
 maxiter   = 30        # maximal number of iterations in self-consistent cycle
 mix       = 0.2       # mixing parameter for new 
-U_maxiter = 50        # maximal number of iteration steps in U renormalization loop
+U_maxiter = 50       # maximal number of iteration steps in U renormalization loop
 ;
 ```
 
@@ -403,12 +408,10 @@ end
 @assert typestable(solve, FLEXSolver)
 ```
 
-### Execute FLEX loop
-
 ```{code-cell}
 # initialize calculation
 #t1 = time_ns()
-IR_basis_set = FiniteTempBasisSet(beta, wmax, IR_tol)
+IR_basis_set = FiniteTempBasisSet(beta, Float64(wmax), IR_tol)
 #t2 = time_ns()
 mesh = Mesh(nk1, nk2, IR_basis_set)
 sigma_init = zeros(ComplexF64,(mesh.fnw, nk1, nk2))
@@ -422,6 +425,8 @@ solve(solver)
 #println((t3-t2)*1e-9)
 #println((t4-t3)*1e-9)
 ```
+
+### Execute FLEX loop
 
 ```{code-cell}
 #using BenchmarkTools
@@ -458,30 +463,18 @@ solve(solver)
 # plot 2D k-dependence of lowest Matsubara frequency of e.g. green function
 myx = (2 .* collect(1:nk1) .- 1) ./ nk1
 myy = (2 .* collect(1:nk1) .- 1) ./ nk2
-plt.figure(figsize=(3.7,3))
-plt.pcolormesh(myx, myy, real.(solver.gkio[solver.mesh.iw0_f,:,:]'), shading="auto")
-ax = plt.gca()
-ax.set_xlabel(L"k_x/\pi")
-ax.set_xlim([0,2])
-ax.set_ylabel(L"k_y/\pi")
-ax.set_ylim([0,2])
-ax.set_aspect("equal")
-plt.colorbar()
-plt.show()
+heatmap(myx, myy, real.(solver.gkio[solver.mesh.iw0_f,:,:]), 
+    title=latexstring("\\mathrm{Re}\\,G(k,i\\omega_0)"), xlabel=latexstring("k_x/\\pi"), ylabel=latexstring("k_y/\\pi"), 
+    c=:viridis, 
+    xlim = (0,2), ylim = (0,2), aspect_ratio=1.0, size=(370,300))
 ```
 
 ```{code-cell}
 # plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0
-plt.figure(figsize=(3.7,3))
-plt.pcolormesh(myx, myy, real.(solver.ckio[solver.mesh.iw0_b,:,:]'), shading="auto")
-ax = plt.gca()
-ax.set_xlabel(L"k_x/\pi")
-ax.set_xlim([0,2])
-ax.set_ylabel(L"k_y/\pi")
-ax.set_ylim([0,2])
-ax.set_aspect("equal")
-plt.colorbar()
-plt.show()
+heatmap(myx, myy, real.(solver.ckio[solver.mesh.iw0_b,:,:]), 
+    title=latexstring("\\mathrm{Re}\\,\\chi(k,i\\nu_0)"), xlabel=latexstring("k_x/\\pi"), ylabel=latexstring("k_y/\\pi"), 
+    c=:viridis, 
+    xlim = (0,2), ylim = (0,2), aspect_ratio=1.0, size=(370,300))
 ```
 
 ## Linearized Eliashberg equation
@@ -621,46 +614,26 @@ for iy in 1:gap_solver.mesh.nk2, ix in 1:gap_solver.mesh.nk1
 end
 normalize!(delta0)
 
-plt.figure(figsize=(3.7,3))
-plt.pcolormesh(myx, myy, real.(delta0[:,:]'), cmap="RdBu", shading="auto")
-ax = plt.gca()
-#plt.pcolormesh(myx, myy, real.(gap_solver.delta[gap_solver.mesh.iw0_f,:,:]'))
-ax.set_xlabel(L"k_x/\pi")
-ax.set_xlim([0,2])
-ax.set_ylabel(L"k_y/\pi")
-ax.set_ylim([0,2])
-ax.set_aspect("equal")
-ax.set_title(L"\Delta^0_d(k)")
-plt.colorbar()
+plt1 = heatmap(myx, myy, real.(delta0[:,:]), 
+    title=latexstring("\\Delta^0_d (k)"), xlabel=latexstring("k_x/\\pi"), ylabel=latexstring("k_y/\\pi"), 
+    c=:coolwarm, 
+    xlim = (0,2), ylim = (0,2), aspect_ratio=1.0, size=(370,300))
 
+plt2 = heatmap(myx, myy, real.(gap_solver.delta[gap_solver.mesh.iw0_f,:,:]), 
+    title=latexstring("\\Delta_d (k,i\\omega_0)"), xlabel=latexstring("k_x/\\pi"), ylabel=latexstring("k_y/\\pi"), 
+    c=:coolwarm, 
+    xlim = (0,2), ylim = (0,2), aspect_ratio=1.0, size=(370,300))
 
-plt.figure(figsize=(3.7,3))
-plt.pcolormesh(myx, myy, real.(gap_solver.delta[gap_solver.mesh.iw0_f,:,:]'), cmap="RdBu", shading="auto")
-ax = plt.gca()
-ax.set_xlabel(L"k_x/\pi")
-ax.set_xlim([0,2])
-ax.set_ylabel(L"k_y/\pi")
-ax.set_ylim([0,2])
-ax.set_aspect("equal")
-ax.set_title(L"\Delta_d(k)")
-plt.colorbar()
-plt.show()
+plot(plt1, plt2, layout = (2,1), size=(740, 600))
 ```
 
 ```{code-cell}
 # plot 2D k-dependence of lowest Matsubara frequency of the anomalous Green function
 fkio = - gap_solver.gkio.*conj(gap_solver.gkio).*gap_solver.delta
-plt.figure(figsize=(3.7,3))
-plt.pcolormesh(myx, myy, real.(fkio[mesh.iw0_f,:,:]'), cmap="RdBu", shading="auto")
-ax = plt.gca()
-ax.set_xlabel(L"k_x/\pi")
-ax.set_xlim([0,2])
-ax.set_ylabel(L"k_y/\pi")
-ax.set_ylim([0,2])
-ax.set_aspect("equal")
-ax.set_title(L"\Delta_d(k)")
-plt.colorbar()
-plt.show()
+heatmap(myx, myy, real.(fkio[gap_solver.mesh.iw0_f,:,:]), 
+    title=latexstring("\\mathrm{Re}\\,F (k,i\\omega_0)"), xlabel=latexstring("k_x/\\pi"), ylabel=latexstring("k_y/\\pi"), 
+    c=:coolwarm, 
+    xlim = (0,2), ylim = (0,2), aspect_ratio=1.0, size=(370,300))
 ```
 
 ## Example: Antiferromagnetic fluctuations and $d$-wave superconductivity in the square-lattice Hubbard model
@@ -732,11 +705,6 @@ end
 ```
 
 ```{code-cell}
-fig   = plt.figure(figsize=(10,4),constrained_layout=true)
-spec  = PyPlot.matplotlib.gridspec.GridSpec(ncols=2, nrows=1, figure=fig)
-f_ax1 = fig.add_subplot(spec[0, 1])
-f_ax2 = fig.add_subplot(spec[0, 0])
-
 # first panel with momentum dependence of static spin susceptibility
 chi_s_HSP= Array{Float64}(undef,Int64(3*(solver.mesh.nk1/2)))
 for i in 1:Int64(solver.mesh.nk1/2)
@@ -753,32 +721,21 @@ for i in 1:Int64(solver.mesh.nk1/2)
     k_HSP[solver.mesh.nk1+i] = 2*(solver.mesh.nk1-1)/solver.mesh.nk1 + sqrt(2)*2*(i-1)/solver.mesh.nk1
 end
 
-f_ax1.plot(k_HSP, chi_s_HSP,"-")
-f_ax1.set_xlim([0,2+sqrt(2)])
-f_ax1.set_xticks([0,1,2,2+sqrt(2)])
-f_ax1.set_xticklabels([L"\Gamma",L"X",L"M",L"\Gamma"])
-f_ax1.set_ylim([0,26])
-f_ax1.set_xlabel("")
-f_ax1.set_ylabel(L"\chi_{\mathrm{s}}(i\nu=0,{\bf{q}})", fontsize=14)
-f_ax1.grid()
+plt3 = plot(k_HSP, chi_s_HSP,
+xlim = (0,2+sqrt(2)), ylim = ([0,26]),label="",
+xticks=(
+    [0, 1, 2, 2+sqrt(2)],
+    [latexstring("\\Gamma"),latexstring("X"),latexstring("M"),latexstring("\\Gamma")]),
+ylabel = latexstring("\\chi_{\\mathrm{s}}(i\\nu=0,q)"))
+
 
 Ones      = ones(Int,length(T_values))
 # second panel with T-dependence of lambda_d and 1/chi_s,max
-f_ax2.plot(T_values, lam_T, "-x", label=L"\lambda_d")
-f_ax2.plot(T_values, Ones./chiSmax_T, marker="x", label=L"1/\chi_{\mathrm{s},\mathrm{max}}")
-f_ax2.set_xlim([0.01,0.08])
-f_ax2.set_ylim([0,1])
-f_ax2.set_xlabel(L"T/t", fontsize=14)
-f_ax2.set_ylabel(L"\lambda_d, 1/\chi_{\mathrm{s},\mathrm{max}}", fontsize=14)
-f_ax2.legend()
-f_ax2.grid()
-plt.show()
-```
+plt4 = plot(T_values, lam_T, markershape=:x, label=latexstring("\\lambda_d"),
+    xlim=(0.01, 0.08), ylim=(0,1),size=(370,200),
+    xlabel = latexstring("T/t"),
+    ylabel = latexstring("\\lambda_d, 1/\\chi_{\\mathrm{s}, \\mathrm{max}}"))
+plot!(plt4, T_values, Ones./chiSmax_T, markershape=:x, label=latexstring("1/\\chi_{\\mathrm{s},\\mathrm{max}}"))
 
-```{code-cell}
-
-```
-
-```{code-cell}
-
+plot(plt3, plt4, layout = (1,2), size=(600, 300))
 ```
