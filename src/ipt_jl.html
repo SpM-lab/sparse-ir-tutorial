@@ -1,0 +1,801 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DMFT calculation with IPT &#8212; sparse-ir</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="FLEX approximation" href="FLEX_jl.html" />
+    <link rel="prev" title="Transformation from/to IR" href="transformation_jl.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">sparse-ir</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Basic theory
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="IR_py.html">
+   Intermediate representation (IR)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_py.html">
+   Sparse sampling
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="api.html">
+   API reference
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="additional_material.html">
+   Additional material
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_py.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sparse_sampling_demo_py.html">
+   Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_py.html">
+   Second-order perturbation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="GW_py.html">
+   The GF2 &amp; GW method
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_py.html">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="TPSC_py.html">
+   TPSC approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="eliashberg_holstein_py.html">
+   Eliashberg theory for Holstein-Hubbard model
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
+   Orbital magnetic susceptibility
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="liechtenstein_py.html">
+   Estimation of exchange interactions
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Analytic continuation
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="spm_py.html">
+   SpM analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="nevanlinna.html">
+   Nevanlinna analytic continuation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Julia)
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="transformation_jl.html">
+   Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   DMFT calculation with IPT
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="FLEX_jl.html">
+   FLEX approximation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="BgG_jl.html">
+   Bogoliubov-de Gennes equations in real space
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Sample codes (Fortran)
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="second_order_perturbation_fort.html">
+   Second-order perturbation
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Reference
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="citation.html">
+   Citation
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="bibliography.html">
+   Bibliograpy
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/ipt_jl.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/ipt_jl.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/ipt_jl.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#self-consistent-equation">
+     Self-consistent equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#renormalization-factors">
+     Renormalization factors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implmementation">
+   Implmementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#non-interacting-dos">
+     Non-interacting DOS
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Self-consistent equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computation-of-renormalization-factors">
+     Computation of renormalization factors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualization">
+     Visualization
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>DMFT calculation with IPT</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#theory">
+   Theory
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#self-consistent-equation">
+     Self-consistent equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#renormalization-factors">
+     Renormalization factors
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#implmementation">
+   Implmementation
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#non-interacting-dos">
+     Non-interacting DOS
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Self-consistent equation
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#computation-of-renormalization-factors">
+     Computation of renormalization factors
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualization">
+     Visualization
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+              <div>
+                
+  <div class="tex2jax_ignore mathjax_ignore section" id="dmft-calculation-with-ipt">
+<h1>DMFT calculation with IPT<a class="headerlink" href="#dmft-calculation-with-ipt" title="Permalink to this headline">¶</a></h1>
+<p>Author: <a class="reference external" href="mailto:f&#46;kakizawa&#46;178&#37;&#52;&#48;ms&#46;saitama-u&#46;ac&#46;jp">Fumiya KAKIZAWA</a>, <a class="reference external" href="mailto:sakurairihito&#37;&#52;&#48;gmail&#46;com">Rihito SAKURAI</a>, <a class="reference external" href="mailto:h&#46;shinaoka&#37;&#52;&#48;gmail&#46;com">Hiroshi SHINAOKA</a></p>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="self-consistent-equation">
+<h3>Self-consistent equation<a class="headerlink" href="#self-consistent-equation" title="Permalink to this headline">¶</a></h3>
+<p>We will solve the Hubbard model using the dynamical mean-field theory (DMFT) [1].
+We compute a paramagnetic soluation assuming the non-interacting semi-circular density of state</p>
+<div class="math notranslate nohighlight">
+\[
+    \rho(\omega) = \frac{\sqrt{4-\omega^2}}{2\pi}.
+\]</div>
+<p>at half filling.</p>
+<p>The self-consistent equations to be solved are</p>
+<div class="math notranslate nohighlight">
+\[
+    G_{\mathrm{loc}}(\mathrm{i}\omega_n) = \int d\omega \frac{\rho(\omega)}{\mathrm{i}\omega_n-\omega-\Sigma(\mathrm{i}\omega_n)}, 
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \mathcal{G}^{-1}(\mathrm{i}\omega_n) = G_{\mathrm{loc}}^{-1}(\mathrm{i}\omega_n) + \Sigma(\mathrm{i}\omega_n),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \Sigma(\tau) = U^2\mathcal{G}^2(\tau)\mathcal{G}(\beta-\tau),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(G_{\mathrm{loc}}\)</span> is the local Green function, <span class="math notranslate nohighlight">\(\omega_n\)</span> is a fermionic Matsubara frequency, <span class="math notranslate nohighlight">\(\Sigma\)</span> is the self-energy (excluding the Hartree term),
+<span class="math notranslate nohighlight">\(\mathcal{G}\)</span> is the cavity Green function,
+<span class="math notranslate nohighlight">\(U\)</span> is the onsite-Coulomb interaction,
+<span class="math notranslate nohighlight">\(\tau\)</span> is imaginary time, <span class="math notranslate nohighlight">\(\beta\)</span> is the inverse temperature.
+Here, we compute the self-energy within the interative perturbation theory (IPT) [1].</p>
+</div>
+<div class="section" id="renormalization-factors">
+<h3>Renormalization factors<a class="headerlink" href="#renormalization-factors" title="Permalink to this headline">¶</a></h3>
+<p>The Mott transition can be detected by monitoring the renormalization factor</p>
+<div class="math notranslate nohighlight">
+\[
+z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Big|_{\omega=0} \approx \frac{1}{1 - \frac{\Sigma(\mathrm{i}\omega_1)-\Sigma(\mathrm{i}\omega_0)}{\mathrm{i}\omega_1 - \mathrm{i}\omega_0 }}.
+\]</div>
+<p>In the non-interacting limit <span class="math notranslate nohighlight">\(U\rightarrow 0\)</span>, we have <span class="math notranslate nohighlight">\(z\rightarrow 1\)</span>. Correlation effects reduce <span class="math notranslate nohighlight">\(z\)</span> as <span class="math notranslate nohighlight">\(z &lt; 1\)</span>.</p>
+<p>[1] A. Georges and G. Kotliar, Phys. Rev. B 45, 6479 (1992)</p>
+</div>
+</div>
+<div class="section" id="implmementation">
+<h2>Implmementation<a class="headerlink" href="#implmementation" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">OMEinsum</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">FastGaussQuadrature</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">SparseIR</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">LaTeXStrings</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="non-interacting-dos">
+<h3>Non-interacting DOS<a class="headerlink" href="#non-interacting-dos" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Compute spectral function rho(omega)</span>
+<span class="s">&quot;&quot;&quot;</span><span class="w"></span>
+<span class="n">rho_omega</span><span class="p">(</span><span class="n">omega</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="mi">4</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">omega</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="nb">pi</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">num_omega</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="n">omegas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="o">=</span><span class="n">num_omega</span><span class="p">))</span><span class="w"></span>
+<span class="n">rho</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rho_omega</span><span class="o">.</span><span class="p">(</span><span class="n">omegas</span><span class="p">)</span><span class="w"></span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">omega</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">rho(</span><span class="se">\\</span><span class="s">omega)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ipt_jl_4_0.svg" src="../_images/ipt_jl_4_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>Self-consistent equation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Gauss-Legendre quadrature rule of degree `deg` for the interval [xmin, xmax]</span>
+<span class="s">&quot;&quot;&quot;</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">_gausslegendre</span><span class="p">(</span><span class="n">deg</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">xmin</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="n">xmax</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="nd">@assert</span><span class="w"> </span><span class="n">xmin</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">xmax</span><span class="w"></span>
+<span class="w">    </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gausslegendre</span><span class="p">(</span><span class="n">deg</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">dx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">xmax</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">xmin</span><span class="w"></span>
+<span class="w">    </span><span class="n">w_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">w</span><span class="w"></span>
+<span class="w">    </span><span class="n">x_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mf">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dx</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">xmin</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">x_</span><span class="p">,</span><span class="w"> </span><span class="n">w_</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot;</span>
+<span class="s">Solver</span>
+<span class="s">&quot;&quot;&quot;</span><span class="w"></span>
+<span class="k">struct</span> <span class="kt">IPTSolver</span><span class="w"></span>
+<span class="w">    </span><span class="n">U</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
+<span class="w">    </span><span class="n">basis</span><span class="o">::</span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">beta</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
+<span class="w">    </span><span class="n">rho_omega</span><span class="o">::</span><span class="kt">Function</span><span class="w"></span>
+<span class="w">    </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">quad_rule</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}</span><span class="w"></span>
+<span class="w">    </span><span class="n">smpl_matsu</span><span class="o">::</span><span class="kt">MatsubaraSampling</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="w"> </span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="kt">ComplexF64</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">smpl_tau</span><span class="o">::</span><span class="kt">TauSampling</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">IPTSolver</span><span class="p">(</span><span class="n">U</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">rho</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">deg_leggaus</span><span class="o">::</span><span class="kt">Int64</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">quad_rule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_gausslegendre</span><span class="p">(</span><span class="n">deg_leggaus</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="o">...</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">smpl_matsu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">smpl_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">new</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">.</span><span class="n">getbeta</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span><span class="w"> </span><span class="n">rho_omega</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="p">,</span><span class="w"> </span><span class="n">quad_rule</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_tau</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="s">&quot;&quot;&quot; Solve Dyason equation: Compute G_loc(iv) from Sigma_iv &quot;&quot;&quot;</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">compute_gloc_iv</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">IPTSolver</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Complex</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}})</span><span class="w"></span>
+<span class="w">    </span><span class="n">iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="nb">im</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="nb">π</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">beta</span><span class="w"></span>
+<span class="w">    </span><span class="n">newaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">CartesianIndex</span><span class="p">()]</span><span class="w"></span>
+<span class="w">    </span><span class="n">gloc_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">ein</span><span class="s">&quot;q,q,wq-&gt;w&quot;</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">solver</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"></span>
+<span class="w">            </span><span class="n">solver</span><span class="o">.</span><span class="n">rho_omega</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="w"></span>
+<span class="w">            </span><span class="mi">1</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="p">((</span><span class="n">iv</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">sigma_iv</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">newaxis</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">newaxis</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">])</span><span class="w"></span>
+<span class="w">        </span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">gloc_iv</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="s">&quot;&quot;&quot; Compute IPT Sigma(iv) from mathcal{G}(iv)&quot;&quot;&quot;</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">compute_sigma_iv</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">IPTSolver</span><span class="p">,</span><span class="w"> </span><span class="n">g0_iv</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">})</span><span class="w"></span>
+<span class="w">    </span><span class="n">g0_IR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">g0_iv</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g0_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evaluate</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_tau</span><span class="p">,</span><span class="w"> </span><span class="n">g0_IR</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">sigma_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">U</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="p">(</span><span class="n">g0_tau</span><span class="p">)</span><span class="o">.^</span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">g0_tau</span><span class="p">[</span><span class="k">end</span><span class="o">:-</span><span class="mi">1</span><span class="o">:</span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="n">sigma_IR</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_tau</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_tau</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">evaluate</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_IR</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="s">&quot;&quot;&quot; Perform one self-consistent loop &quot;&quot;&quot;</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">onestep</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">IPTSolver</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Complex</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}})</span><span class="w"></span>
+<span class="w">    </span><span class="n">gloc_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_gloc_iv</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">g0_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="p">((</span><span class="mi">1</span><span class="w"> </span><span class="o">./</span><span class="n">gloc_iv</span><span class="p">)</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">sigma_iv</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">compute_sigma_iv</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="w"> </span><span class="n">g0_iv</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="computation-of-renormalization-factors">
+<h3>Computation of renormalization factors<a class="headerlink" href="#computation-of-renormalization-factors" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">renormalization_factor</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">IPTSolver</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv0</span><span class="o">::</span><span class="kt">Union</span><span class="p">{</span><span class="kt">Nothing</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}},</span><span class="w"> </span><span class="n">nitr</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="c"># Initialize sigma_iv</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isnothing</span><span class="p">(</span><span class="n">sigma_iv0</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">sigma_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="n">sigma_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">sigma_iv0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="c"># mixing sigma_iv with new_sigma_iv</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">nitr</span><span class="w"></span>
+<span class="w">        </span><span class="n">new_sigma_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onestep</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">sigma_iv</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">rdiff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">new_sigma_iv</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">sigma_iv</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">sigma_iv</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">rdiff</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-5</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="n">sigma_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mixing</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">new_sigma_iv</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixing</span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">sigma_iv</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Int</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">sigma_iv</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c"># julia </span><span class="w"></span>
+<span class="w">    </span><span class="n">delta_sigma_iv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imag</span><span class="p">(</span><span class="n">sigma_iv</span><span class="p">[</span><span class="n">center</span><span class="p">]</span><span class="o">-</span><span class="n">sigma_iv</span><span class="p">[</span><span class="n">center</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="n">delta_sampling_points</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">[</span><span class="n">center</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">[</span><span class="n">center</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span>
+<span class="w">    </span><span class="n">inv_z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">delta_sigma_iv</span><span class="o">/</span><span class="n">delta_sampling_points</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">inv_z</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">sweepU</span><span class="p">(</span><span class="n">basis</span><span class="o">::</span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">D</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="n">U_range</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">rho_omega</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">nitr</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Float64</span><span class="p">[]</span><span class="w"></span>
+<span class="w">    </span><span class="n">sigma_history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">iu</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">U_range</span><span class="w"></span>
+<span class="w">        </span><span class="n">solver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IPTSolver</span><span class="p">(</span><span class="n">iu</span><span class="p">,</span><span class="w"> </span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">rho_omega</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">sigma_iv0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">sigma_history</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">sigma_history</span><span class="p">[</span><span class="k">end</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">nothing</span><span class="w"></span>
+<span class="w">        </span><span class="n">z</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">renormalization_factor</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_iv0</span><span class="p">,</span><span class="w"> </span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">sigma_history</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">sigma_</span><span class="p">,</span><span class="n">solver</span><span class="o">.</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">))</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">1e-10</span><span class="w"></span>
+<span class="w">            </span><span class="n">push!</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"></span>
+<span class="w">            </span><span class="k">break</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_history</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+
+<span class="c"># Setup parameters</span><span class="w"></span>
+<span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0</span><span class="w"></span>
+<span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">D</span><span class="w"></span>
+<span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">temp</span><span class="w"></span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">D</span><span class="w"></span>
+<span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">wmax</span><span class="w"></span>
+<span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-7</span><span class="w"></span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">beta</span><span class="w"></span>
+<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"></span>
+
+<span class="c"># Perform a sweep by increasing U</span><span class="w"></span>
+<span class="n">num_U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="w"></span>
+<span class="n">U_min</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">D</span><span class="w"></span>
+<span class="n">U_max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6.5</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">D</span><span class="w"></span>
+<span class="n">U_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="n">U_min</span><span class="p">,</span><span class="w"> </span><span class="n">U_max</span><span class="p">,</span><span class="w"> </span><span class="n">num_U</span><span class="p">))</span><span class="w"></span>
+<span class="n">omega_range</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span><span class="w"> </span><span class="mf">2.0</span><span class="p">)</span><span class="w"></span>
+<span class="n">nitr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="n">mixing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="w"></span>
+<span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sweepU</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="p">,</span><span class="w"> </span><span class="n">U_range</span><span class="p">,</span><span class="w"> </span><span class="n">rho_omega</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="p">,</span><span class="w"> </span><span class="n">nitr</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="visualization">
+<h3>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">sigma_history</span><span class="p">[</span><span class="k">begin</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma_history</span><span class="p">[</span><span class="k">begin</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">beta</span><span class="w"></span>
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">nu</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">mathrm{Im}</span><span class="se">\\</span><span class="s"> </span><span class="se">\\</span><span class="s">Sigma(</span><span class="se">\\</span><span class="s">mathrm{i}</span><span class="se">\\</span><span class="s">nu)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;U=</span><span class="si">$</span><span class="p">(</span><span class="n">U_range</span><span class="p">[</span><span class="k">begin</span><span class="p">])</span><span class="s">,T=0.05&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">))</span><span class="w"></span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:circle</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">sigma</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">sigma_history</span><span class="p">[</span><span class="k">end</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
+<span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sigma_history</span><span class="p">[</span><span class="k">end</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="nb">pi</span><span class="o">*</span><span class="n">beta</span><span class="w"></span>
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">nu</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$\\</span><span class="s">mathrm{Im}</span><span class="se">\\</span><span class="s"> </span><span class="se">\\</span><span class="s">Sigma(</span><span class="se">\\</span><span class="s">mathrm{i}</span><span class="se">\\</span><span class="s">nu)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;U=</span><span class="si">$</span><span class="p">(</span><span class="n">U_range</span><span class="p">[</span><span class="k">end</span><span class="p">])</span><span class="s">,T=0.05&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">500</span><span class="p">))</span><span class="w"></span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="n">sigma</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:circle</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">layout</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ipt_jl_13_0.svg" src="../_images/ipt_jl_13_0.svg" /></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">U</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">z=(1-</span><span class="se">\\</span><span class="s">frac{</span><span class="se">\\</span><span class="s">partial </span><span class="se">\\</span><span class="s">Sigma}{</span><span class="se">\\</span><span class="s">partial </span><span class="se">\\</span><span class="s">omega})^{-1}</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;T=0.05&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">U_range</span><span class="p">,</span><span class="w"> </span><span class="n">Z</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:circle</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/ipt_jl_14_0.svg" src="../_images/ipt_jl_14_0.svg" /></div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.7"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.7",
+            path: "./src"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.7'</script>
+
+              </div>
+              
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="transformation_jl.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Transformation from/to IR</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="FLEX_jl.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">FLEX approximation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            
+        </div>
+    </div>
+    <footer class="footer">
+  <p>
+    
+      By sparse-ir developers<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
