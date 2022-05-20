@@ -265,27 +265,18 @@ end
     
 function loop(solver::FLEXSolver)
     """ FLEX loop """
-    #t1 = time_ns()
     gkio_old = copy(solver.gkio)
     
-    #t2 = time_ns()
-
     V_calc(solver)
     sigma_calc(solver)
-    
-    #t3 = time_ns()
         
     solver.mu = mu_calc(solver)
-    #t4 = time_ns()
     gkio_calc(solver,solver.mu)
-    #t5 = time_ns()
     
     solver.gkio .= solver.mix*solver.gkio .+ (1-solver.mix)*gkio_old
         
     grit_calc(solver)
     ckio_calc(solver)
-    #t6 = time_ns()
-    #println("debug ", (t2-t1)*1e-9, " ", (t3-t2)*1e-9, (t4-t3)*1e-9, " ", (t5-t4)*1e-9, " ", (t6-t5)*1e-9)
 end
 
 
@@ -383,16 +374,11 @@ end
 #%%%%%%%%%%% Setting chemical potential mu
 function calc_electron_density(solver::FLEXSolver,mu::Float64)::Float64
     """ Calculate electron density from Green function """
-    #t1 = time_ns()
     gkio_calc(solver,mu)
     gio = dropdims(sum(solver.gkio,dims=(2,3)),dims=(2,3))/solver.mesh.nk
-    #t2 = time_ns()
     
     g_l = fit(solver.mesh.IR_basis_set.smpl_wn_f,gio, dim=1)
-    #t3 = time_ns()
     g_tau0 = dot(solver.mesh.IR_basis_set.basis_f.u(0), g_l)
-    #t4 = time_ns()
-    #println("timing ", 1e-9*(t2-t1),  " ", 1e-9*(t3-t2), " ", 1e-9*(t4-t3))
     
     n  = 1.0 + real(g_tau0)
     n  = 2.0 * n #for spin
@@ -408,53 +394,17 @@ end
 @assert typestable(solve, FLEXSolver)
 ```
 
-```{code-cell}
-# initialize calculation
-#t1 = time_ns()
-IR_basis_set = FiniteTempBasisSet(beta, Float64(wmax), IR_tol)
-#t2 = time_ns()
-mesh = Mesh(nk1, nk2, IR_basis_set)
-sigma_init = zeros(ComplexF64,(mesh.fnw, nk1, nk2))
-solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
-#t3 = time_ns()
-
-# perform FLEX loop
-solve(solver)
-#t4 = time_ns()
-#println((t2-t1)*1e-9)
-#println((t3-t2)*1e-9)
-#println((t4-t3)*1e-9)
-```
-
 ### Execute FLEX loop
 
 ```{code-cell}
-#using BenchmarkTools
-#@benchmark loop(solver)
-```
+# initialize calculation
+IR_basis_set = FiniteTempBasisSet(beta, Float64(wmax), IR_tol)
+mesh = Mesh(nk1, nk2, IR_basis_set)
+sigma_init = zeros(ComplexF64,(mesh.fnw, nk1, nk2))
+solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
 
-```{code-cell}
-#@benchmark gkio_calc(solver, 0.0)
-#@code_warntype gkio_calc(solver, 0.0)
-```
-
-```{code-cell}
-#@benchmark calc_electron_density(solver, 0.0)
-```
-
-```{code-cell}
-#@report_opt target_modules=(@__MODULE__,)  U_renormalization(solver)
-#using BenchmarkTools
-#@benchmark loop(solver)
-#@benchmark V_calc(solver)
-```
-
-```{code-cell}
-#@benchmark sigma_calc(solver)
-```
-
-```{code-cell}
-#@benchmark mu_calc(solver)
+# perform FLEX loop
+solve(solver)
 ```
 
 #### Visualize results
