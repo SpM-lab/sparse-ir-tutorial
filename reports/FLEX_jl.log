@@ -1,0 +1,69 @@
+Traceback (most recent call last):
+  File "/home/jovyan/.local/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#using PyPlot
+#rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
+#rcParams["text.usetex"] = true
+#rcParams["font.family"] = "serif"
+#rcParams["font.size"] = 16
+#rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
+using Plots
+gr()
+using LaTeXStrings
+
+using Revise
+using FFTW
+using LinearAlgebra
+using Roots
+using SparseIR
+import SparseIR: Statistics
+using JET
+
+# Check if a given function called with given types is type stable
+function typestable(@nospecialize(f), @nospecialize(t))
+    v = code_typed(f, t)
+    stable = true
+    for vi in v
+        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
+            !(ty isa Type) && continue
+            if ty === Any
+                stable = false
+                println("Type instability is detected! the variable is $(name) ::$ty")
+            end
+        end
+    end
+    return stable
+end
+------------------
+
+ArgumentError: Package JET not found in current path:
+- Run `import Pkg; Pkg.add("JET")` to install the JET package.
+
+
+Stacktrace:
+ [1] require(into::Module, mod::Symbol)
+   @ Base ./loading.jl:967
+ [2] eval
+   @ ./boot.jl:373 [inlined]
+ [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+   @ Base ./loading.jl:1196
+LoadError: ArgumentError: Package JET not found in current path:
+- Run `import Pkg; Pkg.add("JET")` to install the JET package.
+
+

@@ -1,0 +1,64 @@
+Traceback (most recent call last):
+  File "/home/jovyan/.local/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/usr/lib/python3.9/asyncio/base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/jovyan/.local/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+struct IPTSolver
+    U::Float64
+    basis::FiniteTempBasis{LogisticKernel{Float64}, Float64}
+    beta::Float64
+    rho_omega::Function
+    omega_range::Tuple{Float64,Float64}
+    quad_rule::Tuple{Vector{Float64}, Vector{Float64}}
+    smpl_matsu::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, ComplexF64, Float64}
+    smpl_tau::TauSampling{Float64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, Float64, Float64}
+
+    function IPTSolver(U::Float64, basis, rho::Function,
+        omega_range::Tuple{Float64,Float64}, deg_leggaus::Int64=1000)
+
+        @assert omega_range[1] < omega_range[2]
+        x_, w_ = gausslegendre(deg_leggaus)
+        quad_omega, quad_weight = scale_quad(x_, w_, omega_range[1], omega_range[2])
+        quad_rule = scale_quad(x_, w_, omega_range[1], omega_range[2])
+        smpl_matsu = MatsubaraSampling(basis)
+        smpl_tau = TauSampling(basis)
+
+        new(
+            U::Float64,
+            basis::FiniteTempBasis{LogisticKernel{Float64}, Float64},
+            SparseIR.getbeta(basis)::Float64,
+            rho_omega::Function,
+            omega_range::Tuple{Float64,Float64},
+            quad_rule::Tuple{Vector{Float64}, Vector{Float64}},
+            smpl_matsu::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, ComplexF64, Float64},
+            smpl_tau::TauSampling{Float64, FiniteTempBasis{LogisticKernel{Float64}, Float64}, Float64, Float64}
+        )
+    end
+end
+------------------
+
+TypeError: in Type{...} expression, expected UnionAll, got Type{LogisticKernel}
+
+Stacktrace:
+ [1] top-level scope
+   @ In[4]:1
+ [2] eval
+   @ ./boot.jl:373 [inlined]
+ [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+   @ Base ./loading.jl:1196
+LoadError: TypeError: in Type{...} expression, expected UnionAll, got Type{LogisticKernel}
+

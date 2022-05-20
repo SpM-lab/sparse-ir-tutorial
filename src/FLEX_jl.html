@@ -517,7 +517,7 @@ const thebe_selector_output = ".output, .cell_output"
                 
   <div class="tex2jax_ignore mathjax_ignore section" id="flex-approximation">
 <h1>FLEX approximation<a class="headerlink" href="#flex-approximation" title="Permalink to this headline">¶</a></h1>
-<p>Author: <a class="reference external" href="mailto:nogaki&#46;kosuke&#46;83v&#37;&#52;&#48;st&#46;kyoto-u&#46;ac&#46;jp">Kosuke Nogaki</a></p>
+<p>Author: <a class="reference external" href="mailto:kosuke&#46;nogaki&#37;&#52;&#48;yukawa&#46;kyoto-u&#46;ac&#46;jp">Kosuke Nogaki</a></p>
 <div class="section" id="theory-of-flex-in-the-paramagnetic-state">
 <h2>Theory of FLEX in the paramagnetic state<a class="headerlink" href="#theory-of-flex-in-the-paramagnetic-state" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -525,12 +525,15 @@ const thebe_selector_output = ".output, .cell_output"
 <h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">PyPlot</span><span class="w"></span>
-<span class="n">rcParams</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyPlot</span><span class="o">.</span><span class="n">PyDict</span><span class="p">(</span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="s">&quot;rcParams&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;text.usetex&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;font.family&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;serif&quot;</span><span class="w"></span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;font.size&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
-<span class="n">rcParams</span><span class="p">[</span><span class="s">&quot;text.latex.preamble&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">raw</span><span class="s">&quot;\usepackage{amsmath}&quot;</span><span class="w"></span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#using PyPlot</span><span class="w"></span>
+<span class="c">#rcParams = PyPlot.PyDict(PyPlot.matplotlib.&quot;rcParams&quot;)</span><span class="w"></span>
+<span class="c">#rcParams[&quot;text.usetex&quot;] = true</span><span class="w"></span>
+<span class="c">#rcParams[&quot;font.family&quot;] = &quot;serif&quot;</span><span class="w"></span>
+<span class="c">#rcParams[&quot;font.size&quot;] = 16</span><span class="w"></span>
+<span class="c">#rcParams[&quot;text.latex.preamble&quot;] = raw&quot;\usepackage{amsmath}&quot;</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
+<span class="n">gr</span><span class="p">()</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">LaTeXStrings</span><span class="w"></span>
 
 <span class="k">using</span><span class="w"> </span><span class="n">Revise</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">FFTW</span><span class="w"></span>
@@ -538,7 +541,6 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="k">using</span><span class="w"> </span><span class="n">Roots</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">SparseIR</span><span class="w"></span>
 <span class="k">import</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">:</span><span class="w"> </span><span class="n">Statistics</span><span class="w"></span>
-<span class="c">#using JET</span><span class="w"></span>
 
 <span class="c"># Check if a given function called with given types is type stable</span><span class="w"></span>
 <span class="k">function</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="nd">@nospecialize</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="w"> </span><span class="nd">@nospecialize</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="w"></span>
@@ -585,7 +587,7 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="n">sfc_tol</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-4</span><span class="w">      </span><span class="c"># accuracy for self-consistent iteration</span><span class="w"></span>
 <span class="n">maxiter</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="w">        </span><span class="c"># maximal number of iterations in self-consistent cycle</span><span class="w"></span>
 <span class="n">mix</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="mf">0.2</span><span class="w">       </span><span class="c"># mixing parameter for new </span><span class="w"></span>
-<span class="n">U_maxiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="w">        </span><span class="c"># maximal number of iteration steps in U renormalization loop</span><span class="w"></span>
+<span class="n">U_maxiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="w">       </span><span class="c"># maximal number of iteration steps in U renormalization loop</span><span class="w"></span>
 <span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
@@ -781,27 +783,18 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="w">    </span>
 <span class="k">function</span><span class="w"> </span><span class="n">loop</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;&quot;&quot; FLEX loop &quot;&quot;&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t1 = time_ns()</span><span class="w"></span>
 <span class="w">    </span><span class="n">gkio_old</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span>
-<span class="w">    </span><span class="c">#t2 = time_ns()</span><span class="w"></span>
-
 <span class="w">    </span><span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">sigma_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span>
-<span class="w">    </span><span class="c">#t3 = time_ns()</span><span class="w"></span>
 <span class="w">        </span>
 <span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">mu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mu_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t4 = time_ns()</span><span class="w"></span>
 <span class="w">    </span><span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">solver</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t5 = time_ns()</span><span class="w"></span>
 <span class="w">    </span>
 <span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="o">*</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">solver</span><span class="o">.</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span><span class="w"></span>
 <span class="w">        </span>
 <span class="w">    </span><span class="n">grit_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t6 = time_ns()</span><span class="w"></span>
-<span class="w">    </span><span class="c">#println(&quot;debug &quot;, (t2-t1)*1e-9, &quot; &quot;, (t3-t2)*1e-9, (t4-t3)*1e-9, &quot; &quot;, (t5-t4)*1e-9, &quot; &quot;, (t6-t5)*1e-9)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 
@@ -899,16 +892,11 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="c">#%%%%%%%%%%% Setting chemical potential mu</span><span class="w"></span>
 <span class="k">function</span><span class="w"> </span><span class="n">calc_electron_density</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">,</span><span class="n">mu</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;&quot;&quot; Calculate electron density from Green function &quot;&quot;&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t1 = time_ns()</span><span class="w"></span>
 <span class="w">    </span><span class="n">gkio_calc</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="n">mu</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">gio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dropdims</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">,</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)),</span><span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t2 = time_ns()</span><span class="w"></span>
 <span class="w">    </span>
 <span class="w">    </span><span class="n">g_l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span><span class="n">gio</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t3 = time_ns()</span><span class="w"></span>
 <span class="w">    </span><span class="n">g_tau0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dot</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">g_l</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="c">#t4 = time_ns()</span><span class="w"></span>
-<span class="w">    </span><span class="c">#println(&quot;timing &quot;, 1e-9*(t2-t1),  &quot; &quot;, 1e-9*(t3-t2), &quot; &quot;, 1e-9*(t4-t3))</span><span class="w"></span>
 <span class="w">    </span>
 <span class="w">    </span><span class="n">n</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">n</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c">#for spin</span><span class="w"></span>
@@ -932,108 +920,48 @@ const thebe_selector_output = ".output, .cell_output"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># initialize calculation</span><span class="w"></span>
-<span class="c">#t1 = time_ns()</span><span class="w"></span>
-<span class="n">IR_basis_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="n">IR_tol</span><span class="p">)</span><span class="w"></span>
-<span class="c">#t2 = time_ns()</span><span class="w"></span>
+<span class="n">IR_basis_set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">(</span><span class="n">wmax</span><span class="p">),</span><span class="w"> </span><span class="n">IR_tol</span><span class="p">)</span><span class="w"></span>
 <span class="n">mesh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Mesh</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="w"> </span><span class="n">nk2</span><span class="p">,</span><span class="w"> </span><span class="n">IR_basis_set</span><span class="p">)</span><span class="w"></span>
 <span class="n">sigma_init</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,(</span><span class="n">mesh</span><span class="o">.</span><span class="n">fnw</span><span class="p">,</span><span class="w"> </span><span class="n">nk1</span><span class="p">,</span><span class="w"> </span><span class="n">nk2</span><span class="p">))</span><span class="w"></span>
 <span class="n">solver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">sigma_init</span><span class="p">,</span><span class="w"> </span><span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span><span class="w"> </span><span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_maxiter</span><span class="p">,</span><span class="w"> </span><span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">)</span><span class="w"></span>
-<span class="c">#t3 = time_ns()</span><span class="w"></span>
 
 <span class="c"># perform FLEX loop</span><span class="w"></span>
 <span class="n">solve</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span><span class="w"></span>
-<span class="c">#t4 = time_ns()</span><span class="w"></span>
-<span class="c">#println((t2-t1)*1e-9)</span><span class="w"></span>
-<span class="c">#println((t3-t2)*1e-9)</span><span class="w"></span>
-<span class="c">#println((t4-t3)*1e-9)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1	2.3679802693785335	4.0
-2	2.6631530511910464	4.0
-3	2.952843202009212	4.0
-4	3.2372665069549624	4.0
-5	3.5175353711275896	4.0
-6	3.795074778959488	4.0
+1	2.3679802693786534	4.0
+2	2.6631530511911743	4.0
+3	2.952843202009355	4.0
+4	3.2372665069551134	4.0
+5	3.5175353711277517	4.0
+6	3.7950747789596546	4.0
 Leaving U renormalization...
-1	0.08757050701858433
-2	0.14458517806209087
-3	0.022496516962653243
-4	0.011826075022105736
-5	0.00757674938072159
-6	0.005298268436697425
-7	0.003862726087968024
-8	0.002873781663681506
-9	0.0021584597622672144
-10	0.0016284507933626371
-11	0.0012315292636360363
-12	0.0009331890337811178
-13	0.0007086077737021258
-14	0.0005394112523372946
-15	0.0004118689361249713
-16	0.0003156315340036439
-17	0.00024290673623791854
-18	0.00018780238679020966
-19	0.00014592983405695164
-20	0.00011401152357906093
-21	8.95673542197608e-5
+1	0.08757050701884515
+2	0.1445851780619444
+3	0.022496516962794044
+4	0.011826075022237478
+5	0.0075767493808353275
+6	0.0052982684367955165
+7	0.003862726088048878
+8	0.0028737816637501522
+9	0.002158459762322015
+10	0.0016284507934085188
+11	0.0012315292636765499
+12	0.0009331890338163109
+13	0.0007086077737253503
+14	0.0005394112523561745
+15	0.0004118689361444268
+16	0.00031563153401650737
+17	0.00024290673624787786
+18	0.00018780238680026515
+19	0.0001459298340671198
+20	0.00011401152358310758
+21	8.956735422527409e-5
 FLEX loop converged at desired accuracy
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: Basis cutoff is 1.0e-10, which is below sqrt(eps) with eps = 2.220446049250313e-16.
-│ Expect singular values and basis functions for large l to have lower precision
-│ than the cutoff.
-└ @ SparseIR /home/jovyan/.julia/packages/SparseIR/ofk50/src/sve.jl:297
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#using BenchmarkTools</span><span class="w"></span>
-<span class="c">#@benchmark loop(solver)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#@benchmark gkio_calc(solver, 0.0)</span><span class="w"></span>
-<span class="c">#@code_warntype gkio_calc(solver, 0.0)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#@benchmark calc_electron_density(solver, 0.0)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#@report_opt target_modules=(@__MODULE__,)  U_renormalization(solver)</span><span class="w"></span>
-<span class="c">#using BenchmarkTools</span><span class="w"></span>
-<span class="c">#@benchmark loop(solver)</span><span class="w"></span>
-<span class="c">#@benchmark V_calc(solver)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#@benchmark sigma_calc(solver)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">#@benchmark mu_calc(solver)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1045,46 +973,28 @@ FLEX loop converged at desired accuracy
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span><span class="w"></span>
 <span class="n">myx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nk1</span><span class="p">)</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">nk1</span><span class="w"></span>
 <span class="n">myy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">collect</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nk1</span><span class="p">)</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">nk2</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+<span class="n">heatmap</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">mathrm{Re}</span><span class="se">\\</span><span class="s">,G(k,i</span><span class="se">\\</span><span class="s">omega_0)&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_x/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_y/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">c</span><span class="o">=</span><span class="ss">:viridis</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 370x300 with 2 Axes&gt;)
-</pre></div>
-</div>
-</div>
+<img alt="../_images/FLEX_jl_12_0.svg" src="../_images/FLEX_jl_12_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+<span class="n">heatmap</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">mathrm{Re}</span><span class="se">\\</span><span class="s">,</span><span class="se">\\</span><span class="s">chi(k,i</span><span class="se">\\</span><span class="s">nu_0)&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_x/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_y/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">c</span><span class="o">=</span><span class="ss">:viridis</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 370x300 with 2 Axes&gt;)
-</pre></div>
-</div>
-</div>
+<img alt="../_images/FLEX_jl_13_0.svg" src="../_images/FLEX_jl_13_0.svg" /></div>
 </div>
 </div>
 </div>
@@ -1224,15 +1134,15 @@ FLEX loop converged at desired accuracy
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.10885846909824934	0.10885846909824934
-2	0.4058444924163618	0.2969860233181124
-3	0.44941824911242334	0.04357375669606156
-4	0.45617269034319785	0.0067544412307745105
-5	0.45777562431314933	0.001602933969951481
-6	0.4581551402177017	0.0003795159045523744
-7	0.4582572040968741	0.00010206387917238713
-8	0.4582837184453062	2.6514348432093993e-5
-The superconducting eigenvalue at T=0.1 is lambda_d=0.4582837184453062
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.1088584690977753	0.1088584690977753
+2	0.40584449241290865	0.29698602331513335
+3	0.44941824910852096	0.04357375669561231
+4	0.45617269033926666	0.0067544412307457
+5	0.45777562430921104	0.0016029339699443756
+6	0.45815514021376197	0.0003795159045509311
+7	0.4582572040929348	0.00010206387917283122
+8	0.45828371844136984	2.6514348435036084e-5
+The superconducting eigenvalue at T=0.1 is lambda_d=0.45828371844136984
 </pre></div>
 </div>
 </div>
@@ -1251,65 +1161,36 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582837184453062
 <span class="k">end</span><span class="w"></span>
 <span class="n">normalize!</span><span class="p">(</span><span class="n">delta0</span><span class="p">)</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">delta0</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="w"></span>
-<span class="c">#plt.pcolormesh(myx, myy, real.(gap_solver.delta[gap_solver.mesh.iw0_f,:,:]&#39;))</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta^0_d(k)&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span><span class="w"></span>
+<span class="n">plt1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heatmap</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">delta0</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">Delta^0_d (k)&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_x/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_y/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">c</span><span class="o">=</span><span class="ss">:coolwarm</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 
+<span class="n">plt2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">heatmap</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">[</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">Delta_d (k,i</span><span class="se">\\</span><span class="s">omega_0)&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_x/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_y/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">c</span><span class="o">=</span><span class="ss">:coolwarm</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">[</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta_d(k)&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+<span class="n">plot</span><span class="p">(</span><span class="n">plt1</span><span class="p">,</span><span class="w"> </span><span class="n">plt2</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">740</span><span class="p">,</span><span class="w"> </span><span class="mi">600</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 370x300 with 2 Axes&gt;)
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 370x300 with 2 Axes&gt;)
-</pre></div>
-</div>
-</div>
+<img alt="../_images/FLEX_jl_20_0.svg" src="../_images/FLEX_jl_20_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># plot 2D k-dependence of lowest Matsubara frequency of the anomalous Green function</span><span class="w"></span>
 <span class="n">fkio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="o">.*</span><span class="n">conj</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="o">.*</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">fkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">),</span><span class="w"> </span><span class="n">cmap</span><span class="o">=</span><span class="s">&quot;RdBu&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">shading</span><span class="o">=</span><span class="s">&quot;auto&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_x/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;k_y/\pi&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">&quot;equal&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\Delta_d(k)&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+<span class="n">heatmap</span><span class="p">(</span><span class="n">myx</span><span class="p">,</span><span class="w"> </span><span class="n">myy</span><span class="p">,</span><span class="w"> </span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">fkio</span><span class="p">[</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">]),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">title</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">mathrm{Re}</span><span class="se">\\</span><span class="s">,F (k,i</span><span class="se">\\</span><span class="s">omega_0)&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_x/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;k_y/</span><span class="se">\\</span><span class="s">pi&quot;</span><span class="p">),</span><span class="w"> </span>
+<span class="w">    </span><span class="n">c</span><span class="o">=</span><span class="ss">:coolwarm</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 370x300 with 2 Axes&gt;)
-</pre></div>
-</div>
-</div>
+<img alt="../_images/FLEX_jl_21_0.svg" src="../_images/FLEX_jl_21_0.svg" /></div>
 </div>
 </div>
 </div>
@@ -1389,15 +1270,15 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582837184453062
 Now: T = 0.08
 WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1	2.2871468488448805	4.0
-2	2.485684779227755	4.0
-3	2.6890780722932277	4.0
-4	2.8952476523537274	4.0
-5	3.100419614821031	4.0
-6	3.3068380779987545	4.0
-7	3.5156371206564727	4.0
-8	3.727284542115111	4.0
-9	3.9417174850405217	4.0
+1	2.287146848843907	4.0
+2	2.4856847792271153	4.0
+3	2.6890780722926597	4.0
+4	2.8952476523526007	4.0
+5	3.1004196148196326	4.0
+6	3.3068380779971682	4.0
+7	3.5156371206547106	4.0
+8	3.7272845421131993	4.0
+9	3.9417174850384975	4.0
 Leaving U renormalization...
 FLEX loop converged at desired accuracy
 Now: T = 0.07
@@ -1418,12 +1299,7 @@ FLEX loop converged at desired accuracy
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span><span class="w"></span>
-<span class="n">spec</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">PyPlot</span><span class="o">.</span><span class="n">matplotlib</span><span class="o">.</span><span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">])</span><span class="w"></span>
-
-<span class="c"># first panel with momentum dependence of static spin susceptibility</span><span class="w"></span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># first panel with momentum dependence of static spin susceptibility</span><span class="w"></span>
 <span class="n">chi_s_HSP</span><span class="o">=</span><span class="w"> </span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="nb">undef</span><span class="p">,</span><span class="kt">Int64</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span><span class="w"></span>
 <span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="kt">Int64</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">chi_s_HSP</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chi_s_plt</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="w"></span>
@@ -1439,34 +1315,28 @@ FLEX loop converged at desired accuracy
 <span class="w">    </span><span class="n">k_HSP</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">+</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span><span class="w"> </span><span class="n">chi_s_HSP</span><span class="p">,</span><span class="s">&quot;-&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">L</span><span class="s">&quot;\Gamma&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;X&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;M&quot;</span><span class="p">,</span><span class="sa">L</span><span class="s">&quot;\Gamma&quot;</span><span class="p">])</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\chi_{\mathrm{s}}(i</span><span class="se">\n</span><span class="s">u=0,{</span><span class="se">\b</span><span class="s">f{q}})&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span><span class="w"></span>
+<span class="n">plt3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span><span class="w"> </span><span class="n">chi_s_HSP</span><span class="p">,</span><span class="w"></span>
+<span class="n">xlim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span><span class="w"> </span><span class="n">ylim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">]),</span><span class="n">label</span><span class="o">=</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="n">xticks</span><span class="o">=</span><span class="p">(</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)],</span><span class="w"></span>
+<span class="w">    </span><span class="p">[</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">Gamma&quot;</span><span class="p">),</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;X&quot;</span><span class="p">),</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;M&quot;</span><span class="p">),</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">Gamma&quot;</span><span class="p">)]),</span><span class="w"></span>
+<span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">chi_{</span><span class="se">\\</span><span class="s">mathrm{s}}(i</span><span class="se">\\</span><span class="s">nu=0,q)&quot;</span><span class="p">))</span><span class="w"></span>
+
 
 <span class="n">Ones</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span><span class="n">length</span><span class="p">(</span><span class="n">T_values</span><span class="p">))</span><span class="w"></span>
 <span class="c"># second panel with T-dependence of lambda_d and 1/chi_s,max</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span><span class="w"> </span><span class="n">lam_T</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;-x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;\lambda_d&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span><span class="w"> </span><span class="n">Ones</span><span class="o">./</span><span class="n">chiSmax_T</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;1/\chi_{\mathrm{s},\mathrm{max}}&quot;</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;T/t&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;\lambda_d, 1/\chi_{\mathrm{s},\mathrm{max}}&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span><span class="w"></span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span><span class="w"></span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
+<span class="n">plt4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span><span class="w"> </span><span class="n">lam_T</span><span class="p">,</span><span class="w"> </span><span class="n">markershape</span><span class="o">=</span><span class="ss">:x</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">lambda_d&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span><span class="w"> </span><span class="mf">0.08</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">370</span><span class="p">,</span><span class="mi">200</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;T/t&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\\</span><span class="s">lambda_d, 1/</span><span class="se">\\</span><span class="s">chi_{</span><span class="se">\\</span><span class="s">mathrm{s}, </span><span class="se">\\</span><span class="s">mathrm{max}}&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">plt4</span><span class="p">,</span><span class="w"> </span><span class="n">T_values</span><span class="p">,</span><span class="w"> </span><span class="n">Ones</span><span class="o">./</span><span class="n">chiSmax_T</span><span class="p">,</span><span class="w"> </span><span class="n">markershape</span><span class="o">=</span><span class="ss">:x</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;1/</span><span class="se">\\</span><span class="s">chi_{</span><span class="se">\\</span><span class="s">mathrm{s},</span><span class="se">\\</span><span class="s">mathrm{max}}&quot;</span><span class="p">))</span><span class="w"></span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">plt3</span><span class="p">,</span><span class="w"> </span><span class="n">plt4</span><span class="p">,</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span><span class="w"> </span><span class="mi">300</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Figure(PyObject &lt;Figure size 1000x400 with 2 Axes&gt;)
-</pre></div>
-</div>
-</div>
+<img alt="../_images/FLEX_jl_24_0.svg" src="../_images/FLEX_jl_24_0.svg" /></div>
 </div>
 </div>
 </div>
