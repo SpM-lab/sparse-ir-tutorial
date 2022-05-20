@@ -29,6 +29,7 @@ parts:
   chapters:
   - file: src/transformation_jl.md
   - file: src/FLEX_jl.md
+  - file: src/BgG_jl.md
 - caption: Sample codes (Fortran)
   chapters:
   #- file: src/readme_fortran.md
