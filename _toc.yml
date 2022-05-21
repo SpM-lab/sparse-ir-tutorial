@@ -28,6 +28,7 @@ parts:
 - caption: Sample codes (Julia)
   chapters:
   - file: src/transformation_jl.md
+  - file: src/ipt_jl.md
   - file: src/FLEX_jl.md
   - file: src/BgG_jl.md
 - caption: Sample codes (Fortran)
