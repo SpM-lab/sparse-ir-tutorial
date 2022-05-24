@@ -31,7 +31,7 @@ In this section, we explain how to transform numerical data to IR.
 We consider a Green's function genereated by poles:
 
 $$
-G(\iv) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\iv - \omega_p},
+G(\mathrm{i}\nu) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\mathrm{i}\nu - \omega_p},
 $$
 
 where $\nu$ is a fermionic or bosonic Matsubara frequency.
@@ -112,15 +112,13 @@ plt.show()
 For a smooth spectral function $\rho(\omega)$, the expansion coefficients can be evaluated by computing the integral
 
 $$
-\begin{align}
-    \rho_l &= \int_{-\wmax}^\wmax \dd \omega V_l(\omega) \rho(\omega).
-\end{align}
+    \rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \mathrm{d} \omega V_l(\omega) \rho(\omega).
 $$
 
 One might consider to use the Gauss-Legendre quadrature.
 As seen in previous sections, the distribution of $V_l(\omega)$ is much denser than Legendre polynomial $P_l(x(\tau))$ around $\tau=0, \beta$.
 Thus, evaluating the integral precisely requires the use of composite Gauss–Legendre quadrature,
-where the whole inteval $[-\wmax, \wmax]$ is divided to subintervals and the normal Gauss-Legendre quadrature is 
+where the whole inteval $[-\omega_\mathrm{max}, \omega_\mathrm{max}]$ is divided to subintervals and the normal Gauss-Legendre quadrature is 
 applied to each interval.
 The roots of $V_l(\omega)$ for the highest $l$ used in the expansion
 is a reasonable choice of the division points.
@@ -205,7 +203,7 @@ A numerically stable way to expand $G(\tau)$ in IR
 is evaluating the integral
 
 $$
-G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
+G_l = \int_0^\beta \mathrm{d} \tau G(\tau) U_l(\tau).
 $$
 
 You can use `overlap` function as well.
@@ -255,4 +253,25 @@ plt.ylim([1e-5, 10])
 plt.legend(frameon=False)
 plt.show()
 #plt.savefig("coeff_bad.pdf")
+```
+
+## Matrix-valued object
+
+`evaluate` and `fit` accept a matrix-valued object as an input.
+The axis to which the transformation applied can be specified by using the keyword augment `axis`.
+
+```{code-cell} ipython3
+np.random.seed(100)
+shape = (1,2,3)
+gl_tensor = np.random.randn(*shape)[..., np.newaxis] * gl[np.newaxis, :]
+print("gl: ", gl.shape)
+print("gl_tensor: ", gl_tensor.shape)
+```
+
+```{code-cell} ipython3
+smpl_matsu = sparse_ir.MatsubaraSampling(basis)
+gtau_tensor = smpl_matsu.evaluate(gl_tensor, axis=3)
+print("gtau_tensor: ", gtau_tensor.shape)
+gl_tensor_reconst = smpl_matsu.fit(gtau_tensor, axis=3)
+assert np.allclose(gl_tensor, gl_tensor_reconst)
 ```

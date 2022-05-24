@@ -320,7 +320,7 @@ const thebe_selector_output = ".output, .cell_output"
         aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
     <div class="dropdown-buttons">
         
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/transformation_py.md"><button type="button"
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-doc.git/main?urlpath=tree/src/src/transformation_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
                 data-placement="left"><img class="binder-button-logo"
                     src="../_static/images/logo_binder.svg"
@@ -369,6 +369,11 @@ const thebe_selector_output = ".output, .cell_output"
     \(\omega_\mathrm{max}\)
    </span>
    is too small?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-valued-object">
+   Matrix-valued object
   </a>
  </li>
 </ul>
@@ -420,6 +425,11 @@ const thebe_selector_output = ".output, .cell_output"
    is too small?
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-valued-object">
+   Matrix-valued object
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -443,7 +453,7 @@ const thebe_selector_output = ".output, .cell_output"
 <p>We consider a Green’s function genereated by poles:</p>
 <div class="math notranslate nohighlight">
 \[
-G(\iv) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\iv - \omega_p},
+G(\mathrm{i}\nu) = \sum_{p=1}^{N_\mathrm{P}} \frac{c_p}{\mathrm{i}\nu - \omega_p},
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(\nu\)</span> is a fermionic or bosonic Matsubara frequency.
 The corresponding specral function <span class="math notranslate nohighlight">\(A(\omega)\)</span> is given by</p>
@@ -531,14 +541,12 @@ We immediately obtain</p>
 <p>For a smooth spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>, the expansion coefficients can be evaluated by computing the integral</p>
 <div class="math notranslate nohighlight">
 \[
-\begin{align}
-    \rho_l &amp;= \int_{-\wmax}^\wmax \dd \omega V_l(\omega) \rho(\omega).
-\end{align}
+    \rho_l = \int_{-\omega_\mathrm{max}}^{\omega_\mathrm{max}} \mathrm{d} \omega V_l(\omega) \rho(\omega).
 \]</div>
 <p>One might consider to use the Gauss-Legendre quadrature.
 As seen in previous sections, the distribution of <span class="math notranslate nohighlight">\(V_l(\omega)\)</span> is much denser than Legendre polynomial <span class="math notranslate nohighlight">\(P_l(x(\tau))\)</span> around <span class="math notranslate nohighlight">\(\tau=0, \beta\)</span>.
 Thus, evaluating the integral precisely requires the use of composite Gauss–Legendre quadrature,
-where the whole inteval <span class="math notranslate nohighlight">\([-\wmax, \wmax]\)</span> is divided to subintervals and the normal Gauss-Legendre quadrature is
+where the whole inteval <span class="math notranslate nohighlight">\([-\omega_\mathrm{max}, \omega_\mathrm{max}]\)</span> is divided to subintervals and the normal Gauss-Legendre quadrature is
 applied to each interval.
 The roots of <span class="math notranslate nohighlight">\(V_l(\omega)\)</span> for the highest <span class="math notranslate nohighlight">\(l\)</span> used in the expansion
 is a reasonable choice of the division points.
@@ -650,7 +658,7 @@ A naive way is as follows.</p>
 is evaluating the integral</p>
 <div class="math notranslate nohighlight">
 \[
-G_l = \int_0^\beta \dd \tau G(\tau) U_l(\tau).
+G_l = \int_0^\beta \mathrm{d} \tau G(\tau) U_l(\tau).
 \]</div>
 <p>You can use <code class="docutils literal notranslate"><span class="pre">overlap</span></code> function as well.</p>
 <div class="cell docutils container">
@@ -710,6 +718,44 @@ Below, we numerically demonstrate it.</p>
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/transformation_py_18_0.png" src="../_images/transformation_py_18_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="matrix-valued-object">
+<h2>Matrix-valued object<a class="headerlink" href="#matrix-valued-object" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> and <code class="docutils literal notranslate"><span class="pre">fit</span></code> accept a matrix-valued object as an input.
+The axis to which the transformation applied can be specified by using the keyword augment <code class="docutils literal notranslate"><span class="pre">axis</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gl_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">gl</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gl: &quot;</span><span class="p">,</span> <span class="n">gl</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gl_tensor: &quot;</span><span class="p">,</span> <span class="n">gl_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gl:  (30,)
+gl_tensor:  (1, 2, 3, 30)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">gtau_tensor</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gtau_tensor: &quot;</span><span class="p">,</span> <span class="n">gtau_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">gl_tensor_reconst</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gtau_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span> <span class="n">gl_tensor_reconst</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gtau_tensor:  (1, 2, 3, 32)
+</pre></div>
+</div>
 </div>
 </div>
 </div>

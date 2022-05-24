@@ -360,6 +360,11 @@ const thebe_selector_output = ".output, .cell_output"
    From full imaginary-time data
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-valued-object">
+   Matrix-valued object
+  </a>
+ </li>
 </ul>
 
             </nav>
@@ -398,6 +403,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#from-full-imaginary-time-data">
    From full imaginary-time data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#matrix-valued-object">
+   Matrix-valued object
   </a>
  </li>
 </ul>
@@ -553,6 +563,46 @@ const thebe_selector_output = ".output, .cell_output"
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/transformation_jl_12_0.svg" src="../_images/transformation_jl_12_0.svg" /></div>
+</div>
+</div>
+<div class="section" id="matrix-valued-object">
+<h2>Matrix-valued object<a class="headerlink" href="#matrix-valued-object" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> and <code class="docutils literal notranslate"><span class="pre">fit</span></code> accept a matrix-valued object as an input.
+The axis to which the transformation applied can be specified by using the keyword augment <code class="docutils literal notranslate"><span class="pre">dim</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Random</span><span class="w"></span>
+<span class="n">rng</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Xoshiro</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"></span>
+<span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="n">newaxis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="kt">CartesianIndex</span><span class="p">()]</span><span class="w"></span>
+<span class="n">gl_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">randn</span><span class="p">(</span><span class="n">rng</span><span class="p">,</span><span class="w"> </span><span class="n">shape</span><span class="o">...</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">newaxis</span><span class="p">]</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">gl</span><span class="p">[</span><span class="n">newaxis</span><span class="p">,</span><span class="n">newaxis</span><span class="p">,</span><span class="n">newaxis</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">]</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;gl: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">gl</span><span class="p">))</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;gl_tensor: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gl: (24,)
+gl_tensor: (1, 2, 3, 24)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_matsu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
+<span class="n">gtau_tensor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">gl_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="n">print</span><span class="p">(</span><span class="s">&quot;gtau_tensor: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">gtau_tensor</span><span class="p">))</span><span class="w"></span>
+<span class="n">gl_tensor_reconst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">gtau_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">isapprox</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">gl_tensor_reconst</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gtau_tensor: (1, 2, 3, 26)
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -116,6 +116,25 @@ plot(
     [abs.(gl_reconst[1:2:end]), abs.(gl[1:2:end]), abs.(gl_reconst - gl)[1:2:end]], xlabel=latexstring("l"), label=["reconstructed" "exact" "error"], marker=[:+ :x :none], markersize=10, yaxis=:log)
 ```
 
-```{code-cell}
+## Matrix-valued object
 
+`evaluate` and `fit` accept a matrix-valued object as an input.
+The axis to which the transformation applied can be specified by using the keyword augment `dim`.
+
+```{code-cell}
+using Random
+rng = Xoshiro(100)
+shape = (1,2,3)
+newaxis = [CartesianIndex()]
+gl_tensor = randn(rng, shape...)[:,:,:, newaxis] .* gl[newaxis,newaxis,newaxis, :]
+println("gl: ", size(gl))
+println("gl_tensor: ", size(gl_tensor))
+```
+
+```{code-cell}
+smpl_matsu = MatsubaraSampling(basis)
+gtau_tensor = evaluate(smpl_matsu, gl_tensor, dim=4)
+print("gtau_tensor: ", size(gtau_tensor))
+gl_tensor_reconst = fit(smpl_matsu, gtau_tensor, dim=4)
+@assert isapprox(gl_tensor, gl_tensor_reconst)
 ```
