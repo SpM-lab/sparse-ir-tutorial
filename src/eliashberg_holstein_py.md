@@ -62,7 +62,7 @@ For examples, the charge operator is given by $T_{i,\eta=0} = \sqrt 2 \sum_\sigm
 
 
 We have introduced displacement and momentum operators by $\phi_{i\eta} = a_{i\eta}+ a_{i\eta}^\dagger$ and $p_{i\eta} = (a_{i\eta} - a_{i\eta}^\dagger)/{\rm i}$, which satisfy the canonical commutation relation $[\phi_{i\eta},p_{j\eta'}] = 2{\rm i} \delta_{ij} \delta_{\eta\eta'}$.
-Equation~\eqref{eq:ee} shows a compact multipole representation for the Hubbard or Slater-Kanamori interactions [4].
+$\mathscr H_{ee}$ is a compact multipole representation for the Hubbard or Slater-Kanamori interactions [4].
 More specifically, $I_0 = U/4$ for the single-orbital case, and $I_0 = 3U/4 -J$, $I_{\eta\neq 0} = J/2$ for the three-orbital case with the Hund's coupling $J$ [3].
 
 
