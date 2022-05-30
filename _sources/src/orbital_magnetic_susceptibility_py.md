@@ -13,47 +13,50 @@ kernelspec:
 +++ {"id": "xHOySqkK12f5"}
 
 # Orbital magnetic susceptibility
-Author: [Soshun Ozaki](mailto:ozaki@hosi.phys.s.u-tokyo.ac.jp), [Takashi Koretsune](mailto:takashi.koretsune.c3@tohoku.ac.jp)
+Author: [Soshun Ozaki], [Takashi Koretsune]
 
 ## Theory of the orbital magnetism
-The orbital magnetism is the magnetism induced by a vector potential coupled with the momentum,
-and is one of fundamental thermodynamic properties of itenerant systems.
+The orbital magnetism is the magnetism induced by a vector potential coupled with the electron momentum,
+and is one of the fundamental thermodynamic properties of electron systems.
 A lot of efforts were dedicated to the formulation of the orbital magnetic susceptibility,
 and the simple but complete formula was derived by Fukuyama [1]. 
-Recently, a new formula for the tight-binding model, which is based on Fukuyama's formula,
+Recently, a new formula for the tight-binding model, which is based on the Peierls phase,
 has been derived and is applied to various lattice models[2,3,4].
-These formulas are written in terms of the thermal Green's functions and suitable for the demonstration 
-of the Matsubara summation using the IR basis.
-We present codes for the computation of the orbital magnetic susceptibility using the newly developed formula for the tight-binding models on the two basic lattices, the square and honeycomb lattices.
+The new formula is different from the Fukuyama formula [1] derived for the Bloch states in the continuum model. The relationship between them was clarified in [5] and [6]. In the continuum model, there are several contributions of the magnetic field to the orbital magnetic susceptibility in addition to the contribution from the Peierls phase. As far as the Peierls phase is concerned, the new formula will be correct.
 
 
+
+Ref:
+[1] H. Fukuyama, Prog. Theor. Phys. 45, 704 (1971).
+[2] G. Gómez-Santos and T. Stauber, Phys. Rev. Lett. 106, 045504 (2011).
+[3] A. Raoux, F. Piéchon, J. N. Fuchs, and G. Montambaux, Phys. Rev. B 91, 085120 (2015).
+[4] F. Piéchon, A. Raoux, J.-N. Fuchs, and G. Montambaux, Phys. Rev. B 94, 134423 (2016).
+[5] M. Ogata and H. Fukuyama, J. Phys. Soc. Jpn. 84 124708 (2015).
+[6] H. Matsuura and M. Ogata, J. Phys. Soc. Jpn. 85 074709 (2016).
 
 ## The orbital magnetic susceptibility formula
-The orbital magnetic susceptibility formula for tight-binding models is given by
+The newly developed orbital magnetic susceptibility formula for tight-binding models is given by
 \begin{align*}
 \chi &= k_B T\sum_n \chi(i \omega_n)\\
 \chi(i \omega_n) &= \frac{e^2}{\hbar^2} \sum_{{\boldsymbol k}} {\rm Tr} 
 [\gamma_x G \gamma_y G \gamma_x G \gamma_y G + \frac{1}{2} (\gamma_x G \gamma_y G + \gamma_y G \gamma_x G)\gamma_{xy} G]
 \end{align*}
-where $G=G(i\omega_n, {\boldsymbol k})$ is the thermal Green's function, 
+where $G=G(i\omega_n, {\boldsymbol k})$ is the thermal Green's function for the tight-binding model, 
 $\gamma_i({\boldsymbol k})=\frac{\partial H_{\boldsymbol k}}{\partial k_i}, (i=x,y)$ 
 and $\gamma_{xy}({\boldsymbol k})= \frac{\partial^2 H_{\boldsymbol k}}{\partial k_x \partial k_y}$ represent the derivative of 
 the tight-binding Hamiltonian $H_{\boldsymbol k}$,
 and $n$ summation represents the Matsubara summation.
-We evaluate the orbital magnetic susceptibility for the square and honeycomb lattice model with transfer integral $t$, lattice constant $a$.
-Note that these calculations for tight-binding models and continuum models are shown in 
-Ref.[2,3] and Ref.[5,6], respectively.
+Since this formula is written in terms of the thermal Green's functions, it is suitable for the demonstration 
+of the Matsubara summation using the IR basis.
+We present codes for the computation of the orbital magnetic susceptibility using this formula for the tight-binding models on the two basic lattices, the square and honeycomb lattices with transfer integral $t$, lattice constant $a$.
+Note that the orbital magnetic susceptibility in the square (honeycomb) lattice is obtained in the tight-binding model [3] ([2]) and in the continuum model [7] ([8]), respectively.
 In our practical implementation, we perform the Matsubara summation using the 'sparse ir' package, 
 and ${\boldsymbol k}$ summation over the Brillouin zone is evaluated by  a simple discrete summation.
 We show the results as functions of the chemical potential.
 
-Ref:<br>
-[1] H. Fukuyama, Prog. Theor. Phys. 45, 704 (1971).<br>
-[2] G. Gómez-Santos and T. Stauber, Phys. Rev. Lett. 106, 045504 (2011).<br>
-[3] A. Raoux, F. Piéchon, J. N. Fuchs, and G. Montambaux, Phys. Rev. B 91, 085120 (2015).<br>
-[4] F. Piéchon, A. Raoux, J.-N. Fuchs, and G. Montambaux, Phys. Rev. B 94, 134423 (2016).<br>
-[5] M. Ogata, J. Phys. Soc. of Jpn. 85, 064709 (2016).<br>
-[6] M. Ogata, J. Phys. Soc. of Jpn. 85, 104708 (2016).
+Ref:
+[7] M. Ogata, J. Phys. Soc. of Jpn. 85, 064709 (2016).
+[8] M. Ogata, J. Phys. Soc. of Jpn. 85, 104708 (2016).
 
 +++ {"id": "LPpdCRrd3KQR"}
 
@@ -65,12 +68,12 @@ We load basic modules used in the following.
 colab:
   base_uri: https://localhost:8080/
 id: oBMEiCceDeBA
-outputId: 0a2a88bc-6c72-473e-8644-de3b2d6a570d
+outputId: 65ab7818-850e-4790-9228-681724c21259
 ---
+!pip install sparse_ir
 import numpy as np
 import scipy
 import itertools
-%matplotlib inline
 import matplotlib.pyplot as plt
 import sparse_ir
 ```
@@ -157,7 +160,7 @@ We set the IR basis set and $\boldsymbol k$ mesh.
 colab:
   base_uri: https://localhost:8080/
 id: KGLTSItOD7Q2
-outputId: 66dcd578-4e50-4df8-8e7d-c581974569fe
+outputId: 6c653673-01fa-4173-b3f8-79b84acc0ade
 ---
 IR_basis_set = sparse_ir.FiniteTempBasisSet(beta=beta, wmax=wmax, eps=IR_tol)
 kx_list = np.arange(nk1)/nk1
@@ -193,7 +196,7 @@ colab:
   base_uri: https://localhost:8080/
   height: 281
 id: _BiVZUCtEAiU
-outputId: f1fa1931-f210-437b-ac87-e13df85d66fa
+outputId: 305b98c2-31e6-4871-9c09-62134acdf54d
 ---
 k = 1 - mu_range**2/16
 chi_anltc = np.where(k >= 0, -(scipy.special.ellipe(k)-scipy.special.ellipk(k)/2)*(2/3)/np.pi**2, 0)
@@ -239,11 +242,17 @@ colab:
   base_uri: https://localhost:8080/
   height: 281
 id: E9CSNPAp78vH
-outputId: 5bef8a9f-739e-45e2-d0de-8b4a55126892
+outputId: 9f24e4af-ca6b-433f-de7d-5b69ebd2078c
 ---
 plt.plot(mu_range, chi_mu, label='IR Basis')
 plt.xlabel("$\mu$")
 plt.ylabel("$\chi$")
 plt.legend()
 plt.show()
+```
+
+```{code-cell} ipython3
+:id: s-rLVInzB-Pc
+
+
 ```
