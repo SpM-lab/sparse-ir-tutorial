@@ -112,8 +112,8 @@ struct IPTSolver
     rho_omega::Function
     omega_range::Tuple{Float64,Float64}
     quad_rule::Tuple{Vector{Float64}, Vector{Float64}}
-    smpl_matsu::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel, Float64}, ComplexF64, Float64}
-    smpl_tau::TauSampling{Float64, FiniteTempBasis{LogisticKernel, Float64}, Float64, Float64}
+    smpl_matsu::MatsubaraSampling64
+    smpl_tau::TauSampling64
 
     function IPTSolver(U::Float64, basis, rho::Function,
         omega_range::Tuple{Float64,Float64}, deg_leggaus::Int64=100)

@@ -19,7 +19,7 @@ Author: [Soshun Ozaki], [Takashi Koretsune]
 The orbital magnetism is the magnetism induced by a vector potential coupled with the electron momentum,
 and is one of the fundamental thermodynamic properties of electron systems.
 A lot of efforts were dedicated to the formulation of the orbital magnetic susceptibility,
-and the simple but complete formula was derived by Fukuyama [1]. 
+and the simple but complete formula was derived by Fukuyama [1].
 Recently, a new formula for the tight-binding model, which is based on the Peierls phase,
 has been derived and is applied to various lattice models[2,3,4].
 The new formula is different from the Fukuyama formula [1] derived for the Bloch states in the continuum model. The relationship between them was clarified in [5] and [6]. In the continuum model, there are several contributions of the magnetic field to the orbital magnetic susceptibility in addition to the contribution from the Peierls phase. As far as the Peierls phase is concerned, the new formula will be correct.
