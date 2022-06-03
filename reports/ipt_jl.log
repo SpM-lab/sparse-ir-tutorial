@@ -17,53 +17,40 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-#using PyPlot
-#rcParams = PyPlot.PyDict(PyPlot.matplotlib."rcParams")
-#rcParams["text.usetex"] = true
-#rcParams["font.family"] = "serif"
-#rcParams["font.size"] = 16
-#rcParams["text.latex.preamble"] = raw"\usepackage{amsmath}"
-using Plots
-gr()
-using LaTeXStrings
+"""
+Solver
+"""
+struct IPTSolver
+    U::Float64
+    basis::FiniteTempBasis{LogisticKernel, Float64}
+    beta::Float64
+    rho_omega::Function
+    omega_range::Tuple{Float64,Float64}
+    quad_rule::Tuple{Vector{Float64}, Vector{Float64}}
+    smpl_matsu::MatsubaraSampling{Int64, FiniteTempBasis{LogisticKernel, Float64}, ComplexF64, Float64}
+    smpl_tau::TauSampling{Float64, FiniteTempBasis{LogisticKernel, Float64}, Float64, Float64}
 
-using Revise
-using FFTW
-using LinearAlgebra
-using Roots
-using SparseIR
-import SparseIR: Statistics
-using JET
+    function IPTSolver(U::Float64, basis, rho::Function,
+        omega_range::Tuple{Float64,Float64}, deg_leggaus::Int64=100)
 
-# Check if a given function called with given types is type stable
-function typestable(@nospecialize(f), @nospecialize(t))
-    v = code_typed(f, t)
-    stable = true
-    for vi in v
-        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
-            !(ty isa Type) && continue
-            if ty === Any
-                stable = false
-                println("Type instability is detected! the variable is $(name) ::$ty")
-            end
-        end
+        quad_rule = _gausslegendre(deg_leggaus, omega_range...)
+        smpl_matsu = MatsubaraSampling(basis)
+        smpl_tau = TauSampling(basis)
+
+        new(U, basis, SparseIR.getbeta(basis), rho_omega, omega_range, quad_rule, smpl_matsu, smpl_tau)
     end
-    return stable
 end
+;
 ------------------
 
-ArgumentError: Package JET not found in current path:
-- Run `import Pkg; Pkg.add("JET")` to install the JET package.
-
+TypeError: in Type, in F, expected F<:LinearAlgebra.SVD, got Type{ComplexF64}
 
 Stacktrace:
- [1] require(into::Module, mod::Symbol)
-   @ Base ./loading.jl:967
+ [1] top-level scope
+   @ In[4]:1
  [2] eval
    @ ./boot.jl:373 [inlined]
  [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
    @ Base ./loading.jl:1196
-LoadError: ArgumentError: Package JET not found in current path:
-- Run `import Pkg; Pkg.add("JET")` to install the JET package.
-
+LoadError: TypeError: in Type, in F, expected F<:LinearAlgebra.SVD, got Type{ComplexF64}
 
