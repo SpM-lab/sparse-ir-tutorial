@@ -13,6 +13,7 @@ parts:
   chapters:
   - file: src/transformation_py.md
   - file: src/sparse_sampling_demo_py.md
+  - file: src/SPR_py.md
   - file: src/second_order_perturbation_py.md
   - file: src/GW_py.md
   - file: src/FLEX_py.md
@@ -28,6 +29,7 @@ parts:
 - caption: Sample codes (Julia)
   chapters:
   - file: src/transformation_jl.md
+  - file: src/SPR_jl.md
   - file: src/ipt_jl.md
   - file: src/FLEX_jl.md
   - file: src/BgG_jl.md
