@@ -149,7 +149,7 @@ giv = transmat @ g_spr
 
 giv_exact = MatsubaraSampling(basis, v).evaluate(gl)
 
-plt.plot(iv.imag, giv_exact.imag, ls="", marker="x", label="Reconstructed from SPR")
+plt.plot(iv.imag, giv_exact.imag, ls="", marker="x", label="Exact")
 plt.plot(iv.imag, giv.imag, ls="", marker="x", label="Reconstructed from SPR")
 plt.xlabel(r"$\nu$")
 plt.ylabel(r"Im $G(\mathrm{i}\omega_n)$")
