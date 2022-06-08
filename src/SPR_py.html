@@ -55,6 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Second-order perturbation" href="second_order_perturbation_py.html" />
+    <link rel="prev" title="Sparse sampling" href="sparse_sampling_demo_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -125,7 +127,7 @@ const thebe_selector_output = ".output, .cell_output"
   Sample codes
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="transformation_py.html">
    Transformation from/to IR
@@ -134,6 +136,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="sparse_sampling_demo_py.html">
    Sparse sampling
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Sparse-pole representation
   </a>
  </li>
  <li class="toctree-l1">
@@ -203,6 +210,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="transformation_jl.html">
    Transformation from/to IR
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="SPR_jl.html">
+   Sparse-pole representation
   </a>
  </li>
  <li class="toctree-l1">
@@ -288,11 +300,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/SPR_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+        <a class="dropdown-buttons"
+            href="../_sources/src/SPR_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
                 data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/SPR_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -649,7 +664,21 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
               
             
                 <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+<div class='prev-next-area'> 
+    <a class='left-prev' id="prev-link" href="sparse_sampling_demo_py.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sparse sampling</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="second_order_perturbation_py.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Second-order perturbation</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             
         </div>
