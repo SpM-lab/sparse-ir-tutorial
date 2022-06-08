@@ -143,6 +143,6 @@ giv_exact = evaluate(smpl, gl)
 plot(
     imag.(iv), [imag.(giv_exact), imag.(giv)], marker=[:cross :x], line=(nothing,nothing),
     xlabel=latexstring("\\nu"),
-    ylabel=latexstring("G(\\mathrm{i}(\\omega_n)")
+    ylabel=latexstring("G(\\mathrm{i}\\omega_n)")
     )
 ```
