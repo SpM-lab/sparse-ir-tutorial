@@ -11,3 +11,4 @@ COPY ./src ${HOME}/src
 
 USER root
 RUN chown -R ${NB_UID} ${HOME}
+RUN echo "A"
