@@ -27,7 +27,7 @@ html:
 # Launch button settings
 repository:
   url                         : https://github.com/SpM-lab/sparse-ir-doc.git
-  path_to_book                : src
+  #path_to_book                : src
   branch                      : main
   notebook_interface          : classic
 
