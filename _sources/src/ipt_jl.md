@@ -75,10 +75,10 @@ using Plots
 """
 Compute spectral function rho(omega)
 """
-rho_omega(omega::Float64) = sqrt(4 - omega^2) / (2*pi)
+rho_omega(omega::Float64) = abs(omega) <= 2 ? sqrt(4 - omega^2) / (2*pi) : 0.0
 
 num_omega = 100
-omegas = collect(range(-2, 2, length=num_omega))
+omegas = collect(range(-2.5, 2.5, length=num_omega))
 rho = rho_omega.(omegas)
 p = plot(xlabel="\$\\omega\$", ylabel = "\$\\rho(\\omega)\$", size=(400,300))
 plot!(omegas, rho, label=nothing)

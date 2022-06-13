@@ -4,13 +4,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The GF2 &amp; GW method &#8212; sparse-ir</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -20,16 +18,20 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
+    
+      
+
+    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -37,13 +39,12 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -63,21 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
-
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -86,10 +73,9 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -278,17 +264,12 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
-    </div>
-    <div id="rtd-footer-container"></div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -296,145 +277,64 @@ const thebe_selector_output = ".output, .cell_output"
 
 
           
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="header-article row sticky-top noprint">
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
-</div>
-
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/GW_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download notebook file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-code"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="../_sources/src/GW_py.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.md</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/GW_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/GW_py.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#p-bar-tau-k-b">
    <span class="math notranslate nohighlight">
@@ -491,11 +391,12 @@ title="Print to PDF"
  </li>
 </ul>
 
-    </nav>
-</div>
+            </nav>
+        </div>
     </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>The GF2 & GW method</h1>
@@ -568,12 +469,11 @@ title="Print to PDF"
                     </div>
                 </div>
             </div>
-            <main id="main-content" role="main">
-                
+            
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="the-gf2-gw-method">
-<h1>The GF2 &amp; GW method<a class="headerlink" href="#the-gf2-gw-method" title="Permalink to this headline">#</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="the-gf2-gw-method">
+<h1>The GF2 &amp; GW method<a class="headerlink" href="#the-gf2-gw-method" title="Permalink to this headline">¶</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -694,8 +594,8 @@ title="Print to PDF"
 <img alt="../_images/GW_py_12_0.png" src="../_images/GW_py_12_0.png" />
 </div>
 </div>
-<section id="p-bar-tau-k-b">
-<h2><span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span><a class="headerlink" href="#p-bar-tau-k-b" title="Permalink to this headline">#</a></h2>
+<div class="section" id="p-bar-tau-k-b">
+<h2><span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span><a class="headerlink" href="#p-bar-tau-k-b" title="Permalink to this headline">¶</a></h2>
 <p>The so-called Polarization <span class="math notranslate nohighlight">\(P(\bar\tau_k^B)\)</span> is given by the random phase approximation, a connection between two Green’s functions:</p>
 <div class="math notranslate nohighlight">
 \[P(\bar{\tau}_k^B)=G(\bar{\tau}_k^B)*G(\beta-\bar{\tau}_k^B)\]</div>
@@ -725,9 +625,9 @@ title="Print to PDF"
 </div>
 </div>
 <p>The same way we transformed <span class="math notranslate nohighlight">\(\hat G^F(i\bar{\omega}_n^F)\)</span> into <span class="math notranslate nohighlight">\(G^B(\bar\tau_k^B)\)</span> we are now able to transform <span class="math notranslate nohighlight">\(P^B(\bar\tau_k^B)\)</span> into <span class="math notranslate nohighlight">\(\hat P^B(i\bar{\omega}_n^B)\)</span> again using least Square fitting and evaluating <span class="math notranslate nohighlight">\(P_l^B\)</span> on the given sampling points (Matsubara frequencies).</p>
-</section>
-<section id="p-l-b">
-<h2><span class="math notranslate nohighlight">\(P_l^B\)</span><a class="headerlink" href="#p-l-b" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="p-l-b">
+<h2><span class="math notranslate nohighlight">\(P_l^B\)</span><a class="headerlink" href="#p-l-b" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># P_l, bosonic</span>
@@ -775,9 +675,9 @@ title="Print to PDF"
 <img alt="../_images/GW_py_23_0.png" src="../_images/GW_py_23_0.png" />
 </div>
 </div>
-</section>
-<section id="hat-w-i-bar-omega-n-b">
-<h2><span class="math notranslate nohighlight">\(\hat{{W}}(i\bar{\omega}_n^B)\)</span><a class="headerlink" href="#hat-w-i-bar-omega-n-b" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="hat-w-i-bar-omega-n-b">
+<h2><span class="math notranslate nohighlight">\(\hat{{W}}(i\bar{\omega}_n^B)\)</span><a class="headerlink" href="#hat-w-i-bar-omega-n-b" title="Permalink to this headline">¶</a></h2>
 <p>Following <span class="math notranslate nohighlight">\(P\)</span> we will now calculate the Screened Interaction <span class="math notranslate nohighlight">\(W\)</span> with the following formula:</p>
 <div class="math notranslate nohighlight">
 \[\hat{{W}}(i\bar{\omega}_n^B)= U + U\hat{P}(i\bar{\omega}_n^B)\hat{{W}}(i\bar{\omega}_n^B)\]</div>
@@ -817,9 +717,9 @@ title="Print to PDF"
 <img alt="../_images/GW_py_27_0.png" src="../_images/GW_py_27_0.png" />
 </div>
 </div>
-</section>
-<section id="w-l-b">
-<h2><span class="math notranslate nohighlight">\(W_l^B\)</span><a class="headerlink" href="#w-l-b" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="w-l-b">
+<h2><span class="math notranslate nohighlight">\(W_l^B\)</span><a class="headerlink" href="#w-l-b" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># W_l, bosonic</span>
@@ -842,9 +742,9 @@ title="Print to PDF"
 <img alt="../_images/GW_py_30_0.png" src="../_images/GW_py_30_0.png" />
 </div>
 </div>
-</section>
-<section id="w-bar-tau-k-f">
-<h2><span class="math notranslate nohighlight">\({W}(\bar{\tau}_k^F)\)</span><a class="headerlink" href="#w-bar-tau-k-f" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="w-bar-tau-k-f">
+<h2><span class="math notranslate nohighlight">\({W}(\bar{\tau}_k^F)\)</span><a class="headerlink" href="#w-bar-tau-k-f" title="Permalink to this headline">¶</a></h2>
 <p>In the next step we are changing back into fermionic statistics:</p>
 <div class="math notranslate nohighlight">
 \[{W}(\bar{\tau}_k^F)= \sum_{l=0}^{N-1} W_l ^BU_l^B(\bar{\tau}_k^F) \]</div>
@@ -871,9 +771,9 @@ title="Print to PDF"
 <img alt="../_images/GW_py_34_0.png" src="../_images/GW_py_34_0.png" />
 </div>
 </div>
-</section>
-<section id="sigma-bar-tau-k-f">
-<h2><span class="math notranslate nohighlight">\({\Sigma}(\bar{\tau}_k^F)\)</span><a class="headerlink" href="#sigma-bar-tau-k-f" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="sigma-bar-tau-k-f">
+<h2><span class="math notranslate nohighlight">\({\Sigma}(\bar{\tau}_k^F)\)</span><a class="headerlink" href="#sigma-bar-tau-k-f" title="Permalink to this headline">¶</a></h2>
 <p>After changing back into fermionic statistics the next quantity that is being dealt with is the so-called self energy <span class="math notranslate nohighlight">\(\Sigma\)</span>. When we first introduced the Dyson equation in the first chapter, we saw <span class="math notranslate nohighlight">\(V\)</span> as some sort of pertubation. The self-energy is very much alike as it describes the correlation effects of a many-body system. Here we will calculate <span class="math notranslate nohighlight">\(\tilde{\Sigma}(\bar{\tau}_k^F)\)</span> using <span class="math notranslate nohighlight">\(\Sigma^{GW}\)</span> so that</p>
 <div class="math notranslate nohighlight">
 \[{\Sigma}(\bar{\tau}_k^F)=-G(\bar{\tau}_k^F)*{W}(\bar{\tau}_k^F).\]</div>
@@ -903,9 +803,9 @@ title="Print to PDF"
 <img alt="../_images/GW_py_38_0.png" src="../_images/GW_py_38_0.png" />
 </div>
 </div>
-</section>
-<section id="sigma-l-f">
-<h2><span class="math notranslate nohighlight">\({\Sigma}_l^F\)</span><a class="headerlink" href="#sigma-l-f" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="sigma-l-f">
+<h2><span class="math notranslate nohighlight">\({\Sigma}_l^F\)</span><a class="headerlink" href="#sigma-l-f" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># E_l, fermionic</span>
@@ -1029,25 +929,25 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 2.83521907e-19+0.02429373j -1.66084506e-18+0.02545934j
- -2.16108282e-18+0.09616324j -9.64224932e-18+0.18513256j
-  5.47578136e-18+0.24022776j -5.27104177e-18+0.28186922j
-  1.32586382e-17+0.34036864j -9.25896397e-18+0.4278915j
- -1.51745619e-17+0.57065346j -5.87515628e-17+0.83239627j
-  6.90273451e-17+1.38269615j  1.37536266e-16-1.38269615j
- -3.37179216e-17-0.83239627j -4.37519790e-18-0.57065346j
- -5.59981474e-18-0.4278915j   1.55928138e-17-0.34036864j
- -5.89951055e-18-0.28186922j  6.03455374e-18-0.24022776j
- -8.69299135e-18-0.18513256j -2.13836294e-18-0.09616324j
- -1.59721606e-18-0.02545934j  3.39432724e-19-0.02429373j]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 3.07116773e-19+0.02429373j -1.63384732e-18+0.02545934j
+ -1.91261845e-18+0.09616324j -1.14036690e-17+0.18513256j
+  9.72148640e-18+0.24022776j -1.69266870e-18+0.28186922j
+  2.30556235e-17+0.34036864j  1.14499813e-17+0.4278915j
+  1.57062238e-17+0.57065346j -6.60570052e-18+0.83239627j
+  9.71937768e-17+1.38269615j  1.16881703e-16-1.38269615j
+  2.12081645e-18-0.83239627j  1.84954424e-17-0.57065346j
+  1.37179814e-17-0.4278915j   2.43936867e-17-0.34036864j
+ -1.67088041e-18-0.28186922j  9.98019339e-18-0.24022776j
+ -1.11264093e-17-0.18513256j -1.88431877e-18-0.09616324j
+ -1.61556568e-18-0.02545934j  3.23175751e-19-0.02429373j]
 </pre></div>
 </div>
 </div>
 </div>
 <p>With this we have completed one full iteration of GF2 &amp; GW. Repeating this over and over again will show convergence and thus give the desired approximation to the self-energy.</p>
-</section>
-<section id="sources">
-<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="sources">
+<h2>Sources<a class="headerlink" href="#sources" title="Permalink to this headline">¶</a></h2>
 <p>[1] H.Bruus, Karsten Flensberg,<em>Many-body Quantum Theory in Condensed    Matter  Physics</em> (Oxford University Press Inc., New York, 2004)<br>
 [2] J.W.Negele, H.Orland, <em>Quantum Many-Particle Systems</em> (Westview Press, 1998)<br>
 [3] G.D.Mahan,<em>Many-Particle Physics</em> (Kluwer Academic/Plenum Publishers, New York, 2000)<br>
@@ -1059,8 +959,8 @@ title="Print to PDF"
 [9] Matteo Gatti, <em>The GW approximation</em>, TDDFT school, Benasque (2014)<br>
 [10]C.Friedrich, <em>Many-Body Pertubation Theory;The GW approximation</em>, Peter Grünberg Institut and Institute for Advanced Simulation, Jülich <br>
 [11] K. Held, C. Taranto, G. Rohringer, and A. Toschi, <em>Hedin Equations, GW, GW+DMFT, and All That</em> (Modeling and Simulation Vol. 1, Forschungszentrum Jülich, 2011 )</p>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -1084,11 +984,9 @@ title="Print to PDF"
 
               </div>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="second_order_perturbation_py.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1104,28 +1002,24 @@ title="Print to PDF"
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            </footer>
+            
         </div>
     </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
+    <footer class="footer">
+  <p>
     
-</div>
+      By sparse-ir developers<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
 
 
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>

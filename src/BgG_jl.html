@@ -4,13 +4,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bogoliubov-de Gennes equations in real space &#8212; sparse-ir</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -20,16 +18,20 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
+    
+      
+
+    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -37,13 +39,12 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -63,21 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
-
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -86,10 +73,9 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -278,17 +264,12 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
-    </div>
-    <div id="rtd-footer-container"></div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -296,145 +277,64 @@ const thebe_selector_output = ".output, .cell_output"
 
 
           
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="header-article row sticky-top noprint">
-        
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
 
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
-</div>
-
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/BgG_jl.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download notebook file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-code"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="../_sources/src/BgG_jl.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.md</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        <a class="dropdown-buttons"
+            href="../_sources/src/BgG_jl.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/BgG_jl.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
    Bogoliubov-de Gennes equations in real space
@@ -486,11 +386,12 @@ title="Print to PDF"
  </li>
 </ul>
 
-    </nav>
-</div>
+            </nav>
+        </div>
     </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Bogoliubov-de Gennes equations in real space</h1>
@@ -558,17 +459,16 @@ title="Print to PDF"
                     </div>
                 </div>
             </div>
-            <main id="main-content" role="main">
-                
+            
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="bogoliubov-de-gennes-equations-in-real-space">
-<h1>Bogoliubov-de Gennes equations in real space<a class="headerlink" href="#bogoliubov-de-gennes-equations-in-real-space" title="Permalink to this headline">#</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="bogoliubov-de-gennes-equations-in-real-space">
+<h1>Bogoliubov-de Gennes equations in real space<a class="headerlink" href="#bogoliubov-de-gennes-equations-in-real-space" title="Permalink to this headline">¶</a></h1>
 <p>Author: <a class="reference external" href="mailto:nagai&#46;yuki&#37;&#52;&#48;jaea&#46;go&#46;jp">Yuki Nagai</a></p>
 <p><strong>This notebook is expensive. Running this notebook takes a few minutes.</strong></p>
 <p>We consider a superconductivity in a mean-field level.</p>
-<section id="basic-theory-of-superconductivity-in-real-space">
-<h2>Basic theory of superconductivity in real space<a class="headerlink" href="#basic-theory-of-superconductivity-in-real-space" title="Permalink to this headline">#</a></h2>
+<div class="section" id="basic-theory-of-superconductivity-in-real-space">
+<h2>Basic theory of superconductivity in real space<a class="headerlink" href="#basic-theory-of-superconductivity-in-real-space" title="Permalink to this headline">¶</a></h2>
 <p>Let us consider a Hamiltonian for a fermion system given as <span class="math notranslate nohighlight">\(H = \psi^{\dagger} \hat{\cal H} \psi/2\)</span>.
 The column vector <span class="math notranslate nohighlight">\(\psi\)</span> is composed of <span class="math notranslate nohighlight">\(N\)</span> fermionic annihilation <span class="math notranslate nohighlight">\(c_i\)</span> and creation operators <span class="math notranslate nohighlight">\(c_i^{\dagger}\)</span> <span class="math notranslate nohighlight">\((i = 1,2,\cdots,N)\)</span>, <span class="math notranslate nohighlight">\(\psi = (\{ c_i \}^T, \{ c_i^{\dagger} \}^T)\)</span>, where <span class="math notranslate nohighlight">\(\{ c_i \} = (c_1,c_2,\cdots,c_N)^T\)</span> and <span class="math notranslate nohighlight">\(\{ c_i^{\dagger} \} = (c_1^{\dagger},c_2^{\dagger},\cdots,c_N^{\dagger})\)</span>. The row vector <span class="math notranslate nohighlight">\(\psi^{\dagger}\)</span> is also defined as <span class="math notranslate nohighlight">\(\psi^{\dagger} = (\{c_i^{\dagger} \}^T, \{ c_i \}^T)\)</span>.
 The subscription <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(c_i\)</span> or <span class="math notranslate nohighlight">\(c_i^{\dagger}\)</span> indicates a quantum index depending on spatial site, spin, orbital, etc. The “Hamiltonian” matrix <span class="math notranslate nohighlight">\(\hat{\cal H}\)</span> is a <span class="math notranslate nohighlight">\(2N \times 2N\)</span> Hermitian matrix given as</p>
@@ -645,9 +545,9 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 \langle c_i c_j \rangle = - \frac{1}{2 \pi i} \int_{-\infty}^{\infty} d\omega f(\omega) \vec{e}(j)^T \hat{d}(\omega) \vec{h}(i), 
 \]</div>
 <p>with <span class="math notranslate nohighlight">\(f(x) \equiv 1/(e^{x/T} + 1)\)</span>.</p>
-</section>
-<section id="matsubara-frequency-representation">
-<h2>Matsubara frequency representation<a class="headerlink" href="#matsubara-frequency-representation" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="matsubara-frequency-representation">
+<h2>Matsubara frequency representation<a class="headerlink" href="#matsubara-frequency-representation" title="Permalink to this headline">¶</a></h2>
 <p>With the use of the analytic continuation, the mean-fields are rewritten as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -677,13 +577,13 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 \[ 
 \hat{\Delta} \rightarrow \hat{G}(i \omega_n) \rightarrow \langle c_i c_i \rangle \rightarrow \hat{\Delta}
 \]</div>
-</section>
-<section id="reduced-shifted-conjugation-gradient-method">
-<h2>Reduced-shifted Conjugation Gradient method<a class="headerlink" href="#reduced-shifted-conjugation-gradient-method" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="reduced-shifted-conjugation-gradient-method">
+<h2>Reduced-shifted Conjugation Gradient method<a class="headerlink" href="#reduced-shifted-conjugation-gradient-method" title="Permalink to this headline">¶</a></h2>
 <p>The reduced-shifted conugate-gradient (RSCG) method is numerically efficient to calculate a matrix element of a Green’s function defined as a resolvent of a Hamiltonian operator, by solving linear equations with desired accuracy. The matrix elements with different frequencies are simultaneously obtained. The details are described in J. Phys. Soc. Jpn. <code class="docutils literal notranslate"><span class="pre">86</span></code>, 014708 (2017). The RSCG method is provided in RSCG.jl package.</p>
-</section>
-<section id="ir-basis">
-<h2>IR basis<a class="headerlink" href="#ir-basis" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="ir-basis">
+<h2>IR basis<a class="headerlink" href="#ir-basis" title="Permalink to this headline">¶</a></h2>
 <p>The superconducting mean-fielads are expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -695,10 +595,10 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 G(i \omega_n) = \sum_{l=0}^{N_{\rm IR}-1} G_l U_l(i \omega_n),
 \]</div>
 <p>one can obtain <span class="math notranslate nohighlight">\(G_l\)</span> by fitting the above equation.</p>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="two-dimensional-s-wave-superconductor-on-the-square-lattice">
-<h1>Two-dimensional s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">#</a></h1>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="two-dimensional-s-wave-superconductor-on-the-square-lattice">
+<h1>Two-dimensional s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">¶</a></h1>
 <p>The normal state Hamiltonian on the tight-binding model is expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -899,8 +799,8 @@ The update method is implemented as</p>
 </div>
 </div>
 </div>
-<section id="conventional-method-with-matsubara-frequencies">
-<h2>Conventional method with Matsubara frequencies<a class="headerlink" href="#conventional-method-with-matsubara-frequencies" title="Permalink to this headline">#</a></h2>
+<div class="section" id="conventional-method-with-matsubara-frequencies">
+<h2>Conventional method with Matsubara frequencies<a class="headerlink" href="#conventional-method-with-matsubara-frequencies" title="Permalink to this headline">¶</a></h2>
 <p>If one wants to use the Matsubara frequencies, one has to introduce the cutoff of the frequencies. Then the mean-fields are expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -977,20 +877,11 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">     Cloning</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
-<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
 <span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> registry at `~/.julia/registries/General.toml`
 <span class=" -Color -Color-Bold -Color-Bold-Green">   Resolving</span> package versions...
-<span class=" -Color -Color-Bold -Color-Bold-Green">   Installed</span> LinearMaps ─ v3.6.2
-<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `~/.julia/environments/v1.7/Project.toml`
-  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
-<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `~/.julia/environments/v1.7/Manifest.toml`
-  [7a12625a] + LinearMaps v3.6.2
-  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
-<span class=" -Color -Color-Bold -Color-Bold-Green">Precompiling</span> project...
-<span class=" -Color -Color-Green">  ✓ </span>LinearMaps
-<span class=" -Color -Color-Green">  ✓ </span>RSCG
-  2 dependencies successfully precompiled in 2 seconds (176 already precompiled)
+<span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `~/.julia/environments/v1.7/Project.toml`
+<span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `~/.julia/environments/v1.7/Manifest.toml`
 </pre></div>
 </div>
 </div>
@@ -1082,47 +973,47 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.19195073551748731 0.8019254743916727 - 1.0587911840678754e-24im
-2 0.15287530214296838 0.6747452170262438 - 2.6469779601696886e-25im
-3 0.12106438240384879 0.5896328302083435 - 6.617444900424222e-25im
-4 0.09555584687672586 0.53073524142499 - 1.9852334701272666e-25im
-5 0.07528852695987638 0.48887614295404075 - 1.1580528575742389e-25im
-6 0.059273137023937536 0.4584918349502066 + 8.271806125530273e-27im
-7 0.04665575839485923 0.43606722327296854 + 6.203854594147706e-27im
-8 0.036729945782111924 0.41929983304303553 + 6.927637630131607e-26im
-9 0.028925461489349383 0.40663356094710235 - 3.153626085358418e-26im
-10 0.022788639906844654 0.3969881709625285 + 2.6312098297428966e-24im
-11 0.017961429642484362 0.3895966630285424 - 2.9195598214000533e-24im
-12 0.014162512243161491 0.3839040608079933 - 1.443236298448966e-24im
-13 0.011171247756060345 0.3795025038605303 - 1.4826243127732686e-24im
-14 0.008814683355178541 0.37608844218812965 - 5.427888093739077e-25im
-15 0.006957268835988282 0.3734336132436698 - 9.768647605081803e-26im
-16 0.005492608708405785 0.37136493427265993 - 1.575601352328791e-26im
-17 0.00433725002716209 0.36975028577783514 - 5.750884351482562e-26im
-18 0.0034255312642321213 0.3684882704264302 - 4.529803400847336e-26im
-19 0.0027059096941764063 0.3675007337457687 - 2.264901700423668e-26im
-20 0.0021377430268345455 0.36672722198491065 + 1.084215663395379e-21im
-21 0.0016890665412772163 0.36612084918159515 + 5.422401805956979e-22im
-22 0.0013347023462399416 0.36564514963562533 + 2.712689828081085e-22im
-23 0.0010547616860831547 0.36527173038887617 + 1.3573375307756062e-22im
-24 0.0008336013190812743 0.3649784359924594 + 1.1520855926365358e-21im
-25 0.0006588535572630837 0.36474796028932593 + 5.760221168029541e-22im
-26 0.0005207658668105971 0.36456676605269595 + 2.880441456259792e-22im
-27 0.0004116421186108967 0.3644242581527095 + 1.4407170364974277e-22im
-28 0.00032539538550950347 0.3643121351912254 + 7.202964797027725e-23im
-29 0.00025723263047711657 0.36422388772975406 + 3.6047911209640743e-23im
-30 0.0002033617250307054 0.3641544103646699 + 1.863606925810961e-23im
-31 0.00016075663113964854 0.3640996941885232 + 9.367665465807987e-24im
-32 0.0001271025857889461 0.3640565925930365 + 4.940258722795432e-24im
-33 0.00010048605818547123 0.36402262929139095 + 2.4070568396905477e-24im
-34 7.944077097791443e-5 0.36399586105919 + 1.2697028688495161e-24im
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.1919507355174812 0.8019254743903717 + 0.0im
+2 0.15287530236981867 0.6747452173560801 + 7.940933880509065e-25im
+3 0.1210643832252519 0.5896328305046954 - 1.3234889800848445e-25im
+4 0.09555584638448116 0.53073524156242 - 6.617444900424223e-26im
+5 0.07528852157109632 0.4888761419977977 - 3.3087224502121113e-26im
+6 0.059273140131267714 0.4584918344531544 - 1.6543612251060557e-26im
+7 0.04665575928399062 0.436067216189472 + 1.2407709188295415e-25im
+8 0.03672994278221984 0.4192998332765585 + 3.2673634195844595e-25im
+9 0.028925465298109555 0.4066335639581385 - 2.336785230462303e-25im
+10 0.02278863863902614 0.39698817722626223 - 2.491881595315996e-25im
+11 0.01796142793791457 0.38959666480379634 - 5.306415328315958e-23im
+12 0.01416251166034443 0.3839040615048551 - 3.386916867492514e-23im
+13 0.011171242198511256 0.3795025045348035 - 1.7116564072224236e-23im
+14 0.008814688602221862 0.37608844357042515 - 1.4414145623967887e-22im
+15 0.006957259427610019 0.37343361451514284 + 2.0962757142082904e-21im
+16 0.005492615721335554 0.37136493563007866 + 1.0481213134918942e-21im
+17 0.004337239081575908 0.3697502875632085 + 5.235478047661642e-22im
+18 0.003425543149506921 0.3684882720633077 + 2.6279960634264787e-22im
+19 0.0027059039767663795 0.36750072896999303 + 1.3034101198725606e-22im
+20 0.002137745461209647 0.36672721889430343 + 6.527803947325992e-23im
+21 0.0016890765421406345 0.3661208433056377 + 3.584848051333571e-23im
+22 0.001334700594517092 0.36564514631663897 + 1.7858065807663613e-23im
+23 0.001054759659312414 0.36527172765991267 + 9.193730699848776e-24im
+24 0.0008335958752049747 0.3649784351697427 - 5.612348268773034e-21im
+25 0.0006588525563004347 0.364747960471021 - 2.2809255606548253e-21im
+26 0.0005207708688257168 0.3645667683783803 - 1.2478969982858e-21im
+27 0.0004116505094335434 0.36442426041866005 - 1.8331707494096693e-21im
+28 0.0003253965580981424 0.3643121365616032 - 3.085916161961903e-21im
+29 0.00025723895261380074 0.3642238890693026 - 1.5418000281233771e-21im
+30 0.00020335236908865465 0.3641544110923036 - 5.116294838762007e-21im
+31 0.0001607662267571861 0.36409969483136384 - 2.278494197889076e-21im
+32 0.00012710136662953174 0.3640565917407905 - 1.4821961809090232e-21im
+33 0.00010048872884249481 0.3640226295536556 - 7.475666428446763e-22im
+34 7.943950185040463e-5 0.36399586208808243 + 2.98418946246118e-21im
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-<section id="ir-based-method">
-<h2>IR based method<a class="headerlink" href="#ir-based-method" title="Permalink to this headline">#</a></h2>
+</div>
+<div class="section" id="ir-based-method">
+<h2>IR based method<a class="headerlink" href="#ir-based-method" title="Permalink to this headline">¶</a></h2>
 <p>IR based method for BdG equations is shown in arXiv:2111.13288. In this paper, we use the ultra-fast method (J. Phys. Soc. Jpn. 89, 074703 (2020)). In this notebook, we do not use the ultra-fast method for simplicity.</p>
 <p>We use the SparseIR package. The sampling Matsubara frequencies are obtained as</p>
 <div class="cell docutils container">
@@ -1215,40 +1106,40 @@ Sampling points: [100.0]
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.19093737222766574 0.8029388356426406 - 5.665363613000504e-16im
-2 0.15209758844868485 0.6762250279909484 - 1.1669376797206e-15im
-3 0.12047432968025898 0.5913274734610019 - 1.839951331219761e-15im
-4 0.09511066786828629 0.5325252608917107 - 2.3031129695526263e-15im
-5 0.07495314470804165 0.49070382767300197 - 2.81886418768928e-15im
-6 0.05902015629229881 0.4603293314566591 - 3.2124641577383742e-15im
-7 0.04646439428496537 0.43790148431258896 - 3.588189862687256e-15im
-8 0.036584676457968104 0.42112523908157684 - 4.062107131761414e-15im
-9 0.02881477429342909 0.4084482338003972 - 4.506857631042805e-15im
-10 0.022703994592713383 0.39879209927139025 - 4.919807815784105e-15im
-11 0.01789649804028051 0.3913906419426953 - 5.419155130782482e-15im
-12 0.01411255610132303 0.38568926081807775 - 5.837255825252233e-15im
-13 0.011132726086022846 0.3812801665464632 - 6.263139496884622e-15im
-14 0.00878492189590728 0.3778597524771232 - 6.763771791979138e-15im
-15 0.00693422926835972 0.37519963446367466 - 7.261912271115268e-15im
-16 0.005474766930075725 0.3731265964635119 - 7.686932119255003e-15im
-17 0.004323397697738746 0.3715083824041107 - 8.176268014768387e-15im
-18 0.003414793501126619 0.37024346532013597 - 8.639184297588749e-15im
-19 0.0026975498383032797 0.3692535785632348 - 9.180231677291737e-15im
-20 0.002131247763381082 0.3684781663475951 - 9.747223175120316e-15im
-21 0.0016840254555579935 0.36787026913246273 - 1.0171880034999344e-14im
-22 0.0013307728541836923 0.3673933517481687 - 1.0615494357307987e-14im
-23 0.0010517153839898624 0.3670189584086856 - 1.1087715866455815e-14im
-24 0.0008312269163584908 0.3667248860148398 - 1.1560091220893326e-14im
-25 0.0006570099640154407 0.3664937896586693 - 1.2079763890604393e-14im
-26 0.0005193323273342103 0.36631210184507357 - 1.2625566155792619e-14im
-27 0.00041052720724669013 0.3661692010919783 - 1.3124471243862933e-14im
-28 0.00032453151098716895 0.3660567651392245 - 1.3633390730834321e-14im
-29 0.0002565639159710348 0.36596826938932314 - 1.4083585326395242e-14im
-30 0.00020282777290081354 0.36589859461420504 - 1.4587203132505086e-14im
-31 0.00016035096978019546 0.36584372171680046 - 1.508734897735599e-14im
-32 0.00012677757229513913 0.3658004953903746 - 1.562978703907695e-14im
-33 0.00010024340020390942 0.3657664353513712 - 1.6114386788582714e-14im
-34 7.925688689611421e-5 0.3657395894682804 - 1.6641377287073808e-14im
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.19093737222764232 0.8029388356413563 + 2.0162392390249532e-14im
+2 0.15209758855419048 0.676225018340183 + 3.760781192123482e-14im
+3 0.1204743357668839 0.5913274673820821 + 5.359445276639928e-14im
+4 0.09511066736657416 0.5325252649986449 + 6.881670377630884e-14im
+5 0.07495314897730472 0.4907038269547108 + 8.379207694539748e-14im
+6 0.05902015407615552 0.460329329958907 + 9.879223626959203e-14im
+7 0.04646439216414221 0.43790147524881384 + 1.1391153061627614e-13im
+8 0.036584671510082684 0.4211252278640049 + 1.292751297462826e-13im
+9 0.0288147730322551 0.40844822826552113 + 1.44887505308857e-13im
+10 0.022703995874085982 0.398792077607515 + 1.6080083799463536e-13im
+11 0.017896502632041417 0.3913906305513749 + 1.7702302831398474e-13im
+12 0.01411255978555502 0.3856892533294096 + 1.935193863342059e-13im
+13 0.011132725210691497 0.38128016207860177 + 2.103078834600422e-13im
+14 0.00878492302696275 0.37785974833287544 + 2.2731335604660718e-13im
+15 0.006934222697785542 0.37519963136782863 + 2.4451322152625146e-13im
+16 0.005474763533821147 0.3731265948716631 + 2.6190773967745537e-13im
+17 0.004323392979137691 0.37150838092391897 + 2.794697238557428e-13im
+18 0.0034147916261909796 0.370243466029659 + 2.971890979749487e-13im
+19 0.0026975500693230113 0.3692535811175496 + 3.14993069707276e-13im
+20 0.0021312523480857258 0.36847817649101183 + 3.329038583786782e-13im
+21 0.0016840153459659745 0.3678702775078001 + 3.5094119247087373e-13im
+22 0.001330770508393647 0.3673933583175877 + 3.690524005865186e-13im
+23 0.001051718968636833 0.3670189664754796 + 3.87220828675302e-13im
+24 0.0008312323486336461 0.36672489219462834 + 4.0540897111974164e-13im
+25 0.0006570099649550719 0.3664937946341654 + 4.2368941438404425e-13im
+26 0.0005193372128228309 0.3663121058484798 + 4.420200488848639e-13im
+27 0.0004105295481483416 0.3661692163673743 + 4.603413776762574e-13im
+28 0.0003245270887532156 0.36605677606344744 + 4.786833601435598e-13im
+29 0.0002565615931682441 0.3659682774612903 + 4.970403558894947e-13im
+30 0.00020282090887922623 0.36589860049476763 + 5.154339316318447e-13im
+31 0.0001603614232175422 0.3658437260116963 + 5.338321471959855e-13im
+32 0.0001267852457198863 0.36580049783965524 + 5.522441882276323e-13im
+33 0.000100235055341311 0.3657664389095574 + 5.706674933962347e-13im
+34 7.925330663438049e-5 0.36573959610387274 + 5.890891680465839e-13im
 </pre></div>
 </div>
 </div>
@@ -1293,10 +1184,10 @@ Sampling points: [100.0]
 <div class="cell_output docutils container">
 <img alt="../_images/BgG_jl_35_0.svg" src="../_images/BgG_jl_35_0.svg" /></div>
 </div>
-</section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="two-dimensional-topological-s-wave-superconductor-on-the-square-lattice">
-<h1>Two-dimensional topological s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-topological-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">#</a></h1>
+</div>
+</div>
+<div class="tex2jax_ignore mathjax_ignore section" id="two-dimensional-topological-s-wave-superconductor-on-the-square-lattice">
+<h1>Two-dimensional topological s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-topological-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">¶</a></h1>
 <p>We consider topological superconductivity.
 The s-wave superconductor becomes topologically non-trivial when there are Zeeman magnetic fields and Rashba spin-orbit coupling.
 The Hamiltonian in momentum space is given as</p>
@@ -1503,50 +1394,50 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num. of Matsubara freqs. 44
-1 0.3728270345178806 1.8802290574563592 - 2.7409579707323262e-15im ave: 1.8815188965673162
-2 0.209650145048158 1.4861212103643766 - 5.330018803405433e-15im ave: 1.4870581979670987
-3 0.1356389861746622 1.2830173592116467 - 2.8738801795994322e-11im ave: 1.2853552657554947
-4 0.09725336769302634 1.1552853774894427 - 3.0364044881943395e-11im ave: 1.160350807762379
-5 0.07521153257802887 1.064470907544185 - 6.120080987830533e-11im ave: 1.0730810359707317
-6 0.06140906184950993 0.9944898019126475 + 1.8811257713039742e-10im ave: 1.007188431855554
-7 0.052100473425301316 0.9375634163130723 - 2.273164352555909e-10im ave: 0.95472097567029
-8 0.04538844703922602 0.8895887246181834 - 2.6832162878109486e-10im ave: 0.9113991648098217
-9 0.04023576796442245 0.8482898243818945 - 2.336181694133051e-10im ave: 0.8747441711556604
-10 0.03604863232510562 0.8123457861367317 - 2.4025740018805326e-10im ave: 0.8432311565133841
-11 0.032483722186234215 0.7809301259117852 - 1.4862838309333503e-9im ave: 0.8158645054313883
-12 0.029346094268840543 0.75346194854399 - 1.929288072245227e-9im ave: 0.7919506972409088
-13 0.026527985584873563 0.729478936356421 - 1.1936494018725265e-9im ave: 0.7709740215873723
-14 0.023970472552613843 0.7085795789729563 - 1.6602176929751924e-9im ave: 0.7525286431506675
-15 0.021640216818380745 0.6904009273640732 - 1.214784092497366e-9im ave: 0.736281524944524
-16 0.019516240257836978 0.674611957603454 - 1.2104373868256478e-9im ave: 0.7219518611488214
-17 0.01758299289868728 0.6609125077138156 - 1.5355843056263948e-9im ave: 0.7092991006570482
-18 0.015827058371567216 0.6490331571296267 - 1.3525463572604286e-9im ave: 0.6981153747814576
-19 0.01423575356402051 0.6387345070100586 - 1.1643770604635642e-9im ave: 0.6882202364572853
-20 0.012796674100375934 0.6298057210324151 - 9.021199008845381e-10im ave: 0.6794566670793458
-21 0.011497652119819228 0.6220623779286427 - 5.987801963731045e-10im ave: 0.671687848372018
-22 0.010326882008229642 0.6153440144980691 - 1.0896354537706928e-10im ave: 0.6647944402294477
-23 0.009273043609389211 0.6095115169215061 - 8.765434566991459e-10im ave: 0.6586722587722103
-24 0.00832542957722465 0.6044446039507099 - 9.289323072402375e-10im ave: 0.6532302636869727
-25 0.007474003899470104 0.6000394610610843 - 2.3228638723758464e-9im ave: 0.6483888288893824
-26 0.006709471547274051 0.5962065809560847 - 1.884140105500401e-9im ave: 0.6440782284803087
-27 0.006023277781696852 0.5928688208123106 - 1.4878296759656694e-9im ave: 0.6402373339400566
-28 0.005407590084090045 0.5899597179308267 + 5.193567966539087e-9im ave: 0.6368124926775551
-29 0.004855283012622168 0.5874219961345375 + 3.846677975466672e-9im ave: 0.6337565525476045
-30 0.004359892633890324 0.5852062848206988 + 2.727231313984403e-9im ave: 0.631028023500759
-31 0.003915579783403939 0.5832700035629502 + 7.772130517276235e-10im ave: 0.6285903495642465
-32 0.003517070774866465 0.5815763936364112 + 3.31319857699235e-10im ave: 0.6264112877419264
-33 0.0031596280694411575 0.5800937279939007 + 1.5481581326432884e-9im ave: 0.6244623600510708
-34 0.0028389874665187653 0.5787945735936681 + 1.3248485283972775e-9im ave: 0.6227183889122472
-35 0.0025513274090747332 0.5776552376061064 + 1.2398980251518325e-9im ave: 0.6211570864130683
-36 0.00229321696282138 0.5766551752464595 + 1.0715892103950348e-9im ave: 0.6197587041707021
-37 0.0020615835850614234 0.5757765991183753 + 7.951114391384961e-10im ave: 0.618505725102803
-38 0.0018536761678265529 0.575004046463275 + 3.9203366459612775e-10im ave: 0.6173825955976381
-39 0.001667029199700037 0.5743242330643985 + 3.111222984259665e-10im ave: 0.6163754942483735
-40 0.001499436068188372 0.5737254799062632 + 6.53801997277786e-11im ave: 0.615472128051801
-41 0.001348922401753267 0.5731976838919048 + 1.7499814912763653e-10im ave: 0.6146615542475093
-42 0.0012137196976896552 0.5727320626003397 + 1.8429925209218094e-10im ave: 0.6139340250825357
-43 0.0010922505527189807 0.5723209658782843 - 9.162688162239245e-10im ave: 0.6132808481497352
-44 0.0009830937156632066 0.5719577170296033 - 4.980360742571751e-10im ave: 0.6126942717168968
+1 0.372827034517864 1.8802290574564093 + 5.768415107170564e-14im ave: 1.8815188965673655
+2 0.20965014504814147 1.4861212103644388 + 1.0921770901564234e-13im ave: 1.4870581979671682
+3 0.13563898601379268 1.2830173570057382 - 5.6464395327148196e-12im ave: 1.2853552659947873
+4 0.09725336763883362 1.1552853748186431 - 4.523521023817402e-10im ave: 1.1603508080489235
+5 0.0752115329196425 1.0644709049358032 - 2.0007927121918363e-10im ave: 1.0730810358402227
+6 0.061409061920183396 0.9944897914943718 - 1.4974221970695284e-10im ave: 1.0071884316558288
+7 0.05210047334918535 0.9375634095798294 - 6.064969048589646e-11im ave: 0.9547209755584415
+8 0.045388446927372435 0.8895887200082447 + 2.8107281987916864e-11im ave: 0.9113991648111095
+9 0.040235768640906285 0.8482898237107156 + 5.092235052487899e-10im ave: 0.8747441705312397
+10 0.036048632377272086 0.8123457851093018 + 2.6319984151044053e-10im ave: 0.8432311558576345
+11 0.0324837216625676 0.7809301292316365 + 1.7725024762371882e-9im ave: 0.8158645052338072
+12 0.029346093068094332 0.7534619512385328 + 1.255964545122865e-9im ave: 0.7919506980362475
+13 0.026527984342429565 0.7294789360494875 - 1.2117566096564047e-11im ave: 0.7709740233688033
+14 0.023970471489239174 0.7085795761731302 + 3.3479867927293397e-10im ave: 0.7525286457058975
+15 0.021640218049797554 0.6904009237807094 + 2.028613326323188e-10im ave: 0.7362815265383879
+16 0.01951624007080689 0.6746119558948603 + 2.7592010037947634e-10im ave: 0.7219518628577593
+17 0.017582993593038138 0.6609125112239771 + 1.4413028126453854e-10im ave: 0.7092991018292231
+18 0.015827058222511802 0.6490331576767953 + 8.015259459790007e-11im ave: 0.6981153760647283
+19 0.014235753885892708 0.6387345070950539 + 4.8861568765619e-11im ave: 0.688220237490683
+20 0.012796674799359002 0.6298057217847515 + 3.8972618348011867e-10im ave: 0.6794566676764987
+21 0.011497652376293884 0.622062386609887 + 6.563166793205233e-10im ave: 0.6716878487633953
+22 0.010326882565152195 0.6153440199525111 + 7.066241105596606e-10im ave: 0.6647944402589255
+23 0.00927304446918228 0.609511519786249 + 7.030790638178854e-10im ave: 0.6586722582295159
+24 0.008325429659234202 0.6044446153258899 + 1.0903757708294749e-9im ave: 0.6532302630202625
+25 0.007474003993659332 0.6000394724068884 + 1.124191694502319e-9im ave: 0.6483888281669874
+26 0.006709472037508724 0.5962065897662436 + 1.3215344966581383e-9im ave: 0.6440782274066901
+27 0.006023276011666247 0.5928688339533067 + 1.5773501957541578e-9im ave: 0.6402373339588725
+28 0.005407590119303102 0.5899597305639018 + 1.3896489525192796e-9im ave: 0.6368124926961714
+29 0.004855282607304844 0.5874220085740608 + 1.5550036298802025e-9im ave: 0.6337565528231824
+30 0.004359892937369665 0.5852062913298602 + 1.5394315682810497e-9im ave: 0.6310280235431576
+31 0.003915579544354154 0.583270002675618 + 2.076836527415921e-9im ave: 0.6285903497384053
+32 0.0035170713097041405 0.5815763885189259 + 1.9376314038019335e-9im ave: 0.6264112875703678
+33 0.0031596272681476576 0.580093743768174 + 1.972546436499968e-9im ave: 0.6244623603794551
+34 0.0028389870516835228 0.5787945940105047 + 2.007139691690427e-9im ave: 0.622718389506335
+35 0.0025513279177300694 0.577655252407503 + 2.062901028956286e-9im ave: 0.6211570867208038
+36 0.0022932166962631854 0.5766551883101118 + 2.3096327703944785e-9im ave: 0.6197587046814964
+37 0.0020615835869297727 0.5757766070360949 + 2.777047263318292e-9im ave: 0.6185057256071516
+38 0.0018536766131119447 0.5750040947747861 + 2.8979474406919176e-9im ave: 0.6173825958062331
+39 0.0016670283615637961 0.5743242691962084 + 2.6248053813200507e-9im ave: 0.6163754949418192
+40 0.001499436287389112 0.573725504142337 + 2.436460706452873e-9im ave: 0.6154721286199346
+41 0.0013489216077660093 0.5731977035779624 + 2.4178269847319677e-9im ave: 0.614661555254129
+42 0.001213721361632685 0.5727320786979908 + 2.1551060295464882e-9im ave: 0.6139340250760806
+43 0.0010922499122855505 0.5723209754618203 + 2.193897229044712e-9im ave: 0.613280848443016
+44 0.0009830936731296748 0.5719577259945122 + 2.154023209764012e-9im ave: 0.6126942721370109
 </pre></div>
 </div>
 </div>
@@ -1626,7 +1517,7 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <img alt="../_images/BgG_jl_57_0.svg" src="../_images/BgG_jl_57_0.svg" /></div>
 </div>
 <p>We can see there are mid-gap states.</p>
-</section>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -1650,11 +1541,9 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 
               </div>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="FLEX_jl.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1670,28 +1559,24 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            </footer>
+            
         </div>
     </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
+    <footer class="footer">
+  <p>
     
-</div>
+      By sparse-ir developers<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
 
 
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>
