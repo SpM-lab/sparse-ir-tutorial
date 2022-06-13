@@ -1,0 +1,2 @@
+docker build -t shinaoka/sparse-ir-tutorial-binder .
+docker push shinaoka/sparse-ir-tutorial-binder
