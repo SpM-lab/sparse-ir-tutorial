@@ -1,4 +1,4 @@
-FROM shinaoka/sparse-ir-tutorial-binder:latest
+FROM --platform=linux/x86_64 shinaoka/sparse-ir-tutorial-binder:latest
 
 ARG NB_USER=jovyan
 ARG NB_UID=1000
