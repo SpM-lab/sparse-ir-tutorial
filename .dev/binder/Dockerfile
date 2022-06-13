@@ -19,10 +19,10 @@ RUN apt-get update && \
     python3-distutils \
     curl \
     ca-certificates \
-    git \
-    wget \
-    zip \
-    libjpeg-dev \
+    #git \
+    #wget \
+    #zip \
+    #libjpeg-dev \
     #vim \
     #openssh-server \
     #tree \
@@ -42,11 +42,9 @@ WORKDIR ${HOME}
 # Install Python libraries
 RUN pip3 install \
     jupyter-book \
-    jupytext \
     sparse-ir \
     xprec \
     matplotlib \
-    ghp-import \
     --user --no-cache-dir
 
 # Install Julia packages
