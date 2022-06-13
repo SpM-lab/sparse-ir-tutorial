@@ -25,11 +25,15 @@ html:
 
 #######################################################################################
 # Launch button settings
-repository:
-  url                         : https://github.com/SpM-lab/sparse-ir-tutorial.git
+#repository:
+  #url                         : https://github.com/SpM-lab/sparse-ir-tutorial.git
+  #url                         : ""
   #path_to_book                : src
-  branch                      : main
-  notebook_interface          : classic
+  #branch                      : main
+  #notebook_interface          : classic
+# Launch button settings
+launch_buttons:
+  binderhub_url: ""
 
 latex:
   latex_engine                : "xelatex"
