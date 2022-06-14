@@ -186,18 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
-   Nevanlinna analytic continuation
   </a>
  </li>
 </ul>
@@ -300,14 +290,11 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/src/BgG_jl.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/BgG_jl.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/src/BgG_jl.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -324,6 +311,23 @@ const thebe_selector_output = ".output, .cell_output"
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/BgG_jl.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -880,8 +884,37 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
 <span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> registry at `~/.julia/registries/General.toml`
 <span class=" -Color -Color-Bold -Color-Bold-Green">   Resolving</span> package versions...
-<span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `~/.julia/environments/v1.7/Project.toml`
-<span class=" -Color -Color-Bold -Color-Bold-Green">  No Changes</span> to `~/.julia/environments/v1.7/Manifest.toml`
+<span class=" -Color -Color-Bold -Color-Bold-Green">   Installed</span> LinearMaps ─ v3.7.0
+<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `/workspaces/sparse-ir-tutorial/Project.toml`
+  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
+<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `/workspaces/sparse-ir-tutorial/Manifest.toml`
+  [7a12625a] + LinearMaps v3.7.0
+  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
+<span class=" -Color -Color-Bold -Color-Bold-Green">Precompiling</span> project...
+<span class=" -Color -Color-Green">  ✓ </span>InverseFunctions
+<span class=" -Color -Color-Green">  ✓ </span>TimerOutputs
+<span class=" -Color -Color-Green">  ✓ </span>LinearMaps
+<span class=" -Color -Color-Green">  ✓ </span>LogExpFunctions
+<span class=" -Color -Color-Green">  ✓ </span>RSCG
+<span class=" -Color -Color-Green">  ✓ </span>GR
+<span class=" -Color -Color-Green">  ✓ </span>StatsBase
+<span class=" -Color -Color-Green">  ✓ </span>GPUCompiler
+<span class=" -Color -Color-Green">  ✓ </span>StaticArrays
+<span class=" -Color -Color-Green">  ✓ </span>SpecialFunctions
+<span class=" -Color -Color-Green">  ✓ </span>Contour
+<span class=" -Color -Color-Green">  ✓ </span>StructArrays
+<span class=" -Color -Color-Green">  ✓ </span>ColorVectorSpace
+<span class=" -Color -Color-Green">  ✓ </span>FastGaussQuadrature
+<span class=" -Color -Color-Green">  ✓ </span>ColorSchemes
+<span class=" -Color -Color-Green">  ✓ </span>GeometryBasics
+<span class=" -Color -Color-Green">  ✓ </span>SparseIR
+<span class=" -Color -Color-Green">  ✓ </span>PlotUtils
+<span class=" -Color -Color-Green">  ✓ </span>RecipesPipeline
+<span class=" -Color -Color-Green">  ✓ </span>PlotThemes
+<span class=" -Color -Color-Green">  ✓ </span>CUDA
+<span class=" -Color -Color-Green">  ✓ </span>OMEinsum
+<span class=" -Color -Color-Green">  ✓ </span>Plots
+  23 dependencies successfully precompiled in 36 seconds (145 already precompiled)
 </pre></div>
 </div>
 </div>

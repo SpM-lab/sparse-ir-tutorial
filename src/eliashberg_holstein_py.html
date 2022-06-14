@@ -186,18 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
-   Nevanlinna analytic continuation
   </a>
  </li>
 </ul>
@@ -300,14 +290,11 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/src/eliashberg_holstein_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/eliashberg_holstein_py.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/src/eliashberg_holstein_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -324,6 +311,23 @@ const thebe_selector_output = ".output, .cell_output"
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/eliashberg_holstein_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -864,16 +868,12 @@ We consider a semicircular density of state with a half bandwidth of <span class
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.03847607681768701, diff_delta=1.9887746380046856
-iter= 100 : diff_sigma= 0.00035586277091668496, diff_delta=0.0008358943952467407
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 200 : diff_sigma= 8.286694313902543e-06, diff_delta=1.934048461713098e-05
-iter= 300 : diff_sigma= 1.8849176063040485e-07, diff_delta=4.393898555971054e-07
-iter= 400 : diff_sigma= 4.277648985029359e-09, diff_delta=9.970920769597557e-09
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 500 : diff_sigma= 9.706647985386468e-11, diff_delta=2.2625479268209548e-10
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.041256512648797594, diff_delta=1.9915601426147578
+iter= 100 : diff_sigma= 0.000372097484532973, diff_delta=0.000872251336960806
+iter= 200 : diff_sigma= 8.63940440133794e-06, diff_delta=2.016319527115024e-05
+iter= 300 : diff_sigma= 1.9650742426324808e-07, diff_delta=4.5807605310310695e-07
+iter= 400 : diff_sigma= 4.459572433557213e-09, diff_delta=1.0394976157623925e-08
+iter= 500 : diff_sigma= 1.011943862039292e-10, diff_delta=2.358772482920306e-10
 </pre></div>
 </div>
 </div>

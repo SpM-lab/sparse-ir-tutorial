@@ -186,18 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
-   Nevanlinna analytic continuation
   </a>
  </li>
 </ul>
@@ -300,14 +290,11 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/src/SPR_jl.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/SPR_jl.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/src/SPR_jl.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -324,6 +311,23 @@ const thebe_selector_output = ".output, .cell_output"
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/SPR_jl.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -571,11 +575,7 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/SPR_jl_11_0.svg" src="../_images/SPR_jl_11_0.svg" /><div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: Invalid negative or zero value 0.0 found at series index 1 for log10 based yscale
-└ @ Plots /home/jovyan/.julia/packages/Plots/1KWPG/src/utils.jl:95
-</pre></div>
-</div>
-</div>
+<img alt="../_images/SPR_jl_11_0.svg" src="../_images/SPR_jl_11_0.svg" /></div>
 </div>
 </div>
 <div class="section" id="evaluation-on-matsubara-frequencies">
@@ -601,8 +601,8 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: Sampling matrix is poorly conditioned (cond = 3.981693781449279e15).
-└ @ SparseIR /home/jovyan/.julia/packages/SparseIR/6HApe/src/sampling.jl:91
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: Sampling matrix is poorly conditioned (cond = 4.1860497438262505e15).
+└ @ SparseIR /home/jovyan/.julia/packages/SparseIR/oXBdx/src/sampling.jl:105
 </pre></div>
 </div>
 <img alt="../_images/SPR_jl_13_1.svg" src="../_images/SPR_jl_13_1.svg" /></div>

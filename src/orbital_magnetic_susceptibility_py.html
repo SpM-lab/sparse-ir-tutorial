@@ -186,18 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
-   Nevanlinna analytic continuation
   </a>
  </li>
 </ul>
@@ -300,14 +290,11 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/src/orbital_magnetic_susceptibility_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/orbital_magnetic_susceptibility_py.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/src/orbital_magnetic_susceptibility_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -324,6 +311,23 @@ const thebe_selector_output = ".output, .cell_output"
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/orbital_magnetic_susceptibility_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -499,12 +503,10 @@ We show the results as functions of the chemical potential.</p>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Defaulting to user installation because normal site-packages is not writeable
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: sparse_ir in /home/jovyan/.local/lib/python3.9/site-packages (0.11.2)
+Requirement already satisfied: sparse_ir in /home/jovyan/.local/lib/python3.9/site-packages (0.11.2)
+Requirement already satisfied: scipy in /home/jovyan/.local/lib/python3.9/site-packages (from sparse_ir) (1.8.0)
 Requirement already satisfied: setuptools in /usr/local/lib/python3.9/dist-packages (from sparse_ir) (62.3.1)
 Requirement already satisfied: numpy in /home/jovyan/.local/lib/python3.9/site-packages (from sparse_ir) (1.22.3)
-Requirement already satisfied: scipy in /home/jovyan/.local/lib/python3.9/site-packages (from sparse_ir) (1.8.0)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">WARNING: There was an error checking the latest version of pip.</span>

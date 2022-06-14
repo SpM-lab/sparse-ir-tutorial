@@ -55,8 +55,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Nevanlinna analytic continuation" href="nevanlinna.html" />
-    <link rel="prev" title="Numerical analytic continuation" href="analytic_continuation.html" />
+    <link rel="next" title="Transformation from/to IR" href="transformation_jl.html" />
+    <link rel="prev" title="Estimation of exchange interactions" href="liechtenstein_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -185,19 +185,9 @@ const thebe_selector_output = ".output, .cell_output"
  </span>
 </p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation.html">
-   Numerical analytic continuation
-  </a>
- </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    SpM analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="nevanlinna.html">
-   Nevanlinna analytic continuation
   </a>
  </li>
 </ul>
@@ -300,14 +290,11 @@ const thebe_selector_output = ".output, .cell_output"
 
     <div class="dropdown-buttons">
         <!-- ipynb file if we had a myst markdown file -->
-        <a class="dropdown-buttons"
-            href="../_sources/src/spm_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download notebook file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
+        
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/spm_py.md"><button type="button"
+        <a class="dropdown-buttons" href="../_sources/src/spm_py.ipynb"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
+                data-placement="left">.ipynb</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
                 onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -324,6 +311,23 @@ const thebe_selector_output = ".output, .cell_output"
             class="fas fa-expand"></i></button></a>
 
             <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/spm_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
 
         </div>
 
@@ -947,17 +951,17 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
             
                 <!-- Previous / next buttons -->
 <div class='prev-next-area'> 
-    <a class='left-prev' id="prev-link" href="analytic_continuation.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="liechtenstein_py.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Numerical analytic continuation</p>
+            <p class="prev-next-title">Estimation of exchange interactions</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="nevanlinna.html" title="next page">
+    <a class='right-next' id="next-link" href="transformation_jl.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Nevanlinna analytic continuation</p>
+        <p class="prev-next-title">Transformation from/to IR</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
