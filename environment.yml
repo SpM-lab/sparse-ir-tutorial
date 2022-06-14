@@ -1,0 +1,9 @@
+# For mybinder
+channels:
+  - SpM-lab
+  - default
+
+dependencies:
+  - matplotlib
+  - xprec
+  - sparse-ir

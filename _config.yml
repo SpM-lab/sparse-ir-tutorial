@@ -25,15 +25,13 @@ html:
 
 #######################################################################################
 # Launch button settings
-#repository:
-  #url                         : https://github.com/SpM-lab/sparse-ir-tutorial.git
-  #url                         : ""
-  #path_to_book                : src
-  #branch                      : main
-  #notebook_interface          : classic
-# Launch button settings
+repository:
+  url                         : https://github.com/SpM-lab/sparse-ir-tutorial.git
+  branch                      : main
+  notebook_interface          : classic
+
 launch_buttons:
-  binderhub_url: ""
+  binderhub_url: "https://mybinder.org"  # The URL for your BinderHub (e.g., https://mybinder.org)
 
 latex:
   latex_engine                : "xelatex"
