@@ -35,17 +35,24 @@ RUN curl -kL https://bootstrap.pypa.io/get-pip.py | python3
 RUN echo "%${USER}    ALL=(ALL)   NOPASSWD:    ALL" >> /etc/sudoers.d/${USER} && \
     chmod 0440 /etc/sudoers.d/${USER}
 
+#WORKDIR ${HOME}
+#USER ${NB_USER}
+#RUN chown -R ${NB_UID} ${HOME}
+
+# Workdir for VS code
+USER root
+WORKDIR /workspace/sparse_ir_tutorial
+RUN chown -R ${NB_UID} /workspace/sparse_ir_tutorial
+
 WORKDIR ${HOME}
 USER ${NB_USER}
-
-RUN chown -R ${NB_UID} ${HOME}
 
 # Install default Python libraries
 RUN pip3 install \
     jupyter-book \
     jupytext \
-    sparse-ir \
-    xprec \
+    #sparse-ir \
+    #xprec \
     matplotlib \
     ghp-import \
     --user
@@ -57,23 +64,11 @@ RUN mkdir -p ${HOME}/.julia/config && \
     ENV["PYTHON"]=Sys.which("python3")\n\
     ENV["JUPYTER"]=Sys.which("jupyter")\n\
     ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
-#RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
 RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Plots", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
 
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ${HOME}/.bashrc
+RUN echo 'alias julia="julia --project=@."' >> ${HOME}/.bashrc
 
-# Workdir for VS code
-USER root
-WORKDIR /workspace/sparse_ir_tutorial
-RUN chown -R ${NB_UID} /workspace/sparse_ir_tutorial
-
-
-WORKDIR ${HOME}
-USER ${USER}
 EXPOSE 8000
-
-#RUN echo "alias python=python3" >> ${HOME}/.bashrc
-COPY docker-entrypoint.sh /tmp
-ENTRYPOINT ["/tmp/docker-entrypoint.sh"]
 
 CMD ["julia"]
