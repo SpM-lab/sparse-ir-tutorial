@@ -4,11 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Bogoliubov-de Gennes equations in real space &#8212; sparse-ir</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -186,6 +200,11 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation_py.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
   </a>
@@ -254,91 +273,164 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/BgG_jl.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/BgG_jl.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/BgG_jl.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/src/BgG_jl.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h1 nav-item toc-entry">
   <a class="reference internal nav-link" href="#">
    Bogoliubov-de Gennes equations in real space
@@ -390,12 +482,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>Bogoliubov-de Gennes equations in real space</h1>
@@ -463,16 +554,17 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="bogoliubov-de-gennes-equations-in-real-space">
-<h1>Bogoliubov-de Gennes equations in real space<a class="headerlink" href="#bogoliubov-de-gennes-equations-in-real-space" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="bogoliubov-de-gennes-equations-in-real-space">
+<h1>Bogoliubov-de Gennes equations in real space<a class="headerlink" href="#bogoliubov-de-gennes-equations-in-real-space" title="Permalink to this headline">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:nagai&#46;yuki&#37;&#52;&#48;jaea&#46;go&#46;jp">Yuki Nagai</a></p>
 <p><strong>This notebook is expensive. Running this notebook takes a few minutes.</strong></p>
 <p>We consider a superconductivity in a mean-field level.</p>
-<div class="section" id="basic-theory-of-superconductivity-in-real-space">
-<h2>Basic theory of superconductivity in real space<a class="headerlink" href="#basic-theory-of-superconductivity-in-real-space" title="Permalink to this headline">¶</a></h2>
+<section id="basic-theory-of-superconductivity-in-real-space">
+<h2>Basic theory of superconductivity in real space<a class="headerlink" href="#basic-theory-of-superconductivity-in-real-space" title="Permalink to this headline">#</a></h2>
 <p>Let us consider a Hamiltonian for a fermion system given as <span class="math notranslate nohighlight">\(H = \psi^{\dagger} \hat{\cal H} \psi/2\)</span>.
 The column vector <span class="math notranslate nohighlight">\(\psi\)</span> is composed of <span class="math notranslate nohighlight">\(N\)</span> fermionic annihilation <span class="math notranslate nohighlight">\(c_i\)</span> and creation operators <span class="math notranslate nohighlight">\(c_i^{\dagger}\)</span> <span class="math notranslate nohighlight">\((i = 1,2,\cdots,N)\)</span>, <span class="math notranslate nohighlight">\(\psi = (\{ c_i \}^T, \{ c_i^{\dagger} \}^T)\)</span>, where <span class="math notranslate nohighlight">\(\{ c_i \} = (c_1,c_2,\cdots,c_N)^T\)</span> and <span class="math notranslate nohighlight">\(\{ c_i^{\dagger} \} = (c_1^{\dagger},c_2^{\dagger},\cdots,c_N^{\dagger})\)</span>. The row vector <span class="math notranslate nohighlight">\(\psi^{\dagger}\)</span> is also defined as <span class="math notranslate nohighlight">\(\psi^{\dagger} = (\{c_i^{\dagger} \}^T, \{ c_i \}^T)\)</span>.
 The subscription <span class="math notranslate nohighlight">\(i\)</span> in <span class="math notranslate nohighlight">\(c_i\)</span> or <span class="math notranslate nohighlight">\(c_i^{\dagger}\)</span> indicates a quantum index depending on spatial site, spin, orbital, etc. The “Hamiltonian” matrix <span class="math notranslate nohighlight">\(\hat{\cal H}\)</span> is a <span class="math notranslate nohighlight">\(2N \times 2N\)</span> Hermitian matrix given as</p>
@@ -549,9 +641,9 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 \langle c_i c_j \rangle = - \frac{1}{2 \pi i} \int_{-\infty}^{\infty} d\omega f(\omega) \vec{e}(j)^T \hat{d}(\omega) \vec{h}(i), 
 \]</div>
 <p>with <span class="math notranslate nohighlight">\(f(x) \equiv 1/(e^{x/T} + 1)\)</span>.</p>
-</div>
-<div class="section" id="matsubara-frequency-representation">
-<h2>Matsubara frequency representation<a class="headerlink" href="#matsubara-frequency-representation" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="matsubara-frequency-representation">
+<h2>Matsubara frequency representation<a class="headerlink" href="#matsubara-frequency-representation" title="Permalink to this headline">#</a></h2>
 <p>With the use of the analytic continuation, the mean-fields are rewritten as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -581,13 +673,13 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 \[ 
 \hat{\Delta} \rightarrow \hat{G}(i \omega_n) \rightarrow \langle c_i c_i \rangle \rightarrow \hat{\Delta}
 \]</div>
-</div>
-<div class="section" id="reduced-shifted-conjugation-gradient-method">
-<h2>Reduced-shifted Conjugation Gradient method<a class="headerlink" href="#reduced-shifted-conjugation-gradient-method" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="reduced-shifted-conjugation-gradient-method">
+<h2>Reduced-shifted Conjugation Gradient method<a class="headerlink" href="#reduced-shifted-conjugation-gradient-method" title="Permalink to this headline">#</a></h2>
 <p>The reduced-shifted conugate-gradient (RSCG) method is numerically efficient to calculate a matrix element of a Green’s function defined as a resolvent of a Hamiltonian operator, by solving linear equations with desired accuracy. The matrix elements with different frequencies are simultaneously obtained. The details are described in J. Phys. Soc. Jpn. <code class="docutils literal notranslate"><span class="pre">86</span></code>, 014708 (2017). The RSCG method is provided in RSCG.jl package.</p>
-</div>
-<div class="section" id="ir-basis">
-<h2>IR basis<a class="headerlink" href="#ir-basis" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="ir-basis">
+<h2>IR basis<a class="headerlink" href="#ir-basis" title="Permalink to this headline">#</a></h2>
 <p>The superconducting mean-fielads are expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -599,10 +691,10 @@ N(\omega,i) = -\frac{1}{2\pi i} \vec{e}(i)^T \hat{d}(\omega) \vec{e}(i),
 G(i \omega_n) = \sum_{l=0}^{N_{\rm IR}-1} G_l U_l(i \omega_n),
 \]</div>
 <p>one can obtain <span class="math notranslate nohighlight">\(G_l\)</span> by fitting the above equation.</p>
-</div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="two-dimensional-s-wave-superconductor-on-the-square-lattice">
-<h1>Two-dimensional s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="two-dimensional-s-wave-superconductor-on-the-square-lattice">
+<h1>Two-dimensional s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">#</a></h1>
 <p>The normal state Hamiltonian on the tight-binding model is expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -803,8 +895,8 @@ The update method is implemented as</p>
 </div>
 </div>
 </div>
-<div class="section" id="conventional-method-with-matsubara-frequencies">
-<h2>Conventional method with Matsubara frequencies<a class="headerlink" href="#conventional-method-with-matsubara-frequencies" title="Permalink to this headline">¶</a></h2>
+<section id="conventional-method-with-matsubara-frequencies">
+<h2>Conventional method with Matsubara frequencies<a class="headerlink" href="#conventional-method-with-matsubara-frequencies" title="Permalink to this headline">#</a></h2>
 <p>If one wants to use the Matsubara frequencies, one has to introduce the cutoff of the frequencies. Then the mean-fields are expressed as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -881,40 +973,14 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">     Cloning</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
+<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> git-repo `https://github.com/cometscome/RSCG.jl.git`
 <span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> registry at `~/.julia/registries/General.toml`
 <span class=" -Color -Color-Bold -Color-Bold-Green">   Resolving</span> package versions...
-<span class=" -Color -Color-Bold -Color-Bold-Green">   Installed</span> LinearMaps ─ v3.7.0
 <span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `/workspaces/sparse-ir-tutorial/Project.toml`
-  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
+  [4e41d8b6] ~ RSCG v0.1.2 ⇒ v0.1.2 `https://github.com/cometscome/RSCG.jl.git#master`
 <span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `/workspaces/sparse-ir-tutorial/Manifest.toml`
-  [7a12625a] + LinearMaps v3.7.0
-  [4e41d8b6] + RSCG v0.1.1 `https://github.com/cometscome/RSCG.jl.git#master`
-<span class=" -Color -Color-Bold -Color-Bold-Green">Precompiling</span> project...
-<span class=" -Color -Color-Green">  ✓ </span>InverseFunctions
-<span class=" -Color -Color-Green">  ✓ </span>TimerOutputs
-<span class=" -Color -Color-Green">  ✓ </span>LinearMaps
-<span class=" -Color -Color-Green">  ✓ </span>LogExpFunctions
-<span class=" -Color -Color-Green">  ✓ </span>RSCG
-<span class=" -Color -Color-Green">  ✓ </span>GR
-<span class=" -Color -Color-Green">  ✓ </span>StatsBase
-<span class=" -Color -Color-Green">  ✓ </span>GPUCompiler
-<span class=" -Color -Color-Green">  ✓ </span>StaticArrays
-<span class=" -Color -Color-Green">  ✓ </span>SpecialFunctions
-<span class=" -Color -Color-Green">  ✓ </span>Contour
-<span class=" -Color -Color-Green">  ✓ </span>StructArrays
-<span class=" -Color -Color-Green">  ✓ </span>ColorVectorSpace
-<span class=" -Color -Color-Green">  ✓ </span>FastGaussQuadrature
-<span class=" -Color -Color-Green">  ✓ </span>ColorSchemes
-<span class=" -Color -Color-Green">  ✓ </span>GeometryBasics
-<span class=" -Color -Color-Green">  ✓ </span>SparseIR
-<span class=" -Color -Color-Green">  ✓ </span>PlotUtils
-<span class=" -Color -Color-Green">  ✓ </span>RecipesPipeline
-<span class=" -Color -Color-Green">  ✓ </span>PlotThemes
-<span class=" -Color -Color-Green">  ✓ </span>CUDA
-<span class=" -Color -Color-Green">  ✓ </span>OMEinsum
-<span class=" -Color -Color-Green">  ✓ </span>Plots
-  23 dependencies successfully precompiled in 36 seconds (145 already precompiled)
+  [4e41d8b6] ~ RSCG v0.1.2 ⇒ v0.1.2 `https://github.com/cometscome/RSCG.jl.git#master`
 </pre></div>
 </div>
 </div>
@@ -1044,9 +1110,9 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="ir-based-method">
-<h2>IR based method<a class="headerlink" href="#ir-based-method" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="ir-based-method">
+<h2>IR based method<a class="headerlink" href="#ir-based-method" title="Permalink to this headline">#</a></h2>
 <p>IR based method for BdG equations is shown in arXiv:2111.13288. In this paper, we use the ultra-fast method (J. Phys. Soc. Jpn. 89, 074703 (2020)). In this notebook, we do not use the ultra-fast method for simplicity.</p>
 <p>We use the SparseIR package. The sampling Matsubara frequencies are obtained as</p>
 <div class="cell docutils container">
@@ -1217,10 +1283,10 @@ Sampling points: [100.0]
 <div class="cell_output docutils container">
 <img alt="../_images/BgG_jl_35_0.svg" src="../_images/BgG_jl_35_0.svg" /></div>
 </div>
-</div>
-</div>
-<div class="tex2jax_ignore mathjax_ignore section" id="two-dimensional-topological-s-wave-superconductor-on-the-square-lattice">
-<h1>Two-dimensional topological s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-topological-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">¶</a></h1>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="two-dimensional-topological-s-wave-superconductor-on-the-square-lattice">
+<h1>Two-dimensional topological s-wave superconductor on the square lattice<a class="headerlink" href="#two-dimensional-topological-s-wave-superconductor-on-the-square-lattice" title="Permalink to this headline">#</a></h1>
 <p>We consider topological superconductivity.
 The s-wave superconductor becomes topologically non-trivial when there are Zeeman magnetic fields and Rashba spin-orbit coupling.
 The Hamiltonian in momentum space is given as</p>
@@ -1550,7 +1616,7 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <img alt="../_images/BgG_jl_57_0.svg" src="../_images/BgG_jl_57_0.svg" /></div>
 </div>
 <p>We can see there are mid-gap states.</p>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1574,9 +1640,11 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="FLEX_jl.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1592,24 +1660,28 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By sparse-ir developers<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By sparse-ir developers<br/>
-    
-        &copy; Copyright 2022.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>

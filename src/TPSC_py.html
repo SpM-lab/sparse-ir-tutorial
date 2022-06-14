@@ -4,11 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>TPSC approximation &#8212; sparse-ir</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -64,7 +63,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -73,9 +86,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -186,6 +200,11 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="analytic_continuation_py.html">
+   Numerical analytic continuation
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="spm_py.html">
    SpM analytic continuation
   </a>
@@ -254,91 +273,164 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
-</div>
-
-
-          
-
-
-          
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
-    
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
             
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
-        
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/TPSC_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.ipynb</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
-    </div>
-</div>
-
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
-        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
-    <div class="dropdown-buttons">
-        
-        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/TPSC_py.ipynb"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
-                data-placement="left"><img class="binder-button-logo"
-                    src="../_static/images/logo_binder.svg"
-                    alt="Interact on binder">Binder</button></a>
-        
-        
-        
-        
-    </div>
-</div>
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
             </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/TPSC_py.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/src/TPSC_py.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#theory-of-tpsc">
    Theory of TPSC
@@ -397,12 +489,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>TPSC approximation</h1>
@@ -477,18 +568,19 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="tpsc-approximation">
-<h1>TPSC approximation<a class="headerlink" href="#tpsc-approximation" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="tpsc-approximation">
+<h1>TPSC approximation<a class="headerlink" href="#tpsc-approximation" title="Permalink to this headline">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
-<div class="section" id="theory-of-tpsc">
-<h2>Theory of TPSC<a class="headerlink" href="#theory-of-tpsc" title="Permalink to this headline">¶</a></h2>
+<section id="theory-of-tpsc">
+<h2>Theory of TPSC<a class="headerlink" href="#theory-of-tpsc" title="Permalink to this headline">#</a></h2>
 <p>The Two-Particle Self-Consistent (TPSC) approximation is a non-perturbative semi-analytical method that was first introduced by Vilk and Tremblay <span id="id1">[<a class="reference internal" href="bibliography.html#id46" title="Y. M. Vilk and A.-M. S. Tremblay. Non-Perturbative Many-Body Approach to the Hubbard Model and Single-Particle Pseudogap. Journal de Physique I, 7(11):1309–1368, nov 1997. arXiv:cond-mat/9702188, doi:10.1051/jp1:1997135.">Vilk and Tremblay, 1997</a>]</span>. TPSC can be used to study magnetic fluctuations, while it also obeys the Mermin-Wagner theorem in two dimensions, i.e., a phase transtition at finite temperatures is prohibited. In addition, the TPSC method satisfies several conservation laws, sum rules and the Pauli principle (actually, it is constructed in a way to fulfill these, since they are used to determine model parameters self-consistently). TPSC is applicable in the weak to intermediate coupling regime, but it breaks down in the strong coupling regime and it cannot describe the Mott transition unlike other non-perturbative methods like Dynamical Mean-Field Theory (DMFT).</p>
 <p>For a (pedagogical) review, please have a look at <span id="id2">[<a class="reference internal" href="bibliography.html#id48" title="S. Allen, A.-M. S. Tremblay, and Y. M. Vilk. Conserving Approximations vs. Two-Particle Self-Consistent Approach, chapter 8. Springer-Verlag New York, 2004. arXiv:cond-mat/0110130.">Allen <em>et al.</em>, 2004</a>, <a class="reference internal" href="bibliography.html#id47" title="André-Marie S. Tremblay. Two-Particle-Self-Consistent Approach for the Hubbard Model, pages 409–453. Springer Berlin Heidelberg, Berlin, Heidelberg, 2012. URL: https://doi.org/10.1007/978-3-642-21831-6_13, arXiv:1107.1534, doi:10.1007/978-3-642-21831-6_13.">Tremblay, 2012</a>]</span> for the single-orbital case implemented here and <span id="id3">[<a class="reference internal" href="bibliography.html#id49" title="Karim Zantout, Steffen Backes, and Roser Valentí. Two-particle self-consistent method for the multi-orbital hubbard model. Annalen der Physik, 533(2):2000399, 2021. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/andp.202000399, arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/andp.202000399, doi:https://doi.org/10.1002/andp.202000399.">Zantout <em>et al.</em>, 2021</a>]</span> for the more complex multi-orbital theory.</p>
-<div class="section" id="set-of-tpsc-equations">
-<h3>Set of TPSC equations<a class="headerlink" href="#set-of-tpsc-equations" title="Permalink to this headline">¶</a></h3>
+<section id="set-of-tpsc-equations">
+<h3>Set of TPSC equations<a class="headerlink" href="#set-of-tpsc-equations" title="Permalink to this headline">#</a></h3>
 <p>We review the set of equations that need to be solved in the TPSC approximation assuming a one-band Hubbard model with interaction <span class="math notranslate nohighlight">\(U\)</span> (it is not so easy to extend TPSC to models with more parameters, since sum rules to determine the additional parameters self-consistently need to be found) in the paramagnetic phase (SU(2) symmetric), i.e., <span class="math notranslate nohighlight">\(n = \langle n\rangle = 2n_{\sigma}\)</span> for the electron filling <span class="math notranslate nohighlight">\(n\)</span>. TPSC is constructed in a way to fulfill certain sum rules and the Pauli principle in the form <span class="math notranslate nohighlight">\(\langle n^2\rangle = \langle n\rangle\)</span>. The control quantitites are spin and charge correlation function (susceptibilities) which are evaluated in a Random-Phase-Approximation (RPA) like fashion</p>
 <div class="math notranslate nohighlight">
 \[ \chi_{\mathrm{sp}}^{\mathrm{RPA}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1-U\chi_0(i\nu_m, \boldsymbol{q})}\;,\quad \chi_{\mathrm{ch}}^{\mathrm{RPA}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1+U\chi_0(i\nu_m, \boldsymbol{q})} \]</div>
@@ -539,19 +631,19 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 &amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}.
 \end{align}
 \end{split}\]</div>
-</div>
-<div class="section" id="notes-on-practical-implementation">
-<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="notes-on-practical-implementation">
+<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">#</a></h3>
 <p>When implementing the TPSC, a few points need to be treated carefully which we adress in the following:</p>
 <ul class="simple">
 <li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat them separately.</p></li>
 <li><p>An upper bound for the renormalized spin vertex <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> exists. Since the denominator spin susceptibility <span class="math notranslate nohighlight">\(\chi_{\mathrm{sp}}\)</span> should not diverge, the upper bound is given by the RPA critical interaction value <span class="math notranslate nohighlight">\(U_{\mathrm{crit}} = 1/\mathrm{max}\{\chi^0\}\)</span>. Mathematically, the function <span class="math notranslate nohighlight">\(f(U_{\mathrm{sp}}) = 2\sum \chi_{\mathrm{sp}}(U_{\mathrm{sp}}) - n + \frac{U_{\mathrm{sp}}}{2U}n^2\)</span>, from which <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> is determined, turns unstable for <span class="math notranslate nohighlight">\(U_{\mathrm{sp}} \geq U_{\mathrm{crit}}\)</span> (try plotting <span class="math notranslate nohighlight">\(f(U_{\mathrm{sp}})\)</span>!). At this point, TPSC is not applicable and, e.g., the temperature <span class="math notranslate nohighlight">\(T\)</span> is too low or the (unrenormalized) interaction <span class="math notranslate nohighlight">\(U\)</span> too large.</p></li>
 <li><p>An internal accuracy check <span class="math notranslate nohighlight">\(\frac{1}{2}\mathrm{Tr}(\Sigma G) = U \langle n_{\uparrow} n_{\downarrow}\rangle\)</span> can be employed to test the validity of TPSC (not done here).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="code-implementation">
-<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">#</a></h2>
 <p>We are implementing TPSC for the simple case of a square lattice model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span> with nearest-neighbor hopping <span class="math notranslate nohighlight">\(t\)</span> which sets the energy scale of our system (bandwidth <span class="math notranslate nohighlight">\(W = 8t\)</span>). First, we load all necessary basic modules that we are going to need in implementing TPSC and visualizing results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -566,8 +658,8 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 </div>
 </div>
 </div>
-<div class="section" id="parameter-setting">
-<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h3>
+<section id="parameter-setting">
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
@@ -588,9 +680,9 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="generating-meshes">
-<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="generating-meshes">
+<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">#</a></h3>
 <p>We need to generate a <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-mesh as well as set up the IR basis functions on a sparse <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(i\omega_n\)</span> grid. Then we can calculate the dispersion on this mesh.
 In addition, we set calculation routines to Fourier transform <span class="math notranslate nohighlight">\(k\leftrightarrow r\)</span> and <span class="math notranslate nohighlight">\(\tau\leftrightarrow i\omega_n\)</span> (via IR basis).</p>
 <div class="cell docutils container">
@@ -666,9 +758,9 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="tpsc-solver">
-<h3>TPSC solver<a class="headerlink" href="#tpsc-solver" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="tpsc-solver">
+<h3>TPSC solver<a class="headerlink" href="#tpsc-solver" title="Permalink to this headline">#</a></h3>
 <p>We wrap the calculation steps of TPSC (i.e. determining <span class="math notranslate nohighlight">\(U_{\mathrm{sp}},U_{\mathrm{ch}}\)</span>) in the <code class="docutils literal notranslate"><span class="pre">TPSCSolver</span></code> class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -831,9 +923,9 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="execute-tpsc-solver">
-<h3>Execute TPSC solver<a class="headerlink" href="#execute-tpsc-solver" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="execute-tpsc-solver">
+<h3>Execute TPSC solver<a class="headerlink" href="#execute-tpsc-solver" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize calculation</span>
@@ -847,8 +939,8 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 </div>
 </div>
 </div>
-<div class="section" id="visualize-results">
-<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">¶</a></h4>
+<section id="visualize-results">
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span>
@@ -909,11 +1001,11 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <img alt="../_images/TPSC_py_14_0.png" src="../_images/TPSC_py_14_0.png" />
 </div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="example-interaction-dependent-renormalization">
-<h2>Example: Interaction dependent renormalization<a class="headerlink" href="#example-interaction-dependent-renormalization" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+</section>
+<section id="example-interaction-dependent-renormalization">
+<h2>Example: Interaction dependent renormalization<a class="headerlink" href="#example-interaction-dependent-renormalization" title="Permalink to this headline">#</a></h2>
 <p>As a simple example demonstration of our <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> TPSC code developed above, we will reproduce Fig. 2 of <span id="id5">[<a class="reference internal" href="bibliography.html#id46" title="Y. M. Vilk and A.-M. S. Tremblay. Non-Perturbative Many-Body Approach to the Hubbard Model and Single-Particle Pseudogap. Journal de Physique I, 7(11):1309–1368, nov 1997. arXiv:cond-mat/9702188, doi:10.1051/jp1:1997135.">Vilk and Tremblay, 1997</a>]</span>. It shows the <span class="math notranslate nohighlight">\(U\)</span> dependence of renormalized/effective spin and charge interactions <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> and <span class="math notranslate nohighlight">\(U_{\mathrm{ch}}\)</span> (irreducible vertices) at half filling <span class="math notranslate nohighlight">\(n=1\)</span> and <span class="math notranslate nohighlight">\(T&gt;T_{\mathrm{crit}}\)</span> for all considered <span class="math notranslate nohighlight">\(U\)</span> (i.e. <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}&lt;U_{\mathrm{crit}}\)</span> is ensured).</p>
 <p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the reference above.</p>
 <div class="cell docutils container">
@@ -983,14 +1075,14 @@ Start TPSC loop...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. Plotting now.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0xffff3a1a43d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0xffff6c2caa90&gt;
 </pre></div>
 </div>
 <img alt="../_images/TPSC_py_16_3.png" src="../_images/TPSC_py_16_3.png" />
 </div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1014,9 +1106,11 @@ Start TPSC loop...
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
-<div class='prev-next-area'> 
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
     <a class='left-prev' id="prev-link" href="FLEX_py.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1032,24 +1126,28 @@ Start TPSC loop...
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By sparse-ir developers<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By sparse-ir developers<br/>
-    
-        &copy; Copyright 2022.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
