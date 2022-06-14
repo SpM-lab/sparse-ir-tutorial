@@ -23,7 +23,7 @@ parts:
   - file: src/liechtenstein_py
 - caption: Analytic continuation
   chapters:
-  - file: src/analytic_continuation
+  - file: src/analytic_continuation_py
   - file: src/spm_py
   #- file: src/nevanlinna
 - caption: Sample codes (Julia)
