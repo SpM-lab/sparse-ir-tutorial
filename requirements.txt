@@ -1,0 +1,4 @@
+# For binder
+matplotlib
+xprec
+sparse-ir
