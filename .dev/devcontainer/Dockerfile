@@ -40,7 +40,7 @@ USER ${NB_USER}
 
 RUN chown -R ${NB_UID} ${HOME}
 
-# Install Python libraries
+# Install default Python libraries
 RUN pip3 install \
     jupyter-book \
     jupytext \
@@ -50,14 +50,15 @@ RUN pip3 install \
     ghp-import \
     --user
 
-# Install Julia packages
+# Install default Julia packages
 RUN mkdir -p ${HOME}/.julia/config && \
     echo '\
     # set environment variables\n\
     ENV["PYTHON"]=Sys.which("python3")\n\
     ENV["JUPYTER"]=Sys.which("jupyter")\n\
     ' >> ${HOME}/.julia/config/startup.jl && cat ${HOME}/.julia/config/startup.jl
-RUN julia -e 'using Pkg; Pkg.add(["IJulia", "PyPlot", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
+#RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Plots", "SparseIR", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
+RUN julia -e 'using Pkg; Pkg.add(["IJulia", "Plots", "Revise", "FFTW", "Roots", "OMEinsum", "GR", "FastGaussQuadrature", "LaTeXStrings"])'
 
 RUN echo "export PATH=$HOME/.local/bin:\$PATH" >> ${HOME}/.bashrc
 
@@ -72,5 +73,7 @@ USER ${USER}
 EXPOSE 8000
 
 #RUN echo "alias python=python3" >> ${HOME}/.bashrc
+COPY docker-entrypoint.sh /tmp
+ENTRYPOINT ["/tmp/docker-entrypoint.sh"]
 
 CMD ["julia"]
