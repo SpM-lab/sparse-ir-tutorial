@@ -4,6 +4,7 @@
 
 * In Markdown cells, use the `$$`, `$$ $$` environments for equations.
 * References are listed in the markdown cell at the bottom of each notebook.
+* Remove all outputs in a jupyter notebook.
 
 ## Set up tools
 
@@ -11,60 +12,8 @@
 pip3 install jupyter-book ghp-import jupytext
 ```
 
-## How to build html
-
-1. Write a jupyter notebook. Your notebook must be placed under the  `src` directory with a name `*_py.ipynb` (python) or `*_jl.ipyb` (julia).
-
-2. Convert the notebook to a MyST markdown file.
-
-```bash
-jupytext --to md:myst notebook_py.ipynb
-```
-
-3. Make html files
-
-The following command builds html files.
-
-```bash
-make build
-```
-
-## Update existing MyST Markdown file
-
-1. Convert a MyST markdown file to a notebook:
-
-```bash
-jupytext --to ipynb notebook_py.md
-```
-
-2. Update the notebook using jupyter notebook/lab
-
-3. Convert the notebook file to a Markdown file:
-
-```bash
-jupytext --to md:myst notebook_py.ipynb
-```
-
-
-## How to commit a new/updated Markdown file
-
-Before commiting a new MyST Markdown file, update the header of all Markdown files:
-
-```bash
-make update_header
-```
-
-Then, you will be ready to commit updated files.
-
-
-## Upload html files
-
-```bash
-make upload
-```
-
-## Docker on VSCode
-We recommend to use VSCode + Docker to build HTML files.
+## Set up VS code + Docker
+We strongly recommend to use VSCode + Docker to build HTML files.
 
 1. Make sure you have Docker and VSCode installed.
 
@@ -86,6 +35,30 @@ ln -s .dev/devcontainer .devcontainer
 
 5. Press the green mark at the bottom left and press `` Reopen in Container`` from the command palette.
    After the build is finished, you can enter the Docker container.
+
+6. If a Docker image is built for the first time or is rebuilt, open a new terminal and execute `./bin/install_sparseir ` to install `sparse-ir`, `xprec`, `SparseIR.jl` packages, whose versions are specified in `requirements.txt` and `Manifest.toml`.
+
+7. Build html files
+
+The following command builds html files, which takes a few minutes.
+
+```bash
+make build
+```
+
+8. Upload html files
+
+```bash
+make upload
+```
+
+## Update the specified versions of `sparse-ir`, `xprec`, `SparseIR.jl`
+* For Python, edit `requirements.txt` manually.
+* For Julia, use the package mode to update the package. Note that in the container, the `julia` command is aliased to `julia --project=@.`.
+
+
+## Binder
+mybinder reads `requirements.txt` and `Project.toml`.
 
 ## References
 You can add references to `references.bib`.

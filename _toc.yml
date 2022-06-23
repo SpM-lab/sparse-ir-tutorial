@@ -3,36 +3,40 @@ root: index
 parts:
 - caption: Basic theory
   chapters:
-  - file: src/IR_py.md
-  - file: src/sparse_sampling_py.md
+  - file: src/IR_py
+  - file: src/sparse_sampling_py
 - caption: Reference
   chapters:
-  - file: src/api.md
-  - file: src/additional_material.md
+  - file: src/api
+  - file: src/additional_material
 - caption: Sample codes
   chapters:
-  - file: src/transformation_py.md
-  - file: src/sparse_sampling_demo_py.md
-  - file: src/second_order_perturbation_py.md
-  - file: src/GW_py.md
-  - file: src/FLEX_py.md
-  - file: src/TPSC_py.md
-  - file: src/eliashberg_holstein_py.md
-  - file: src/orbital_magnetic_susceptibility_py.md
-  - file: src/liechtenstein_py.md
+  - file: src/transformation_py
+  - file: src/sparse_sampling_demo_py
+  - file: src/SPR_py
+  - file: src/second_order_perturbation_py
+  - file: src/GW_py
+  - file: src/FLEX_py
+  - file: src/TPSC_py
+  - file: src/eliashberg_holstein_py
+  - file: src/orbital_magnetic_susceptibility_py
+  - file: src/liechtenstein_py
 - caption: Analytic continuation
   chapters:
-  - file: src/analytic_continuation.md
-  - file: src/spm_py.md
-  - file: src/nevanlinna.md
+  - file: src/analytic_continuation_py
+  - file: src/spm_py
+  #- file: src/nevanlinna
 - caption: Sample codes (Julia)
   chapters:
-  - file: src/transformation_jl.md
-  - file: src/FLEX_jl.md
+  - file: src/transformation_jl
+  - file: src/SPR_jl
+  - file: src/ipt_jl
+  - file: src/FLEX_jl
+  - file: src/BgG_jl
 - caption: Sample codes (Fortran)
   chapters:
-  #- file: src/readme_fortran.md
-  - file: src/second_order_perturbation_fort.md
+  #- file: src/readme_fortran
+  - file: src/second_order_perturbation_fort
 - caption: Reference
   chapters:
   - file: src/citation

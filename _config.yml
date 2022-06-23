@@ -1,7 +1,7 @@
 #######################################################################################
 # Book settings
 title : sparse-ir
-author: Many authors
+author: sparse-ir developers
 copyright: "2022"
 
 # Information about where the book exists on the web
@@ -12,7 +12,7 @@ description: >-
 # Execution settings
 execute:
   execute_notebooks           : cache
-  timeout                     : 120
+  timeout                     : 600
 
 #######################################################################################
 # HTML-specific settings
@@ -26,10 +26,12 @@ html:
 #######################################################################################
 # Launch button settings
 repository:
-  url                         : https://github.com/SpM-lab/sparse-ir-doc.git
-  path_to_book                : src
+  url                         : https://github.com/SpM-lab/sparse-ir-tutorial.git
   branch                      : main
-  notebook_interface          : classic
+  notebook_interface          : jupyterlab
+
+launch_buttons:
+  binderhub_url: "https://mybinder.org"  # The URL for your BinderHub (e.g., https://mybinder.org)
 
 latex:
   latex_engine                : "xelatex"
