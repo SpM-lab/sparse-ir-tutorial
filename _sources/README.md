@@ -36,7 +36,7 @@ ln -s .dev/devcontainer .devcontainer
 5. Press the green mark at the bottom left and press `` Reopen in Container`` from the command palette.
    After the build is finished, you can enter the Docker container.
 
-6. Open a new terminal and execute `./bin/install_sparseir ` to install `sparse-ir`, `xprec`, `SparseIR.jl` packages, whose versions are specified in `requirements.txt` and `Manifest.toml`.
+6. If a Docker image is built for the first time or is rebuilt, open a new terminal and execute `./bin/install_sparseir ` to install `sparse-ir`, `xprec`, `SparseIR.jl` packages, whose versions are specified in `requirements.txt` and `Manifest.toml`.
 
 7. Build html files
 
