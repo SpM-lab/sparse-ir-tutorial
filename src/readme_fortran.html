@@ -4,11 +4,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>sparse-ir-fortran - A Fortran interface for sparse-ir &#8212; sparse-ir</title>
     
-  <link href="../_static/css/theme.css" rel="stylesheet">
-  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -18,20 +20,16 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
-    
-      
-
-    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
     
-  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -39,12 +37,13 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
+    <script src="../_static/design-tabs.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -62,7 +61,21 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
     
     <div class="container-fluid" id="banner"></div>
 
@@ -71,9 +84,10 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
-    
-        <div class="navbar-brand-box">
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -262,12 +276,17 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav> <!-- To handle the deprecated key -->
-
-<div class="navbar_extra_footer">
-  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-</div>
-
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
 </div>
 
 
@@ -275,61 +294,117 @@ const thebe_selector_output = ".output, .cell_output"
 
 
           
-<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
     
-    <div class="topbar container-xl fixed-top">
-    <div class="topbar-contents row">
-        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
-        <div class="col pl-md-4 topbar-main">
-            
-            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
-                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
-                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
-                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
-                <i class="fas fa-bars"></i>
-                <i class="fas fa-arrow-left"></i>
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            
-            
-<div class="dropdown-buttons-trigger">
-    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
-            class="fas fa-download"></i></button>
-
-    <div class="dropdown-buttons">
-        <!-- ipynb file if we had a myst markdown file -->
+    <div class="header-article row sticky-top noprint">
         
-        <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../_sources/src/readme_fortran.md"><button type="button"
-                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.md</button></a>
-        <!-- Download PDF via print -->
-        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/src/readme_fortran.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
     </div>
 </div>
 
-            <!-- Source interaction buttons -->
-
-            <!-- Full screen (wrap in <a> to have style consistency -->
-
-<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
-        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
-        title="Fullscreen mode"><i
-            class="fas fa-expand"></i></button></a>
-
-            <!-- Launch buttons -->
-
-        </div>
-
-        <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
-            
-            <div class="tocsection onthispage pt-5 pb-3">
-                <i class="fas fa-list"></i> Contents
-            </div>
-            <nav id="bd-toc-nav" aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#creating-a-data-file">
    Creating a data file
@@ -538,12 +613,11 @@ const thebe_selector_output = ".output, .cell_output"
  </li>
 </ul>
 
-            </nav>
-        </div>
-    </div>
+    </nav>
 </div>
-    <div id="main-content" class="row">
-        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>sparse-ir-fortran - A Fortran interface for sparse-ir</h1>
@@ -768,132 +842,133 @@ const thebe_selector_output = ".output, .cell_output"
                     </div>
                 </div>
             </div>
-            
+            <main id="main-content" role="main">
+                
               <div>
                 
-  <div class="tex2jax_ignore mathjax_ignore section" id="sparse-ir-fortran-a-fortran-interface-for-sparse-ir">
-<h1>sparse-ir-fortran - A Fortran interface for sparse-ir<a class="headerlink" href="#sparse-ir-fortran-a-fortran-interface-for-sparse-ir" title="Permalink to this headline">¶</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sparse-ir-fortran-a-fortran-interface-for-sparse-ir">
+<h1>sparse-ir-fortran - A Fortran interface for sparse-ir<a class="headerlink" href="#sparse-ir-fortran-a-fortran-interface-for-sparse-ir" title="Permalink to this headline">#</a></h1>
 <p>This library provides a Fortran interface for <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>.
 At runtime, the installation of <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> is not required.</p>
 <p>First, please install <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> with <code class="docutils literal notranslate"><span class="pre">xprec</span></code>.</p>
-<div class="section" id="creating-a-data-file">
-<h2>Creating a data file<a class="headerlink" href="#creating-a-data-file" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="generate-a-data-file">
-<h3>1. Generate a data file:<a class="headerlink" href="#generate-a-data-file" title="Permalink to this headline">¶</a></h3>
+<section id="creating-a-data-file">
+<h2>Creating a data file<a class="headerlink" href="#creating-a-data-file" title="Permalink to this headline">#</a></h2>
+<section id="generate-a-data-file">
+<h3>1. Generate a data file:<a class="headerlink" href="#generate-a-data-file" title="Permalink to this headline">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; python3 dump.py 1e+4 1e-10 ir_nlambda4_ndigit10.dat
 </pre></div>
 </div>
 <p>This generate the data file <code class="docutils literal notranslate"><span class="pre">ir_nlambda4_ndigit10.dat</span></code> containing sparse sampling points and transformation matrices for <span class="math notranslate nohighlight">\(\Lambda=10^4\)</span> and <span class="math notranslate nohighlight">\(\epsilon = 10^{-10}\)</span> (<span class="math notranslate nohighlight">\(\epsilon\)</span> is a cut-off value for singular values).</p>
-</div>
-<div class="section" id="build-object-files-and-link-them-to-your-program">
-<h3>2. Build object files and link them to your program:<a class="headerlink" href="#build-object-files-and-link-them-to-your-program" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="build-object-files-and-link-them-to-your-program">
+<h3>2. Build object files and link them to your program:<a class="headerlink" href="#build-object-files-and-link-them-to-your-program" title="Permalink to this headline">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; gfortran  -c -o sparse_ir.o sparse_ir.f90
 &gt; gfortran  -c -o sparse_ir_io.o sparse_ir_io.f90
 </pre></div>
 </div>
 <p>You do not need <code class="docutils literal notranslate"><span class="pre">sparse_ir_preset.f90</span></code> if your program reads a data file at runtime.</p>
-</div>
-</div>
-<div class="section" id="embedding-data-in-a-fortran-source-file">
-<h2>Embedding data in a Fortran source file<a class="headerlink" href="#embedding-data-in-a-fortran-source-file" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="embedding-data-in-a-fortran-source-file">
+<h2>Embedding data in a Fortran source file<a class="headerlink" href="#embedding-data-in-a-fortran-source-file" title="Permalink to this headline">#</a></h2>
 <p>Data can be embedded in a source file.
 This allows you to avoid loading data files at runtime.</p>
-<div class="section" id="generate-a-fortran-source-file">
-<h3>1. Generate a fortran source file:<a class="headerlink" href="#generate-a-fortran-source-file" title="Permalink to this headline">¶</a></h3>
+<section id="generate-a-fortran-source-file">
+<h3>1. Generate a fortran source file:<a class="headerlink" href="#generate-a-fortran-source-file" title="Permalink to this headline">#</a></h3>
 <p>The following command generates a source file containg data for a matrix of
 <span class="math notranslate nohighlight">\(\Lambda=10^{\mathrm{nlambda}}\)</span> (nlambda = 1, 2, 3, 4) and <span class="math notranslate nohighlight">\(\epsilon=10^{-\mathrm{ndigit}}\)</span> (ndigit = 10).</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; python3 mk_preset.py --nlambda <span class="m">1</span> <span class="m">2</span> <span class="m">3</span> <span class="m">4</span> --ndigit <span class="m">10</span> &gt; sparse_ir_preset.f90
 </pre></div>
 </div>
-</div>
-<div class="section" id="id1">
-<h3>2. Build object files and link them to your program:<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id1">
+<h3>2. Build object files and link them to your program:<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h3>
 <p>The generated file <code class="docutils literal notranslate"><span class="pre">sparse_ir_preset.f90</span></code> is consisitent with Fortran95 and can be compiled as follows:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; gfortran  -c -o sparse_ir.o sparse_ir.f90
 &gt; gfortran  -c -o sparse_ir_preset.o sparse_ir_preset.f90
 </pre></div>
 </div>
 <p>You do not need <code class="docutils literal notranslate"><span class="pre">sparse_ir_io.f90</span></code> if your program uses embedded data.</p>
-</div>
-</div>
-<div class="section" id="how-to-use-sparse-ir-modules-in-your-fortran-program">
-<h2>How to use sparse-ir modules in your Fortran program<a class="headerlink" href="#how-to-use-sparse-ir-modules-in-your-fortran-program" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="how-to-use-sparse-ir-modules-in-your-fortran-program">
+<h2>How to use sparse-ir modules in your Fortran program<a class="headerlink" href="#how-to-use-sparse-ir-modules-in-your-fortran-program" title="Permalink to this headline">#</a></h2>
 <p>If your program reads data from the file, you should declare the use of the sparse-ir modules to initiate IR basis objects as follows:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span>
-  <span class="k">use </span><span class="n">sparse_ir</span>
-  <span class="k">use </span><span class="n">sparse_ir_io</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir_io</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Or, if you want to use the embed data of IR basis objects, you should do this instead:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span>
-  <span class="k">use </span><span class="n">sparse_ir</span>
-  <span class="k">use </span><span class="n">sparse_ir_preset</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">program </span><span class="n">main</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir</span><span class="w"></span>
+<span class="w">  </span><span class="k">use </span><span class="n">sparse_ir_preset</span><span class="w"></span>
 </pre></div>
 </div>
 <p>In either case, the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>” should be declared.</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="k">implicit none</span>
-<span class="k">  type</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span> <span class="kd">::</span> <span class="n">ir_obj</span> <span class="c">! You can declare with any name you wish.</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="k">implicit none</span>
+<span class="k">  type</span><span class="p">(</span><span class="n">IR</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">ir_obj</span><span class="w"> </span><span class="c">! You can declare with any name you wish.</span>
 </pre></div>
 </div>
 <p>Hereafter it is assumed that you will set the parameters as <span class="math notranslate nohighlight">\(\Lambda = 10^4\)</span>, <span class="math notranslate nohighlight">\(\beta = 10^3\)</span>, and <span class="math notranslate nohighlight">\(\epsilon = 10^{-10}\)</span>.
 You can store the IR basis objects into the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>” as follows:</p>
 <p>Using <code class="docutils literal notranslate"><span class="pre">sparse_ir_io</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="kt">double precision</span> <span class="kd">::</span> <span class="n">beta</span> <span class="c">! inverse temperature</span>
-  <span class="p">...</span>
-  <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0d3</span>
-  <span class="k">open</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="k">file</span><span class="o">=</span><span class="s2">&quot;ir_nlambda4_ndigit10.dat&quot;</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">)</span> <span class="c">! Any unit number is OK.</span>
-  <span class="n">ir_obj</span> <span class="o">=</span> <span class="n">read_ir</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">double precision</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="c">! inverse temperature</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d3</span><span class="w"></span>
+<span class="w">  </span><span class="k">open</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="k">file</span><span class="o">=</span><span class="s2">&quot;ir_nlambda4_ndigit10.dat&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">status</span><span class="o">=</span><span class="s1">&#39;old&#39;</span><span class="p">)</span><span class="w"> </span><span class="c">! Any unit number is OK.</span>
+<span class="w">  </span><span class="n">ir_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_ir</span><span class="p">(</span><span class="mi">99</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Using <code class="docutils literal notranslate"><span class="pre">sparse_ir_preset</span></code>:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span>  <span class="kt">double precision</span> <span class="kd">::</span> <span class="n">beta</span> <span class="c">! inverse temperature</span>
-  <span class="p">...</span>
-  <span class="n">beta</span> <span class="o">=</span> <span class="mf">1.0d3</span>
-  <span class="n">ir_obj</span> <span class="o">=</span> <span class="n">mk_ir_preset</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="w">  </span><span class="kt">double precision</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="c">! inverse temperature</span>
+<span class="w">  </span><span class="p">...</span><span class="w"></span>
+<span class="w">  </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0d3</span><span class="w"></span>
+<span class="w">  </span><span class="n">ir_obj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mk_ir_preset</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>Here you are ready to use the IR basis objects and call the IR basis subroutines for a given value of <code class="docutils literal notranslate"><span class="pre">beta</span></code> in your program. Note that a derived type of <code class="docutils literal notranslate"><span class="pre">IR</span></code> (<code class="docutils literal notranslate"><span class="pre">ir_obj</span></code> here) should be updated by using the functions <code class="docutils literal notranslate"><span class="pre">read_ir</span></code> or <code class="docutils literal notranslate"><span class="pre">mk_ir_preset</span></code> each time you change the value of <code class="docutils literal notranslate"><span class="pre">beta</span></code>.</p>
-</div>
-<div class="section" id="available-objects">
-<h2>Available objects<a class="headerlink" href="#available-objects" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="double-precision-ir-beta">
-<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%beta</span></code><a class="headerlink" href="#double-precision-ir-beta" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="available-objects">
+<h2>Available objects<a class="headerlink" href="#available-objects" title="Permalink to this headline">#</a></h2>
+<section id="double-precision-ir-beta">
+<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%beta</span></code><a class="headerlink" href="#double-precision-ir-beta" title="Permalink to this headline">#</a></h3>
 <p>It returns is the input value <span class="math notranslate nohighlight">\(\beta\)</span> of the functions <code class="docutils literal notranslate"><span class="pre">read_ir</span></code> or <code class="docutils literal notranslate"><span class="pre">mk_ir_preset</span></code>. <!--The type is `DOUBLE PRECISION`.--></p>
-</div>
-<div class="section" id="double-precision-ir-s-ir-size">
-<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%s</span> <span class="pre">(IR%size)</span></code><a class="headerlink" href="#double-precision-ir-s-ir-size" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="double-precision-ir-s-ir-size">
+<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%s</span> <span class="pre">(IR%size)</span></code><a class="headerlink" href="#double-precision-ir-s-ir-size" title="Permalink to this headline">#</a></h3>
 <p>It returns the singular values obtained from SVD of the kernel matrix. <!--The type is 1-dimensional `DOUBLE PRECISION` array and its size is `IR%size`.--></p>
-</div>
-<div class="section" id="integer-ir-size">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%size</span></code><a class="headerlink" href="#integer-ir-size" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-size">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%size</span></code><a class="headerlink" href="#integer-ir-size" title="Permalink to this headline">#</a></h3>
 <p>It returns the size of <code class="docutils literal notranslate"><span class="pre">IR%s</span></code>. <!--The type is integer.--></p>
-</div>
-<div class="section" id="double-precision-ir-tau-ir-ntau">
-<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%tau</span> <span class="pre">(IR%ntau)</span></code><a class="headerlink" href="#double-precision-ir-tau-ir-ntau" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="double-precision-ir-tau-ir-ntau">
+<h3><code class="docutils literal notranslate"><span class="pre">DOUBLE</span> <span class="pre">PRECISION::</span> <span class="pre">IR%tau</span> <span class="pre">(IR%ntau)</span></code><a class="headerlink" href="#double-precision-ir-tau-ir-ntau" title="Permalink to this headline">#</a></h3>
 <p>It returns the values of <span class="math notranslate nohighlight">\(\tau\)</span> of sparse sampling points. <!--The type is 1-dimensional array and its size is `IR%ntau`.--></p>
-</div>
-<div class="section" id="integer-ir-ntau">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%ntau</span></code><a class="headerlink" href="#integer-ir-ntau" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-ntau">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%ntau</span></code><a class="headerlink" href="#integer-ir-ntau" title="Permalink to this headline">#</a></h3>
 <p>It returns the size of <code class="docutils literal notranslate"><span class="pre">IR%tau</span></code>. <!--The type is integer.--></p>
-</div>
-<div class="section" id="integer-ir-freq-f-ir-nfreq-f">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%freq_f</span> <span class="pre">(IR%nfreq_f)</span></code><a class="headerlink" href="#integer-ir-freq-f-ir-nfreq-f" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-freq-f-ir-nfreq-f">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%freq_f</span> <span class="pre">(IR%nfreq_f)</span></code><a class="headerlink" href="#integer-ir-freq-f-ir-nfreq-f" title="Permalink to this headline">#</a></h3>
 <p>It returns the odd integers corresponding to sampling Matsubara frequencies for fermionic function. <!--The type is 1-dimensional array and its size is `IR%nfreq_f`.--></p>
-</div>
-<div class="section" id="integer-ir-nfreq-f">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%nfreq_f</span></code><a class="headerlink" href="#integer-ir-nfreq-f" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-nfreq-f">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%nfreq_f</span></code><a class="headerlink" href="#integer-ir-nfreq-f" title="Permalink to this headline">#</a></h3>
 <p>It is the number of sampling Matsubara frequencies for fermionic function.</p>
-</div>
-<div class="section" id="integer-ir-freq-b-ir-nfreq-b">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%freq_b</span> <span class="pre">(IR%nfreq_b)</span></code><a class="headerlink" href="#integer-ir-freq-b-ir-nfreq-b" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-freq-b-ir-nfreq-b">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%freq_b</span> <span class="pre">(IR%nfreq_b)</span></code><a class="headerlink" href="#integer-ir-freq-b-ir-nfreq-b" title="Permalink to this headline">#</a></h3>
 <p>It returns the even integers corresponding to sampling Matsubara frequencies for bosonic function. <!--The type is 1-dimensional array and its size is `IR%nfreq_b`.--></p>
-</div>
-<div class="section" id="integer-ir-nfreq-b">
-<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%nfreq_b</span></code><a class="headerlink" href="#integer-ir-nfreq-b" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="integer-ir-nfreq-b">
+<h3><code class="docutils literal notranslate"><span class="pre">INTEGER::</span> <span class="pre">IR%nfreq_b</span></code><a class="headerlink" href="#integer-ir-nfreq-b" title="Permalink to this headline">#</a></h3>
 <p>It is the number of sampling Matsubara frequencies for bosonic function.</p>
-</div>
-<div class="section" id="type-decomposedmatrix-ir-uhat-f">
-<h3><code class="docutils literal notranslate"><span class="pre">TYPE(DecomposedMatrix)::</span> <span class="pre">IR%uhat_f</span></code><a class="headerlink" href="#type-decomposedmatrix-ir-uhat-f" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="type-decomposedmatrix-ir-uhat-f">
+<h3><code class="docutils literal notranslate"><span class="pre">TYPE(DecomposedMatrix)::</span> <span class="pre">IR%uhat_f</span></code><a class="headerlink" href="#type-decomposedmatrix-ir-uhat-f" title="Permalink to this headline">#</a></h3>
 <p>It refers the derived type of <code class="docutils literal notranslate"><span class="pre">DecomposedMatrix</span></code> which contains <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%a</span></code>, <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%inv_s</span></code>, <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%ut</span></code>, and <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%v</span></code>. When TYPE “<code class="docutils literal notranslate"><span class="pre">IR</span></code>” is defined for a given <code class="docutils literal notranslate"><span class="pre">beta</span></code>, SVD of <span class="math notranslate nohighlight">\(\{\hat{U}_l(\mathrm{i}\nu_n)\}\)</span> for the <code class="docutils literal notranslate"><span class="pre">beta</span></code> is performed to define <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%inv_s</span></code>, <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%ut</span></code>, and <code class="docutils literal notranslate"><span class="pre">IR%uhat_f%v</span></code>, which are used in subroutines <code class="docutils literal notranslate"><span class="pre">fit_matsubara_f</span></code> and <code class="docutils literal notranslate"><span class="pre">evaluate_matsubara_f</span></code>.</p>
 <p>The basis functions on fermionic sampling Matsubara frequencies is SVDecomposed in advance  as follows:
 $$</p>
@@ -925,12 +1000,12 @@ It is the IR basis set on Matsubara frequencies, $\{\hat{U}_l(\mathrm{i}\nu_n)\}
 ### `IR%uhat_f%ns` (`IR%uhat_b%ns`)
 It returns the number of size of  `IR%uhat_f%inv_s`.
 -->
-</div>
-</div>
-<div class="section" id="subroutines">
-<h2>Subroutines<a class="headerlink" href="#subroutines" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="subroutine-fit-matsubara-f">
-<h3><code class="docutils literal notranslate"><span class="pre">SUBROUTINE</span> <span class="pre">fit_matsubara_f</span></code><a class="headerlink" href="#subroutine-fit-matsubara-f" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="subroutines">
+<h2>Subroutines<a class="headerlink" href="#subroutines" title="Permalink to this headline">#</a></h2>
+<section id="subroutine-fit-matsubara-f">
+<h3><code class="docutils literal notranslate"><span class="pre">SUBROUTINE</span> <span class="pre">fit_matsubara_f</span></code><a class="headerlink" href="#subroutine-fit-matsubara-f" title="Permalink to this headline">#</a></h3>
 <p>The subroutine fits a set of expansion coefficients <!--of the IR basis --><span class="math notranslate nohighlight">\(G_l\)</span> to a given fermionic function <span class="math notranslate nohighlight">\(G(\mathrm{i}\nu_n)\)</span> on sampling Matsubara frequencies by using SVD.
 $$</p>
 <div class="amsmath math notranslate nohighlight">
@@ -953,14 +1028,14 @@ G(\mathrm{i}\nu_n) = \sum_{l}\hat{U}_l(\mathrm{i}\nu_n)G_l
 \end{align*}\]</div>
 <p>$$
 The Usage is</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">call </span><span class="n">evaluate_matsubara_f</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">g_in</span><span class="p">,</span> <span class="n">g_out</span><span class="p">)</span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="k">call </span><span class="n">evaluate_matsubara_f</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="w"> </span><span class="n">g_in</span><span class="p">,</span><span class="w"> </span><span class="n">g_out</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and <code class="docutils literal notranslate"><span class="pre">g_out</span></code> correspond to <span class="math notranslate nohighlight">\(G_l\)</span> and <span class="math notranslate nohighlight">\(G(\mathrm{i}\nu_n)\)</span>, respectively. <code class="docutils literal notranslate"><span class="pre">obj</span></code> is the derived type of “<code class="docutils literal notranslate"><span class="pre">IR</span></code>”, and <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and <code class="docutils literal notranslate"><span class="pre">g_out</span></code> are 2-dimensional <code class="docutils literal notranslate"><span class="pre">COMPLEX(KIND(0D0))</span></code> arrays. The inputs are <code class="docutils literal notranslate"><span class="pre">obj</span></code> and <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and the output is <code class="docutils literal notranslate"><span class="pre">g_out</span></code>. Before calling this subroutine, you should reshape the array of <span class="math notranslate nohighlight">\(G_l\)</span> to a 2-dimensional array whose last axis corresponds to <span class="math notranslate nohighlight">\(\mathrm{i}\nu_n\)</span> and allocate <code class="docutils literal notranslate"><span class="pre">g_out</span></code> with appropriate shape.
 That is, <code class="docutils literal notranslate"><span class="pre">g_in</span></code> and <code class="docutils literal notranslate"><span class="pre">g_out</span></code> should be allocated so as to have shapes of <code class="docutils literal notranslate"><span class="pre">(**,</span> <span class="pre">obj%size)</span></code> and  <code class="docutils literal notranslate"><span class="pre">(**,</span> <span class="pre">obj%nfreq_f)</span></code>, respectively.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -984,28 +1059,34 @@ That is, <code class="docutils literal notranslate"><span class="pre">g_in</span
 
               </div>
               
-            
-                <!-- Previous / next buttons -->
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
 <div class='prev-next-area'>
 </div>
-            
+            </footer>
         </div>
     </div>
-    <footer class="footer">
-  <p>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By sparse-ir developers<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
     
-      By sparse-ir developers<br/>
-    
-        &copy; Copyright 2022.<br/>
-  </p>
-</footer>
-</main>
+</div>
 
 
       </div>
     </div>
   
-  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
 
   </body>
 </html>
