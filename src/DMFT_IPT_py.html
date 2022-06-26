@@ -4,13 +4,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DMFT with IPT solver &#8212; sparse-ir</title>
     
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -20,16 +18,20 @@
   <link rel="preload" as="font" type="font/woff2" crossorigin
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
+    
+      
+
+    
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
     
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -37,13 +39,12 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
-    <script src="../_static/design-tabs.js"></script>
+    <script src="../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -63,21 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <!-- Google Analytics -->
     
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
-
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
     <div class="container-fluid" id="banner"></div>
 
@@ -86,10 +73,9 @@ const thebe_selector_output = ".output, .cell_output"
     <div class="container-xl">
       <div class="row">
           
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="../index.html">
       
       
@@ -278,17 +264,12 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 
     </div>
-</nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
-    </div>
-    <div id="rtd-footer-container"></div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
 </div>
 
 
@@ -296,146 +277,78 @@ const thebe_selector_output = ".output, .cell_output"
 
 
           
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
     
-    <div class="header-article row sticky-top noprint">
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
         
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/DMFT_IPT_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
-<button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/DMFT_IPT_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/src/DMFT_IPT_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/DMFT_IPT_py.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
     </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#theory">
    Theory
@@ -523,11 +436,12 @@ title="Print to PDF"
  </li>
 </ul>
 
-    </nav>
-</div>
+            </nav>
+        </div>
     </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
                 <h1>DMFT with IPT solver</h1>
@@ -631,18 +545,17 @@ title="Print to PDF"
                     </div>
                 </div>
             </div>
-            <main id="main-content" role="main">
-                
+            
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="dmft-with-ipt-solver">
-<h1>DMFT with IPT solver<a class="headerlink" href="#dmft-with-ipt-solver" title="Permalink to this headline">#</a></h1>
+  <div class="tex2jax_ignore mathjax_ignore section" id="dmft-with-ipt-solver">
+<h1>DMFT with IPT solver<a class="headerlink" href="#dmft-with-ipt-solver" title="Permalink to this headline">¶</a></h1>
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
 <p>In this tutorial, we will implement the Dynamical Mean-Field Theory (DMFT) using the iterated perturbation theory (IPT) as a solver for the impurity problem [1]. It is assumed that the reader is somewhat familiar with the concept of DMFT and the Anderson impurity model. Good resources to learn about this topic can be found, e.g., in Refs. [].</p>
-<section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">#</a></h2>
-<section id="model">
-<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h3>
+<div class="section" id="theory">
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="model">
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">¶</a></h3>
 <p>We compute a paramagnetic solution assuming the non-interacting semi-circular density of state (Bethe lattice)</p>
 <div class="math notranslate nohighlight">
 \[
@@ -654,9 +567,9 @@ title="Print to PDF"
     G^0_{\mathrm{loc}}(i\omega_n) = \int d\omega \frac{\rho(\omega)}{i\omega_n-\omega}, 
 \]</div>
 <p>with fermionic Matsubara frequencies <span class="math notranslate nohighlight">\(\omega_n\)</span>. We can directly compute this equation with the IR basis.</p>
-</section>
-<section id="dmft-equations">
-<h3>DMFT equations<a class="headerlink" href="#dmft-equations" title="Permalink to this headline">#</a></h3>
+</div>
+<div class="section" id="dmft-equations">
+<h3>DMFT equations<a class="headerlink" href="#dmft-equations" title="Permalink to this headline">¶</a></h3>
 <p>In DMFT, the self-energy is approximated by the local solution of an impurity model. The self-consistent equations to be solved are the Dyson equation of the interacting local Green function <span class="math notranslate nohighlight">\(G_{\mathrm{loc}}\)</span>:</p>
 <div class="math notranslate nohighlight">
 \[ 
@@ -668,18 +581,18 @@ title="Print to PDF"
     \mathcal{G}^{-1}(i\omega_n) = i\omega_n - t_\star^2  G_{\mathrm{loc}}(i\omega_n),
 \]</div>
 <p>for which the impurity problem needs to be solved. As a starting point we put in <span class="math notranslate nohighlight">\(G^0_{\mathrm{loc}}(i\omega_n)\)</span> into the latter equation.</p>
-</section>
-<section id="ipt-solver">
-<h3>IPT Solver<a class="headerlink" href="#ipt-solver" title="Permalink to this headline">#</a></h3>
+</div>
+<div class="section" id="ipt-solver">
+<h3>IPT Solver<a class="headerlink" href="#ipt-solver" title="Permalink to this headline">¶</a></h3>
 <p>The IPT is an inexpensive way of solving the impurity problem (instead of applying e.g. Quantum Monte Carlo (QMC) or Exact Diagonalization (ED) methods). The self-energy is approximated by the second-order perturbation theory (SOPT/GF2, see other <a class="reference internal" href="second_order_perturbation_py.html"><span class="doc std std-doc">tutorial</span></a>)</p>
 <div class="math notranslate nohighlight">
 \[
     \Sigma(\tau) = U^2\mathcal{G}^3(\tau).
 \]</div>
 <p>with the Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span>, imaginary time <span class="math notranslate nohighlight">\(\tau\)</span>, and the inverse temperature <span class="math notranslate nohighlight">\(\beta\)</span>. Note that we absorbed the constant Hartree term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat it separately.</p>
-</section>
-<section id="renormalization-factor">
-<h3>Renormalization factor<a class="headerlink" href="#renormalization-factor" title="Permalink to this headline">#</a></h3>
+</div>
+<div class="section" id="renormalization-factor">
+<h3>Renormalization factor<a class="headerlink" href="#renormalization-factor" title="Permalink to this headline">¶</a></h3>
 <p>The Mott transition can be detected by monitoring the renormalization factor</p>
 <div class="math notranslate nohighlight">
 \[
@@ -688,18 +601,18 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 <p>In the non-interacting limit <span class="math notranslate nohighlight">\(U\rightarrow 0\)</span> we have <span class="math notranslate nohighlight">\(Z\rightarrow 1\)</span>. Correlation effects reduce <span class="math notranslate nohighlight">\(Z\)</span> as <span class="math notranslate nohighlight">\(Z &lt; 1\)</span> and the Mott transition is signaled by a jump <span class="math notranslate nohighlight">\(Z\to0\)</span>.</p>
 <p>[1] A. Georges and G. Kotliar, Phys. Rev. B 45, 6479 (1992)
 [2] A. Georges et al., Rev. Mod. Phys. 68, 13 (1996)</p>
-<section id="notes-on-practical-implementation">
-<h4>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">#</a></h4>
+<div class="section" id="notes-on-practical-implementation">
+<h4>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>We will try to find the Mott transition which is a phase transition of first order. To illustrate this, we will do calculations from the metallic and the insulating phase at the end of this tutorial. This will show a hysteresis, signaling the metastabole coexistence region of both solutions. For converged results, this will need many iteration steps.</p></li>
 <li><p>In the insulating phase, the low frequency part of the self-energy turns downwards and diverges. By using the above formula for calculating the renormalization factor <span class="math notranslate nohighlight">\(Z\)</span> from a linearized self-energy, it would be negative. To circumvent this unphysical notion, <span class="math notranslate nohighlight">\(Z\)</span> then is defined as zero in the implementation.</p></li>
 <li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function as <span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>. This smoothes too strong oscillations of the solution which is important especially near the phase transition point.</p></li>
 </ul>
-</section>
-</section>
-</section>
-<section id="code-implementation">
-<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">#</a></h2>
+</div>
+</div>
+</div>
+<div class="section" id="code-implementation">
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -714,10 +627,10 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 </div>
 </div>
 </div>
-<section id="setting-up-the-solver">
-<h3>Setting up the solver<a class="headerlink" href="#setting-up-the-solver" title="Permalink to this headline">#</a></h3>
-<section id="generating-meshes">
-<h4>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">#</a></h4>
+<div class="section" id="setting-up-the-solver">
+<h3>Setting up the solver<a class="headerlink" href="#setting-up-the-solver" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="generating-meshes">
+<h4>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">¶</a></h4>
 <p>We need to generate IR basis functions on a sparse <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(i\omega_n\)</span> grid. In addition, we set calculation routines to Fourier transform <span class="math notranslate nohighlight">\(k\leftrightarrow r\)</span> and <span class="math notranslate nohighlight">\(\tau\leftrightarrow i\omega_n\)</span> (via IR basis).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -763,9 +676,9 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 </div>
 </div>
 </div>
-</section>
-<section id="id1">
-<h4>IPT solver<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+</div>
+<div class="section" id="id1">
+<h4>IPT solver<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>We write a function to for the IPT solver. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -792,9 +705,9 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 </div>
 </div>
 </div>
-</section>
-<section id="dmft-loop">
-<h4>DMFT loop<a class="headerlink" href="#dmft-loop" title="Permalink to this headline">#</a></h4>
+</div>
+<div class="section" id="dmft-loop">
+<h4>DMFT loop<a class="headerlink" href="#dmft-loop" title="Permalink to this headline">¶</a></h4>
 <p>We wrap the DMFT loop in a class that initiates all necessary quantities when setting and runs when calling the <code class="docutils literal notranslate"><span class="pre">.solve</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -851,12 +764,12 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="calculations">
-<h3>Calculations<a class="headerlink" href="#calculations" title="Permalink to this headline">#</a></h3>
-<section id="parameter-setting">
-<h4>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h4>
+</div>
+</div>
+<div class="section" id="calculations">
+<h3>Calculations<a class="headerlink" href="#calculations" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="parameter-setting">
+<h4>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
@@ -967,9 +880,9 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </div>
 </div>
-</section>
-<section id="visualize-results">
-<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
+</div>
+<div class="section" id="visualize-results">
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot spectral function/density of states</span>
@@ -1022,10 +935,10 @@ DMFT loop converged at desired accuracy of 1e-05
 <img alt="../_images/DMFT_IPT_py_15_0.png" src="../_images/DMFT_IPT_py_15_0.png" />
 </div>
 </div>
-</section>
-</section>
-<section id="id2">
-<h3>Renormalization factor<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>Renormalization factor<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>We calculate the renormalization factor from a linearized self-energy. It is also possible to approximate it from the lowest Matsubara frequency (see and try out the difference!).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1103,7 +1016,7 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2736/3343162136.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1279/3343162136.py:34: RuntimeWarning: invalid value encountered in double_scalars
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
@@ -1153,7 +1066,7 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2736/3343162136.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1279/3343162136.py:34: RuntimeWarning: invalid value encountered in double_scalars
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
@@ -1184,9 +1097,9 @@ DMFT loop converged at desired accuracy of 1e-05
 <img alt="../_images/DMFT_IPT_py_23_0.png" src="../_images/DMFT_IPT_py_23_0.png" />
 </div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
@@ -1210,11 +1123,9 @@ DMFT loop converged at desired accuracy of 1e-05
 
               </div>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
+            
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'> 
     <a class='left-prev' id="prev-link" href="GW_py.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
@@ -1230,28 +1141,24 @@ DMFT loop converged at desired accuracy of 1e-05
     <i class="fas fa-angle-right"></i>
     </a>
 </div>
-            </footer>
+            
         </div>
     </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
+    <footer class="footer">
+  <p>
     
-</div>
+      By sparse-ir developers<br/>
+    
+        &copy; Copyright 2022.<br/>
+  </p>
+</footer>
+</main>
 
 
       </div>
     </div>
   
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
-
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
   </body>
 </html>
