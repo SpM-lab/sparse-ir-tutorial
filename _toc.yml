@@ -5,6 +5,7 @@ parts:
   chapters:
   - file: src/IR_py
   - file: src/sparse_sampling_py
+  - file: src/SPR
 - caption: Reference
   chapters:
   - file: src/api
@@ -16,6 +17,7 @@ parts:
   - file: src/SPR_py
   - file: src/second_order_perturbation_py
   - file: src/GW_py
+  - file: src/DMFT_IPT_py
   - file: src/FLEX_py
   - file: src/TPSC_py
   - file: src/eliashberg_holstein_py
@@ -30,7 +32,7 @@ parts:
   chapters:
   - file: src/transformation_jl
   - file: src/SPR_jl
-  - file: src/ipt_jl
+  - file: src/DMFT_IPT_jl
   - file: src/FLEX_jl
   - file: src/BgG_jl
 - caption: Sample codes (Fortran)
