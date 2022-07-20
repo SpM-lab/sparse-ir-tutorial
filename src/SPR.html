@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Magnetic susceptibility calculations &#8212; sparse-ir</title>
+    <title>Sparse-pole representation &#8212; sparse-ir</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -50,8 +50,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API reference" href="api.html" />
+    <link rel="prev" title="Sparse sampling" href="sparse_sampling_py.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -103,7 +107,7 @@ const thebe_selector_output = ".output, .cell_output"
   Basic theory
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="IR_py.html">
    Intermediate representation (IR)
@@ -114,8 +118,8 @@ const thebe_selector_output = ".output, .cell_output"
    Sparse sampling
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="SPR.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Sparse-pole representation
   </a>
  </li>
@@ -327,35 +331,6 @@ title="Toggle navigation"
         
     </div>
     <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="https://mybinder.org/v2/gh/SpM-lab/sparse-ir-tutorial.git/main?urlpath=tree/src/magnetic_susceptibility_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Launch on Binder"
->
-  
-
-<span class="headerbtn__icon-container">
-  
-    <img src="../_static/images/logo_binder.svg">
-  </span>
-<span class="headerbtn__text-container">Binder</span>
-</a>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-
 <button onclick="toggleFullScreen()"
   class="headerbtn"
   data-toggle="tooltip"
@@ -378,7 +353,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/src/magnetic_susceptibility_py.ipynb"
+        <a href="../_sources/src/SPR.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -389,7 +364,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.ipynb</span>
+<span class="headerbtn__text-container">.md</span>
 </a>
 
       </li>
@@ -415,23 +390,70 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fermions">
+   Fermions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bosons">
+   Bosons
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Magnetic susceptibility calculations</h1>
+                <h1>Sparse-pole representation</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fermions">
+   Fermions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#bosons">
+   Bosons
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -439,8 +461,54 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="magnetic-susceptibility-calculations">
-<h1>Magnetic susceptibility calculations<a class="headerlink" href="#magnetic-susceptibility-calculations" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="sparse-pole-representation">
+<h1>Sparse-pole representation<a class="headerlink" href="#sparse-pole-representation" title="Permalink to this headline">#</a></h1>
+<p>We explain the sparse-pole representation (SPR)<span id="id1">[<a class="reference internal" href="bibliography.html#id52" title="Hiroshi Shinaoka, Naoya Chikano, Emanuel Gull, Jia Li, Takuya Nomoto, Junya Otsuki, Markus Wallerberger, Tianchun Wang, and Kazuyoshi Yoshimi. Efficient ab initio many-body calculations based on sparse modeling of matsubara green's function. 2021. URL: https://arxiv.org/abs/2106.12685, doi:10.48550/ARXIV.2106.12685.">Shinaoka <em>et al.</em>, 2021</a>]</span>.
+For both of fermions and bosons, we expand the Green’s function as</p>
+<div class="math notranslate nohighlight">
+\[
+G(\tau) = - \sum_{p=1}^L K^\mathrm{L}(\tau, \bar{\omega}_p) c_p
+\]</div>
+<p>for <span class="math notranslate nohighlight">\(0 &lt; \tau &lt; \beta\)</span>.
+The pole positions <span class="math notranslate nohighlight">\(\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}\)</span> are chosen to the extrema of <span class="math notranslate nohighlight">\(V'_{L-1}(\omega)\)</span>.
+<span class="math notranslate nohighlight">\(\{K^\mathrm{L}(\tau, \bar{\omega}_p) \}\)</span> forms a non-orthogonal basis set in <span class="math notranslate nohighlight">\(\tau\)</span>, which is common for fermions and bosons.
+Notet that Discrete Lehmann Representation (DLR)<span id="id2">[<a class="reference internal" href="bibliography.html#id51" title="Jason Kaye, Kun Chen, and Olivier Parcollet. Discrete lehmann representation of imaginary time green's functions. Phys. Rev. B, 105:235115, Jun 2022. URL: https://link.aps.org/doi/10.1103/PhysRevB.105.235115, doi:10.1103/PhysRevB.105.235115.">Kaye <em>et al.</em>, 2022</a>]</span> choose poles in a more systematic way.</p>
+<section id="fermions">
+<h2>Fermions<a class="headerlink" href="#fermions" title="Permalink to this headline">#</a></h2>
+<p>For fermions, this is equivalent to modeling the spectral function as</p>
+<div class="math notranslate nohighlight">
+\[
+    A(\omega) = \rho(\omega) = \sum_{p=1}^L c_p \delta(\omega - \bar{\omega}_p).
+\]</div>
+<p>The choice of the pole positions is heuristic but allows a numerically stable transform between <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(c_p\)</span> through the relation</p>
+<div class="math notranslate nohighlight">
+\[
+\rho_l = \sum_{p=1}^L \boldsymbol{V}_{lp} c_p,
+\]</div>
+<p>where the matrix <span class="math notranslate nohighlight">\(\boldsymbol{V}_{lp}~[\equiv V_l(\bar{\omega}_p)]\)</span> is well-conditioned.
+The Matsubara Green’s function is expanded as</p>
+<div class="math notranslate nohighlight">
+\[
+G(\mathrm{i}\nu) = \int \mathrm{d}\omega \frac{A(\omega)}{\mathrm{i}\nu - \omega} = \sum_{p=1}^L \frac{c_p}{\mathrm{i}\nu - \bar{\omega}_p}.
+\]</div>
+</section>
+<section id="bosons">
+<h2>Bosons<a class="headerlink" href="#bosons" title="Permalink to this headline">#</a></h2>
+<p>In the Matsubara-frequency space, The SPR for bosons is as follows:</p>
+<div class="math notranslate nohighlight">
+\[
+    A(\omega) = \sum_{p=1}^L c_p \tanh(\beta\bar{\omega}_p/2) \delta(\omega - \bar{\omega}_p),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+    \rho(\omega) = \frac{A(\omega)}{\tanh(\beta\omega/2)} = \sum_{p=1}^L c_p \delta(\omega - \bar{\omega}_p),
+\]</div>
+<div class="math notranslate nohighlight">
+\[
+G(\mathrm{i}\nu) = \int \mathrm{d}\omega \frac{A(\omega)}{\mathrm{i}\nu - \omega} = \sum_{p=1}^L \frac{c_p \tanh(\beta\bar{\omega}_p/2)}{\mathrm{i}\nu - \bar{\omega}_p}.
+\]</div>
+<p>When transforming data from IR to SPR, one can use the same transformation matrix for fermions and bosons.</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -470,6 +538,20 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="sparse_sampling_py.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Sparse sampling</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="api.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API reference</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

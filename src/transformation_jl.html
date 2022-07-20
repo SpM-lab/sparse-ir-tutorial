@@ -116,6 +116,11 @@ const thebe_selector_output = ".output, .cell_output"
    Sparse sampling
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="SPR.html">
+   Sparse-pole representation
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -525,9 +530,6 @@ title="Print to PDF"
 <span class="k">using</span><span class="w"> </span><span class="n">OMEinsum</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">LaTeXStrings</span><span class="w"></span>
 
-<span class="c">#import PyPlot #To be removed</span><span class="w"></span>
-
-
 <span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">15.0</span><span class="w"></span>
 <span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
 <span class="n">basis_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">boson</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-7</span><span class="p">)</span><span class="w"></span>
@@ -537,7 +539,7 @@ title="Print to PDF"
 
 <span class="n">rhol_pole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sa">ein</span><span class="s">&quot;lp,p-&gt;l&quot;</span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span><span class="w"></span>
-<span class="w">    </span><span class="n">coeff</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">coeff</span><span class="w"></span>
 <span class="p">)</span><span class="w"></span>
 <span class="n">gl_pole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">basis_b</span><span class="o">.</span><span class="n">s</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">rhol_pole</span><span class="w"></span>
 

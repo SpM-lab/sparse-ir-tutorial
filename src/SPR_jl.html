@@ -118,6 +118,11 @@ const thebe_selector_output = ".output, .cell_output"
    Sparse sampling
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="SPR.html">
+   Sparse-pole representation
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -437,11 +442,6 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementation">
    Implementation
   </a>
@@ -488,11 +488,6 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#implementation">
    Implementation
   </a>
@@ -531,31 +526,7 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="sparse-pole-representation">
 <h1>Sparse-pole representation<a class="headerlink" href="#sparse-pole-representation" title="Permalink to this headline">#</a></h1>
-<section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">#</a></h2>
-<p>We explain how to transform expansion coefficients in IR to sparse-pole representation (SPR) [1,2].
-We model the spectral function as</p>
-<div class="math notranslate nohighlight">
-\[
-    \rho(\omega) = \sum_{p=1}^L c_p \delta(\omega - \bar{\omega}_p),
-\]</div>
-<p>where sampling frequencies <span class="math notranslate nohighlight">\(\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}\)</span> are chosen to the extrema of <span class="math notranslate nohighlight">\(V'_{L-1}(\omega)\)</span>.
-This choice is heuristic but allows us a numerically stable transform between <span class="math notranslate nohighlight">\(\rho_l\)</span> and <span class="math notranslate nohighlight">\(c_p\)</span> through the relation</p>
-<div class="math notranslate nohighlight">
-\[
-\rho_l = \sum_{p=1}^L \boldsymbol{V}_{lp} c_p,
-\]</div>
-<p>where the matrix <span class="math notranslate nohighlight">\(\boldsymbol{V}_{lp}~[\equiv V_l(\bar{\omega}_p)]\)</span> is well-conditioned.
-Notet that Discrete Lehmann Representation (DLR) [3] choose poles in a more systematic way.
-As a result, in SPR, the Green’s function is represented as</p>
-<div class="math notranslate nohighlight">
-\[
-G(\mathrm{i}\omega_n) = \sum_{p=1}^L \frac{c_p}{\mathrm{i}\omega_n - \bar{\omega}_p}.
-\]</div>
-<p>[1] H. Shinaoka and Y. Nagai, Phys. Rev. B 103, 045120 (2021).<br>
-[2] H. Shinaoka et al., arXiv:2106.12685v2.<br>
-[3] J. Kaye, K. Chen, O. Parcollet, arXiv:2107.13094v2.<br></p>
-<p>We consider the semi circular DOS</p>
+<p>We consider fermions and the semi circular DOS</p>
 <div class="math notranslate nohighlight">
 \[
 \rho(\omega) = \sqrt{\frac{2}{\pi}} \sqrt{1-\omega^2}.
@@ -582,7 +553,6 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 </div>
 </div>
-</section>
 <section id="implementation">
 <h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">#</a></h2>
 <section id="create-basis-object">
@@ -699,7 +669,7 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>┌ Warning: Sampling matrix is poorly conditioned (cond = 4.1860497438262505e15).
-└ @ SparseIR /home/jovyan/.julia/packages/SparseIR/oXBdx/src/sampling.jl:105
+└ @ SparseIR /home/jovyan/.julia/packages/SparseIR/DUIQF/src/sampling.jl:109
 </pre></div>
 </div>
 <img alt="../_images/SPR_jl_13_1.svg" src="../_images/SPR_jl_13_1.svg" /></div>
