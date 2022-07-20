@@ -53,13 +53,13 @@ CONTAINS
     ENDIF
     !
     rdum = LOG(lambda) / LOG(1.0E1_DP)
-    IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
+    IF ( ABS(rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
       PRINT*, 'ERROR in read_input: lambda is not a positive integer power of 10.'
       STOP
     ENDIF
     !
     rdum = LOG(eps) / LOG(1.0E-1_DP)
-    IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
+    IF ( ABS(rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
       PRINT*, 'ERROR in read_input: eps is not a positive integer power of 0.1.'
       STOP
     ENDIF
@@ -156,14 +156,14 @@ PROGRAM main
   inv_beta = 1.E0_DP / beta
   !
   rdum = LOG(lambda) / LOG(1.0E1_DP)
-  IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
+  IF ( ABS(rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
     PRINT*, 'ERROR in main: lambda is not a positive integer power of 10.'
     STOP
   ENDIF
   nlambda = NINT(rdum)
   !
   rdum = LOG(eps) / LOG(1.0E-1_DP)
-  IF ( (rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
+  IF ( ABS(rdum - NINT(rdum)) >  1.0E-8_DP ) THEN
     PRINT*, 'ERROR in main: lambda is not a positive integer power of 0.1.'
     STOP
   ENDIF
