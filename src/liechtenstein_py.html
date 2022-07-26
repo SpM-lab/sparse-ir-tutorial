@@ -21,7 +21,7 @@
     href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
@@ -37,7 +37,7 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -616,8 +616,8 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>Here, let us see an example code in a square lattice tight-binding model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span>. First, we load all necessary modules that we need:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
 <span class="kn">import</span> <span class="nn">sparse_ir</span>
@@ -630,7 +630,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>The parameters to define the system are as follows; <span class="math notranslate nohighlight">\(t\)</span>: the nearest-neighbor hopping amplitude, <span class="math notranslate nohighlight">\(\beta\)</span>:  the inverse temperature, <span class="math notranslate nohighlight">\(N_k\)</span>: the numer of k-poitns for a single-axis and <span class="math notranslate nohighlight">\(B\)</span>: the strengh of the effective magnetic field.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># means the bandwidth W is W=8t in a square lattice model</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># means the bandwidth W is W=8t in a square lattice model</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># inverse temperature</span>
 <span class="n">nk</span> <span class="o">=</span> <span class="mi">36</span> <span class="c1"># number of k-points for a signle-axis</span>
 <span class="n">b_eff</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># strength of the effective magnetic field</span>
@@ -644,7 +644,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>This class contains two solvers, j0_calc for calculation of <span class="math notranslate nohighlight">\(J_{0}\)</span> and jij_calc for <span class="math notranslate nohighlight">\(J_{ij}\)</span>. Both can be called after instantiating the class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">liechtenstein</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">liechtenstein</span><span class="p">:</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="c1"># constructor of liechtenstein class</span>
     <span class="c1"># the class requires five arguments: sparse_ir basis object, t, beta, nk, and b_eff</span>
@@ -724,7 +724,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>In the instantation, we have to pass a sparse_ir.basis object as the first argument of the liechtenstein class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Lambda</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span> <span class="o">*</span> <span class="n">beta</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Lambda</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span> <span class="o">*</span> <span class="n">beta</span>
 <span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">statistics</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">Lambda</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
 <span class="n">l</span> <span class="o">=</span> <span class="n">liechtenstein</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">nk</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span>
 </pre></div>
@@ -737,7 +737,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>Here, let us evaluate J_0 as a function of the chemmical potential <span class="math notranslate nohighlight">\(\mu\)</span>. To check the validity of the sparse sampleing method, we will compare it with that evaluated by the conventional Matsubara frequency grid. This can be done as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_0&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1600</span><span class="p">]):</span>
       <span class="n">l</span><span class="o">.</span><span class="n">j0_calc</span><span class="p">(</span><span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">41</span><span class="p">),</span> <span class="n">NM</span><span class="o">=</span><span class="n">nm</span><span class="p">)</span>
@@ -749,6 +749,9 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/liechtenstein_py_10_0.png" src="../_images/liechtenstein_py_10_0.png" />
+</div>
 </div>
 <p>As is expected, the system favors the antiferromagnetic state at the half-filling while it favors the ferromagnetic state at the low-carrier regime. This feature is consistent with the super-exchange and the doule-exchange interactions.</p>
 </section>
@@ -757,7 +760,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>We can also evaluate J_ij by using jij_calc function as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_ij&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
@@ -767,13 +770,21 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/liechtenstein_py_13_0.png" src="../_images/liechtenstein_py_13_0.png" />
+</div>
 </div>
 <p>We can easily check <span class="math notranslate nohighlight">\(J_0=\sum_j J_{0j}\)</span> as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">J0_1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>   <span class="c1"># J0 at mu=0 evaluated by j0_calc</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J0_1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>   <span class="c1"># J0 at mu=0 evaluated by j0_calc</span>
 <span class="n">J0_2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">jij</span><span class="p">)</span>  
 <span class="nb">print</span><span class="p">(</span><span class="n">J0_1</span><span class="p">,</span><span class="n">J0_2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.2954591377802842 -0.29545913808721214
 </pre></div>
 </div>
 </div>
