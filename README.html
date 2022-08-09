@@ -21,7 +21,7 @@
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -37,7 +37,7 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -446,11 +446,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#binder">
-   Binder
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
    References
   </a>
@@ -517,11 +512,6 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#binder">
-   Binder
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#references">
    References
   </a>
@@ -579,7 +569,6 @@ title="Print to PDF"
 <ol class="simple">
 <li><p>Press the green mark at the bottom left and press <code class="docutils literal notranslate"> <span class="pre">Reopen</span> <span class="pre">in</span> <span class="pre">Container</span></code> from the command palette.
 After the build is finished, you can enter the Docker container.</p></li>
-<li><p>If a Docker image is built for the first time or is rebuilt, open a new terminal and execute <code class="docutils literal notranslate"><span class="pre">./bin/install_sparseir</span> </code> to install <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code>, <code class="docutils literal notranslate"><span class="pre">xprec</span></code>, <code class="docutils literal notranslate"><span class="pre">SparseIR.jl</span></code> packages, whose versions are specified in <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">Manifest.toml</span></code>.</p></li>
 <li><p>Build html files</p></li>
 </ol>
 <p>The following command builds html files, which takes a few minutes.</p>
@@ -599,10 +588,6 @@ After the build is finished, you can enter the Docker container.</p></li>
 <li><p>For Python, edit <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> manually.</p></li>
 <li><p>For Julia, use the package mode to update the package. Note that in the container, the <code class="docutils literal notranslate"><span class="pre">julia</span></code> command is aliased to <code class="docutils literal notranslate"><span class="pre">julia</span> <span class="pre">--project=&#64;.</span></code>.</p></li>
 </ul>
-</section>
-<section id="binder">
-<h2>Binder<a class="headerlink" href="#binder" title="Permalink to this headline">#</a></h2>
-<p>mybinder reads <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">Project.toml</span></code>.</p>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">#</a></h2>

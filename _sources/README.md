@@ -36,9 +36,7 @@ ln -s .dev/devcontainer .devcontainer
 5. Press the green mark at the bottom left and press `` Reopen in Container`` from the command palette.
    After the build is finished, you can enter the Docker container.
 
-6. If a Docker image is built for the first time or is rebuilt, open a new terminal and execute `./bin/install_sparseir ` to install `sparse-ir`, `xprec`, `SparseIR.jl` packages, whose versions are specified in `requirements.txt` and `Manifest.toml`.
-
-7. Build html files
+6. Build html files
 
 The following command builds html files, which takes a few minutes.
 
@@ -46,7 +44,7 @@ The following command builds html files, which takes a few minutes.
 make build
 ```
 
-8. Upload html files
+7. Upload html files
 
 ```bash
 make upload
@@ -56,9 +54,6 @@ make upload
 * For Python, edit `requirements.txt` manually.
 * For Julia, use the package mode to update the package. Note that in the container, the `julia` command is aliased to `julia --project=@.`.
 
-
-## Binder
-mybinder reads `requirements.txt` and `Project.toml`.
 
 ## References
 You can add references to `references.bib`.
