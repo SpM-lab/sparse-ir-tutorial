@@ -119,8 +119,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR.html">
+   Discrete Lehmann representation
   </a>
  </li>
 </ul>
@@ -158,8 +158,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR_py.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR_py.html">
+   Discrete Lehmann Representation
   </a>
  </li>
  <li class="toctree-l1">
@@ -232,8 +232,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR_jl.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR_jl.html">
+   Discrete Lehmann Representation
   </a>
  </li>
  <li class="toctree-l1">
@@ -733,10 +733,10 @@ title="Print to PDF"
 
 <span class="k">function</span><span class="w"> </span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">mesh</span><span class="o">::</span><span class="kt">Mesh</span><span class="p">,</span><span class="w"> </span><span class="n">statistics</span><span class="o">::</span><span class="kt">SparseIR</span><span class="o">.</span><span class="n">Statistics</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="s">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">statistics</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">fermion</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">statistics</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Fermionic</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">smpl_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="w"></span>
 <span class="w">        </span><span class="n">smpl_wn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="w"></span>
-<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">statistics</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">boson</span><span class="w"></span>
+<span class="w">    </span><span class="k">elseif</span><span class="w"> </span><span class="n">statistics</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Bosonic</span><span class="p">()</span><span class="w"></span>
 <span class="w">        </span><span class="n">smpl_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="w"></span>
 <span class="w">        </span><span class="n">smpl_wn</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
@@ -929,7 +929,7 @@ title="Print to PDF"
 <span class="w">    </span><span class="s">&quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;</span><span class="w"></span>
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">grio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">grit</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">grio</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">grit</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">grio</span><span class="p">)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span><span class="n">ckio_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="w"></span>
@@ -941,7 +941,7 @@ title="Print to PDF"
 
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">ckit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_to_k</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">crit</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">boson</span><span class="p">,</span><span class="w"> </span><span class="n">ckit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Bosonic</span><span class="p">(),</span><span class="w"> </span><span class="n">ckit</span><span class="p">)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span><span class="n">V_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="w"></span>
@@ -961,7 +961,7 @@ title="Print to PDF"
 
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vrio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Vkio</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">V</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">boson</span><span class="p">,</span><span class="w"> </span><span class="n">Vrio</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">V</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Bosonic</span><span class="p">(),</span><span class="w"> </span><span class="n">Vrio</span><span class="p">)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 <span class="k">function</span><span class="w"> </span><span class="n">sigma_calc</span><span class="p">(</span><span class="n">solver</span><span class="o">::</span><span class="kt">FLEXSolver</span><span class="p">)</span><span class="w"></span>
@@ -970,7 +970,7 @@ title="Print to PDF"
 
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">sigmakit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_to_k</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">sigmarit</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">sigmakit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">sigmakit</span><span class="p">)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
 
@@ -1018,34 +1018,34 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1	2.36798026936409	4.0
-2	2.6631530511749597	4.0
-3	2.9528432019547415	4.0
-4	3.2372665067003856	4.0
-5	3.517535370177641	4.0
-6	3.795074776050507	4.0
+1	2.3679802691718734	4.0
+2	2.6631530509593295	4.0
+3	2.952843201137596	4.0
+4	3.237266502742386	4.0
+5	3.5175353553180475	4.0
+6	3.795074730529691	4.0
 Leaving U renormalization...
-1	0.08759626291848113
-2	0.14462679534679437
-3	0.02250286684417637
-4	0.011829641347450768
-5	0.007579201682506835
-6	0.005300054188737066
-7	0.0038640487485894154
-8	0.0028747676882932343
-9	0.00215919729744755
-10	0.001629003950915977
-11	0.0012319453581448865
-12	0.0009335032333343834
-13	0.0007088461163043542
-14	0.000539593010969956
-15	0.0004120083846152116
-16	0.0003157392429602988
-17	0.00024299053532265594
-18	0.00018786806854613475
-19	0.00014598170564111707
-20	0.00011405280065438882
-21	8.96004376990671e-5
+1	0.08848089073847332
+2	0.1456952273459936
+3	0.02261581413125772
+4	0.011893505710472181
+5	0.007627709050173954
+6	0.005337914476432903
+7	0.003893254237016371
+8	0.0028971360061488564
+9	0.002176317020927079
+10	0.001642154658978858
+11	0.0012421091833960164
+12	0.0009414202269479329
+13	0.0007150642109606235
+14	0.0005445167053352402
+15	0.00041593780933783537
+16	0.0003188981704705473
+17	0.00024554695819710805
+18	0.0001899484647509771
+19	0.0001476827551312127
+20	0.00011544934333125694
+21	9.075049525080957e-5
 FLEX loop converged at desired accuracy
 </pre></div>
 </div>
@@ -1157,7 +1157,7 @@ FLEX loop converged at desired accuracy
 
 <span class="w">        </span><span class="c"># Fourier transform to momentum space</span><span class="w"></span>
 <span class="w">        </span><span class="n">deltakit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">r_to_k</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">deltarit</span><span class="p">)</span><span class="w"></span>
-<span class="w">        </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">deltakit</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">tau_to_wn</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">deltakit</span><span class="p">)</span><span class="w"></span>
 
 <span class="w">        </span><span class="c"># calculate eigenvalue</span><span class="w"></span>
 <span class="w">        </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">conj</span><span class="o">.</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span><span class="o">.*</span><span class="w"> </span><span class="n">delta_old</span><span class="p">))</span><span class="w"></span>
@@ -1186,7 +1186,7 @@ FLEX loop converged at desired accuracy
 
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vrio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_to_r</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Vkio</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">V_singlet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">boson</span><span class="p">,</span><span class="w"> </span><span class="n">Vrio</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">V_singlet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Bosonic</span><span class="p">(),</span><span class="w"> </span><span class="n">Vrio</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">V_singlet</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 
@@ -1196,7 +1196,7 @@ FLEX loop converged at desired accuracy
 
 <span class="w">    </span><span class="c"># Fourier transform</span><span class="w"></span>
 <span class="w">    </span><span class="n">frit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_to_r</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">fkio</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">frit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">frit</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">gap_solver</span><span class="o">.</span><span class="n">frit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wn_to_tau</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span><span class="w"> </span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">frit</span><span class="p">)</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 </pre></div>
 </div>
@@ -1219,15 +1219,15 @@ FLEX loop converged at desired accuracy
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.10885451326793893	0.10885451326793893
-2	0.40584457879000513	0.2969900655220662
-3	0.44941831215106676	0.04357373336106163
-4	0.45617275488541187	0.006754442734345112
-5	0.45777568949577285	0.0016029346103609843
-6	0.4581552055745153	0.00037951607874242566
-7	0.458257269521371	0.00010206394685574605
-8	0.4582837838905331	2.6514369162067286e-5
-The superconducting eigenvalue at T=0.1 is lambda_d=0.4582837838905331
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.11526419859553635	0.11526419859553635
+2	0.4061742076753658	0.29091000907982945
+3	0.449451978395563	0.04327777072019723
+4	0.4561789508412638	0.006726972445700807
+5	0.45777782520134125	0.0015988743600774402
+6	0.45815650741172986	0.0003786822103886145
+7	0.458258376442485	0.00010186903075515286
+8	0.4582848415126318	2.6465070146808323e-5
+The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415126318
 </pre></div>
 </div>
 </div>
@@ -1355,15 +1355,15 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582837838905331
 Now: T = 0.08
 WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1	2.2871468521671243	4.0
-2	2.4856847813993914	4.0
-3	2.68907807428438	4.0
-4	2.8952476561328013	4.0
-5	3.100419619531482	4.0
-6	3.306838083208726	4.0
-7	3.5156371260877064	4.0
-8	3.727284547569732	4.0
-9	3.9417174903741627	4.0
+1	2.2871472606725174	4.0
+2	2.485685047232335	4.0
+3	2.6890783191360814	4.0
+4	2.8952481268850563	4.0
+5	3.1004202101138367	4.0
+6	3.3068387403511927	4.0
+7	3.515637815515053	4.0
+8	3.727285244904793	4.0
+9	3.941718177789152	4.0
 Leaving U renormalization...
 FLEX loop converged at desired accuracy
 Now: T = 0.07

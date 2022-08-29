@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FLEX approximation" href="FLEX_jl.html" />
-    <link rel="prev" title="Sparse-pole representation" href="SPR_jl.html" />
+    <link rel="prev" title="Discrete Lehmann Representation" href="DLR_jl.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en">
     
@@ -119,8 +119,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR.html">
+   Discrete Lehmann representation
   </a>
  </li>
 </ul>
@@ -158,8 +158,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR_py.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR_py.html">
+   Discrete Lehmann Representation
   </a>
  </li>
  <li class="toctree-l1">
@@ -232,8 +232,8 @@ const thebe_selector_output = ".output, .cell_output"
   </a>
  </li>
  <li class="toctree-l1">
-  <a class="reference internal" href="SPR_jl.html">
-   Sparse-pole representation
+  <a class="reference internal" href="DLR_jl.html">
+   Discrete Lehmann Representation
   </a>
  </li>
  <li class="toctree-l1 current active">
@@ -625,8 +625,6 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_jl_4_0.svg" src="../_images/DMFT_IPT_jl_4_0.svg" /></div>
 </div>
 </section>
 <section id="id1">
@@ -775,7 +773,7 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 <span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">beta</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">wmax</span><span class="w"></span>
 <span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-15</span><span class="w"></span>
 <span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lambda</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">beta</span><span class="w"></span>
-<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">fermion</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"></span>
+<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"></span>
 
 <span class="c"># Perform a sweep by increasing U</span><span class="w"></span>
 <span class="n">num_U</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span><span class="w"></span>
@@ -811,8 +809,6 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_jl_13_0.svg" src="../_images/DMFT_IPT_jl_13_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -822,8 +818,6 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_jl_14_0.svg" src="../_images/DMFT_IPT_jl_14_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -856,11 +850,11 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="SPR_jl.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="DLR_jl.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Sparse-pole representation</p>
+            <p class="prev-next-title">Discrete Lehmann Representation</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="FLEX_jl.html" title="next page">
