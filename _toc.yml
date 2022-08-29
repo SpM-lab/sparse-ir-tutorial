@@ -5,7 +5,7 @@ parts:
   chapters:
   - file: src/IR_py
   - file: src/sparse_sampling_py
-  - file: src/SPR
+  - file: src/DLR
 - caption: Reference
   chapters:
   - file: src/api
@@ -14,7 +14,7 @@ parts:
   chapters:
   - file: src/transformation_py
   - file: src/sparse_sampling_demo_py
-  - file: src/SPR_py
+  - file: src/DLR_py
   - file: src/second_order_perturbation_py
   - file: src/GW_py
   - file: src/DMFT_IPT_py
@@ -31,7 +31,7 @@ parts:
 - caption: Sample codes (Julia)
   chapters:
   - file: src/transformation_jl
-  - file: src/SPR_jl
+  - file: src/DLR_jl
   - file: src/DMFT_IPT_jl
   - file: src/FLEX_jl
   - file: src/BgG_jl
