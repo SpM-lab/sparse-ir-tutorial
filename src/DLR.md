@@ -8,14 +8,14 @@ G(\tau) = - \sum_{p=1}^L K^\mathrm{L}(\tau, \bar{\omega}_p) c_p
 $$
 
 for $0 < \tau < \beta$.
-The pole positions $\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}$ are chosen to the extrema of $V'_{L-1}(\omega)$.
+The pole positions $\{\bar{\omega}_1, \cdots, \bar{\omega}_{L}\}$ are chosen as the extrema of $V'_{L-1}(\omega)$.
 $\{K^\mathrm{L}(\tau, \bar{\omega}_p) \}$ forms a non-orthogonal basis set in $\tau$, which is common for fermions and bosons.
 
 
 ```{note}
 The poles on the real-frequency axis selected for the DLR are based on a rank-revealing
-decomposition, which offers accuracy guarantees.  Here, we instead select the pole locations
-based on the zeros of the IR basis functions on the real axis{cite:p}`scipostreview`, which is a heuristic.  We do not expect that difference to matter, but please don't blame the DLR authors if we were wrong :-)
+decomposition, which offers guaranteed accuracy. Here, we instead select the pole locations
+based on the zeros of the IR basis functions on the real axis {cite:p}`scipostreview`, which is a heuristic.  We do not expect that difference to matter, but please don't blame the DLR authors if we were wrong :-)
 ```
 
 ## Fermions
