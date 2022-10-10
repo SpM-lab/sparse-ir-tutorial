@@ -644,6 +644,11 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>typestable (generic function with 1 method)
+</pre></div>
+</div>
+</div>
 </div>
 <section id="parameter-setting">
 <h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
@@ -1010,6 +1015,41 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+Initiate U renormalization loop.
+1	2.367980269172344	4.0
+2	2.6631530509598544	4.0
+3	2.9528432011381796	4.0
+4	3.237266502743038	4.0
+5	3.5175353553187727	4.0
+6	3.795074730530495	4.0
+Leaving U renormalization...
+1	0.0884808907395895
+2	0.14569522734465512
+3	0.02261581413132386
+4	0.011893505710483981
+5	0.007627709050177975
+6	0.005337914476426493
+7	0.0038932542370166126
+8	0.0028971360061462704
+9	0.0021763170209261303
+10	0.0016421546589755124
+11	0.0012421091833973038
+12	0.000941420226943714
+13	0.0007150642109634472
+14	0.0005445167053359861
+15	0.00041593780933493383
+16	0.0003188981704714632
+17	0.00024554695819776725
+18	0.00018994846474983625
+19	0.00014768275513085598
+20	0.00011544934333211213
+21	9.075049525053928e-5
+FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+</div>
 </div>
 <section id="visualize-results">
 <h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
@@ -1025,6 +1065,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_12_0.svg" src="../_images/FLEX_jl_12_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1036,6 +1078,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_13_0.svg" src="../_images/FLEX_jl_13_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1157,6 +1201,11 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>frit_calc (generic function with 1 method)
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="executing-the-gap-equation-solver">
@@ -1166,6 +1215,19 @@ title="Print to PDF"
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gap_solver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span><span class="w"> </span><span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">)</span><span class="w"></span>
 <span class="n">solve</span><span class="p">(</span><span class="n">gap_solver</span><span class="p">)</span><span class="w"></span>
 <span class="n">println</span><span class="p">(</span><span class="s">&quot;The superconducting eigenvalue at T=&quot;</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="s">&quot; is lambda_d=&quot;</span><span class="p">,</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.1152641985955338	0.1152641985955338
+2	0.4061742076753243	0.2909100090797905
+3	0.4494519783955226	0.04327777072019828
+4	0.4561789508412186	0.006726972445696033
+5	0.45777782520129023	0.0015988743600716115
+6	0.4581565074116792	0.00037868221038894756
+7	0.4582583764424354	0.00010186903075620757
+8	0.4582848415125875	2.6465070152137393e-5
+The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415125875
 </pre></div>
 </div>
 </div>
@@ -1198,6 +1260,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_20_0.svg" src="../_images/FLEX_jl_20_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1210,6 +1274,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_21_0.svg" src="../_images/FLEX_jl_21_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1284,6 +1350,37 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization...
+Now: T = 0.08
+WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+Initiate U renormalization loop.
+1	2.2871472606726724	4.0
+2	2.485685047232453	4.0
+3	2.6890783191362178	4.0
+4	2.8952481268853236	4.0
+5	3.1004202101142013	4.0
+6	3.30683874035164	4.0
+7	3.5156378155155807	4.0
+8	3.7272852449053953	4.0
+9	3.941718177789825	4.0
+Leaving U renormalization...
+FLEX loop converged at desired accuracy
+Now: T = 0.07
+FLEX loop converged at desired accuracy
+Now: T = 0.06
+FLEX loop converged at desired accuracy
+Now: T = 0.05
+FLEX loop converged at desired accuracy
+Now: T = 0.04
+FLEX loop converged at desired accuracy
+Now: T = 0.03
+FLEX loop converged at desired accuracy
+Now: T = 0.025
+FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1323,6 +1420,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/FLEX_jl_24_0.svg" src="../_images/FLEX_jl_24_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1336,16 +1435,16 @@ title="Print to PDF"
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "julia-1.8",
+            kernelName: "julia-1.7",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               

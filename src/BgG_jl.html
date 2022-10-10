@@ -368,23 +368,6 @@ title="Fullscreen mode"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
-title="Download notebook file"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-code"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        <a href="../_sources/src/BgG_jl.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
 title="Download source file"
 >
   
@@ -392,7 +375,7 @@ title="Download source file"
 <span class="headerbtn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="headerbtn__text-container">.md</span>
+<span class="headerbtn__text-container">.ipynb</span>
 </a>
 
       </li>
@@ -719,133 +702,133 @@ The matrix form of the above Hamiltonain is expressed as</p>
 <p>In Julia code, this Hamiltonian matrix is defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Check if a given function called with given types is type stable
-function typestable(@nospecialize(f), @nospecialize(t))
-    v = code_typed(f, t)
-    stable = true
-    for vi in v
-        for (name, ty) in zip(vi[1].slotnames, vi[1].slottypes)
-            !(ty isa Type) &amp;&amp; continue
-            if ty === Any
-                stable = false
-                println(&quot;Type instability is detected! the variable is $(name) ::$ty&quot;)
-            end
-        end
-    end
-    return stable
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Check if a given function called with given types is type stable</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="nd">@nospecialize</span><span class="p">(</span><span class="n">f</span><span class="p">),</span><span class="w"> </span><span class="nd">@nospecialize</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">code_typed</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">stable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">vi</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">v</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">ty</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="n">vi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">slotnames</span><span class="p">,</span><span class="w"> </span><span class="n">vi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">slottypes</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="o">!</span><span class="p">(</span><span class="n">ty</span><span class="w"> </span><span class="k">isa</span><span class="w"> </span><span class="kt">Type</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="k">continue</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">ty</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="kt">Any</span><span class="w"></span>
+<span class="w">                </span><span class="n">stable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">false</span><span class="w"></span>
+<span class="w">                </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Type instability is detected! the variable is </span><span class="si">$</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="s"> ::</span><span class="si">$ty</span><span class="s">&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">stable</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-using SparseArrays
-using LinearAlgebra
-function make_x_plushop(Nx,Ny,BC)
-    N = Nx*Ny
-    Txhop = spzeros(Int64,N,N)
-    for ix=1:Nx
-        for iy=1:Ny
-            i = (iy-1)*Nx + ix
-            jx = ix + 1
-            jy = iy
-            if BC == &quot;PBC&quot;
-                jx += ifelse(jx &gt; Nx,-Nx,0)
-            elseif BC == &quot;OBC&quot;
-            else
-                error(&quot;BC = $BC is not supported&quot;)
-            end
-            if 1 &lt;= jx &lt;= Nx
-                j = (jy-1)*Nx + jx
-                Txhop[i,j] = 1
-            end
-        end
-    end
-    return Txhop
-end
+<span class="k">using</span><span class="w"> </span><span class="n">SparseArrays</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span><span class="w"></span>
+<span class="k">function</span><span class="w"> </span><span class="n">make_x_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Txhop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">Int64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">jx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">jy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iy</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PBC&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="n">jx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">jx</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Nx</span><span class="p">,</span><span class="o">-</span><span class="n">Nx</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="n">error</span><span class="p">(</span><span class="s">&quot;BC = </span><span class="si">$BC</span><span class="s"> is not supported&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">jx</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Nx</span><span class="w"></span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">jy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jx</span><span class="w"></span>
+<span class="w">                </span><span class="n">Txhop</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Txhop</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-function make_x_minushop(Nx,Ny,BC)
-    N = Nx*Ny
-    Txhop = spzeros(Int64,N,N)
-    for ix=1:Nx
-        for iy=1:Ny
-            i = (iy-1)*Nx + ix
-            jx = ix - 1
-            jy = iy
-            if BC == &quot;PBC&quot;
-                jx += ifelse(jx &lt; 1,Nx,0)
-            elseif BC == &quot;OBC&quot;
-            else
-                error(&quot;BC = $BC is not supported&quot;)
-            end
-            if 1 &lt;= jx &lt;= Nx
-                j = (jy-1)*Nx + jx
-                Txhop[i,j] = 1
-            end
-        end
-    end
-    return Txhop
-end
+<span class="k">function</span><span class="w"> </span><span class="n">make_x_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Txhop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">Int64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">jx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="n">jy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iy</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PBC&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="n">jx</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">jx</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">Nx</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="n">error</span><span class="p">(</span><span class="s">&quot;BC = </span><span class="si">$BC</span><span class="s"> is not supported&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">jx</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Nx</span><span class="w"></span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">jy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jx</span><span class="w"></span>
+<span class="w">                </span><span class="n">Txhop</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Txhop</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-function make_y_plushop(Nx,Ny,BC)
-    N = Nx*Ny
-    Tyhop = spzeros(Int64,N,N)
-    for ix=1:Nx
-        for iy=1:Ny
-            i = (iy-1)*Nx + ix
-            jx = ix 
-            jy = iy + 1
-            if BC == &quot;PBC&quot;
-                jy += ifelse(jy &gt; Ny,-Ny,0)
-            elseif BC == &quot;OBC&quot;
-            else
-                error(&quot;BC = $BC is not supported&quot;)
-            end
-            if 1 &lt;= jy &lt;= Ny
-                j = (jy-1)*Nx + jx
-                Tyhop[i,j] = 1
-            end
-        end
-    end
-    return Tyhop
-end
+<span class="k">function</span><span class="w"> </span><span class="n">make_y_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tyhop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">Int64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">jx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span>
+<span class="w">            </span><span class="n">jy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iy</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PBC&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="n">jy</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">jy</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">Ny</span><span class="p">,</span><span class="o">-</span><span class="n">Ny</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="n">error</span><span class="p">(</span><span class="s">&quot;BC = </span><span class="si">$BC</span><span class="s"> is not supported&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">jy</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Ny</span><span class="w"></span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">jy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jx</span><span class="w"></span>
+<span class="w">                </span><span class="n">Tyhop</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Tyhop</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-function make_y_minushop(Nx,Ny,BC)
-    N = Nx*Ny
-    Tyhop = spzeros(Int64,N,N)
-    for ix=1:Nx
-        for iy=1:Ny
-            i = (iy-1)*Nx + ix
-            jx = ix 
-            jy = iy - 1
-            if BC == &quot;PBC&quot;
-                jy += ifelse(jy &lt; 1,Ny,0)
-            elseif BC == &quot;OBC&quot;
-            else
-                error(&quot;BC = $BC is not supported&quot;)
-            end
-            if 1 &lt;= jy &lt;= Ny
-                j = (jy-1)*Nx + jx
-                Tyhop[i,j] = 1
-            end
-        end
-    end
-    return Tyhop
-end
+<span class="k">function</span><span class="w"> </span><span class="n">make_y_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tyhop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">Int64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">jx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ix</span><span class="w"> </span>
+<span class="w">            </span><span class="n">jy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iy</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;PBC&quot;</span><span class="w"></span>
+<span class="w">                </span><span class="n">jy</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">ifelse</span><span class="p">(</span><span class="n">jy</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">elseif</span><span class="w"> </span><span class="n">BC</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">                </span><span class="n">error</span><span class="p">(</span><span class="s">&quot;BC = </span><span class="si">$BC</span><span class="s"> is not supported&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">jy</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">Ny</span><span class="w"></span>
+<span class="w">                </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">jy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jx</span><span class="w"></span>
+<span class="w">                </span><span class="n">Tyhop</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">            </span><span class="k">end</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Tyhop</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-function make_H_normal(Nx,Ny,μ,BC)
-    N = Nx*Ny
-    Tx_plushop = make_x_plushop(Nx,Ny,BC)
-    Tx_minushop = make_x_minushop(Nx,Ny,BC)
-    Ty_plushop = make_y_plushop(Nx,Ny,BC)
-    Ty_minushop = make_y_minushop(Nx,Ny,BC)
-    HN = sparse(I,N,N)*(-μ)
-    t = 1.0
-    
-    HN += -t*(Tx_plushop + Tx_minushop + Ty_plushop + Ty_minushop)
-    return HN
-end
+<span class="k">function</span><span class="w"> </span><span class="n">make_H_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tx_plushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_x_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tx_minushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_x_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ty_plushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_y_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ty_minushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_y_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sparse</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">μ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">-</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">Tx_plushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Tx_minushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ty_plushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ty_minushop</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">HN</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(make_x_plushop,(Int64,Int64,String))
-@assert typestable(make_x_minushop,(Int64,Int64,String))
-@assert typestable(make_y_plushop,(Int64,Int64,String))
-@assert typestable(make_y_minushop,(Int64,Int64,String))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_x_plushop</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">String</span><span class="p">))</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_x_minushop</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">String</span><span class="p">))</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_y_plushop</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">String</span><span class="p">))</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_y_minushop</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">String</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -853,19 +836,19 @@ end
 <p>The onsite superconducting s-wave order parameter is defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">make_Δ</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span>
-    <span class="n">Δmat</span> <span class="o">=</span> <span class="n">spzeros</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span>
-        <span class="k">for</span> <span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Ny</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span> <span class="o">+</span> <span class="n">ix</span>
-            <span class="n">Δmat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Δ</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span>
-        <span class="n">end</span>
-    <span class="n">end</span>
-    <span class="k">return</span> <span class="n">Δmat</span>
-<span class="n">end</span>
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">make_Δ</span><span class="p">,(</span><span class="n">Matrix</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">},))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">make_Δ</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δmat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">Δmat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Δ</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Δmat</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_Δ</span><span class="p">,(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -873,16 +856,16 @@ end
 <p>The BdG Hamiltonian is defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">make_H_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">HN</span> <span class="o">=</span> <span class="n">make_H_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">matΔ</span> <span class="o">=</span> <span class="n">make_Δ</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">HN</span> <span class="n">matΔ</span>
-        <span class="n">matΔ</span><span class="s1">&#39; -conj.(HN)</span>
-    <span class="p">]</span>
-    <span class="k">return</span> <span class="n">H</span>
-<span class="n">end</span>
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">make_H_sc</span><span class="p">,(</span><span class="n">Int64</span><span class="p">,</span><span class="n">Int64</span><span class="p">,</span><span class="n">Float64</span><span class="p">,</span><span class="n">Matrix</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">},</span><span class="n">String</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">make_H_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_H_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">matΔ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Δ</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="n">HN</span><span class="w"> </span><span class="n">matΔ</span><span class="w"></span>
+<span class="w">        </span><span class="n">matΔ</span><span class="o">&#39;</span><span class="w"> </span><span class="o">-</span><span class="n">conj</span><span class="o">.</span><span class="p">(</span><span class="n">HN</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">H</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_H_sc</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">String</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -891,15 +874,15 @@ end
 The update method is implemented as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update_H_sc!(H,Δ)
-    matΔ = make_Δ(Δ)
-    Nx,Ny = size(Δ)
-    N = Nx*Ny
-    H[1:N,1+N:2N] = matΔ
-    H[1+N:2N,1:N] = matΔ&#39;
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">update_H_sc!</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">matΔ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Δ</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">N</span><span class="o">:</span><span class="mi">2</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matΔ</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">N</span><span class="o">:</span><span class="mi">2</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matΔ</span><span class="o">&#39;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(update_H_sc!,(AbstractMatrix{ComplexF64},Matrix{ComplexF64}))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">update_H_sc!</span><span class="p">,(</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -915,25 +898,59 @@ end
 With the use of the maximum frequency <span class="math notranslate nohighlight">\(\omega_c\)</span>, we calculate the set of Matsubara frequencies defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">calc_ωn</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">ωc</span><span class="p">)</span>
-    <span class="n">M</span> <span class="o">=</span> <span class="n">Int</span><span class="p">((</span><span class="nb">round</span><span class="p">(</span><span class="n">ωc</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="n">π</span><span class="p">)))</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">println</span><span class="p">(</span><span class="s2">&quot;num. of Matsubara freq: &quot;</span><span class="p">,</span><span class="mi">2</span><span class="n">M</span><span class="p">)</span>
-    <span class="n">ωn</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,</span><span class="mi">2</span><span class="n">M</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="n">M</span>
-        <span class="n">ωn</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">π</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">im</span>
-    <span class="n">end</span>
-    <span class="k">return</span> <span class="n">ωn</span>
-<span class="n">end</span>
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">calc_ωn</span><span class="p">,(</span><span class="n">Float64</span><span class="p">,</span><span class="n">Float64</span><span class="p">))</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">calc_ωn</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">ωc</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Int</span><span class="p">((</span><span class="n">round</span><span class="p">(</span><span class="n">ωc</span><span class="o">/</span><span class="p">(</span><span class="n">T</span><span class="o">*</span><span class="nb">π</span><span class="p">)))</span><span class="o">/</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;num. of Matsubara freq: &quot;</span><span class="p">,</span><span class="mi">2</span><span class="n">M</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ωn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="mi">2</span><span class="n">M</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="n">M</span><span class="w"></span>
+<span class="w">        </span><span class="n">ωn</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">π</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">im</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ωn</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_ωn</span><span class="p">,(</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ωc</span> <span class="o">=</span> <span class="mi">100</span><span class="n">π</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mf">0.01</span>
-<span class="n">ωn</span> <span class="o">=</span>  <span class="n">calc_ωn</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">ωc</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ωc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="nb">π</span><span class="w"></span>
+<span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01</span><span class="w"></span>
+<span class="n">ωn</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">calc_ωn</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">ωc</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num. of Matsubara freq: 9998
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9998-element Vector{ComplexF64}:
+ -0.0 - 314.06501757937167im
+ -0.0 - 314.00218572629984im
+ -0.0 - 313.9393538732281im
+ -0.0 - 313.87652202015624im
+ -0.0 - 313.8136901670845im
+ -0.0 - 313.75085831401265im
+ -0.0 - 313.6880264609409im
+ -0.0 - 313.62519460786905im
+ -0.0 - 313.5623627547973im
+ -0.0 - 313.4995309017255im
+ -0.0 - 313.4366990486537im
+ -0.0 - 313.3738671955819im
+ -0.0 - 313.3110353425101im
+      ⋮
+  0.0 + 313.3738671955819im
+  0.0 + 313.4366990486537im
+  0.0 + 313.4995309017255im
+  0.0 + 313.5623627547973im
+  0.0 + 313.62519460786905im
+  0.0 + 313.6880264609409im
+  0.0 + 313.75085831401265im
+  0.0 + 313.8136901670845im
+  0.0 + 313.87652202015624im
+  0.0 + 313.9393538732281im
+  0.0 + 314.00218572629984im
+  0.0 + 314.06501757937167im
 </pre></div>
 </div>
 </div>
@@ -941,33 +958,50 @@ With the use of the maximum frequency <span class="math notranslate nohighlight"
 <p>With the use of RSCG.jl, the mean-fields are calculated by</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Pkg</span>
-<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">PackageSpec</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;RSCG&quot;</span><span class="p">,</span> <span class="n">version</span> <span class="o">=</span> <span class="s2">&quot;0.1.2&quot;</span><span class="p">))</span>
-<span class="n">using</span> <span class="n">RSCG</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span><span class="w"></span>
+<span class="n">Pkg</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">PackageSpec</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&quot;RSCG&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.1.2&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="k">using</span><span class="w"> </span><span class="n">RSCG</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> registry at `~/.julia/registries/General.toml`
+<span class=" -Color -Color-Bold -Color-Bold-Green">   Resolving</span> package versions...
+<span class=" -Color -Color-Bold -Color-Bold-Green">   Installed</span> LinearMaps ─ v3.8.0
+<span class=" -Color -Color-Bold -Color-Bold-Green">   Installed</span> RSCG ─────── v0.1.2
+<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `~/.julia/environments/v1.7/Project.toml`
+  [4e41d8b6] + RSCG v0.1.2
+<span class=" -Color -Color-Bold -Color-Bold-Green">    Updating</span> `~/.julia/environments/v1.7/Manifest.toml`
+  [7a12625a] + LinearMaps v3.8.0
+  [4e41d8b6] + RSCG v0.1.2
+<span class=" -Color -Color-Bold -Color-Bold-Green">Precompiling</span> project...
+<span class=" -Color -Color-Green">  ✓ </span>LinearMaps
+<span class=" -Color -Color-Green">  ✓ </span>RSCG
+  2 dependencies successfully precompiled in 2 seconds (183 already precompiled)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function calc_Δi!(i,N,H,Δold,T,U,ωn;mixratio = 0.5)
-    j = i + N
-    Gij = greensfunctions(i,j,ωn,H)
-    Δi = U*T*sum(Gij)
-    Δi = (1-mixratio)*Δold[i] + mixratio*Δi
-    return Δi
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">calc_Δi!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="w">    </span><span class="n">Gij</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">H</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">U</span><span class="o">*</span><span class="n">T</span><span class="o">*</span><span class="n">sum</span><span class="p">(</span><span class="n">Gij</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixratio</span><span class="p">)</span><span class="o">*</span><span class="n">Δold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mixratio</span><span class="o">*</span><span class="n">Δi</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Δi</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δi!,(Int64,Int64,AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,Float64,Vector{ComplexF64}))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δi!</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}))</span><span class="w"></span>
 
-function calc_Δ!(Δnew,H,Δold,T,U,ωn;mixratio = 0.5)
-    Nx,Ny = size(Δold)
-    N = Nx*Ny
-    map!(i -&gt; calc_Δi!(i,N,H,Δold,T,U,ωn,mixratio = mixratio),Δnew,1:N) #If you use pmap! instead of map!, you can do the parallel computation.
-    return
-end
+<span class="k">function</span><span class="w"> </span><span class="n">calc_Δ!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δold</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">map!</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">calc_Δi!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mixratio</span><span class="p">),</span><span class="n">Δnew</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="c">#If you use pmap! instead of map!, you can do the parallel computation.</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δi!,(AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,Float64,Vector{ComplexF64}))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δi!</span><span class="p">,(</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -975,17 +1009,42 @@ end
 <p>Then, we can construct the BdG Hamiltonian matrix.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Nx</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">Ny</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">Δ</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">)</span>
-<span class="n">Δold</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-<span class="n">Δnew</span> <span class="o">=</span> <span class="n">zero</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-<span class="n">BC</span> <span class="o">=</span> <span class="s2">&quot;OBC&quot;</span> <span class="c1">#open boundary condition</span>
-<span class="c1">#BC = &quot;PBC&quot; #periodic boundary condition</span>
-<span class="n">U</span>  <span class="o">=-</span><span class="mi">2</span>
-<span class="n">μ</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.2</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="n">Δ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δnew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">BC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"> </span><span class="c">#open boundary condition</span><span class="w"></span>
+<span class="c">#BC = &quot;PBC&quot; #periodic boundary condition</span><span class="w"></span>
+<span class="n">U</span><span class="w">  </span><span class="o">=-</span><span class="mi">2</span><span class="w"></span>
+<span class="n">μ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">0.2</span><span class="w"></span>
 
-<span class="n">H</span> <span class="o">=</span> <span class="n">make_H_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
+<span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_H_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>128×128 SparseMatrixCSC{ComplexF64, Int64} with 704 stored entries:
+⠻⣦⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠓⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠢⡈⠱⣦⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠈⠢⡈⠛⣤⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠈⠢⡈⠻⢆⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠈⠢⡈⠻⣦⠈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠑⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠈⠢⡀⠻⣦⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠓⢄⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠱⣦⡈⠦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠱⢄⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡌⠛⣤⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠓⢄⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠻⢆⡈⠢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠱⢄⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠻⣦⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⣄
+⠙⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣦⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠑⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⡈⠱⣦⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠑⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠛⣤⡘⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠑⢆⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠲⡈⠻⢆⡈⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠑⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠻⣦⠈⠢⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡀⠻⣦⡈⠢⡀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠱⣦⡈⠢⡀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠛⣤⡈⠢⡀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠻⢆⡈⠢
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠑⢤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠢⡈⠻⣦
 </pre></div>
 </div>
 </div>
@@ -993,19 +1052,47 @@ end
 <p>The self-consistent loop is defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>itemax = 100
-ix = Nx ÷ 2
-iy = Ny ÷ 2
-for ite = 1:itemax
-    calc_Δ!(Δnew,H,Δold,T,U,ωn)
-    update_H_sc!(H,Δnew)
-    eps = sum(abs.(Δnew-Δold))/sum(abs.(Δold))
-    println(&quot;$ite $eps &quot;,Δnew[ix,iy])
-    Δold .= Δnew
-    if eps &lt; 1e-3
-        break
-    end
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">itemax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="w"></span>
+<span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">iy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">ite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">itemax</span><span class="w"></span>
+<span class="w">    </span><span class="n">calc_Δ!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">update_H_sc!</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">Δnew</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="o">-</span><span class="n">Δold</span><span class="p">))</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δold</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$ite</span><span class="s"> </span><span class="si">$eps</span><span class="s"> &quot;</span><span class="p">,</span><span class="n">Δnew</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δold</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">Δnew</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-3</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.19022941762340817 0.8018647273876987 + 0.0im
+2 0.15123442982656063 0.674653022641663 + 0.0im
+3 0.11957205212486025 0.589596797219806 - 5.293955920339377e-25im
+4 0.09424713927918395 0.5308635372889943 + 3.970466940254533e-24im
+5 0.07417361359379145 0.48926476258517093 + 1.9852334701272663e-24im
+6 0.05834520068959513 0.4592081174486282 + 1.5220123270975708e-24im
+7 0.0458979462622344 0.437146852174492 + 7.3619074517219455e-25im
+8 0.03612064429598342 0.42075099653803383 + 4.177262093392789e-25im
+9 0.028441883519312965 0.4084438556031036 - 8.261466367873364e-24im
+10 0.022409027712510025 0.39913169403298343 - 4.1638204084388034e-24im
+11 0.017666264771733595 0.3920398625330299 - 2.0901820103449318e-24im
+12 0.013934920454239436 0.38661027271623244 - 1.0285473929214053e-24im
+13 0.010997079557253684 0.38243510651602697 - 5.101377933979375e-25im
+14 0.00868234585336176 0.37921283781072723 - 1.3138600807668442e-24im
+15 0.0068573942739070855 0.37671838596315144 - 9.152074931303016e-24im
+16 0.005417746377601394 0.374782341949813 - 4.857278873919537e-24im
+17 0.004281510158206325 0.3732763752819832 - 2.4617266614618897e-24im
+18 0.0033843513340726023 0.37210271002493217 - 1.2287953791995623e-24im
+19 0.0026757083399357364 0.3711865098596343 - 2.0080738332326733e-25im
+20 0.002115794136491162 0.3704702697211746 + 1.642941043553352e-25im
+21 0.0016732885754822536 0.3699096269357205 + 6.560343992660704e-26im
+22 0.001323477168596026 0.3694702916891107 + 4.336709142763973e-21im
+23 0.0010469105457190362 0.3691256761125573 + 2.168222222483978e-21im
+24 0.000828206739947293 0.3688551232542179 + 5.43040756280999e-21im
 </pre></div>
 </div>
 </div>
@@ -1017,16 +1104,25 @@ end
 <p>We use the SparseIR package. The sampling Matsubara frequencies are obtained as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">SparseIR</span>
-<span class="kn">import</span> <span class="nn">SparseIR</span><span class="p">:</span> <span class="n">valueim</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">SparseIR</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">:</span><span class="w"> </span><span class="n">valueim</span><span class="w"></span>
 
-<span class="n">wmax</span> <span class="o">=</span> <span class="mf">10.0</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
-<span class="n">basis</span> <span class="o">=</span> <span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">Fermionic</span><span class="p">(),</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1e-7</span><span class="p">)</span>
-<span class="n">smpl</span> <span class="o">=</span> <span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
-<span class="n">ωn_s</span> <span class="o">=</span> <span class="n">valueim</span><span class="o">.</span><span class="p">(</span><span class="n">smpl</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">beta</span><span class="p">)</span>
-<span class="n">println</span><span class="p">(</span><span class="s2">&quot;num. of Matsubara freqs. &quot;</span><span class="p">,</span> <span class="n">length</span><span class="p">(</span><span class="n">ωn_s</span><span class="p">))</span>
-<span class="n">smpl_beta</span> <span class="o">=</span> <span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="p">[</span><span class="n">beta</span><span class="p">])</span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
+<span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">T</span><span class="w"></span>
+<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-7</span><span class="p">)</span><span class="w"></span>
+<span class="n">smpl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
+<span class="n">ωn_s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valueim</span><span class="o">.</span><span class="p">(</span><span class="n">smpl</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;num. of Matsubara freqs. &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">ωn_s</span><span class="p">))</span><span class="w"></span>
+<span class="n">smpl_beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">beta</span><span class="p">])</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num. of Matsubara freqs. 40
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TauSampling64 with sampling points:
+ 100.0
 </pre></div>
 </div>
 </div>
@@ -1034,36 +1130,36 @@ end
 <p>The mean-fields are obtained by</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function fit_ir(Gij,smpl_Matsubara,smpl_beta)
-    gl = fit(smpl_Matsubara, Gij)
-    G0 = evaluate(smpl_beta, gl)
-    return -G0[1]
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">fit_ir</span><span class="p">(</span><span class="n">Gij</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">gl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="w"> </span><span class="n">Gij</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">G0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">evaluate</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">,</span><span class="w"> </span><span class="n">gl</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">G0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(fit_ir,(Vector{ComplexF64},typeof(smpl),typeof(smpl_beta)))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">fit_ir</span><span class="p">,(</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl</span><span class="p">),</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">)))</span><span class="w"></span>
 
-function calc_Δi_ir!(i,N,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta;mixratio = 0.5)
-    j = i + N
-    Gij = greensfunctions(i,j,ωn,H)
-    G0 = fit_ir(Gij,smpl_Matsubara,smpl_beta)
-    Δi = U*G0
-    Δi = (1-mixratio)*Δold[i] + mixratio*Δi
-    return Δi
-end
+<span class="k">function</span><span class="w"> </span><span class="n">calc_Δi_ir!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="w">    </span><span class="n">Gij</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">H</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">G0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_ir</span><span class="p">(</span><span class="n">Gij</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">U</span><span class="o">*</span><span class="n">G0</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixratio</span><span class="p">)</span><span class="o">*</span><span class="n">Δold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mixratio</span><span class="o">*</span><span class="n">Δi</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Δi</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δi_ir!,(Int64,Int64,AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,
-            Float64,Vector{ComplexF64},typeof(smpl),typeof(smpl_beta)))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δi_ir!</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl</span><span class="p">),</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">)))</span><span class="w"></span>
 
 
-function calc_Δ_ir!(Δnew,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta;mixratio = 0.5)
-    Nx,Ny = size(Δold)
-    N = Nx*Ny
-    map!(i -&gt; calc_Δi_ir!(i,N,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta,mixratio = mixratio),Δnew,1:N) #If you use pmap! instead of map!, you can do the parallel computation.
-    return
-end
+<span class="k">function</span><span class="w"> </span><span class="n">calc_Δ_ir!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δold</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">map!</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">calc_Δi_ir!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">,</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mixratio</span><span class="p">),</span><span class="n">Δnew</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">)</span><span class="w"> </span><span class="c">#If you use pmap! instead of map!, you can do the parallel computation.</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δ_ir!,(Matrix{ComplexF64},AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,
-            Float64,Vector{ComplexF64},typeof(smpl),typeof(smpl_beta)))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δ_ir!</span><span class="p">,(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl</span><span class="p">),</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">)))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1071,29 +1167,67 @@ end
 <p>Then, the self-consistent cycle is expressed as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Nx = 8
-Ny = 8
-Δ = ones(ComplexF64,Nx,Ny)
-Δold = copy(Δ)
-Δnew = zero(Δ)
-BC = &quot;OBC&quot; #open boundary condition
-#BC = &quot;PBC&quot; #periodic boundary condition
-U  =-2
-μ = -0.2
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="w"></span>
+<span class="n">Δ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δnew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">BC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"> </span><span class="c">#open boundary condition</span><span class="w"></span>
+<span class="c">#BC = &quot;PBC&quot; #periodic boundary condition</span><span class="w"></span>
+<span class="n">U</span><span class="w">  </span><span class="o">=-</span><span class="mi">2</span><span class="w"></span>
+<span class="n">μ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">0.2</span><span class="w"></span>
 
-H = make_H_sc(Nx,Ny,μ,Δ,BC)
+<span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_H_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
 
-for ite = 1:itemax
-    calc_Δ_ir!(Δnew,H,Δold,T,U,ωn_s,smpl,smpl_beta)
-    update_H_sc!(H,Δnew)
+<span class="k">for</span><span class="w"> </span><span class="n">ite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">itemax</span><span class="w"></span>
+<span class="w">    </span><span class="n">calc_Δ_ir!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn_s</span><span class="p">,</span><span class="n">smpl</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">update_H_sc!</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">Δnew</span><span class="p">)</span><span class="w"></span>
 
-    eps = sum(abs.(Δnew-Δold))/sum(abs.(Δold))
-    println(&quot;$ite $eps &quot;,Δnew[ix,iy])
-    Δold .= Δnew
-    if eps &lt; 1e-4
-        break
-    end
-end
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="o">-</span><span class="n">Δold</span><span class="p">))</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δold</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$ite</span><span class="s"> </span><span class="si">$eps</span><span class="s"> &quot;</span><span class="p">,</span><span class="n">Δnew</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">])</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δold</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">Δnew</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-4</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0.18921615094610542 0.8028780021236981 - 8.074131081505547e-15im
+2 0.1504579800630761 0.6761326547133992 - 1.5663080257167513e-14im
+3 0.11898342664572882 0.5912904548581304 - 2.3134823530621874e-14im
+4 0.09380324125193945 0.5326506039794703 - 3.066768651510532e-14im
+5 0.07383909673068632 0.49108665730527457 - 3.8213295304015856e-14im
+6 0.058092411369679374 0.46103662153758956 - 4.582621076451077e-14im
+7 0.045706071625215394 0.43896894336267556 - 5.367658961801095e-14im
+8 0.0359742560588966 0.42256139409151044 - 6.163775401429281e-14im
+9 0.028329625897985836 0.4102411659377213 - 6.985289269804677e-14im
+10 0.02232253255475805 0.400916365168676 - 7.825430229705483e-14im
+11 0.017599330653702353 0.39381319095049866 - 8.683887990103659e-14im
+12 0.01388292696028738 0.3883738342142733 - 9.558297311283576e-14im
+13 0.010956576782273143 0.38419047715372356 - 1.0444176639043901e-13im
+14 0.008650711970435711 0.3809614715148952 - 1.1344911090765774e-13im
+15 0.0068326172520132965 0.37846153903398694 - 1.2250182598962863e-13im
+16 0.005398328542458786 0.3765210898849867 - 1.3166849361263624e-13im
+17 0.00426625428526062 0.3750116057027777 - 1.4096364134113734e-13im
+18 0.0033723591579754614 0.3738351520184714 - 1.5030564058946779e-13im
+19 0.002666272493163196 0.3729167502716719 - 1.5970584637098004e-13im
+20 0.0021083711081204674 0.3721987745233075 - 1.6920774057740723e-13im
+21 0.0016674326475935634 0.3716367742292695 - 1.786920522131755e-13im
+22 0.0013188711468547522 0.37119638322081644 - 1.8821656716327929e-13im
+23 0.001043275782521646 0.37085093963400606 - 1.9775196437178675e-13im
+24 0.0008253437612149899 0.37057973688808754 - 2.073539202142666e-13im
+25 0.0006529830419496603 0.3703666548270311 - 2.1697080048999146e-13im
+26 0.0005166499661478611 0.37019912038944736 - 2.2661209206479765e-13im
+27 0.0004087994607323756 0.37006731686052374 - 2.3628829621970677e-13im
+28 0.0003234842644765042 0.3699635627045513 - 2.459111446603905e-13im
+29 0.00025598003805790866 0.36988183486076837 - 2.5563673170263217e-13im
+30 0.0002025709573844681 0.3698174436488454 - 2.6532365378897977e-13im
+31 0.0001603166484953414 0.3697666839708287 - 2.7503134498426814e-13im
+32 0.00012687174037771177 0.3697266544958948 - 2.8471194866488926e-13im
+33 0.0001004095474703099 0.36969507660827383 - 2.944375091599948e-13im
+34 7.947132782250831e-5 0.3696701540430575 - 3.0415185019760476e-13im
 </pre></div>
 </div>
 </div>
@@ -1101,37 +1235,41 @@ end
 <p>Let us show the superconducting order parameter in real space. Since we consider the open boundary condition, the mean-field becomes large at four corner due to an interference effect.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">Ny</span><span class="p">,</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="p">),</span><span class="n">st</span><span class="o">=</span><span class="p">:</span><span class="n">contourf</span><span class="p">,</span>
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;ix&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;iy&quot;</span><span class="p">,</span>
-    <span class="n">zlabel</span> <span class="o">=</span> <span class="s2">&quot;|Delta|&quot;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="p">,</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="p">),</span><span class="n">st</span><span class="o">=</span><span class="ss">:contourf</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ix&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;iy&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">zlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;|Delta|&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/BgG_jl_32_0.svg" src="../_images/BgG_jl_32_0.svg" /></div>
 </div>
 <p>We plot the local density of states at the center.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">σ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,</span><span class="n">M</span><span class="p">)</span>
-<span class="n">η</span> <span class="o">=</span> <span class="mf">0.05</span>
-<span class="n">σmin</span> <span class="o">=</span> <span class="o">-</span><span class="mf">4.0</span> <span class="o">+</span> <span class="n">im</span><span class="o">*</span><span class="n">η</span>
-<span class="n">σmax</span> <span class="o">=</span> <span class="mf">4.0</span><span class="o">+</span> <span class="n">im</span><span class="o">*</span><span class="n">η</span>
-<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">M</span>
-    <span class="n">σ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">σmax</span><span class="o">-</span><span class="n">σmin</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">σmin</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="n">σ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="w"></span>
+<span class="n">η</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.05</span><span class="w"></span>
+<span class="n">σmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">4.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">im</span><span class="o">*</span><span class="n">η</span><span class="w"></span>
+<span class="n">σmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0</span><span class="o">+</span><span class="w"> </span><span class="nb">im</span><span class="o">*</span><span class="n">η</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">M</span><span class="w"></span>
+<span class="w">    </span><span class="n">σ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">σmax</span><span class="o">-</span><span class="n">σmin</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">σmin</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span> <span class="o">+</span> <span class="n">ix</span>
-<span class="n">j</span> <span class="o">=</span> <span class="n">i</span>
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 
-<span class="n">Gij1</span> <span class="o">=</span> <span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">H</span><span class="p">)</span> 
-<span class="n">plot</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">σ</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">π</span><span class="p">)</span><span class="o">*</span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">Gij1</span><span class="p">),</span>
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;Energy [t]&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;Local DOS&quot;</span><span class="p">,)</span>
+<span class="n">Gij1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">H</span><span class="p">)</span><span class="w"> </span>
+<span class="n">plot</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">σ</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">Gij1</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Energy [t]&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Local DOS&quot;</span><span class="p">,)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/BgG_jl_34_0.svg" src="../_images/BgG_jl_34_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1159,14 +1297,21 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <p>We difine the Pauli matrices.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">σ0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span>
-<span class="mi">0</span> <span class="mi">1</span><span class="p">]</span>
-<span class="n">const</span> <span class="n">σx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span>
-<span class="mi">1</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">const</span> <span class="n">σy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="o">-</span><span class="n">im</span>
-<span class="n">im</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">const</span> <span class="n">σz</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="mi">0</span>
-<span class="mi">0</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">σ0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">σx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">σy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="nb">im</span><span class="w"></span>
+<span class="nb">im</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">σz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="mi">0</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2×2 Matrix{Int64}:
+ 1   0
+ 0  -1
 </pre></div>
 </div>
 </div>
@@ -1174,27 +1319,27 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <p>We can construct the Hamiltonian with the use of the <code class="docutils literal notranslate"><span class="pre">kron</span></code>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">make_Htsc_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span>
-    <span class="n">Tx_plushop</span> <span class="o">=</span> <span class="n">make_x_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">Tx_minushop</span> <span class="o">=</span> <span class="n">make_x_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">Ty_plushop</span> <span class="o">=</span> <span class="n">make_y_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">Ty_minushop</span> <span class="o">=</span> <span class="n">make_y_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span>
-    <span class="n">HN</span> <span class="o">=</span> <span class="n">kron</span><span class="p">(</span><span class="n">sparse</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">μ</span><span class="p">),</span><span class="n">σ0</span><span class="p">)</span> 
-    <span class="n">HN</span> <span class="o">+=</span> <span class="n">kron</span><span class="p">(</span><span class="n">sparse</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">),</span><span class="n">σz</span><span class="p">)</span> <span class="c1">#Zeeman magnetic field</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span>
-    
-    <span class="n">HN</span> <span class="o">+=</span> <span class="n">kron</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">Tx_plushop</span> <span class="o">+</span> <span class="n">Tx_minushop</span> <span class="o">+</span> <span class="n">Ty_plushop</span> <span class="o">+</span> <span class="n">Ty_minushop</span><span class="p">),</span><span class="n">σ0</span><span class="p">)</span>
-    
-    <span class="n">Hax</span> <span class="o">=</span> <span class="n">kron</span><span class="p">((</span><span class="n">α</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="n">im</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">Tx_plushop</span> <span class="o">-</span> <span class="n">Tx_minushop</span> <span class="p">)</span> <span class="p">,</span><span class="n">σy</span><span class="p">)</span>
-    <span class="n">HN</span> <span class="o">+=</span> <span class="n">Hax</span> 
-    <span class="n">Hay</span> <span class="o">=</span> <span class="n">kron</span><span class="p">((</span><span class="n">α</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="n">im</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">Ty_plushop</span> <span class="o">-</span> <span class="n">Ty_minushop</span> <span class="p">)</span> <span class="p">,</span><span class="n">σx</span><span class="p">)</span>
-    <span class="n">HN</span> <span class="o">+=</span> <span class="n">Hay</span> 
-    
-    <span class="k">return</span> <span class="n">HN</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">make_Htsc_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tx_plushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_x_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Tx_minushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_x_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ty_plushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_y_plushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Ty_minushop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_y_minushop</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">BC</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kron</span><span class="p">(</span><span class="n">sparse</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">μ</span><span class="p">),</span><span class="n">σ0</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kron</span><span class="p">(</span><span class="n">sparse</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">-</span><span class="n">h</span><span class="p">),</span><span class="n">σz</span><span class="p">)</span><span class="w"> </span><span class="c">#Zeeman magnetic field</span><span class="w"></span>
+<span class="w">    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">kron</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="o">*</span><span class="p">(</span><span class="n">Tx_plushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Tx_minushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ty_plushop</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Ty_minushop</span><span class="p">),</span><span class="n">σ0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">Hax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kron</span><span class="p">((</span><span class="n">α</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="nb">im</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">Tx_plushop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Tx_minushop</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="n">σy</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Hax</span><span class="w"> </span>
+<span class="w">    </span><span class="n">Hay</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kron</span><span class="p">((</span><span class="n">α</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="nb">im</span><span class="p">))</span><span class="o">*</span><span class="p">(</span><span class="n">Ty_plushop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">Ty_minushop</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">,</span><span class="n">σx</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Hay</span><span class="w"> </span>
+<span class="w">    </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">HN</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">make_Htsc_normal</span><span class="p">,(</span><span class="n">Int64</span><span class="p">,</span><span class="n">Int64</span><span class="p">,</span><span class="n">Float64</span><span class="p">,</span><span class="n">String</span><span class="p">,</span><span class="n">Float64</span><span class="p">,</span><span class="n">Float64</span><span class="p">))</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_Htsc_normal</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">String</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1202,20 +1347,20 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <p>We also define the superconducting order parameter:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">make_Δtsc</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">N</span> <span class="o">=</span> <span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span>
-    <span class="n">Δmat</span> <span class="o">=</span> <span class="n">spzeros</span><span class="p">(</span><span class="n">ComplexF64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span>
-        <span class="k">for</span> <span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Ny</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span> <span class="o">+</span> <span class="n">ix</span>
-            <span class="n">Δmat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Δ</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span>
-        <span class="n">end</span>
-    <span class="n">end</span>
-    <span class="k">return</span> <span class="n">kron</span><span class="p">(</span><span class="n">Δmat</span><span class="p">,</span><span class="n">im</span><span class="o">*</span><span class="n">σy</span><span class="p">)</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">make_Δtsc</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δmat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">spzeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">N</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">ix</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="w"></span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">iy</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="w"></span>
+<span class="w">            </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="w">            </span><span class="n">Δmat</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Δ</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">kron</span><span class="p">(</span><span class="n">Δmat</span><span class="p">,</span><span class="nb">im</span><span class="o">*</span><span class="n">σy</span><span class="p">)</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span><span class="n">make_Δtsc</span><span class="p">,(</span><span class="n">Matrix</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">},))</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">make_Δtsc</span><span class="p">,(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1223,17 +1368,17 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <p>Then, the superconducting BdG Hamiltonian is defined as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">make_Htsc_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span>
-    <span class="n">HN</span> <span class="o">=</span> <span class="n">make_Htsc_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span>
-    <span class="n">matΔ</span> <span class="o">=</span> <span class="n">make_Δtsc</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span>
-    <span class="n">H</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">HN</span> <span class="n">matΔ</span>
-        <span class="n">matΔ</span><span class="s1">&#39; -conj.(HN)</span>
-    <span class="p">]</span>
-    <span class="k">return</span> <span class="n">H</span>
-<span class="n">end</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">make_Htsc_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">HN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Htsc_normal</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">matΔ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Δtsc</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="n">HN</span><span class="w"> </span><span class="n">matΔ</span><span class="w"></span>
+<span class="w">        </span><span class="n">matΔ</span><span class="o">&#39;</span><span class="w"> </span><span class="o">-</span><span class="n">conj</span><span class="o">.</span><span class="p">(</span><span class="n">HN</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">H</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-<span class="nd">@assert</span> <span class="n">typestable</span><span class="p">(</span> <span class="n">make_Htsc_sc</span><span class="p">,(</span><span class="n">Int64</span><span class="p">,</span><span class="n">Int64</span><span class="p">,</span><span class="n">Float64</span><span class="p">,</span><span class="n">Matrix</span><span class="p">{</span><span class="n">ComplexF64</span><span class="p">},</span><span class="n">String</span><span class="p">,</span><span class="n">Float64</span><span class="p">,</span><span class="n">Float64</span><span class="p">))</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="w"> </span><span class="n">make_Htsc_sc</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">String</span><span class="p">,</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1241,14 +1386,14 @@ Here, <span class="math notranslate nohighlight">\(\sigma_{x,y,z}\)</span> are t
 <p>The update method is implimanted as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function update_Htsc_sc!(H,Δ)
-    matΔ = make_Δtsc(Δ)
-    N,_ = size(matΔ)
-    H[1:N,1+N:2N] = matΔ
-    H[1+N:2N,1:N] = matΔ&#39;
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">update_Htsc_sc!</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">matΔ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_Δtsc</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="p">,</span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">matΔ</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="o">+</span><span class="n">N</span><span class="o">:</span><span class="mi">2</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matΔ</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="p">[</span><span class="mi">1</span><span class="o">+</span><span class="n">N</span><span class="o">:</span><span class="mi">2</span><span class="n">N</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">N</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">matΔ</span><span class="o">&#39;</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(update_Htsc_sc!,(AbstractMatrix{ComplexF64},Matrix{ComplexF64}))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">update_Htsc_sc!</span><span class="p">,(</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">}))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1256,31 +1401,31 @@ end
 <p>The mean-fields are calculated as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>function calc_Δitsc_ir!(i,N,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta;mixratio = 0.5)
-    ispin = 1
-    ii = (i-1)*2 + ispin
-    jspin = 2
-    jj = (i-1)*2 + jspin + N
-    
-    Gij = greensfunctions(ii,jj,ωn,H) 
-    G0 = fit_ir(Gij,smpl_Matsubara,smpl_beta)            
-    Δi = U*G0
-    Δi = (1-mixratio)*Δold[i] + mixratio*Δi   
-    return Δi
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">calc_Δitsc_ir!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">ispin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="w">    </span><span class="n">ii</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ispin</span><span class="w"></span>
+<span class="w">    </span><span class="n">jspin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="w">    </span><span class="n">jj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">jspin</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">N</span><span class="w"></span>
+<span class="w">    </span>
+<span class="w">    </span><span class="n">Gij</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">jj</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">H</span><span class="p">)</span><span class="w"> </span>
+<span class="w">    </span><span class="n">G0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_ir</span><span class="p">(</span><span class="n">Gij</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">)</span><span class="w">            </span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">U</span><span class="o">*</span><span class="n">G0</span><span class="w"></span>
+<span class="w">    </span><span class="n">Δi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixratio</span><span class="p">)</span><span class="o">*</span><span class="n">Δold</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">mixratio</span><span class="o">*</span><span class="n">Δi</span><span class="w">   </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">Δi</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δitsc_ir!,(Int64,Int64,AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,
-            Float64,Vector{ComplexF64},typeof(smpl),typeof(smpl_beta)))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δitsc_ir!</span><span class="p">,(</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl</span><span class="p">),</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">)))</span><span class="w"></span>
 
 
-function calc_Δtsc_ir!(Δnew,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta,;mixratio = 0.5)
-    Nx,Ny = size(Δold)
-    N = Nx*Ny*2
-    map!(i -&gt; calc_Δitsc_ir!(i,N,H,Δold,T,U,ωn,smpl_Matsubara,smpl_beta,mixratio = mixratio),Δnew,1:Nx*Ny) #If you use pmap! instead of map!, you can do the parallel computation.
-end
+<span class="k">function</span><span class="w"> </span><span class="n">calc_Δtsc_ir!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">,;</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.5</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">Δold</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">N</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="o">*</span><span class="mi">2</span><span class="w"></span>
+<span class="w">    </span><span class="n">map!</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">calc_Δitsc_ir!</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="n">H</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl_Matsubara</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">,</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mixratio</span><span class="p">),</span><span class="n">Δnew</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="o">*</span><span class="n">Ny</span><span class="p">)</span><span class="w"> </span><span class="c">#If you use pmap! instead of map!, you can do the parallel computation.</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
-@assert typestable(calc_Δtsc_ir!,(Matrix{ComplexF64},AbstractMatrix{ComplexF64},Matrix{ComplexF64},Float64,
-            Float64,Vector{ComplexF64},typeof(smpl),typeof(smpl_beta)))
+<span class="nd">@assert</span><span class="w"> </span><span class="n">typestable</span><span class="p">(</span><span class="n">calc_Δtsc_ir!</span><span class="p">,(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">AbstractMatrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="kt">Float64</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">ComplexF64</span><span class="p">},</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl</span><span class="p">),</span><span class="n">typeof</span><span class="p">(</span><span class="n">smpl_beta</span><span class="p">)))</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
@@ -1288,49 +1433,77 @@ end
 <p>Then, we can solve the gap equations, self-consistently.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>T = 0.01
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01</span><span class="w"></span>
 
-beta = 1/T
-wmax = 10.0
+<span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">T</span><span class="w"></span>
+<span class="n">wmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.0</span><span class="w"></span>
 
-basis = FiniteTempBasis(Fermionic(), beta, wmax, 1e-5)
-smpl = MatsubaraSampling(basis)
-ωn = valueim.(smpl.sampling_points, beta)
-println(&quot;num. of Matsubara freqs. &quot;, length(ωn))
-smpl_beta = TauSampling(basis, [beta])
+<span class="n">basis</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">Fermionic</span><span class="p">(),</span><span class="w"> </span><span class="n">beta</span><span class="p">,</span><span class="w"> </span><span class="n">wmax</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-5</span><span class="p">)</span><span class="w"></span>
+<span class="n">smpl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
+<span class="n">ωn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">valueim</span><span class="o">.</span><span class="p">(</span><span class="n">smpl</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span><span class="w"> </span><span class="n">beta</span><span class="p">)</span><span class="w"></span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;num. of Matsubara freqs. &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">ωn</span><span class="p">))</span><span class="w"></span>
+<span class="n">smpl_beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">beta</span><span class="p">])</span><span class="w"></span>
 
-U  =-5.6
-itemax = 1000
-μ = 3.5
+<span class="n">U</span><span class="w">  </span><span class="o">=-</span><span class="mf">5.6</span><span class="w"></span>
+<span class="n">itemax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="n">μ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.5</span><span class="w"></span>
 
-Nx = 16
-Ny = 16
-Δ = 3*ones(ComplexF64,Nx,Ny)
-Δold = copy(Δ)
-Δnew = zero(Δ)
-BC = &quot;OBC&quot;
-h = 1
-α = 1
-Htsc =  make_Htsc_sc(Nx,Ny,μ,Δold,BC,h,α)
+<span class="n">Nx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="n">Ny</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="w"></span>
+<span class="n">Δ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">Δnew</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zero</span><span class="p">(</span><span class="n">Δ</span><span class="p">)</span><span class="w"></span>
+<span class="n">BC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;OBC&quot;</span><span class="w"></span>
+<span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="n">α</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="n">Htsc</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">make_Htsc_sc</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span><span class="n">Ny</span><span class="p">,</span><span class="n">μ</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">BC</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">α</span><span class="p">)</span><span class="w"></span>
 
-ix = Nx ÷ 2
-iy = Ny ÷ 2
-i = (iy-1)*Nx + ix
-j = i
+<span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">iy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
 
 
-for ite = 1:itemax
-    calc_Δtsc_ir!(Δnew,Htsc,Δold,T,U,ωn,smpl,smpl_beta,mixratio =1)
-    update_Htsc_sc!(Htsc,Δnew)
+<span class="k">for</span><span class="w"> </span><span class="n">ite</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">itemax</span><span class="w"></span>
+<span class="w">    </span><span class="n">calc_Δtsc_ir!</span><span class="p">(</span><span class="n">Δnew</span><span class="p">,</span><span class="n">Htsc</span><span class="p">,</span><span class="n">Δold</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">ωn</span><span class="p">,</span><span class="n">smpl</span><span class="p">,</span><span class="n">smpl_beta</span><span class="p">,</span><span class="n">mixratio</span><span class="w"> </span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">update_Htsc_sc!</span><span class="p">(</span><span class="n">Htsc</span><span class="p">,</span><span class="n">Δnew</span><span class="p">)</span><span class="w"></span>
 
-    eps = sum(abs.(Δnew-Δold))/sum(abs.(Δold))
-    println(&quot;$ite $eps &quot;,Δnew[ix,iy],&quot; ave: &quot;,sum(abs.(Δnew))/length(Δnew))
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="o">-</span><span class="n">Δold</span><span class="p">))</span><span class="o">/</span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δold</span><span class="p">))</span><span class="w"></span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$ite</span><span class="s"> </span><span class="si">$eps</span><span class="s"> &quot;</span><span class="p">,</span><span class="n">Δnew</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">],</span><span class="s">&quot; ave: &quot;</span><span class="p">,</span><span class="n">sum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="p">))</span><span class="o">/</span><span class="n">length</span><span class="p">(</span><span class="n">Δnew</span><span class="p">))</span><span class="w"></span>
 
-    Δold .= Δnew
-    if eps &lt; 1e-2
-        break
-    end
-end
+<span class="w">    </span><span class="n">Δold</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="n">Δnew</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">eps</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-2</span><span class="w"></span>
+<span class="w">        </span><span class="k">break</span><span class="w"></span>
+<span class="w">    </span><span class="k">end</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>num. of Matsubara freqs. 30
+1 0.37282720316638346 1.8802286062787634 + 1.9519291839284452e-14im ave: 1.8815183906217614
+2 0.2096507423373081 1.4861198287726598 + 3.58651111802892e-14im ave: 1.487056674283153
+3 0.1356382076641652 1.283017024984332 + 3.732380722972403e-10im ave: 1.2853551064292952
+4 0.09725231612303577 1.1552868446980766 + 5.097991888858548e-10im ave: 1.1603520156134906
+5 0.07521015817270575 1.064474439009558 + 3.484352381101277e-10im ave: 1.0730837477440747
+6 0.061407910970517274 0.994494924535644 + 4.3364723432037123e-10im ave: 1.0071922119185561
+7 0.05209959326984138 0.9375697905372062 + 3.327460554062128e-10im ave: 0.9547254449650951
+8 0.04538778674572795 0.8895959968105918 + 9.104893422276185e-11im ave: 0.9114040612407588
+9 0.04023538507449575 0.8482975326669332 + 1.1119761609293102e-10im ave: 0.8747492190616694
+10 0.036048572918334625 0.81235345871053 - 7.549322829161254e-11im ave: 0.8432360739622505
+11 0.032483966160339675 0.780937405163586 - 1.7653154286104077e-9im ave: 0.8158690570384611
+12 0.029346577602069684 0.7534685703128047 - 1.3041509137205908e-9im ave: 0.7919547206613802
+13 0.026528632950108925 0.7294847607612073 + 1.1298076616675977e-9im ave: 0.7709774254168145
+14 0.023971220568697566 0.7085845424845704 - 1.6070625148631963e-9im ave: 0.7525313885427493
+15 0.02164101522407836 0.6904050007156326 - 1.663802919029051e-9im ave: 0.7362836100150476
+16 0.01951704789208269 0.6746151706007231 - 1.6426835388237208e-9im ave: 0.721953310817475
+17 0.017583786686848873 0.6609149184399022 - 1.2810927514899018e-9im ave: 0.709299951676252
+18 0.015827818016843017 0.6490348001778041 - 1.312512561691568e-9im ave: 0.6981156734296813
+19 0.014236471544536878 0.6387354475723688 + 2.0289294919579757e-9im ave: 0.6882200295080374
+20 0.012797342411224476 0.6298060222101124 + 2.0951591570021916e-9im ave: 0.6794560026954019
+21 0.01149827234378832 0.6220621029723695 + 1.1316397192457486e-9im ave: 0.671686770010353
+22 0.010327448171510692 0.6153432239888607 + 8.75148056762349e-10im ave: 0.6647929925292533
+23 0.00927356013667515 0.6095102648787727 + 5.595970650576552e-10im ave: 0.6586704808607331
 </pre></div>
 </div>
 </div>
@@ -1338,70 +1511,76 @@ end
 <p>The superconducting order parameter is shown as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">using</span> <span class="n">Plots</span>
-<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Nx</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="n">Ny</span><span class="p">,</span><span class="nb">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="p">),</span><span class="n">st</span><span class="o">=</span><span class="p">:</span><span class="n">contourf</span><span class="p">,</span>
-    <span class="n">xlabel</span> <span class="o">=</span> <span class="s2">&quot;ix&quot;</span><span class="p">,</span>
-    <span class="n">ylabel</span> <span class="o">=</span> <span class="s2">&quot;iy&quot;</span><span class="p">,</span>
-    <span class="n">zlabel</span> <span class="o">=</span> <span class="s2">&quot;|Delta|&quot;</span><span class="p">)</span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">Nx</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="n">Ny</span><span class="p">,</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">Δnew</span><span class="p">),</span><span class="n">st</span><span class="o">=</span><span class="ss">:contourf</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ix&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;iy&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">zlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;|Delta|&quot;</span><span class="p">)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/BgG_jl_51_0.svg" src="../_images/BgG_jl_51_0.svg" /></div>
 </div>
 <p>We can see that the order parametere oscillates due to the Fridel oscillation.</p>
 <p>The local density of states at the center is calculated as</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>using Plots
-M = 1000
-σ = zeros(ComplexF64,M)
-η = 0.01
-σmin = -4.0 + im*η
-σmax = 4.0+ im*η
-for i=1:M
-    σ[i] = (i-1)*(σmax-σmin)/(M-1) + σmin
-end
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
+<span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"></span>
+<span class="n">σ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="kt">ComplexF64</span><span class="p">,</span><span class="n">M</span><span class="p">)</span><span class="w"></span>
+<span class="n">η</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.01</span><span class="w"></span>
+<span class="n">σmin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mf">4.0</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">im</span><span class="o">*</span><span class="n">η</span><span class="w"></span>
+<span class="n">σmax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">4.0</span><span class="o">+</span><span class="w"> </span><span class="nb">im</span><span class="o">*</span><span class="n">η</span><span class="w"></span>
+<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">M</span><span class="w"></span>
+<span class="w">    </span><span class="n">σ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">σmax</span><span class="o">-</span><span class="n">σmin</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">M</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">σmin</span><span class="w"></span>
+<span class="k">end</span><span class="w"></span>
 
 
-ix = Nx ÷ 2
-iy = Ny ÷ 2
-ispin  =1
+<span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Nx</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">iy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">ispin</span><span class="w">  </span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
 
-i = (( iy-1)*Nx + ix-1)*2 + ispin
-j = i
-Gij1 = greensfunctions(i,j,σ,Htsc) 
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="w"> </span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ispin</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="n">Gij1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">Htsc</span><span class="p">)</span><span class="w"> </span>
 
-ispin  =2
-i = (( iy-1)*Nx + ix-1)*2 + ispin
-j = i
-Gij2 = greensfunctions(i,j,σ,Htsc) 
-plot(real.(σ),(-1/π)*imag.(Gij1 .+ Gij2),
-    xlabel = &quot;Energy [t]&quot;,
-    ylabel = &quot;Local DOS&quot;,)
+<span class="n">ispin</span><span class="w">  </span><span class="o">=</span><span class="mi">2</span><span class="w"></span>
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="w"> </span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ispin</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="n">Gij2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">Htsc</span><span class="p">)</span><span class="w"> </span>
+<span class="n">plot</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">σ</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">Gij1</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">Gij2</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Energy [t]&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Local DOS&quot;</span><span class="p">,)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/BgG_jl_54_0.svg" src="../_images/BgG_jl_54_0.svg" /></div>
 </div>
 <p>At the edge, there are mid-gap states since this is topologically non-trivial state. We can see the local density of states at the edge.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ix = 1
-iy = Ny ÷ 2
-ispin  =1
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+<span class="n">iy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Ny</span><span class="w"> </span><span class="o">÷</span><span class="w"> </span><span class="mi">2</span><span class="w"></span>
+<span class="n">ispin</span><span class="w">  </span><span class="o">=</span><span class="mi">1</span><span class="w"></span>
 
-i = (( iy-1)*Nx + ix-1)*2 + ispin
-j = i
-Gij1 = greensfunctions(i,j,σ,Htsc) 
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="w"> </span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ispin</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="n">Gij1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">Htsc</span><span class="p">)</span><span class="w"> </span>
 
-ispin  =2
-i = (( iy-1)*Nx + ix-1)*2 + ispin
-j = i
-Gij2 = greensfunctions(i,j,σ,Htsc) 
-plot(real.(σ),(-1/π)*imag.(Gij1 .+ Gij2),
-    xlabel = &quot;Energy [t]&quot;,
-    ylabel = &quot;Local DOS&quot;,)
+<span class="n">ispin</span><span class="w">  </span><span class="o">=</span><span class="mi">2</span><span class="w"></span>
+<span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="w"> </span><span class="n">iy</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">Nx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ix</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ispin</span><span class="w"></span>
+<span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"></span>
+<span class="n">Gij2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">greensfunctions</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">σ</span><span class="p">,</span><span class="n">Htsc</span><span class="p">)</span><span class="w"> </span>
+<span class="n">plot</span><span class="p">(</span><span class="n">real</span><span class="o">.</span><span class="p">(</span><span class="n">σ</span><span class="p">),(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="nb">π</span><span class="p">)</span><span class="o">*</span><span class="n">imag</span><span class="o">.</span><span class="p">(</span><span class="n">Gij1</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">Gij2</span><span class="p">),</span><span class="w"></span>
+<span class="w">    </span><span class="n">xlabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Energy [t]&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">ylabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Local DOS&quot;</span><span class="p">,)</span><span class="w"></span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/BgG_jl_56_0.svg" src="../_images/BgG_jl_56_0.svg" /></div>
 </div>
 <p>We can see there are mid-gap states.</p>
 </section>
@@ -1415,16 +1594,16 @@ plot(real.(σ),(-1/π)*imag.(Gij1 .+ Gij2),
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "julia-1.8",
+            kernelName: "julia-1.7",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               

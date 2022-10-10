@@ -529,6 +529,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_2_0.svg" src="../_images/transformation_jl_2_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -543,6 +545,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_3_0.svg" src="../_images/transformation_jl_3_0.svg" /></div>
 </div>
 </section>
 <section id="from-smooth-spectral-function">
@@ -560,6 +564,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_5_0.svg" src="../_images/transformation_jl_5_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -574,6 +580,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_6_0.svg" src="../_images/transformation_jl_6_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -583,6 +591,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_7_0.svg" src="../_images/transformation_jl_7_0.svg" /></div>
 </div>
 </section>
 <section id="from-ir-to-imaginary-time">
@@ -596,6 +606,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_9_0.svg" src="../_images/transformation_jl_9_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -605,6 +617,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_10_0.svg" src="../_images/transformation_jl_10_0.svg" /></div>
 </div>
 </section>
 <section id="from-full-imaginary-time-data">
@@ -625,6 +639,8 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../_images/transformation_jl_12_0.svg" src="../_images/transformation_jl_12_0.svg" /></div>
 </div>
 </section>
 <section id="matrix-valued-object">
@@ -643,6 +659,12 @@ The axis to which the transformation applied can be specified by using the keywo
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gl: (24,)
+gl_tensor: (1, 2, 3, 24)
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -651,6 +673,11 @@ The axis to which the transformation applied can be specified by using the keywo
 <span class="n">print</span><span class="p">(</span><span class="s">&quot;gtau_tensor: &quot;</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">gtau_tensor</span><span class="p">))</span><span class="w"></span>
 <span class="n">gl_tensor_reconst</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">gtau_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">dim</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="w"></span>
 <span class="nd">@assert</span><span class="w"> </span><span class="n">isapprox</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span><span class="w"> </span><span class="n">gl_tensor_reconst</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>gtau_tensor: (1, 2, 3, 24)
 </pre></div>
 </div>
 </div>
@@ -667,16 +694,16 @@ The axis to which the transformation applied can be specified by using the keywo
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.8"
+            mode: "julia-1.7"
         },
         kernelOptions: {
-            kernelName: "julia-1.8",
+            kernelName: "julia-1.7",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.8'</script>
+    <script>kernelName = 'julia-1.7'</script>
 
               </div>
               
