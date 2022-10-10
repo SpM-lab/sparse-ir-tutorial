@@ -480,14 +480,14 @@ title="Print to PDF"
 The idea of the sparse sampling is simple.
 If we want to determine <span class="math notranslate nohighlight">\(L\)</span> coefficients <span class="math notranslate nohighlight">\(G_l\)</span>,
 we need to know <span class="math notranslate nohighlight">\(G(\tau)\)</span> on only up to <span class="math notranslate nohighlight">\(L\)</span> sampling points.
-Let <span class="math notranslate nohighlight">\(\bar{\tau}_1 &lt; \cdots &lt; \bar{\tau}_{N_\mathrm{smp}}\)</span> (<span class="math notranslate nohighlight">\(N_\mathrm{smpl}\ge L\)</span>) be such sampling points,
+Let <span class="math notranslate nohighlight">\(\bar{\tau}_1 &lt; \cdots &lt; \bar{\tau}_{N_\mathrm{smpl}}\)</span> (<span class="math notranslate nohighlight">\(N_\mathrm{smpl}\ge L\)</span>) be such sampling points,
 one can evaluate the expansion coefficients as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-    g_l &amp;= \underset{g_l}{\mathrm{argmin}}
-        \sum_k \bigg| G(\tauk) - \sum_{l=0}^{N_\mathrm{smp}-1} U_l(\tauk)G_l \bigg|^2\nonumber \\
-    &amp;= (\Fmat^+ \boldsymbol{g})_l,
+    G_l &amp;= \underset{G_l}{\mathrm{argmin}}
+        \sum_k \bigg| G(\tauk) - \sum_{l=0}^{N_\mathrm{smpl}-1} U_l(\tauk)G_l \bigg|^2\nonumber \\
+    &amp;= (\Fmat^+ \boldsymbol{G})_l,
 \end{align}
 \end{split}\]</div>
 <p>where we define <span class="math notranslate nohighlight">\((\Fmat)_{kl} = U_l(\tauk)\)</span> and <span class="math notranslate nohighlight">\(\Fmat^+\)</span> is its pseudo inverse.
@@ -531,21 +531,21 @@ From experience, the fitting can be done in the most stable way using SVD of the
 The IR basis functions <span class="math notranslate nohighlight">\(\hat U_l(\iv)\)</span> are purely imaginary/real for even/odd <span class="math notranslate nohighlight">\(l\)</span>.
 Although the basis functions <span class="math notranslate nohighlight">\(U_l(\iv)\)</span> are defined only on discrete points,
 the respective parts have sign structures similarly to those of <span class="math notranslate nohighlight">\(U_l(\tau)\)</span>.
-The figure shown below shows the basis functions for the largest <span class="math notranslate nohighlight">\(l\)</span>
+The figure shown below shows the basis functions for the largest <span class="math notranslate nohighlight">\(l\)</span> of the given basis
 as well as the corresponding sampling frequencies.
 A sign change generally takes place between two adjacent Matsubara frequencies.
 A segment between two adjacent “roots” contains at least one sampling points.
 In the upper panel, you can see that the last segment at high frequencies contains two sampling points.
 This improves the condition number slighly.</p>
-<p>Let <span class="math notranslate nohighlight">\(\bar{\nu}_1 &lt; \cdots &lt; \bar{\nu}_{N_\mathrm{smp}}\)</span> (<span class="math notranslate nohighlight">\(N_\mathrm{smpl}\ge L\)</span>)
+<p>Let <span class="math notranslate nohighlight">\(\bar{\nu}_1 &lt; \cdots &lt; \bar{\nu}_{N_\mathrm{smpl}}\)</span> (<span class="math notranslate nohighlight">\(N_\mathrm{smpl}\ge L\)</span>)
 be such sampling frequencies,
 one can evaluate the expansion coefficients as</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
-    g_l &amp;= \underset{g_l}{\mathrm{argmin}}
-        \sum_k \bigg| \hat G(\ii\vk) - \sum_{l=0}^{N_\mathrm{smp}-1} \hat{U}_l(\ii\vk)G_l \bigg|^2\nonumber \\
-    &amp;= (\hat{\Fmat}^+ \boldsymbol{g})_l.
+    G_l &amp;= \underset{G_l}{\mathrm{argmin}}
+        \sum_k \bigg| \hat G(\ii\vk) - \sum_{l=0}^{N_\mathrm{smpl}-1} \hat{U}_l(\ii\vk)G_l \bigg|^2\nonumber \\
+    &amp;= (\hat{\Fmat}^+ \boldsymbol{G})_l.
 \end{align}
 \end{split}\]</div>
 <p>The following figure shows the sampling points in the imaginary-frequency domain generated for <span class="math notranslate nohighlight">\(\beta=10\)</span> and <span class="math notranslate nohighlight">\(\wmax=10\)</span>.</p>
@@ -571,7 +571,7 @@ one can evaluate the expansion coefficients as</p>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re/Im $G(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re/Im $U_l(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
 
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>

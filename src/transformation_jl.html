@@ -532,12 +532,12 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SparsePoleRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span><span class="w"> </span><span class="n">omega_p</span><span class="p">)</span><span class="w"></span>
-<span class="n">gl_pole2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">to_IR</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span><span class="w"> </span><span class="n">coeff</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span><span class="w"></span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">dlr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DiscreteLehmannRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span><span class="w"> </span><span class="n">omega_p</span><span class="p">)</span><span class="w"></span>
+<span class="n">gl_pole2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">.</span><span class="n">to_IR</span><span class="p">(</span><span class="n">dlr</span><span class="p">,</span><span class="w"> </span><span class="n">coeff</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">tanh</span><span class="o">.</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span><span class="w"></span>
 
 <span class="n">plot</span><span class="p">(</span><span class="w"></span>
 <span class="w">    </span><span class="p">[</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">)],</span><span class="w"></span>
-<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;from SPR&quot;</span><span class="w"> </span><span class="s">&quot;exact&quot;</span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;from DLR&quot;</span><span class="w"> </span><span class="s">&quot;exact&quot;</span><span class="p">],</span><span class="w"></span>
 <span class="w">    </span><span class="n">yaxis</span><span class="o">=</span><span class="ss">:log</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;l&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="n">latexstring</span><span class="p">(</span><span class="s">&quot;g_l&quot;</span><span class="p">),</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span><span class="w"> </span><span class="mf">1e+1</span><span class="p">),</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="p">[</span><span class="ss">:cross</span><span class="w"> </span><span class="ss">:circle</span><span class="p">])</span><span class="w"></span>
 </pre></div>
@@ -667,16 +667,16 @@ The axis to which the transformation applied can be specified by using the keywo
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               

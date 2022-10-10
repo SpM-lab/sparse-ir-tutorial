@@ -600,7 +600,7 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">OMEinsum</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">FastGaussQuadrature</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">SparseIR</span><span class="w"></span>
-<span class="k">import</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">:</span><span class="w"> </span><span class="n">valueim</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="w"></span>
+<span class="k">import</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">:</span><span class="w"> </span><span class="n">valueim</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">MatsubaraSampling64F</span><span class="p">,</span><span class="w"> </span><span class="n">TauSampling64</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">LaTeXStrings</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">Plots</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span><span class="w"></span>
@@ -654,7 +654,7 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 <span class="s">&quot;&quot;&quot;</span><span class="w"></span>
 <span class="k">struct</span> <span class="kt">IPTSolver</span><span class="w"></span>
 <span class="w">    </span><span class="n">U</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
-<span class="w">    </span><span class="n">basis</span><span class="o">::</span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="n">basis</span><span class="w"></span>
 <span class="w">    </span><span class="n">beta</span><span class="o">::</span><span class="kt">Float64</span><span class="w"></span>
 <span class="w">    </span><span class="n">rho_omega</span><span class="o">::</span><span class="kt">Function</span><span class="w"></span>
 <span class="w">    </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="kt">Float64</span><span class="p">}</span><span class="w"></span>
@@ -668,7 +668,7 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 <span class="w">        </span><span class="n">smpl_matsu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
 <span class="w">        </span><span class="n">smpl_tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span><span class="w"></span>
 
-<span class="w">        </span><span class="n">new</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">.</span><span class="n">getbeta</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span><span class="w"> </span><span class="n">rho_omega</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="p">,</span><span class="w"> </span><span class="n">quad_rule</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_tau</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="n">new</span><span class="p">(</span><span class="n">U</span><span class="p">,</span><span class="w"> </span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">SparseIR</span><span class="o">.</span><span class="n">beta</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span><span class="w"> </span><span class="n">rho_omega</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="p">,</span><span class="w"> </span><span class="n">quad_rule</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_matsu</span><span class="p">,</span><span class="w"> </span><span class="n">smpl_tau</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">end</span><span class="w"></span>
 <span class="k">end</span><span class="w"></span>
 <span class="p">;</span><span class="w"></span>
@@ -747,7 +747,7 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">sweepU</span><span class="p">(</span><span class="n">basis</span><span class="o">::</span><span class="kt">FiniteTempBasis</span><span class="p">{</span><span class="kt">LogisticKernel</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">D</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="n">U_range</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">rho_omega</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">nitr</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"></span>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">sweepU</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span><span class="w"> </span><span class="n">D</span><span class="o">::</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="n">U_range</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">rho_omega</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="w"> </span><span class="n">omega_range</span><span class="o">::</span><span class="kt">Tuple</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span><span class="w"> </span><span class="kt">Float64</span><span class="p">},</span><span class="w"> </span><span class="n">nitr</span><span class="o">::</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">mixing</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Float64</span><span class="p">[]</span><span class="w"></span>
 <span class="w">    </span><span class="n">sigma_history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">iu</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">U_range</span><span class="w"></span>
@@ -832,16 +832,16 @@ z = \frac{1}{1-\frac{\partial \Sigma(\omega+\mathrm{i}0^+)}{\partial \omega}}\Bi
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               

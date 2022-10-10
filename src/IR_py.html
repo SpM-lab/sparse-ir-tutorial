@@ -511,14 +511,14 @@ title="Print to PDF"
 <section id="one-particle-greens-function">
 <h2>One-particle Green’s function<a class="headerlink" href="#one-particle-greens-function" title="Permalink to this headline">#</a></h2>
 <p>We introduce a Green’s function with imaginary arguments in time and frequency.
-This has no physical meaning but is merely a mathematical trick and makes calculations easier (to give another example of this: in Minsowski spacetime we take advantage of a similiar substitution)</p>
-<p>The so-called imaginary-frequency (Matsubara) Green’s functions are defined as followed:</p>
+This has no physical meaning but a mere mathematical trick to make calculations easier (to give another example of this: in Minkowski spacetime we take advantage of a similiar substitution).</p>
+<p>The so-called imaginary-frequency (Matsubara) Green’s functions are defined as follows:</p>
 <div class="math notranslate nohighlight">
 \[
 G_{ij}(\tau-\tau') = -\langle T_\tau [c_i(\tau){c}^\dagger_j(\tau')]\rangle,
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> denote spin/orbital/band and <span class="math notranslate nohighlight">\(T_\tau\)</span> is the time-ordering operator.
-Here <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(\mathrm{i}t\)</span>,
+Here, <span class="math notranslate nohighlight">\(\tau\)</span> represents a imaginary time unit <span class="math notranslate nohighlight">\(\mathrm{i}t\)</span>,
 while <span class="math notranslate nohighlight">\(c_i\)</span>/<span class="math notranslate nohighlight">\(c_j\)</span> is a fermionic or bosonic annihilation/creation operator.</p>
 <p>The Fourier Transformation of <span class="math notranslate nohighlight">\(G_{ij}(\tau)\)</span> (with <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>) reads</p>
 <div class="math notranslate nohighlight">
@@ -533,7 +533,7 @@ The inverse transformation is given by</p>
 G_{ij}(\tau) = \frac{1}{\beta}\sum_{n=-\infty}^\infty e^{-\iv_n\tau}G_{ij}(\iv_n).
 \]</div>
 <p>Continuing <span class="math notranslate nohighlight">\(G_{ij}(\iv_n)\)</span> to a holomorphic function in the upper half of the complex plane,
-the imaginary-frequency (Matsubara) Green’s function can be related to the “orginary” retarded Green’s function as</p>
+the imaginary-frequency (Matsubara) Green’s function can be related to the “ordinary” retarded Green’s function as</p>
 <div class="math notranslate nohighlight">
 \[
 G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
@@ -569,7 +569,7 @@ The Lehmann representation can be transformed to the imaginary-time domain as</p
     \end{cases}.
 \end{align}
 \end{split}\]</div>
-<p>The minus sign originates from our the convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.
+<p>The minus sign originates from our convention <span class="math notranslate nohighlight">\(K(\tau, \omega) &gt; 0\)</span>.
 To avoid the divergence of the bosonic kernel at <span class="math notranslate nohighlight">\(\omega=0\)</span>, we reformulate Eq. <a class="reference internal" href="#equation-lehmann-tau">(1)</a> as</p>
 <div class="math notranslate nohighlight">
 \[
@@ -602,7 +602,7 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 K^\mathrm{L}(\tau, \omega) = \sum_{l=0}^\infty U_l(\tau) S_l V_l(\omega),
 \]</div>
 <p>for <span class="math notranslate nohighlight">\(\omega \in [-\wmax, \wmax]\)</span> with <span class="math notranslate nohighlight">\(\wmax\)</span> (&gt;0) being a cut-off frequency.
-<span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span> are left and right singular functions and <span class="math notranslate nohighlight">\(S_l\)</span> as the singular values (with <span class="math notranslate nohighlight">\(S_0&gt;S_1&gt;S_2&gt;...&gt;0\)</span>).
+<span class="math notranslate nohighlight">\(U_l(\tau)\)</span> and <span class="math notranslate nohighlight">\(V_l(\omega)\)</span> are left and right singular functions and <span class="math notranslate nohighlight">\(S_l\)</span> is the singular values (with <span class="math notranslate nohighlight">\(S_0&gt;S_1&gt;S_2&gt;...&gt;0\)</span>).
 The two sets of singular functions <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(V\)</span> make up the basis functions of the so-called Intermediate Representation (IR), which depends on <span class="math notranslate nohighlight">\(\beta\)</span> and the cutoff <span class="math notranslate nohighlight">\(\wmax\)</span>.
 For the peculiar choice of the regularization for the bosonic kernel using <span class="math notranslate nohighlight">\(K^\mathrm{L}\)</span>, these basis functions do not depend on statistical properties.
 The basis functions <span class="math notranslate nohighlight">\(U_l(\tau)\)</span> are transformed to the imaginary-frequency axis as</p>

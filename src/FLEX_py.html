@@ -635,7 +635,7 @@ title="Print to PDF"
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
 <section id="theory-of-flex-in-the-paramagnetic-state">
 <h2>Theory of FLEX in the paramagnetic state<a class="headerlink" href="#theory-of-flex-in-the-paramagnetic-state" title="Permalink to this headline">#</a></h2>
-<p>The Fluctuation Exchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. <span id="id1">[<a class="reference internal" href="bibliography.html#id40" title="N. E. Bickers, D. J. Scalapino, and S. R. White. Conserving approximations for strongly correlated electron systems: bethe-salpeter equation and dynamics for the two-dimensional hubbard model. Phys. Rev. Lett., 62:961–964, Feb 1989. URL: https://link.aps.org/doi/10.1103/PhysRevLett.62.961, doi:10.1103/PhysRevLett.62.961.">Bickers <em>et al.</em>, 1989</a>, <a class="reference internal" href="bibliography.html#id41" title="N.E Bickers and D.J Scalapino. Conserving approximations for strongly fluctuating electron systems. i. formalism and calculational approach. Annals of Physics, 193(1):206-251, 1989. URL: https://www.sciencedirect.com/science/article/pii/000349168990359X, doi:https://doi.org/10.1016/0003-4916(89)90359-X.">Bickers and Scalapino, 1989</a>]</span>. It can be derived from a Luttinger-Ward functional <span id="id2">[<a class="reference internal" href="bibliography.html#id43" title="J. M. Luttinger and J. C. Ward. Ground-state energy of a many-fermion system. ii. Phys. Rev., 118:1417–1427, Jun 1960. URL: https://link.aps.org/doi/10.1103/PhysRev.118.1417, doi:10.1103/PhysRev.118.1417.">Luttinger and Ward, 1960</a>]</span> containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin and charge fluctuations is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> to illustrate the practical implementation of the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package for diagrammatic methods.</p>
+<p>The FLuctuation EXchange (FLEX) approximation is a perturbative diagrammatic method that was first introduced by Bickers et al. <span id="id1">[<a class="reference internal" href="bibliography.html#id40" title="N. E. Bickers, D. J. Scalapino, and S. R. White. Conserving approximations for strongly correlated electron systems: bethe-salpeter equation and dynamics for the two-dimensional hubbard model. Phys. Rev. Lett., 62:961–964, Feb 1989. URL: https://link.aps.org/doi/10.1103/PhysRevLett.62.961, doi:10.1103/PhysRevLett.62.961.">Bickers <em>et al.</em>, 1989</a>, <a class="reference internal" href="bibliography.html#id41" title="N.E Bickers and D.J Scalapino. Conserving approximations for strongly fluctuating electron systems. i. formalism and calculational approach. Annals of Physics, 193(1):206-251, 1989. URL: https://www.sciencedirect.com/science/article/pii/000349168990359X, doi:https://doi.org/10.1016/0003-4916(89)90359-X.">Bickers and Scalapino, 1989</a>]</span>. It can be derived from a Luttinger-Ward functional <span id="id2">[<a class="reference internal" href="bibliography.html#id43" title="J. M. Luttinger and J. C. Ward. Ground-state energy of a many-fermion system. ii. Phys. Rev., 118:1417–1427, Jun 1960. URL: https://link.aps.org/doi/10.1103/PhysRev.118.1417, doi:10.1103/PhysRev.118.1417.">Luttinger and Ward, 1960</a>]</span> containing an infinite series of closed bubble and ladder diagrams. Physically, this means that in FLEX the exchange of spin and charge fluctuations is treated self-consistently. As such, it is suitable for studying systems with strong spin fluctuations, e.g., in Fermi liquids or near quantum critical points. Here, we want to give a code example of the single-orbital limit of FLEX with a local Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> to illustrate the practical implementation of the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package for diagrammatic methods.</p>
 <p>For the implementation of a multi-orbital code, please have a look at <span id="id3">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> and <a class="reference external" href="https://github.com/nikwitt/FLEX_IR">FLEX_IR package</a>.</p>
 <section id="set-of-flex-equations">
 <h3>Set of FLEX equations<a class="headerlink" href="#set-of-flex-equations" title="Permalink to this headline">#</a></h3>
@@ -647,10 +647,10 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 &amp; = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu) - \Sigma(i\omega_n,\boldsymbol{k})]^{-1}\;.
 \end{align}
 \end{split}\]</div>
-<p>for the interacting Green function <span class="math notranslate nohighlight">\(G\)</span> from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> as well as self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> as a function of Matsubara frequencies <span class="math notranslate nohighlight">\(\omega_n=(2n+1)\pi T\)</span> and momentum <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>. Using the Green function, we calculate the irreducible susceptibility (“bubble diagram”) as</p>
+<p>for the interacting Green function <span class="math notranslate nohighlight">\(G\)</span> from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0(i\omega_n,\boldsymbol{k}) = [i\omega_n - (\varepsilon_{\boldsymbol{k}}-\mu)]^{-1}\)</span> with single-particle dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}}\)</span> and chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> as well as self-energy <span class="math notranslate nohighlight">\(\Sigma\)</span> as a function of (fermionic) Matsubara frequencies <span class="math notranslate nohighlight">\(\omega_n=(2n+1)\pi T\)</span> and momentum <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>. Using the Green function, we calculate the irreducible susceptibility (“bubble diagram”) as</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(i\nu_m, \boldsymbol{q}) = - \frac{T}{N_{\boldsymbol{k}}} \sum_{n,\boldsymbol{k}} G(i\omega_n + i\nu_m, \boldsymbol{k} + \boldsymbol{q})G(i\omega_n, \boldsymbol{k})\;.\]</div>
-<p><span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points. This equation is a convolution typical in diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication</p>
+<p><span class="math notranslate nohighlight">\(N_{\boldsymbol{k}}\)</span> denotes the number of <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-points. This equation is a convolution typical for diagrammatic methods. It can be easily evaluated by Fourier transforming to imaginary-time and real space, resulting in a simple multiplication</p>
 <div class="math notranslate nohighlight">
 \[ \chi_0(\tau, \boldsymbol{r}) = - G(\tau, \boldsymbol{r})G(-\tau,-\boldsymbol{r}) = G(\tau, \boldsymbol{r})G(\beta-\tau,\boldsymbol{r})\;.\]</div>
 <p>In our practical implementation, we will perform this step using the <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> package. The infinite sum of bubble and ladder diagrams can be resummed to yield a Berk-Shrieffer type interaction <span id="id4">[<a class="reference internal" href="bibliography.html#id44" title="N. F. Berk and J. R. Schrieffer. Effect of Ferromagnetic Spin Correlations on Superconductivity. Physical Review Letters, 17(8):433–435, aug 1966. URL: https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.17.433, doi:10.1103/physrevlett.17.433.">Berk and Schrieffer, 1966</a>]</span></p>
@@ -662,7 +662,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <p>The self-energy can be calculated from the convolution</p>
 <div class="math notranslate nohighlight">
 \[ \Sigma(i\omega_n, \boldsymbol{k}) = \frac{T}{N_{\boldsymbol{k}}} \sum_{m,\boldsymbol{q}} V(i\nu_m, \boldsymbol{q}) G(i\omega_n - i\nu_m, \boldsymbol{k} - \boldsymbol{q}) \]</div>
-<p>which Fourier transformed to real space and imaginary-times takes the form</p>
+<p>which Fourier transformed to real space and imaginary times takes the form</p>
 <div class="math notranslate nohighlight">
 \[ \Sigma(\tau, \boldsymbol{r}) = V(\tau, \boldsymbol{r}) G(\tau, \boldsymbol{r})\;. \]</div>
 <p>Thus, we have the set of self-consistent equations complete. In every iteration, the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> needs to be adjusted to keep the electron density <span class="math notranslate nohighlight">\(n\)</span> fixed. It can be calculated via solving</p>
@@ -674,9 +674,9 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">#</a></h3>
 <p>When implementing the fully self-consistent FLEX loop, a few points need to be treated carefully which we adress in the following:</p>
 <ul class="simple">
-<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat them separately.</p></li>
-<li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function as <span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>. This smoothes too strong oscillations of the solution.</p></li>
-<li><p>A bottleneck of the FLEX approximation is the case of too strong interactions. The solution turns numerically unstable, if the denominator of <span class="math notranslate nohighlight">\(\chi_{\mathrm{s}}\)</span> approaches zero, i.e., <span class="math notranslate nohighlight">\(U\max\!\{\chi_{0}\} \to 1\)</span>. Typically, this can be solved by starting with a smaller <span class="math notranslate nohighlight">\(U\)</span> value and slowly turning it up. We call this “<span class="math notranslate nohighlight">\(U\)</span> renormalization”.</p></li>
+<li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat this term separately, since the IR basis cannot model the <span class="math notranslate nohighlight">\(\delta\)</span>-peak in frequency space well/compactly. In this case, evaluate the term analytically and add it after the Fourier transformation step.</p></li>
+<li><p>We include a mixing <span class="math notranslate nohighlight">\(p&lt;1\)</span> in each iteration step, such that the Green function of step <span class="math notranslate nohighlight">\(n+1\)</span> is partially constructed from the old and new Green function as <span class="math notranslate nohighlight">\(G^{n+1} = p\,G^{n+1} + (1-p)\,G^{n}\)</span>. This smoothes too strong oscillations in the convergence loop.</p></li>
+<li><p>A bottleneck of the FLEX approximation is the case of too strong interactions. The solution turns numerically unstable if the denominator of <span class="math notranslate nohighlight">\(\chi_{\mathrm{s}}\)</span> approaches zero, i.e., <span class="math notranslate nohighlight">\(U\max\!\{\chi_{0}\} \to 1\)</span>. Typically, this can be solved by starting with a smaller <span class="math notranslate nohighlight">\(U\)</span> value and slowly turning it up. We call this “<span class="math notranslate nohighlight">\(U\)</span> renormalization”.</p></li>
 </ul>
 </section>
 </section>
@@ -713,10 +713,10 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <span class="c1">### Numerical parameters</span>
 <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c1"># number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky</span>
 <span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
-<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c1"># accuary for l-cutoff of IR basis functions</span>
-<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># accuracy for self-consistent iteration</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># desired accuracy for self-consistent iteration</span>
 <span class="n">maxiter</span>   <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
-<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new </span>
+<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new green function</span>
 <span class="n">U_maxiter</span> <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
 </pre></div>
 </div>
@@ -734,7 +734,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 
 <span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iw_n&#39; grids.</span>
+<span class="sd">    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.</span>
 <span class="sd">    Additionally it defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="p">,</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">):</span>
@@ -765,7 +765,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 
     
     <span class="k">def</span> <span class="nf">tau_to_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from tau to iw_n via IR basis &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Fourier transform from tau to in via IR basis &quot;&quot;&quot;</span>
         <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
         <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">obj_tau</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
@@ -774,7 +774,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
         <span class="k">return</span> <span class="n">obj_wn</span>
 
     <span class="k">def</span> <span class="nf">wn_to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from iw_n to tau via IR basis &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;</span>
         <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
         <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">obj_wn</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_wn</span><span class="o">.</span><span class="n">wn</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
@@ -849,7 +849,6 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 
             <span class="c1"># check whether solution is converged.</span>
             <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">))</span>
-
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">sfc_check</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">:</span>
@@ -860,13 +859,16 @@ In addition, we set calculation routines to Fourier transform <span class="math 
         <span class="sd">&quot;&quot;&quot; FLEX loop &quot;&quot;&quot;</span>
         <span class="n">gkio_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span>
         
+        <span class="c1"># calculate interaction and self-energy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">V_calc</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sigma_calc</span><span class="p">()</span>
         
+        <span class="c1"># set new chemical potential and apply mixing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mu_calc</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mix</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
         
+        <span class="c1"># calculate new irreducible susceptibility</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grit_calc</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ckio_calc</span><span class="p">()</span>
 
@@ -897,7 +899,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
         
             <span class="c1"># break condition for too many steps</span>
             <span class="k">if</span> <span class="n">U_it</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_maxiter</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;U renormalization reached breaking point&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration number of U renormalization reached break condition!&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leaving U renormalization...&#39;</span><span class="p">)</span>
     
@@ -932,7 +934,7 @@ In addition, we set calculation routines to Fourier transform <span class="math 
         <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
 
         <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span>
-        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
+        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled compactly by the IR basis.</span>
         <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
 
         <span class="c1"># Fourier transform</span>
@@ -989,34 +991,36 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1 2.3679802693642045 4
-2 2.6631530511750734 4
-3 2.9528432019548623 4
-4 3.2372665067005078 4
-5 3.517535370177765 4
-6 3.7950747760506416 4
+1 2.3679802691722758 4
+2 2.6631530509597767 4
+3 2.952843201138091 4
+4 3.2372665027429366 4
+5 3.517535355318661 4
+6 3.7950747305303705 4
 Leaving U renormalization...
-0 0.0875962629186477
-1 0.1446267953465856
-2 0.02250286684417963
-3 0.01182964134745572
-4 0.007579201682507341
-5 0.005300054188739338
-6 0.0038640487485849793
-7 0.0028747676882943433
-8 0.0021591972974465
-9 0.001629003950914278
-10 0.0012319453581469012
-11 0.0009335032333327842
-12 0.0007088461163071677
-13 0.0005395930109663412
-14 0.0004120083846159209
-15 0.0003157392429613874
-16 0.00024299053532170873
-17 0.00018786806854504366
-18 0.00014598170564101182
-19 0.00011405280065521542
-20 8.960043770029601e-05
+0 0.0884808907394077
+1 0.14569522734487253
+2 0.022615814131314266
+3 0.01189350571047997
+4 0.007627709050177936
+5 0.005337914476427159
+6 0.003893254237015386
+7 0.0028971360061451593
+8 0.0021763170209296097
+9 0.001642154658976331
+10 0.0012421091833942346
+11 0.0009414202269478522
+12 0.0007150642109585832
+13 0.0005445167053377979
+14 0.00041593780933648765
+15 0.0003188981704700155
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>16 0.0002455469581981976
+17 0.00018994846474808876
+18 0.0001476827551318767
+19 0.00011544934333250916
+20 9.07504952510539e-05
 FLEX loop converged at desired accuracy
 </pre></div>
 </div>
@@ -1026,7 +1030,7 @@ FLEX loop converged at desired accuracy
 <h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. Green function</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
@@ -1081,10 +1085,10 @@ FLEX loop converged at desired accuracy
 <div class="math notranslate nohighlight">
 \[
 \begin{align}
-\Delta^{(\xi)}(\tau, \boldsymbol{r}) = - V^{(\xi)}(\tau, \boldsymbol{r})F^{(\xi)}(\tau, \boldsymbol{r})\;.
+\Delta^{(\xi)}(\tau, \boldsymbol{r}) = V^{(\xi)}(\tau, \boldsymbol{r})F^{(\xi)}(\tau, \boldsymbol{r})\;.
 \end{align}
 \]</div>
-<p>In each spin-pairing channel, the interaction is given by</p>
+<p>The interaction of each spin-pairing channelspin-pairing channel is given by</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \begin{align}
@@ -1112,7 +1116,7 @@ FLEX loop converged at desired accuracy
 <span class="sd">        It takes FLEX results as an input.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
-        <span class="c1">## Initialize necessary quantities from FLEX loop</span>
+        <span class="c1">## Initialize necessary quantities from converged (normal state) FLEX calculation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">gkio</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">chi_spin</span>
@@ -1141,6 +1145,7 @@ FLEX loop converged at desired accuracy
             <span class="n">lam_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span>
             <span class="n">delta_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
     
+            <span class="c1"># calculate gap function in real space</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">frit_calc</span><span class="p">()</span>
             <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V_singlet</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">frit</span>
     
@@ -1152,6 +1157,7 @@ FLEX loop converged at desired accuracy
             <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="o">*</span><span class="n">delta_old</span><span class="p">)</span> <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
     
+            <span class="c1"># check for convergence</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">))</span>
             <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">:</span>
@@ -1162,15 +1168,15 @@ FLEX loop converged at desired accuracy
         <span class="sd">&quot;&quot;&quot; Set up interaction in real space and imaginary time &quot;&quot;&quot;</span>
     
         <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span>
-        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.</span>
-        <span class="c1"># In the special case of d-wave symmetry, it can be neglected.</span>
+        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled by the IR basis.</span>
+        <span class="c1"># In the special case of d-wave symmetry, it can be neglected as the momentum sum vanishes due to symmetry.</span>
     
         <span class="c1"># Fourier transform</span>
         <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">V_singlet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">frit_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate (linearized) anomalous Green function F = |G|^2 * delta for evaluating the gap equation &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Calculate (linearized) anomalous Green function F = -|G|^2 * delta for evaluating the gap equation &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fkio</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
         
         <span class="c1"># Fourier transform</span>
@@ -1192,14 +1198,14 @@ FLEX loop converged at desired accuracy
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0.10887725769743611 0.10887725769743611
-1 0.40590129073777786 0.29702403304034175
-2 0.44947454504183104 0.04357325430405318
-3 0.4562292041217927 0.006754659079961645
-4 0.4578319630145914 0.0016027588927987058
-5 0.4582114292608235 0.00037946624623208525
-6 0.4583134623645821 0.00010203310375861419
-7 0.4583399665465459 2.6504181963815654e-05
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0.11528824873274021 0.11528824873274021
+1 0.40623096520053226 0.290942716467792
+2 0.44950820725159674 0.04327724205106448
+3 0.45623539005749664 0.006727182805899901
+4 0.4578340878880734 0.0015986978305767563
+5 0.4582127201904821 0.00037863230240869905
+6 0.45831455837670215 0.00010183818622006013
+7 0.45834101326520965 2.6454888507498886e-05
 The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </pre></div>
 </div>
@@ -1267,8 +1273,8 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </section>
 <section id="example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model">
 <h2>Example: Antiferromagnetic fluctuations and <span class="math notranslate nohighlight">\(d\)</span>-wave superconductivity in the square-lattice Hubbard model<a class="headerlink" href="#example-antiferromagnetic-fluctuations-and-d-wave-superconductivity-in-the-square-lattice-hubbard-model" title="Permalink to this headline">#</a></h2>
-<p>In this section, we will reproduce Figs. 3(b) and 4 of <span id="id7">[<a class="reference internal" href="bibliography.html#id45" title="Ryotaro Arita, Kazuhiko Kuroki, and Hideo Aoki. D- and p-wave superconductivity mediated by spin fluctuations in two- and three-dimensional single-band repulsive hubbard model. Journal of the Physical Society of Japan, 69(4):1181-1191, 2000. URL: https://doi.org/10.1143/JPSJ.69.1181, arXiv:https://doi.org/10.1143/JPSJ.69.1181, doi:10.1143/JPSJ.69.1181.">Arita <em>et al.</em>, 2000</a>]</span> or respective Fig. 2(a) of <span id="id8">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> using the SparseIR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue <span class="math notranslate nohighlight">\(\lambda_d\)</span> (as calculated above) and the inverse maximal spin susceptibility <span class="math notranslate nohighlight">\(1/\chi_{\mathrm{s,max}}\)</span>, which indicates tendency towards (quasi-)magnetic ordering.</p>
-<p>In order to perform calculations for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to recalculate the IR basis set instance for every step. We start from high <span class="math notranslate nohighlight">\(T\)</span> and lower its value and initialize each <span class="math notranslate nohighlight">\(T\)</span> calculation by using the previously converged solution, since it does not change drastically and speeds up convergence.</p>
+<p>In this section, we will reproduce Figs. 3(b) and 4 of <span id="id7">[<a class="reference internal" href="bibliography.html#id45" title="Ryotaro Arita, Kazuhiko Kuroki, and Hideo Aoki. D- and p-wave superconductivity mediated by spin fluctuations in two- and three-dimensional single-band repulsive hubbard model. Journal of the Physical Society of Japan, 69(4):1181-1191, 2000. URL: https://doi.org/10.1143/JPSJ.69.1181, arXiv:https://doi.org/10.1143/JPSJ.69.1181, doi:10.1143/JPSJ.69.1181.">Arita <em>et al.</em>, 2000</a>]</span> or respective Fig. 2(a) of <span id="id8">[<a class="reference internal" href="bibliography.html#id42" title="Niklas Witt, Erik G. C. P. van Loon, Takuya Nomoto, Ryotaro Arita, and Tim O. Wehling. Efficient fluctuation-exchange approach to low-temperature spin fluctuations and superconductivity: from the hubbard model to $\mathrm Na_x\mathrm CoO_2\ifmmode \cdot \else ·\fi y\mathrm H_2\mathrm O$. Phys. Rev. B, 103:205148, May 2021. URL: https://link.aps.org/doi/10.1103/PhysRevB.103.205148, doi:10.1103/PhysRevB.103.205148.">Witt <em>et al.</em>, 2021</a>]</span> using the Sparse-IR FLEX code developed above. It shows (i) the momemtum dependence of the static spin susceptibility and (ii) the temperature dependence of the superconducting eigenvalue <span class="math notranslate nohighlight">\(\lambda_d\)</span> (as calculated above) and the inverse maximal spin susceptibility <span class="math notranslate nohighlight">\(1/\chi_{\mathrm{s,max}}\)</span>, which indicates tendency towards (quasi-)magnetic ordering.</p>
+<p>In order to perform calculations for different <span class="math notranslate nohighlight">\(T\)</span>, we will initiate the IR basis with a <span class="math notranslate nohighlight">\(\Lambda = \beta_{\mathrm{max}}\omega_{\mathrm{max}}\)</span> that is sufficient for the lowest temperature <span class="math notranslate nohighlight">\(T_{\mathrm{min}} = 1/\beta_{\mathrm{max}}\)</span> we plan to do calculations for. Since <span class="math notranslate nohighlight">\(T\)</span> changes, we have to reevaluate the IR basis set instance for every step. We start from high <span class="math notranslate nohighlight">\(T\)</span> and decrease its value. We initialize a new FLEX loop at a lower <span class="math notranslate nohighlight">\(T\)</span> by using the previously converged solution, since it does not change drastically and speeds up convergence.</p>
 <p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure similar to those in the references above.</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
@@ -1287,13 +1293,13 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span>    <span class="c1"># k-mesh sufficiently dense!</span>
 <span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
 <span class="n">IR_Lambda</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span>     <span class="c1"># dimensionless IR parameter &gt;= w_max * beta_min = 400</span>
-<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-8</span>      <span class="c1"># accuary for l-cutoff of IR basis functions</span>
-<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># accuracy for self-consistent iteration</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-8</span>      <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
+<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># desired accuracy for self-consistent iteration</span>
 <span class="n">it_max</span>    <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
 <span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new </span>
 <span class="n">U_it_max</span>  <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
 
-<span class="c1"># initialize first IR basis set (no recalculation afterwrds)</span>
+<span class="c1"># initialize first IR basis set (no recalculation, just reevaluation afterwards)</span>
 <span class="n">beta_init</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">IR_Lambda</span><span class="o">/</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
 
@@ -1305,7 +1311,7 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 <span class="n">chiSmax_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">T_values</span><span class="p">)))</span>
 
 
-<span class="c1">#%%%%%%%%%%%%%%% Calculations for different T values</span>
+<span class="c1">#%%%%%%%%%%%%%%% Calculation for different T values</span>
 <span class="k">for</span> <span class="n">T_it</span><span class="p">,</span> <span class="n">T</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">T_values</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now: T = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
@@ -1338,42 +1344,56 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.08
-WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1 2.2871467301181223 4
+1 2.287146792442968 4
+2 2.485684732990506 4
+3 2.68907801859607 4
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 2.485684699365689 4
-3 2.6890779957463935 4
-4 2.8952475057704925 4
-5 3.1004194299773533 4
-6 3.3068378712659863 4
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4 2.8952475510544025 4
+5 3.100419483904061 4
+6 3.3068379279564852 4
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7 3.515636902892488 4
-8 3.7272843212881033 4
-9 3.9417172671574643 4
-Leaving U renormalization...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7 3.515636959411129 4
+8 3.7272843762099765 4
+9 3.9417173199391744 4
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
-Now: T = 0.07
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
-Now: T = 0.06
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Leaving U renormalization...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
-Now: T = 0.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.07
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
-Now: T = 0.04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.06
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
-Now: T = 0.03
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.05
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.04
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Now: T = 0.03
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy

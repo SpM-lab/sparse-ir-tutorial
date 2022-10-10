@@ -625,7 +625,7 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="dmft-with-ipt-solver">
 <h1>DMFT with IPT solver<a class="headerlink" href="#dmft-with-ipt-solver" title="Permalink to this headline">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
-<p>In this tutorial, we will implement the Dynamical Mean-Field Theory (DMFT) using the iterated perturbation theory (IPT) as a solver for the impurity problem [1]. It is assumed that the reader is somewhat familiar with the concept of DMFT and the Anderson impurity model. Good resources to learn about this topic can be found, e.g., in Refs. [2-4].</p>
+<p>In this tutorial, we will implement the Dynamical Mean-Field Theory (DMFT) using the iterative perturbation theory (IPT) as a solver for the impurity problem [1]. It is assumed that the reader is somewhat familiar with the concept of DMFT and the Anderson impurity model. Good resources to learn about this topic can be found, e.g., in Refs. [2-4].</p>
 <section id="theory">
 <h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">#</a></h2>
 <section id="model">
@@ -635,7 +635,7 @@ title="Print to PDF"
 \[
  \rho(\omega) = \frac{\sqrt{4t_\star^2-\omega^2}}{2\pi t_\star^2 } = 2\frac{\sqrt{D^2-\omega^2}}{\pi D^2}.
 \]</div>
-<p>at half filling. We set the hopping <span class="math notranslate nohighlight">\(t_\star=1\)</span>, so that the half bandwitdh is <span class="math notranslate nohighlight">\(D=2t_\star = 2\)</span>. We will show the appearance of the Mott transition in this model. The non-interacting, local Green function is given by the spectral representation</p>
+<p>at half filling. We set the hopping <span class="math notranslate nohighlight">\(t_\star=1\)</span>, so that the half bandwitdh is <span class="math notranslate nohighlight">\(D=2t_\star = 2\)</span>.  Our goal is to find the Mott transition in this model. The non-interacting, local Green function is given by the spectral representation</p>
 <div class="math notranslate nohighlight">
 \[
     G^0_{\mathrm{loc}}(i\omega_n) = \int d\omega \frac{\rho(\omega)}{i\omega_n-\omega}, 
@@ -663,14 +663,14 @@ title="Print to PDF"
 \[
     \Sigma(\tau) = U^2\mathcal{G}^3(\tau).
 \]</div>
-<p>with the Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> and imaginary time <span class="math notranslate nohighlight">\(\tau\)</span>. Note that we absorbed the constant Hartree term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> (at half filling, it is shifted to zero). Otherwise we would have to treat it separately.</p>
+<p>with the Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> and imaginary time <span class="math notranslate nohighlight">\(\tau\)</span>. Note that we absorbed the constant Hartree term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> (at half filling, it is shifted to zero). Otherwise we would have to treat this term separately, since the IR basis cannot model the <span class="math notranslate nohighlight">\(\delta\)</span>-peak in frequency space well/compactly. In this case, evaluate the term analytically and add it after the Fourier transformation step.</p>
 </section>
 <section id="renormalization-factor">
 <h3>Renormalization factor<a class="headerlink" href="#renormalization-factor" title="Permalink to this headline">#</a></h3>
 <p>The Mott transition can be detected by monitoring the renormalization factor</p>
 <div class="math notranslate nohighlight">
 \[
-Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omega=0} \approx \frac{1}{1 - \frac{\mathrm{Im}\{\Sigma(i\omega_1)-\Sigma(i\omega_0)\}}{\omega_1 - \omega_0 }} .
+Z = \frac{1}{1-\frac{\partial \mathrm{Re} \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omega=0} \approx \frac{1}{1 - \frac{\mathrm{Im}\{\Sigma(i\omega_1)-\Sigma(i\omega_0)\}}{\omega_1 - \omega_0 }} .
 \]</div>
 <p>In the non-interacting limit <span class="math notranslate nohighlight">\(U\rightarrow 0\)</span> we have <span class="math notranslate nohighlight">\(Z\rightarrow 1\)</span>. Correlation effects reduce <span class="math notranslate nohighlight">\(Z\)</span> as <span class="math notranslate nohighlight">\(Z &lt; 1\)</span> and the Mott transition is signaled by a jump <span class="math notranslate nohighlight">\(Z\to0\)</span>.</p>
 <p>[1] A. Georges and G. Kotliar, Phys. Rev. B 45, 6479 (1992)</p>
@@ -714,7 +714,7 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 <span class="c1"># IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)</span>
 <span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Holding class for sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iw_n&#39; grids.</span>
+<span class="sd">    Holding class for sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.</span>
 <span class="sd">    Additionally it defines the Fourier transform via &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="p">):</span>
@@ -734,7 +734,7 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
         <span class="k">return</span> <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span>
     
     <span class="k">def</span> <span class="nf">tau_to_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from tau to iw_n via IR basis &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Fourier transform from tau to iwn via IR basis &quot;&quot;&quot;</span>
         <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
         <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -742,7 +742,7 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
         <span class="k">return</span> <span class="n">obj_wn</span>
 
     <span class="k">def</span> <span class="nf">wn_to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from iw_n to tau via IR basis &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;</span>
         <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
         <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -849,14 +849,14 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
-<span class="n">D</span>    <span class="o">=</span> <span class="mi">2</span>      <span class="c1"># half Bandwidth D = W/2 ; hopping t = 1 here</span>
+<span class="n">D</span>    <span class="o">=</span> <span class="mi">2</span>      <span class="c1"># half bandwidth D = W/2 ; hopping t = 1 here</span>
 <span class="n">wmax</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">D</span>    <span class="c1"># set wmax &gt;= W = 2*D</span>
 <span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="n">D</span>  <span class="c1"># temperature</span>
 <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c1"># inverse temperature</span>
 <span class="n">U</span>    <span class="o">=</span> <span class="mf">5.</span>     <span class="c1"># Hubbard interaction</span>
 
 <span class="c1">### Numerical parameters</span>
-<span class="n">IR_tol</span>  <span class="o">=</span> <span class="mf">1e-15</span>  <span class="c1"># accuracy for l-cutoff of IR basis functions</span>
+<span class="n">IR_tol</span>  <span class="o">=</span> <span class="mf">1e-15</span>  <span class="c1"># desired accuracy for l-cutoff of IR basis functions</span>
 <span class="n">maxiter</span> <span class="o">=</span> <span class="mi">300</span>    <span class="c1"># maximal number of DMFT convergence steps</span>
 <span class="n">sfc_tol</span> <span class="o">=</span> <span class="mf">1e-5</span>   <span class="c1"># desired accuracy of DMFT convergence</span>
 <span class="n">mix</span>     <span class="o">=</span> <span class="mf">0.25</span>   <span class="c1"># mixing factor</span>
@@ -887,70 +887,70 @@ Z = \frac{1}{1-\frac{\partial \Sigma(\omega+i0^+)}{\partial \omega}}\Big|_{\omeg
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1.0
-1 0.45279825706249754
-2 0.26503831653540993
-3 0.17724821097236176
-4 0.12517582913151565
-5 0.09241611187617926
-6 0.06989725044916764
-7 0.05403569099778945
-8 0.04236514350151055
-9 0.0336557894760138
-10 0.026996680829237094
-11 0.021851542670312953
-12 0.017817390628909986
-13 0.014627045328470176
-14 0.012079065172885992
-15 0.010029339594014326
-16 0.00836829622914349
-17 0.007013902318882507
-18 0.005902980319505556
-19 0.004986900201488436
-20 0.004227687281549292
-21 0.003595560164308696
-22 0.0030669567828330705
-23 0.002623135270710163
-24 0.0022490905250774733
-25 0.0019327451544324161
-26 0.0016643248344924352
-27 0.0014358794874043397
-28 0.0012409109893232334
-29 0.0010740832358169564
-30 0.0009309945871109613
-31 0.0008079985673640646
-32 0.0007020617972517772
-33 0.0006106509319082283
-34 0.0005316422517574858
-35 0.0004632490487844518
-36 0.0004039630452714812
-37 0.0003525069291125346
-38 0.00030779573120014706
-39 0.00026890526552270755
-40 0.00023504623354625507
-41 0.00020554288993266388
-42 0.0001798153962494825
-43 0.0001573651685696507
-44 0.000137762665236693
-45 0.00012063717139997382
-46 0.00010566822392328176
-47 9.257838913382131e-05
-48 8.112716054197442e-05
-49 7.110578720755308e-05
-50 6.233287826318063e-05
-51 5.465065703452515e-05
-52 4.7921760691405324e-05
-53 4.202649953885509e-05
-54 3.68605047993351e-05
-55 3.233270575428068e-05
-56 2.836358693591157e-05
-57 2.4883684189911905e-05
-58 2.183228521640907e-05
-59 1.915630609410638e-05
-60 1.68093207828989e-05
-61 1.4750726579072154e-05
-62 1.2945036648491998e-05
-63 1.1361304881233017e-05
-64 9.972717142755499e-06
+1 0.45267476683362484
+2 0.26493595064106507
+3 0.17712860649742407
+4 0.12506086096213856
+5 0.09230256725264999
+6 0.06979019823464405
+7 0.05393486791342748
+8 0.042271922484316105
+9 0.033570012053058616
+10 0.026918490396746944
+11 0.021780606404512737
+12 0.017753397702790122
+13 0.014569540519803937
+14 0.012027586033398208
+15 0.00998339259685985
+16 0.008327397213775558
+17 0.00697757842893208
+18 0.005870782942216422
+19 0.004958407997129082
+20 0.004202509930751807
+21 0.003573339083001565
+22 0.003047365202762398
+23 0.002605877222124654
+24 0.0022338993660158133
+25 0.0019193817067257887
+26 0.0016525753516395223
+27 0.001425553542550124
+28 0.0012318393774385578
+29 0.0010661159416727702
+30 0.0009239988579870153
+31 0.0008018571118817453
+32 0.0006966711221957529
+33 0.0006059198206885626
+34 0.0005274903829998866
+35 0.0004596057498230098
+36 0.0004007661730562414
+37 0.00034970186969095814
+38 0.0003053345083057434
+39 0.0002667457486555247
+40 0.00023315143612389404
+41 0.00020388034850994788
+42 0.00017835662235015943
+43 0.00015608516530655047
+44 0.00013663950154778337
+45 0.00011965160738320993
+46 0.00010480338139772387
+47 9.181946214613516e-05
+48 8.046116110332466e-05
+49 7.052132206837833e-05
+50 6.181995299922986e-05
+51 5.420050414568317e-05
+52 4.752668879937548e-05
+53 4.167976111249366e-05
+54 3.65561801460368e-05
+55 3.206560128039373e-05
+56 2.812914592880081e-05
+57 2.4677908582919863e-05
+58 2.1651666986527752e-05
+59 1.8997767115083435e-05
+60 1.6670160106837298e-05
+61 1.4628574261021449e-05
+62 1.2837813341566868e-05
+63 1.1267186395399153e-05
+64 9.89010207900714e-06
 DMFT loop converged at desired accuracy of 1e-05
 </pre></div>
 </div>
@@ -1044,7 +1044,7 @@ DMFT loop converged at desired accuracy of 1e-05
 <span class="n">U_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">U_min</span><span class="p">,</span> <span class="n">U_max</span><span class="p">,</span> <span class="n">U_num</span><span class="p">)</span>
 <span class="n">Z_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">U_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="c1"># Set new convergence parameters to achieve good convergence near the transition line</span>
+<span class="c1"># Set new convergence parameters to achieve good convergence near the phase transition line</span>
 <span class="n">maxiter</span> <span class="o">=</span> <span class="mi">1500</span>    <span class="c1"># maximal number of DMFT convergence steps</span>
 <span class="n">sfc_tol</span> <span class="o">=</span> <span class="mf">1e-14</span>   <span class="c1"># desired accuracy of DMFT convergence</span>
 
@@ -1092,7 +1092,7 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13357/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1694/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
@@ -1100,7 +1100,7 @@ DMFT loop converged at desired accuracy of 1e-05
 <img alt="../_images/DMFT_IPT_py_19_2.png" src="../_images/DMFT_IPT_py_19_2.png" />
 </div>
 </div>
-<p>You can see quite well a jump of <span class="math notranslate nohighlight">\(Z\)</span> between <span class="math notranslate nohighlight">\(U/t_\star=3\)</span> and 4 which is accompanied by the low-frequency part of the self-energy diverging instead of going to zero.</p>
+<p>You can quite well see a jump of <span class="math notranslate nohighlight">\(Z\)</span> between <span class="math notranslate nohighlight">\(U/t_\star=3\)</span> and 4 which is accompanied by the low-frequency part of the self-energy diverging instead of going to zero.</p>
 <p>In a last step, we want to map out the metastable coexistence region. In order to do this, we have to start every new <span class="math notranslate nohighlight">\(U\)</span> calculation from the previous converged solution. If we start from small <span class="math notranslate nohighlight">\(U\)</span>, we start from the metallic region, whereas starting from large <span class="math notranslate nohighlight">\(U\)</span> corresponds to starting from the insulating solution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1142,15 +1142,15 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13357/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_1694/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
 <img alt="../_images/DMFT_IPT_py_21_1.png" src="../_images/DMFT_IPT_py_21_1.png" />
 </div>
 </div>
-<p>For comparison, we also plotted the transition line where we always start from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0\)</span>. Since we do only a few iteration steps, we do not have completetly converged solutions, so that the <span class="math notranslate nohighlight">\(G_0\)</span> line has a slightly larger critical <span class="math notranslate nohighlight">\(U\)</span> value compared to the line which starts from the metallic solution. Try increasinging the parameter <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> (to 1000 or so) and decreasing the parameter <code class="docutils literal notranslate"><span class="pre">sfc_tol</span></code> (to 1e-14 or so) and look at the results! (Then the lines should be equal.)</p>
-<p>Often the energy unit is not the hopping <span class="math notranslate nohighlight">\(t_\star\)</span> but the half-bandwidth <span class="math notranslate nohighlight">\(D\)</span>, so we can also plot the results using this:</p>
+<p>For comparison, we also plotted the transition line where we always start from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0\)</span>. Since we do only a few iteration steps, we do not have completetly converged solutions, so that the <span class="math notranslate nohighlight">\(G_0\)</span> line has a slightly larger critical <span class="math notranslate nohighlight">\(U\)</span> value compared to the line which starts from the metallic solution. Try increasinging the parameter <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> (to 1000 or so) and decreasing the parameter <code class="docutils literal notranslate"><span class="pre">sfc_tol</span></code> (to 1e-14 or so) and look at the results! (The lines should become equal.)</p>
+<p>Often the energy unit is not the hopping <span class="math notranslate nohighlight">\(t_\star\)</span> but the half-bandwidth <span class="math notranslate nohighlight">\(D\)</span>, so we can also plot the results in this convention:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%%% Plot results</span>

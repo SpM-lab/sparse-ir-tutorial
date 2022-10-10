@@ -644,11 +644,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>typestable (generic function with 1 method)
-</pre></div>
-</div>
-</div>
 </div>
 <section id="parameter-setting">
 <h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
@@ -1015,41 +1010,6 @@ title="Print to PDF"
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
-Initiate U renormalization loop.
-1	2.3679802691718734	4.0
-2	2.6631530509593295	4.0
-3	2.952843201137596	4.0
-4	3.237266502742386	4.0
-5	3.5175353553180475	4.0
-6	3.795074730529691	4.0
-Leaving U renormalization...
-1	0.08848089073847332
-2	0.1456952273459936
-3	0.02261581413125772
-4	0.011893505710472181
-5	0.007627709050173954
-6	0.005337914476432903
-7	0.003893254237016371
-8	0.0028971360061488564
-9	0.002176317020927079
-10	0.001642154658978858
-11	0.0012421091833960164
-12	0.0009414202269479329
-13	0.0007150642109606235
-14	0.0005445167053352402
-15	0.00041593780933783537
-16	0.0003188981704705473
-17	0.00024554695819710805
-18	0.0001899484647509771
-19	0.0001476827551312127
-20	0.00011544934333125694
-21	9.075049525080957e-5
-FLEX loop converged at desired accuracy
-</pre></div>
-</div>
-</div>
 </div>
 <section id="visualize-results">
 <h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
@@ -1065,8 +1025,6 @@ FLEX loop converged at desired accuracy
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/FLEX_jl_12_0.svg" src="../_images/FLEX_jl_12_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1078,8 +1036,6 @@ FLEX loop converged at desired accuracy
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/FLEX_jl_13_0.svg" src="../_images/FLEX_jl_13_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1201,11 +1157,6 @@ FLEX loop converged at desired accuracy
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>frit_calc (generic function with 1 method)
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="executing-the-gap-equation-solver">
@@ -1215,19 +1166,6 @@ FLEX loop converged at desired accuracy
 <div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gap_solver</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span><span class="w"> </span><span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span><span class="w"> </span><span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">)</span><span class="w"></span>
 <span class="n">solve</span><span class="p">(</span><span class="n">gap_solver</span><span class="p">)</span><span class="w"></span>
 <span class="n">println</span><span class="p">(</span><span class="s">&quot;The superconducting eigenvalue at T=&quot;</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="s">&quot; is lambda_d=&quot;</span><span class="p">,</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="p">)</span><span class="w"></span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1	0.11526419859553635	0.11526419859553635
-2	0.4061742076753658	0.29091000907982945
-3	0.449451978395563	0.04327777072019723
-4	0.4561789508412638	0.006726972445700807
-5	0.45777782520134125	0.0015988743600774402
-6	0.45815650741172986	0.0003786822103886145
-7	0.458258376442485	0.00010186903075515286
-8	0.4582848415126318	2.6465070146808323e-5
-The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415126318
 </pre></div>
 </div>
 </div>
@@ -1260,8 +1198,6 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415126318
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/FLEX_jl_20_0.svg" src="../_images/FLEX_jl_20_0.svg" /></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1274,8 +1210,6 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415126318
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/FLEX_jl_21_0.svg" src="../_images/FLEX_jl_21_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1350,37 +1284,6 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.4582848415126318
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initialization...
-Now: T = 0.08
-WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
-Initiate U renormalization loop.
-1	2.2871472606725174	4.0
-2	2.485685047232335	4.0
-3	2.6890783191360814	4.0
-4	2.8952481268850563	4.0
-5	3.1004202101138367	4.0
-6	3.3068387403511927	4.0
-7	3.515637815515053	4.0
-8	3.727285244904793	4.0
-9	3.941718177789152	4.0
-Leaving U renormalization...
-FLEX loop converged at desired accuracy
-Now: T = 0.07
-FLEX loop converged at desired accuracy
-Now: T = 0.06
-FLEX loop converged at desired accuracy
-Now: T = 0.05
-FLEX loop converged at desired accuracy
-Now: T = 0.04
-FLEX loop converged at desired accuracy
-Now: T = 0.03
-FLEX loop converged at desired accuracy
-Now: T = 0.025
-FLEX loop converged at desired accuracy
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1420,8 +1323,6 @@ FLEX loop converged at desired accuracy
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<img alt="../_images/FLEX_jl_24_0.svg" src="../_images/FLEX_jl_24_0.svg" /></div>
 </div>
 </section>
 </section>
@@ -1435,16 +1336,16 @@ FLEX loop converged at desired accuracy
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "julia-1.7"
+            mode: "julia-1.8"
         },
         kernelOptions: {
-            kernelName: "julia-1.7",
+            kernelName: "julia-1.8",
             path: "./src"
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'julia-1.7'</script>
+    <script>kernelName = 'julia-1.8'</script>
 
               </div>
               
