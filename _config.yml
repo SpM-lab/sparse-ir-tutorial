@@ -18,6 +18,7 @@ execute:
 # HTML-specific settings
 html:
   home_page_in_navbar         : false
+  google_analytics_id: G-RD8N0K0C9Y
 
 # #######################################################################################
 # Interact link settings
