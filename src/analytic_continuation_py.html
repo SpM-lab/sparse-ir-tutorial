@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -513,27 +521,27 @@ singular (IR basis) functions, the result of a singular value expansion of the k
 <p>where <span class="math notranslate nohighlight">\(K^{-1}\)</span> denotes the pseudoinverse of <span class="math notranslate nohighlight">\(K\)</span>.  (We will defer questions about the exact nature of this inverse.)  The numerical analytical continuation problem is now evident:  The kernel is regular, i.e., all the singular values <span class="math notranslate nohighlight">\(S_l &gt; 0\)</span>, so the above equation can be evaluated analytically.  However, <span class="math notranslate nohighlight">\(S_l\)</span> drop exponentially quickly, so any finite error, even simply the finite precision of <span class="math notranslate nohighlight">\(G(\tau)\)</span> in a computer, will be arbitrarily amplified once <span class="math notranslate nohighlight">\(l\)</span> becomes large enough.  We say the numerical analytical continuation problem is <strong>ill-posed</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import matplotlib.pyplot as pl
+import sparse_ir
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">40.0</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">2e-8</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beta = 40.0
+wmax = 2.0
+basis = sparse_ir.FiniteTempBasis(&#39;F&#39;, beta, wmax, eps=2e-8)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;-+&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;singular values $s_\ell/s_0$ of $K(\tau, \omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;index $\ell$&#39;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.semilogy(basis.s / basis.s[0], &#39;-+&#39;)
+pl.title(r&#39;singular values $s_\ell/s_0$ of $K(\tau, \omega)$&#39;)
+pl.xlabel(r&#39;index $\ell$&#39;);
 </pre></div>
 </div>
 </div>
@@ -571,23 +579,23 @@ machine precision.  (If there is a covariance matrix, generalized least squares 
 <p>This already is an improvement over many analytical continuation algorithms, as it maximally compresses the observed imaginary-time data <span class="math notranslate nohighlight">\(g_l\)</span> without relying on any <em>a priori</em> discretizations of the kernel.</p>
 <!-- #endregion --><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">semicirc_dos</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">wmax</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">w</span><span class="o">/</span><span class="n">wmax</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def semicirc_dos(w):
+    return 2/np.pi * np.sqrt((np.abs(w) &lt; wmax) * (1 - np.square(w/wmax)))
 
-<span class="k">def</span> <span class="nf">insulator_dos</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">semicirc_dos</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="n">wmax</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="n">semicirc_dos</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="n">wmax</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+def insulator_dos(w):
+    return semicirc_dos(8*w/wmax - 4) + semicirc_dos(8*w/wmax + 4)
 
-<span class="c1"># For testing, compute exact coefficients g_l for two models</span>
-<span class="n">rho1_l</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">semicirc_dos</span><span class="p">)</span>
-<span class="n">rho2_l</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">insulator_dos</span><span class="p">)</span>
-<span class="n">g1_l</span> <span class="o">=</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho1_l</span>
-<span class="n">g2_l</span> <span class="o">=</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho2_l</span>
+# For testing, compute exact coefficients g_l for two models
+rho1_l = basis.v.overlap(semicirc_dos)
+rho2_l = basis.v.overlap(insulator_dos)
+g1_l = -basis.s * rho1_l
+g2_l = -basis.s * rho2_l
 
-<span class="c1"># Put some numerical noise on both of them (30% of basis accuracy)</span>
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">4711</span><span class="p">)</span>
-<span class="n">noise</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">g1_l_noisy</span> <span class="o">=</span> <span class="n">g1_l</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g1_l</span><span class="p">)</span>
-<span class="n">g2_l_noisy</span> <span class="o">=</span> <span class="n">g2_l</span> <span class="o">+</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">noise</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">g2_l</span><span class="p">)</span>
+# Put some numerical noise on both of them (30% of basis accuracy)
+rng = np.random.RandomState(4711)
+noise = 0.3 * basis.s[-1] / basis.s[0]
+g1_l_noisy = g1_l + rng.normal(0, noise, basis.size) * np.linalg.norm(g1_l)
+g2_l_noisy = g2_l + rng.normal(0, noise, basis.size) * np.linalg.norm(g2_l)
 </pre></div>
 </div>
 </div>
@@ -608,36 +616,36 @@ machine precision.  (If there is a covariance matrix, generalized least squares 
 <p>The choice of <span class="math notranslate nohighlight">\(L'\)</span> is now governed by a bias–variance tradeoff: as we increase <span class="math notranslate nohighlight">\(L'\)</span>, more and more features of the spectral function emerge by virtue of <span class="math notranslate nohighlight">\(\rho_l\)</span>, but at the same time <span class="math notranslate nohighlight">\(1/S_l\)</span> amplifies the stastical errors more strongly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analytic continuation made (perhaps too) easy</span>
-<span class="n">rho1_l_noisy</span> <span class="o">=</span> <span class="n">g1_l_noisy</span> <span class="o">/</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span>
-<span class="n">rho2_l_noisy</span> <span class="o">=</span> <span class="n">g2_l_noisy</span> <span class="o">/</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Analytic continuation made (perhaps too) easy
+rho1_l_noisy = g1_l_noisy / -basis.s
+rho2_l_noisy = g2_l_noisy / -basis.s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w_plot</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mi">1001</span><span class="p">)</span>
-<span class="n">Vmat</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">w_plot</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">Lprime1</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>w_plot = np.linspace(-wmax, wmax, 1001)
+Vmat = basis.v(w_plot).T
+Lprime1 = basis.size // 2
 
-<span class="k">def</span> <span class="nf">_plot_one</span><span class="p">(</span><span class="n">subplot</span><span class="p">,</span> <span class="n">dos</span><span class="p">,</span> <span class="n">rho_l</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">subplot</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">dos</span><span class="p">(</span><span class="n">w_plot</span><span class="p">),</span> <span class="s2">&quot;:k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">Vmat</span><span class="p">[:,</span> <span class="p">:</span><span class="n">Lprime1</span><span class="p">]</span> <span class="o">@</span> <span class="n">rho_l</span><span class="p">[:</span><span class="n">Lprime1</span><span class="p">],</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;reconstructed ($L&#39; = </span><span class="si">{</span><span class="n">Lprime1</span><span class="si">}</span><span class="s2">$)&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">Vmat</span> <span class="o">@</span> <span class="n">rho_l</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;reconstructed ($L&#39; = L = </span><span class="si">{</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2">$)&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.02</span> <span class="o">*</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1.02</span> <span class="o">*</span> <span class="n">wmax</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+def _plot_one(subplot, dos, rho_l, name):
+    pl.subplot(subplot)
+    pl.plot(w_plot, dos(w_plot), &quot;:k&quot;, label=&quot;true&quot;)
+    pl.plot(w_plot, Vmat[:, :Lprime1] @ rho_l[:Lprime1],
+            label=f&quot;reconstructed ($L&#39; = {Lprime1}$)&quot;)
+    pl.plot(w_plot, Vmat @ rho_l, lw=1,
+            label=f&quot;reconstructed ($L&#39; = L = {basis.size}$)&quot;)
+    pl.xlabel(r&quot;$\omega$&quot;)
+    pl.title(name)
+    pl.xlim(-1.02 * wmax, 1.02 * wmax)
+    pl.ylim(-.1, 1)
 
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">semicirc_dos</span><span class="p">,</span> <span class="n">rho1_l_noisy</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;semi-elliptic DOS $\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">insulator_dos</span><span class="p">,</span> <span class="n">rho2_l_noisy</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;insulating DOS $\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span>
+_plot_one(121, semicirc_dos, rho1_l_noisy, r&quot;semi-elliptic DOS $\rho(\omega)$&quot;)
+_plot_one(122, insulator_dos, rho2_l_noisy, r&quot;insulating DOS $\rho(\omega)$&quot;)
+pl.legend()
+pl.gca().set_yticklabels([])
+pl.tight_layout(pad=.1, w_pad=.1, h_pad=.1)
 </pre></div>
 </div>
 </div>
@@ -678,33 +686,33 @@ a default model <span class="math notranslate nohighlight">\(\rho_0(\omega)\)</s
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analytic continuation made (perhaps too) easy</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">noise</span>
-<span class="n">invsl_reg</span> <span class="o">=</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span>
-<span class="n">rho1_l_reg</span> <span class="o">=</span> <span class="n">invsl_reg</span> <span class="o">*</span> <span class="n">g1_l_noisy</span>
-<span class="n">rho2_l_reg</span> <span class="o">=</span> <span class="n">invsl_reg</span> <span class="o">*</span> <span class="n">g2_l_noisy</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Analytic continuation made (perhaps too) easy
+alpha = 100 * noise
+invsl_reg = -basis.s / (np.square(basis.s) + np.square(alpha))
+rho1_l_reg = invsl_reg * g1_l_noisy
+rho2_l_reg = invsl_reg * g2_l_noisy
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_plot_one</span><span class="p">(</span><span class="n">subplot</span><span class="p">,</span> <span class="n">dos</span><span class="p">,</span> <span class="n">rho_l</span><span class="p">,</span> <span class="n">rho_l_reg</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">subplot</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">dos</span><span class="p">(</span><span class="n">w_plot</span><span class="p">),</span> <span class="s2">&quot;:k&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">Vmat</span> <span class="o">@</span> <span class="n">rho_l</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;t-SVD with $L&#39;=L$&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">Vmat</span> <span class="o">@</span> <span class="n">rho_l_reg</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Ridge regression&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.02</span> <span class="o">*</span> <span class="n">wmax</span><span class="p">,</span> <span class="mf">1.02</span> <span class="o">*</span> <span class="n">wmax</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def _plot_one(subplot, dos, rho_l, rho_l_reg, name):
+    pl.subplot(subplot)
+    pl.plot(w_plot, dos(w_plot), &quot;:k&quot;, label=&quot;true&quot;)
+    pl.plot(w_plot, Vmat @ rho_l, lw=1, label=f&quot;t-SVD with $L&#39;=L$&quot;)
+    pl.plot(w_plot, Vmat @ rho_l_reg, label=f&quot;Ridge regression&quot;)
+    pl.xlabel(r&quot;$\omega$&quot;)
+    pl.title(name)
+    pl.xlim(-1.02 * wmax, 1.02 * wmax)
+    pl.ylim(-.1, 1)
 
 
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">semicirc_dos</span><span class="p">,</span> <span class="n">rho1_l_noisy</span><span class="p">,</span> <span class="n">rho1_l_reg</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;semi-elliptic DOS $\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">insulator_dos</span><span class="p">,</span> <span class="n">rho2_l_noisy</span><span class="p">,</span> <span class="n">rho2_l_reg</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;insulating DOS $\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span>
+_plot_one(121, semicirc_dos, rho1_l_noisy, rho1_l_reg, r&quot;semi-elliptic DOS $\rho(\omega)$&quot;)
+_plot_one(122, insulator_dos, rho2_l_noisy, rho2_l_reg, r&quot;insulating DOS $\rho(\omega)$&quot;)
+pl.legend()
+pl.gca().set_yticklabels([])
+pl.tight_layout(pad=.1, w_pad=.1, h_pad=.1)
 </pre></div>
 </div>
 </div>
@@ -725,29 +733,29 @@ any finite (or even infinite) expansion in the basis.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dos3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span> <span class="o">*</span> <span class="n">wmax</span>
-<span class="n">rho3_l</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">dos3</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">g3_l</span> <span class="o">=</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho3_l</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dos3 = np.array([-0.6, -0.1, 0.1, 0.6]) * wmax
+rho3_l = basis.v(dos3).sum(1)
+g3_l = -basis.s * rho3_l
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">_plot_one</span><span class="p">(</span><span class="n">subplot</span><span class="p">,</span> <span class="n">g_l</span><span class="p">,</span> <span class="n">rho_l</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">subplot</span><span class="p">)</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">g_l</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">g_l</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">g_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;:+b&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$|G_\ell/G_0|$&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rho_l</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">rho_l</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s1">&#39;:xr&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$|\rho_\ell/\rho_0|$&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$\ell$&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def _plot_one(subplot, g_l, rho_l, title):
+    pl.subplot(subplot)
+    n = np.arange(0, g_l.size, 2)
+    pl.semilogy(n, np.abs(g_l[::2]/g_l[0]), &#39;:+b&#39;, label=r&#39;$|G_\ell/G_0|$&#39;)
+    pl.semilogy(n, np.abs(rho_l[::2]/rho_l[0]), &#39;:xr&#39;, label=r&#39;$|\rho_\ell/\rho_0|$&#39;)
+    pl.title(title)
+    pl.xlabel(&#39;$\ell$&#39;)
+    pl.ylim(1e-5, 2)
 
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">g1_l</span><span class="p">,</span> <span class="n">rho1_l</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;semielliptic $\rho(\omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">_plot_one</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">g3_l</span><span class="p">,</span> <span class="n">rho3_l</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;discrete $\rho(\omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">(</span><span class="n">pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">w_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span> <span class="n">h_pad</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span>
+_plot_one(121, g1_l, rho1_l, r&#39;semielliptic $\rho(\omega)$&#39;)
+pl.legend()
+_plot_one(122, g3_l, rho3_l, r&#39;discrete $\rho(\omega)$&#39;)
+pl.gca().set_yticklabels([])
+pl.tight_layout(pad=.1, w_pad=.1, h_pad=.1)
 </pre></div>
 </div>
 </div>
@@ -770,16 +778,16 @@ grid <span class="math notranslate nohighlight">\(\{\omega_1,\ldots,\omega_M\}\)
 <p>where <span class="math notranslate nohighlight">\(0\le \eta &lt; \pi T\)</span> is the “sharpness” parameter.  The limit <span class="math notranslate nohighlight">\(\eta\to 0\)</span> corresponds to a “hard”  discretization using a set of delta peaks, which should be avoided.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="nn">sp_stats</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import scipy.stats as sp_stats
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="n">sp_stats</span><span class="o">.</span><span class="n">cauchy</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">w_plot</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">w_plot</span><span class="p">))</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Cauchy distribution&quot;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>f = sp_stats.cauchy(scale=0.1 * np.pi / beta).pdf
+pl.plot(w_plot, f(w_plot))
+pl.title(&quot;Cauchy distribution&quot;);
 </pre></div>
 </div>
 </div>
@@ -800,9 +808,9 @@ for a optimizer:</p>
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
-<span class="n">K</span> <span class="o">=</span> <span class="o">-</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">wi</span><span class="p">))</span> <span class="k">for</span> <span class="n">wi</span> <span class="ow">in</span> <span class="n">w</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>w = np.linspace(-wmax, wmax, 21)
+K = -basis.s[:, None] * np.array(
+        [basis.v.overlap(lambda w: f(w - wi)) for wi in w]).T
 </pre></div>
 </div>
 </div>

@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -559,13 +567,13 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 <p>Below, we demonstrate how to transform <span class="math notranslate nohighlight">\(G_l\)</span> to the DLR coefficients <span class="math notranslate nohighlight">\(c_p\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sparse_ir</span> <span class="kn">import</span> <span class="n">FiniteTempBasis</span><span class="p">,</span> <span class="n">MatsubaraSampling</span>
-<span class="kn">from</span> <span class="nn">sparse_ir.dlr</span> <span class="kn">import</span> <span class="n">DiscreteLehmannRepresentation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from sparse_ir import FiniteTempBasis, MatsubaraSampling
+from sparse_ir.dlr import DiscreteLehmannRepresentation
 
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
+%matplotlib inline
+from matplotlib import pyplot as plt
+plt.rcParams[&#39;font.size&#39;] = 15
 </pre></div>
 </div>
 </div>
@@ -577,12 +585,12 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 <h3>Create basis object<a class="headerlink" href="#create-basis-object" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">wmax</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">lambda_</span> <span class="o">=</span> <span class="mf">1e+4</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">wmax</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>wmax = 1.0
+lambda_ = 1e+4
+beta = lambda_/wmax
 
-<span class="n">basis</span> <span class="o">=</span> <span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+basis = FiniteTempBasis(&quot;F&quot;, beta, wmax, eps=1e-15)
+print(basis.size)
 </pre></div>
 </div>
 </div>
@@ -597,13 +605,13 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 <h3>Setup model<a class="headerlink" href="#setup-model" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho = lambda omega: np.sqrt(1-omega**2)/np.sqrt(0.5*np.pi)
 
-<span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\rho(\omega)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+omega = np.linspace(-wmax, wmax, 1000)
+plt.xlabel(r&#39;$\omega$&#39;)
+plt.ylabel(r&#39;$\rho(\omega)$&#39;)
+plt.plot(omega, rho(omega))
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -613,11 +621,11 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rhol</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
-<span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rhol</span><span class="p">)[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rhol = basis.v.overlap(rho)
+ls = np.arange(basis.size)
+plt.semilogy(ls[::2], np.abs(rhol)[::2], marker=&quot;x&quot;)
+plt.ylim([1e-5, None])
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -627,10 +635,10 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">)[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>gl = - basis.s * rhol
+plt.semilogy(ls[::2], np.abs(gl)[::2], marker=&quot;x&quot;)
+plt.ylim([1e-5, None])
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -643,13 +651,13 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 <h3>Create a DLR object and perform transformation<a class="headerlink" href="#create-a-dlr-object-and-perform-transformation" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dlr</span> <span class="o">=</span> <span class="n">DiscreteLehmannRepresentation</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>dlr = DiscreteLehmannRepresentation(basis)
 
-<span class="c1"># To DLR</span>
-<span class="n">g_dlr</span> <span class="o">=</span> <span class="n">dlr</span><span class="o">.</span><span class="n">from_IR</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+# To DLR
+g_dlr = dlr.from_IR(gl)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dlr</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">g_dlr</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.plot(dlr.sampling_points, g_dlr, marker=&quot;x&quot;, ls=&quot;&quot;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -659,16 +667,16 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Transform back to IR from SPR</span>
-<span class="n">gl_reconst</span> <span class="o">=</span> <span class="n">dlr</span><span class="o">.</span><span class="n">to_IR</span><span class="p">(</span><span class="n">g_dlr</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Transform back to IR from SPR
+gl_reconst = dlr.to_IR(g_dlr)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reconstructed from DLR&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="o">-</span><span class="n">gl_reconst</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-18</span><span class="p">,</span><span class="kc">None</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.semilogy(np.abs(gl), label=&quot;Exact&quot;, ls=&quot;&quot;, marker=&quot;+&quot;)
+plt.semilogy(np.abs(gl_reconst), label=&quot;Reconstructed from DLR&quot;, ls=&quot;&quot;, marker=&quot;x&quot;)
+plt.semilogy(np.abs(gl-gl_reconst), label=&quot;error&quot;)
+plt.ylim([1e-18,None])
+plt.ylabel(&quot;$|g_l|$&quot;)
+plt.legend(loc=&quot;best&quot;, frameon=False)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -681,20 +689,20 @@ G_l = - S_l \int_{-1}^1 \mathrm{d}\omega \rho(\omega) V_l(\omega).
 <h3>Evaluation on Matsubara frequencies<a class="headerlink" href="#evaluation-on-matsubara-frequencies" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">v</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>v = 2*np.arange(-1000, 1000, 10) + 1
+iv = 1j * v * (np.pi/beta)
 
-<span class="n">transmat</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iv</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">dlr</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">[</span><span class="kc">None</span><span class="p">,:])</span>
-<span class="n">giv</span> <span class="o">=</span> <span class="n">transmat</span> <span class="o">@</span> <span class="n">g_dlr</span>
+transmat = 1/(iv[:,None] - dlr.sampling_points[None,:])
+giv = transmat @ g_dlr
 
-<span class="n">giv_exact</span> <span class="o">=</span> <span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+giv_exact = MatsubaraSampling(basis, v).evaluate(gl)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">giv_exact</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Exact&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">giv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Reconstructed from SPR&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Im $G(\mathrm</span><span class="si">{i}</span><span class="s2">\omega_n)$&quot;</span><span class="p">)</span>
+plt.plot(iv.imag, giv_exact.imag, ls=&quot;&quot;, marker=&quot;x&quot;, label=&quot;Exact&quot;)
+plt.plot(iv.imag, giv.imag, ls=&quot;&quot;, marker=&quot;x&quot;, label=&quot;Reconstructed from SPR&quot;)
+plt.xlabel(r&quot;$\nu$&quot;)
+plt.ylabel(r&quot;Im $G(\mathrm{i}\omega_n)$&quot;)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.show()
 </pre></div>
 </div>
 </div>

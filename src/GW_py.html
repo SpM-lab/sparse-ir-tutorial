@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -484,71 +492,71 @@ title="Print to PDF"
                 
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">sparse_ir</span>
-<span class="kn">import</span> <span class="nn">sys</span> 
-<span class="kn">import</span> <span class="nn">math</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import matplotlib.pyplot as pl
+import sparse_ir
+import sys 
+import math
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="o">=</span><span class="mf">0.1</span>
-<span class="n">wmax</span> <span class="o">=</span><span class="mi">1</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>T=0.1
+wmax =1
 
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+beta = 1/T
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#construction of the Kernel K</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#construction of the Kernel K
 
-<span class="c1">#Fermionic Basis</span>
+#Fermionic Basis
 
-<span class="n">basisf</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+basisf = sparse_ir.FiniteTempBasis(&#39;F&#39;, beta, wmax)
 
-<span class="n">matsf</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basisf</span><span class="p">)</span>
-<span class="n">tausf</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basisf</span><span class="p">)</span>
+matsf=sparse_ir.MatsubaraSampling(basisf)
+tausf=sparse_ir.TauSampling(basisf)
 
-<span class="c1">#Bosonic Basis</span>
+#Bosonic Basis
 
-<span class="n">basisb</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">)</span>
+basisb = sparse_ir.FiniteTempBasis(&#39;B&#39;, beta, wmax)
       
-<span class="n">matsb</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basisb</span><span class="p">)</span>
-<span class="n">tausb</span><span class="o">=</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basisb</span><span class="p">)</span>
+matsb=sparse_ir.MatsubaraSampling(basisb)
+tausb=sparse_ir.TauSampling(basisb)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rho</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">wmax</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def rho(x):
+    return 2/np.pi*np.sqrt(1-(x/wmax)**2)
 
-<span class="n">rho_l</span><span class="o">=</span><span class="n">basisf</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+rho_l=basisf.v.overlap(rho)
 
-<span class="n">G_l_0</span><span class="o">=-</span><span class="n">basisf</span><span class="o">.</span><span class="n">s</span><span class="o">*</span><span class="n">rho_l</span>  
+G_l_0=-basisf.s*rho_l  
 
 
-<span class="c1">#We compute G_iw two times as we will need G_iw_0 as a constant later on</span>
+#We compute G_iw two times as we will need G_iw_0 as a constant later on
 
-<span class="n">G_iw_0</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">G_l_0</span><span class="p">)</span>
-<span class="n">G_iw_f</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">G_l_0</span><span class="p">)</span>
+G_iw_0=matsf.evaluate(G_l_0)
+G_iw_f=matsf.evaluate(G_l_0)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Iterations</span>
-<span class="n">i</span><span class="o">=</span><span class="mi">0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Iterations
+i=0
 
-<span class="c1">#storage for E_iw to show convergence after iterations</span>
-<span class="n">E_iw_f_arr</span><span class="o">=</span><span class="p">[]</span>
+#storage for E_iw to show convergence after iterations
+E_iw_f_arr=[]
 </pre></div>
 </div>
 </div>
@@ -566,14 +574,14 @@ title="Print to PDF"
 <p>Let us start with computing <span class="math notranslate nohighlight">\(G_l^F\)</span> from the imaginary-frequency Green’s function we have obtained above. This will also be the starting point for every new iteration one might want to perform.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Calculation of G_l_f using Least-Squares Fitting</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Calculation of G_l_f using Least-Squares Fitting
 
-<span class="n">G_l_f</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">G_iw_f</span><span class="p">)</span>
+G_l_f=matsf.fit(G_iw_f)
 
                 
-<span class="c1">#G_tau,fermionic   </span>
+#G_tau,fermionic   
 
-<span class="n">G_tau_f</span><span class="o">=</span><span class="n">tausf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">G_l_f</span><span class="p">)</span>
+G_tau_f=tausf.evaluate(G_l_f)
 </pre></div>
 </div>
 </div>
@@ -583,23 +591,23 @@ title="Print to PDF"
 \[G(\bar{\tau}_k^B)= \sum_{l=0}^{L-1}G_l^F  U_l^F(\bar{\tau}_k^B)\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#G_tau, bosonic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#G_tau, bosonic
 
-<span class="n">G_tau_b</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lt,l-&gt;t&#39;</span><span class="p">,</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">G_l_f</span><span class="p">)</span>
+G_tau_b=np.einsum(&#39;lt,l-&gt;t&#39;,basisf.u(tausb.tau),G_l_f)
 
-<span class="c1">#G_tau_b=tausb.evaluate(G_l_f)</span>
+#G_tau_b=tausb.evaluate(G_l_f)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_b</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">G_tau_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(tausb.tau,G_tau_b.real,label=&#39;real&#39;)
+pl.plot(tausb.tau,G_tau_b.imag,label=&#39;imaginary&#39;)
 
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$G(\tau)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+pl.title(r&#39;$G(\tau)$&#39;)
+pl.xlabel(r&#39;$\tau$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -615,21 +623,21 @@ title="Print to PDF"
 \[P(\bar{\tau}_k^B)=G(\bar{\tau}_k^B)*G(\beta-\bar{\tau}_k^B)\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Polarisation P, bosonic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Polarisation P, bosonic
 
-<span class="n">P_tau_b</span><span class="o">=</span><span class="n">G_tau_b</span><span class="o">*</span><span class="p">(</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">beta</span><span class="o">-</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@G_l_f</span><span class="p">)</span>
+P_tau_b=G_tau_b*(basisf.u(beta-tausb.tau).T@G_l_f)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">P_tau_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausb</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">P_tau_b</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(tausb.tau,P_tau_b.imag,label=&#39;imaginary&#39;)
+pl.plot(tausb.tau,P_tau_b.real,label=&#39;real&#39;)
 
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39; $P(\tau)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+pl.title(r&#39; $P(\tau)$&#39;)
+pl.xlabel(r&#39;$\tau$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -645,20 +653,20 @@ title="Print to PDF"
 \[P_l^B=\underset{P_l}{\arg\min}   \sum_{k}|P(\bar{{\tau}}_k^B)-\sum_{l=0}^{N-1}\hat{U}_l^B (\bar{\tau}_k^B)P_l|^2\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#P_l, bosonic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#P_l, bosonic
 
 
-<span class="n">P_l_b</span><span class="o">=</span><span class="n">tausb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">P_tau_b</span><span class="p">)</span>
+P_l_b=tausb.fit(P_tau_b)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">P_l_b</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$P_l^B$ over l &#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.semilogy(np.abs(P_l_b),&#39;+-&#39;)
+pl.title(&#39;$P_l^B$ over l &#39;)
+pl.xticks(range(0,20))
+pl.xlabel(&#39;l&#39;)
 </pre></div>
 </div>
 </div>
@@ -673,22 +681,22 @@ title="Print to PDF"
 \[\hat{P}(i\bar{\omega}_k^B)= \sum_{l=0}^{N-1} P_l^B\hat{U}_l^B(i\bar{\omega}_n^B)\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#P_iw, bosonic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#P_iw, bosonic
 
-<span class="c1">#P_iw_b=np.einsum(&#39;lv,l-&gt;v&#39;, basisb.uhat(matsb.wn),P_l_b)</span>
+#P_iw_b=np.einsum(&#39;lv,l-&gt;v&#39;, basisb.uhat(matsb.wn),P_l_b)
 
-<span class="n">P_iw_b</span><span class="o">=</span><span class="n">matsb</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">P_l_b</span><span class="p">)</span>
+P_iw_b=matsb.evaluate(P_l_b)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">P_iw_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">P_iw_b</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$P(i\omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(matsb.wn,P_iw_b.imag,label=&#39;imaginary&#39;)
+pl.plot(matsb.wn,P_iw_b.real,label=&#39;real&#39;)
+pl.title(r&#39;$P(i\omega)$&#39;)
+pl.xlabel(r&#39;$\omega$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -710,27 +718,27 @@ title="Print to PDF"
 \[W= U + UPW= U+UP(U+UP(U+UP(...)))=U+UPU+...\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_iw, bosonic  </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#W_iw, bosonic  
 
-<span class="n">U</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span>
+U=1/2
 
-<span class="n">W_iw_b_U</span><span class="o">=</span><span class="n">U</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="n">U</span><span class="o">*</span><span class="n">P_iw_b</span><span class="p">))</span>
+W_iw_b_U=U/(1-(U*P_iw_b))
 
-<span class="n">W_iw_b</span><span class="o">=</span><span class="n">W_iw_b_U</span><span class="o">-</span><span class="n">U</span>
+W_iw_b=W_iw_b_U-U
 
-<span class="c1">#W_iw_b is the part depending on the frequency, any further calculations </span>
-<span class="c1">#will be done using this and not W_iw_b_U</span>
+#W_iw_b is the part depending on the frequency, any further calculations 
+#will be done using this and not W_iw_b_U
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">W_iw_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsb</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">W_iw_b</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$W(i\omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(matsb.wn,W_iw_b.imag,label=&#39;imaginary&#39;)
+pl.plot(matsb.wn,W_iw_b.real,label=&#39;real&#39;)
+pl.title(r&#39;$W(i\omega)$&#39;)
+pl.xlabel(r&#39;$\omega$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -745,19 +753,19 @@ title="Print to PDF"
 \[W_l^B\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_l, bosonic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#W_l, bosonic
 
-<span class="n">W_l_b</span><span class="o">=</span><span class="n">matsb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">W_iw_b</span><span class="p">)</span>
+W_l_b=matsb.fit(W_iw_b)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">W_l_b</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$W_l^B$ over l &#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.semilogy(np.abs(W_l_b),&#39;+-&#39;)
+pl.title(&#39;$W_l^B$ over l &#39;)
+pl.xticks(range(0,20))
+pl.xlabel(&#39;l&#39;)
 </pre></div>
 </div>
 </div>
@@ -773,22 +781,22 @@ title="Print to PDF"
 \[{W}(\bar{\tau}_k^F)= \sum_{l=0}^{N-1} W_l ^BU_l^B(\bar{\tau}_k^F) \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#W_tau_f, fermionic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#W_tau_f, fermionic
 
-<span class="n">W_tau_f</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lt,l-&gt;t&#39;</span><span class="p">,</span><span class="n">basisb</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">),</span><span class="n">W_l_b</span><span class="p">)</span>
+W_tau_f=np.einsum(&#39;lt,l-&gt;t&#39;,basisb.u(tausf.tau),W_l_b)
 
-<span class="c1">#W_tau_f=tausf.evaluate(W_l_b)</span>
+#W_tau_f=tausf.evaluate(W_l_b)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">W_tau_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">W_tau_f</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$W(\tau)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(tausf.tau,W_tau_f.imag,label=&#39;imaginary&#39;)
+pl.plot(tausf.tau,W_tau_f.real,label=&#39;real&#39;)
+pl.title(r&#39;$W(\tau)$&#39;)
+pl.xlabel(r&#39;$\tau$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -807,20 +815,20 @@ title="Print to PDF"
 \[\Sigma=-G(U+UP(U+UP(...)))= -(GU+GUPU+GUPUPU+...)\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_tau , fermionic   </span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#E_tau , fermionic   
 
-<span class="n">E_tau_f</span><span class="o">=</span><span class="n">G_tau_f</span><span class="o">*</span><span class="n">W_tau_f</span>
+E_tau_f=G_tau_f*W_tau_f
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">E_tau_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">tausf</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span><span class="n">E_tau_f</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Sigma(\tau)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(tausf.tau,E_tau_f.imag,label=&#39;imaginary&#39;)
+pl.plot(tausf.tau,E_tau_f.real,label=&#39;real&#39;)
+pl.title(r&#39;$\Sigma(\tau)$&#39;)
+pl.xlabel(r&#39;$\tau$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -835,19 +843,19 @@ title="Print to PDF"
 \[{\Sigma}_l^F\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_l, fermionic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#E_l, fermionic
 
-<span class="n">E_l_f</span><span class="o">=</span><span class="n">tausf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">E_tau_f</span><span class="p">)</span>
+E_l_f=tausf.fit(E_tau_f)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">E_l_f</span><span class="p">),</span><span class="s1">&#39;+-&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;$\Sigma_l^F$ over l &#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.semilogy(np.abs(E_l_f),&#39;+-&#39;)
+pl.title(&#39;$\Sigma_l^F$ over l &#39;)
+pl.xticks(range(0,20))
+pl.xlabel(&#39;l&#39;)
 </pre></div>
 </div>
 </div>
@@ -864,29 +872,29 @@ title="Print to PDF"
 <p>with <span class="math notranslate nohighlight">\(UG(\beta)\)</span> as the so called Hartee Fock term.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#E_iw, fermionic</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#E_iw, fermionic
 
-<span class="c1">#E_iw_f=p.einsum(&#39;lw,l-&gt;w&#39;,basisf.uhat(matsf.wn),E_l_f)-U*(basisf.u(beta).T@G_l_f)</span>
+#E_iw_f=p.einsum(&#39;lw,l-&gt;w&#39;,basisf.uhat(matsf.wn),E_l_f)-U*(basisf.u(beta).T@G_l_f)
 
-<span class="n">E_iw_f_U</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">E_l_f</span><span class="p">)</span><span class="o">-</span><span class="n">U</span><span class="o">*</span><span class="p">(</span><span class="n">basisf</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">beta</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="nd">@G_l_f</span><span class="p">)</span>
-<span class="n">E_iw_f</span><span class="o">=</span><span class="n">matsf</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">E_l_f</span><span class="p">)</span>
+E_iw_f_U=matsf.evaluate(E_l_f)-U*(basisf.u(beta).T@G_l_f)
+E_iw_f=matsf.evaluate(E_l_f)
 
 
-<span class="c1">#store E_iw_f of this iteration in E_iw_f_arr</span>
-<span class="n">E_iw_f_arr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">E_iw_f_U</span><span class="p">)</span>
+#store E_iw_f of this iteration in E_iw_f_arr
+E_iw_f_arr.append(E_iw_f_U)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f_U</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Imaginary part of $\Sigma(i\omega)$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f_U</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Real part of $\Sigma(i\omega)$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = pl.subplots(1,2, figsize=(12,5) )
+ax[0].plot(matsf.wn,E_iw_f_U.imag)
+ax[0].set_title(&#39;Imaginary part of $\Sigma(i\omega)$&#39;)
+ax[0].set_xlabel(r&#39;$\omega$&#39;)
+ax[1].plot(matsf.wn,E_iw_f_U.real)
+ax[1].set_title(&#39;Real part of $\Sigma(i\omega)$&#39;)
+ax[1].set_xlabel(r&#39;$\omega$&#39;)
 </pre></div>
 </div>
 </div>
@@ -906,20 +914,20 @@ title="Print to PDF"
 <p>We have now calculated the full Green’s function of the system with <span class="math notranslate nohighlight">\(\Sigma\)</span> as a set of (one-particle) irreducible processes connected by <span class="math notranslate nohighlight">\(G_0\)</span>.[11]</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#G_iw, fermonic     -&gt; Dyson Equation</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#G_iw, fermonic     -&gt; Dyson Equation
 
-<span class="n">G_iw_f</span><span class="o">=</span><span class="p">((</span><span class="n">G_iw_0</span><span class="p">)</span><span class="o">**-</span><span class="mi">1</span><span class="o">-</span><span class="n">E_iw_f</span><span class="p">)</span><span class="o">**-</span><span class="mi">1</span>    
+G_iw_f=((G_iw_0)**-1-E_iw_f)**-1    
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;imaginary&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">G_iw_f</span><span class="o">.</span><span class="n">real</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$G(i\omega)$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>pl.plot(matsf.wn,G_iw_f.imag,label=&#39;imaginary&#39;)
+pl.plot(matsf.wn,G_iw_f.real,label=&#39;real&#39;)
+pl.title(r&#39;$G(i\omega)$&#39;)
+pl.xlabel(r&#39;$\omega$&#39;)
+pl.legend()
 </pre></div>
 </div>
 </div>
@@ -932,14 +940,14 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;current&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Sigma(i\omega)$ in the current and previous iteration&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">E_iw_f_arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span><span class="s1">&#39;.&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;previous&#39;</span><span class="p">)</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">matsf</span><span class="o">.</span><span class="n">wn</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">E_iw_f_arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">E_iw_f_arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">pl</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$|\Sigma_i(i\omega)-\Sigma_{i-1}(i\omega)|$&#39;</span> <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>if (i&gt;0):
+    pl.plot(matsf.wn,E_iw_f_arr[i].imag,label=&#39;current&#39;)
+    pl.title(r&#39;$\Sigma(i\omega)$ in the current and previous iteration&#39;)
+    pl.plot(matsf.wn,E_iw_f_arr[i-1].imag,&#39;.&#39;,label=&#39;previous&#39;)
+    pl.legend()
+    pl.show()
+    pl.plot(matsf.wn,np.abs(E_iw_f_arr[i]-E_iw_f_arr[i-1]))
+    pl.title(r&#39;$|\Sigma_i(i\omega)-\Sigma_{i-1}(i\omega)|$&#39; )
     
 </pre></div>
 </div>
@@ -947,9 +955,9 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Iterations </span>
-<span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;full iterations: &#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Iterations 
+i+=1
+print(&#39;full iterations: &#39;,i)
 </pre></div>
 </div>
 </div>
@@ -961,7 +969,7 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">G_iw_f</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(G_iw_f)
 </pre></div>
 </div>
 </div>

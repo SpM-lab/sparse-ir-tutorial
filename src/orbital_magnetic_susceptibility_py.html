@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -576,12 +584,12 @@ We show the results as functions of the chemical potential.</p>
 <p>We load basic modules used in the following.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sparse_ir
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span>
-<span class="kn">import</span> <span class="nn">itertools</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip install sparse_ir
+import numpy as np
+import scipy
+import itertools
+import matplotlib.pyplot as plt
+import sparse_ir
 </pre></div>
 </div>
 </div>
@@ -603,15 +611,15 @@ Requirement already satisfied: setuptools in /usr/local/lib/python3.9/dist-packa
 We set <span class="math notranslate nohighlight">\(t=a=1\)</span> and <span class="math notranslate nohighlight">\(T = 0.1\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># hopping amplitude</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># lattice constant</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mf">0.1</span>       <span class="c1"># temperature</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">nk1</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">nk2</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">IR_tol</span> <span class="o">=</span> <span class="mf">1e-10</span>
-<span class="n">mu_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">4.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="mi">91</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t = 1         # hopping amplitude
+a = 1         # lattice constant
+T = 0.1       # temperature
+beta = 1/T
+wmax = 10
+nk1 = 200
+nk2 = 200
+IR_tol = 1e-10
+mu_range = np.linspace(-4.5, 4.5, 91)
 </pre></div>
 </div>
 </div>
@@ -623,27 +631,27 @@ We set <span class="math notranslate nohighlight">\(t=a=1\)</span> and <span cla
 First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n)\)</span> for sampling Matsubara points and then obtain <span class="math notranslate nohighlight">\(k_B T\sum_n \chi(i \omega_n)\)</span> using the IR basis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orbital_chi</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">):</span>
-    <span class="n">smpl_iwn</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">wn</span>
-    <span class="n">chi_iw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">mu_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">smpl_iwn</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">:</span>
-        <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span> <span class="o">=</span> <span class="n">hkgk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-        <span class="n">ek</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">hk</span><span class="p">)</span>
-        <span class="n">vd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
-        <span class="n">giw</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">smpl_iwn</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">-</span> <span class="p">(</span><span class="n">ek</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">mu_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">]))</span>
-        <span class="n">gx</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gx</span> <span class="o">@</span> <span class="n">v</span>
-        <span class="n">gy</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gy</span> <span class="o">@</span> <span class="n">v</span>
-        <span class="n">gxy</span> <span class="o">=</span> <span class="n">vd</span> <span class="o">@</span> <span class="n">gxy</span> <span class="o">@</span> <span class="n">v</span>
-        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, cd, dmn, da, amn-&gt;mn&quot;</span><span class="p">,</span> 
-                            <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;</span><span class="p">,</span>
-                                    <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gxy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;</span><span class="p">,</span>
-                                    <span class="n">gy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">gxy</span><span class="p">,</span> <span class="n">giw</span><span class="p">,</span> <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">chil</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">chi_iw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="n">sampling_points</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
-    <span class="n">chi_tau</span> <span class="o">=</span> <span class="n">smpl_tau0</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">chil</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">chi_tau</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def orbital_chi(IR_basis_set, hkgk, klist, mu_range):
+    smpl_iwn = IR_basis_set.smpl_wn_f.wn
+    chi_iw = np.zeros((len(mu_range), len(smpl_iwn)), dtype=complex)
+    for k in klist:
+        hk, gx, gy, gxy = hkgk(k)
+        ek, v = np.linalg.eigh(hk)
+        vd = np.conj(v.T)
+        giw = 1/(1j * np.pi/IR_basis_set.beta * smpl_iwn[None,None,:] - (ek[:,None,None] - mu_range[None,:,None]))
+        gx = vd @ gx @ v
+        gy = vd @ gy @ v
+        gxy = vd @ gxy @ v
+        chi_iw += np.einsum(&quot;ab, bmn, bc, cmn, cd, dmn, da, amn-&gt;mn&quot;, 
+                            gx, giw, gy, giw, gx, giw, gy, giw, optimize=True)
+        chi_iw += (1/2) * np.einsum(&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;,
+                                    gx, giw, gy, giw, gxy, giw, optimize=True)
+        chi_iw += (1/2) * np.einsum(&quot;ab, bmn, bc, cmn, ca, amn-&gt;mn&quot;,
+                                    gy, giw, gx, giw, gxy, giw, optimize=True)
+    chil = IR_basis_set.smpl_wn_f.fit(chi_iw, axis=1)
+    smpl_tau0 = sparse_ir.TauSampling(IR_basis_set.basis_f, sampling_points=[0.0])
+    chi_tau = smpl_tau0.evaluate(chil, axis=1)
+    return chi_tau.real / len(klist)
 </pre></div>
 </div>
 </div>
@@ -651,18 +659,18 @@ First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n
 <p>We also implement a single band version of the function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">orbital_chi1</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">):</span>
-    <span class="n">smpl_iwn</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">wn</span>
-    <span class="n">chi_iw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">mu_range</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">smpl_iwn</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">klist</span><span class="p">:</span>
-        <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span> <span class="o">=</span> <span class="n">hkgk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-        <span class="n">giw</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">smpl_iwn</span><span class="p">[</span><span class="kc">None</span><span class="p">,:]</span> <span class="o">-</span> <span class="p">(</span><span class="n">hk</span> <span class="o">-</span> <span class="n">mu_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]))</span>
-        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">gx</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gy</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">giw</span><span class="o">**</span><span class="mi">4</span>
-        <span class="n">chi_iw</span> <span class="o">+=</span> <span class="n">gx</span> <span class="o">*</span> <span class="n">gy</span> <span class="o">*</span> <span class="n">gxy</span> <span class="o">*</span> <span class="n">giw</span><span class="o">**</span><span class="mi">3</span>
-    <span class="n">chil</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">chi_iw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="n">sampling_points</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">])</span>
-    <span class="n">chi_tau</span> <span class="o">=</span> <span class="n">smpl_tau0</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">chil</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">chi_tau</span><span class="o">.</span><span class="n">real</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">klist</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def orbital_chi1(IR_basis_set, hkgk, klist, mu_range):
+    smpl_iwn = IR_basis_set.smpl_wn_f.wn
+    chi_iw = np.zeros((len(mu_range), len(smpl_iwn)), dtype=complex)
+    for k in klist:
+        hk, gx, gy, gxy = hkgk(k)
+        giw = 1/(1j * np.pi/IR_basis_set.beta * smpl_iwn[None,:] - (hk - mu_range[:,None]))
+        chi_iw += gx**2 * gy**2 * giw**4
+        chi_iw += gx * gy * gxy * giw**3
+    chil = IR_basis_set.smpl_wn_f.fit(chi_iw, axis=1)
+    smpl_tau0 = sparse_ir.TauSampling(IR_basis_set.basis_f, sampling_points=[0.0])
+    chi_tau = smpl_tau0.evaluate(chil, axis=1)
+    return chi_tau.real / len(klist)
 </pre></div>
 </div>
 </div>
@@ -670,10 +678,10 @@ First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n
 <p>We set the IR basis set and <span class="math notranslate nohighlight">\(\boldsymbol k\)</span> mesh.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
-<span class="n">kx_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="n">nk1</span>
-<span class="n">ky_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="n">nk2</span>
-<span class="n">klist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">kx_list</span><span class="p">,</span> <span class="n">ky_list</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IR_basis_set = sparse_ir.FiniteTempBasisSet(beta=beta, wmax=wmax, eps=IR_tol)
+kx_list = np.arange(nk1)/nk1
+ky_list = np.arange(nk2)/nk2
+klist = np.array(list(itertools.product(kx_list, ky_list)))
 </pre></div>
 </div>
 </div>
@@ -684,14 +692,14 @@ First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n
 <p>Now, we evaluate the orbital magnetic susceptibility as a function of chemical potential, <span class="math notranslate nohighlight">\(\chi(\mu)\)</span>, for the two-dimensional square lattice.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">hkgk_square</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-    <span class="n">hk</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">gx</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">gy</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-    <span class="n">gxy</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">return</span> <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def hkgk_square(k):
+    hk = -2 * t * (np.cos(2*np.pi*k[0]) + np.cos(2*np.pi*k[1]))
+    gx = 2 * t * a * np.sin(2*np.pi*k[0])
+    gy = 2 * t * a * np.sin(2*np.pi*k[1])
+    gxy = 0
+    return hk, gx, gy, gxy
 
-<span class="n">chi_mu</span> <span class="o">=</span> <span class="n">orbital_chi1</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk_square</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">)</span>
+chi_mu = orbital_chi1(IR_basis_set, hkgk_square, klist, mu_range)
 </pre></div>
 </div>
 </div>
@@ -699,15 +707,15 @@ First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n
 <p>For comparison, we calculate the analytic result at <span class="math notranslate nohighlight">\(T=0\)</span> [3,5].</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">mu_range</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">16</span>
-<span class="n">chi_anltc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">k</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">ellipe</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">-</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">ellipk</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>k = 1 - mu_range**2/16
+chi_anltc = np.where(k &gt;= 0, -(scipy.special.ellipe(k)-scipy.special.ellipk(k)/2)*(2/3)/np.pi**2, 0)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_mu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;IR Basis (T=0.1)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_anltc</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Analytic (T=0)&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$\chi$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.plot(mu_range, chi_mu, label=&#39;IR Basis (T=0.1)&#39;)
+plt.plot(mu_range, chi_anltc, label=&#39;Analytic (T=0)&#39;)
+plt.xlabel(&quot;$\mu$&quot;)
+plt.ylabel(&quot;$\chi$&quot;)
+plt.legend()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -721,34 +729,34 @@ First, we calculate <span class="math notranslate nohighlight">\(\chi(i \omega_n
 <p>Next, we evaluate the orbital magnetic suscepitbility for graphene.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sq3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">hkgk_graphene</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-    <span class="n">kx</span><span class="p">,</span> <span class="n">ky</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">sq3</span><span class="p">)</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="n">sq3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">*</span><span class="n">a</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">)))</span>
-    <span class="n">hk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">h</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sq3 = np.sqrt(3)
+def hkgk_graphene(k):
+    kx, ky = 2*np.pi*k[0]/a, 2*np.pi*(k[0] + 2*k[1])/(a*sq3)
+    h = -t * (np.exp(1j*ky*a/sq3) + 2 * np.cos(kx*a/2) * np.exp(-1j*ky*a/(2*sq3)))
+    hk = np.array([ [ 0, h ], [ np.conj(h), 0 ] ])
     
-    <span class="n">hx</span> <span class="o">=</span>  <span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))</span>
-    <span class="n">hy</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="n">sq3</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="n">sq3</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))))</span>
-    <span class="n">gx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hx</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hx</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
-    <span class="n">gy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hy</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hy</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+    hx =  t * a * np.sin(kx/2) * np.exp(-1j*ky/(2*sq3))
+    hy = -t * a * (1j/sq3 * (np.exp(1j*ky/sq3) - np.cos(kx/2) * np.exp(-1j*ky/(2*sq3))))
+    gx = np.array([ [ 0, hx ], [ np.conj(hx), 0 ] ])
+    gy = np.array([ [ 0, hy ], [ np.conj(hy), 0 ] ])
     
-    <span class="n">hxy</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">kx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ky</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sq3</span><span class="p">))</span>
-    <span class="n">gxy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="p">[</span> <span class="mi">0</span><span class="p">,</span> <span class="n">hxy</span> <span class="p">],</span> <span class="p">[</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">hxy</span><span class="p">),</span> <span class="mi">0</span> <span class="p">]</span> <span class="p">])</span>
+    hxy = -t * a * a * 1j/(2*sq3) * np.sin(kx/2) * np.exp(-1j*ky/(2*sq3))
+    gxy = np.array([ [ 0, hxy ], [ np.conj(hxy), 0 ] ])
 
-    <span class="k">return</span> <span class="n">hk</span><span class="p">,</span> <span class="n">gx</span><span class="p">,</span> <span class="n">gy</span><span class="p">,</span> <span class="n">gxy</span>
+    return hk, gx, gy, gxy
 
-<span class="n">chi_mu</span> <span class="o">=</span> <span class="n">orbital_chi</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">hkgk_graphene</span><span class="p">,</span> <span class="n">klist</span><span class="p">,</span> <span class="n">mu_range</span><span class="p">)</span>
+chi_mu = orbital_chi(IR_basis_set, hkgk_graphene, klist, mu_range)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu_range</span><span class="p">,</span> <span class="n">chi_mu</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;IR Basis&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\mu$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$\chi$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.plot(mu_range, chi_mu, label=&#39;IR Basis&#39;)
+plt.xlabel(&quot;$\mu$&quot;)
+plt.ylabel(&quot;$\chi$&quot;)
+plt.legend()
+plt.show()
 </pre></div>
 </div>
 </div>

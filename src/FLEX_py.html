@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -685,13 +693,13 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <p>We implement the FLEX method for the simple case of a square lattice Hubbard model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span> with nearest-neighbor hopping <span class="math notranslate nohighlight">\(t\)</span> which sets the energy scale of our system (bandwidth <span class="math notranslate nohighlight">\(W = 8t\)</span>). First, we load all necessary basic modules that we are going to need in implementing FLEX and visualizing results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sc</span>
-<span class="kn">import</span> <span class="nn">scipy.optimize</span>
-<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
-<span class="kn">import</span> <span class="nn">sparse_ir</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+import scipy as sc
+import scipy.optimize
+from warnings import warn
+import sparse_ir
+%matplotlib inline
+import matplotlib.pyplot as plt
 </pre></div>
 </div>
 </div>
@@ -700,24 +708,24 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 <h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
-<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># hopping amplitude</span>
-<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwidth</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### System parameters
+t    = 1      # hopping amplitude
+W    = 8*t    # bandwidth
+wmax = 10     # set wmax &gt;= W
 
-<span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span>    <span class="c1"># temperature</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c1"># inverse temperature</span>
-<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
-<span class="n">U</span>    <span class="o">=</span> <span class="mi">4</span>      <span class="c1"># Hubbard interaction</span>
+T    = 0.1    # temperature
+beta = 1/T    # inverse temperature
+n    = 0.85   # electron filling, here per spin per lattice site (n=1: half filling)
+U    = 4      # Hubbard interaction
 
-<span class="c1">### Numerical parameters</span>
-<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c1"># number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky</span>
-<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
-<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
-<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># desired accuracy for self-consistent iteration</span>
-<span class="n">maxiter</span>   <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
-<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new green function</span>
-<span class="n">U_maxiter</span> <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
+### Numerical parameters
+nk1, nk2  = 24, 24    # number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky
+nk        = nk1*nk2
+IR_tol    = 1e-10     # desired accuary for l-cutoff of IR basis functions
+sfc_tol   = 1e-4      # desired accuracy for self-consistent iteration
+maxiter   = 30        # maximal number of iterations in self-consistent cycle
+mix       = 0.2       # mixing parameter for new green function
+U_maxiter = 50        # maximal number of iteration steps in U renormalization loop
 </pre></div>
 </div>
 </div>
@@ -729,73 +737,73 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 In addition, we set calculation routines to Fourier transform <span class="math notranslate nohighlight">\(k\leftrightarrow r\)</span> and <span class="math notranslate nohighlight">\(\tau\leftrightarrow i\omega_n\)</span> (via IR basis).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#### Initiate fermionic and bosonic IR basis objects</span>
-<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#### Initiate fermionic and bosonic IR basis objects
+IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
 
-<span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.</span>
-<span class="sd">    Additionally it defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="p">,</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">IR_basis_set</span>
+class Mesh:
+    &quot;&quot;&quot;
+    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.
+    Additionally it defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.
+    &quot;&quot;&quot;
+    def __init__(self,IR_basis_set,nk1,nk2):
+        self.IR_basis_set = IR_basis_set
 
-        <span class="c1"># generate k-mesh and dispersion</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span> <span class="o">=</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">k1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k2</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
+        # generate k-mesh and dispersion
+        self.nk1, self.nk2, self.nk = nk1, nk2, nk1*nk2
+        self.k1, self.k2 = np.meshgrid(np.arange(self.nk1)/self.nk1, np.arange(self.nk2)/self.nk2)
+        self.ek = -2*t*( np.cos(2*np.pi*self.k1) + np.cos(2*np.pi*self.k2) ).reshape(nk)
 
-        <span class="c1"># lowest Matsubara frequency index</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        # lowest Matsubara frequency index
+        self.iw0_f = np.where(self.IR_basis_set.wn_f == 1)[0][0]
+        self.iw0_b = np.where(self.IR_basis_set.wn_b == 0)[0][0]
 
-        <span class="c1">### Generate a frequency-momentum grid for iwn and ek (in preparation for calculating the Green function)</span>
-        <span class="c1"># frequency mesh (for Green function)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">T</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">iwn_f_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nk</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        ### Generate a frequency-momentum grid for iwn and ek (in preparation for calculating the Green function)
+        # frequency mesh (for Green function)
+        self.iwn_f = 1j * self.IR_basis_set.wn_f * np.pi * T
+        self.iwn_f_ = np.tensordot(self.iwn_f, np.ones(nk), axes=0)
 
-        <span class="c1"># ek mesh</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ek_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        # ek mesh
+        self.ek_ = np.tensordot(np.ones(len(self.iwn_f)), self.ek, axes=0)
 
-    <span class="k">def</span> <span class="nf">smpl_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span>
-        <span class="n">smpl_tau</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
-        <span class="n">smpl_wn</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span>  <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span> <span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span>
-
-    
-    <span class="k">def</span> <span class="nf">tau_to_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from tau to in via IR basis &quot;&quot;&quot;</span>
-        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
-
-        <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">obj_tau</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
-        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_wn</span><span class="o">.</span><span class="n">wn</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">obj_wn</span>
-
-    <span class="k">def</span> <span class="nf">wn_to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;</span>
-        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
-
-        <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">obj_wn</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_wn</span><span class="o">.</span><span class="n">wn</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
-        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">obj_tau</span>
+    def smpl_obj(self, statistics):
+        &quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;
+        smpl_tau = {&#39;F&#39;: self.IR_basis_set.smpl_tau_f, &#39;B&#39;: self.IR_basis_set.smpl_tau_b}[statistics]
+        smpl_wn  = {&#39;F&#39;: self.IR_basis_set.smpl_wn_f,  &#39;B&#39;: self.IR_basis_set.smpl_wn_b }[statistics]
+        return smpl_tau, smpl_wn
 
     
-    <span class="k">def</span> <span class="nf">k_to_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj_k</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;</span>
-        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">obj_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
-        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">obj_k</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">obj_r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">obj_r</span>
+    def tau_to_wn(self, statistics, obj_tau):
+        &quot;&quot;&quot; Fourier transform from tau to in via IR basis &quot;&quot;&quot;
+        smpl_tau, smpl_wn = self.smpl_obj(statistics)
 
-    <span class="k">def</span> <span class="nf">r_to_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj_r</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Fourier transform from real space to k-space &quot;&quot;&quot;</span>
-        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">obj_r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
-        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">obj_r</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span>
-        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">obj_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">obj_k</span>
+        obj_tau = obj_tau.reshape((smpl_tau.tau.size, self.nk1, self.nk2))
+        obj_l   = smpl_tau.fit(obj_tau, axis=0)
+        obj_wn  = smpl_wn.evaluate(obj_l, axis=0).reshape((smpl_wn.wn.size, self.nk))
+        return obj_wn
+
+    def wn_to_tau(self, statistics, obj_wn):
+        &quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;
+        smpl_tau, smpl_wn = self.smpl_obj(statistics)
+
+        obj_wn  = obj_wn.reshape((smpl_wn.wn.size, self.nk1, self.nk2))
+        obj_l   = smpl_wn.fit(obj_wn, axis=0)
+        obj_tau = smpl_tau.evaluate(obj_l, axis=0).reshape((smpl_tau.tau.size, self.nk))
+        return obj_tau
+
+    
+    def k_to_r(self,obj_k):
+        &quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;
+        obj_k = obj_k.reshape(-1, self.nk1, self.nk2)
+        obj_r = np.fft.fftn(obj_k,axes=(1,2))
+        obj_r = obj_r.reshape(-1, self.nk)
+        return obj_r
+
+    def r_to_k(self,obj_r):
+        &quot;&quot;&quot; Fourier transform from real space to k-space &quot;&quot;&quot;
+        obj_r = obj_r.reshape(-1, self.nk1, self.nk2)
+        obj_k = np.fft.ifftn(obj_r,axes=(1,2))/self.nk
+        obj_k = obj_k.reshape(-1, self.nk)
+        return obj_k
 </pre></div>
 </div>
 </div>
@@ -806,169 +814,169 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <p>We wrap the calculation steps of the FLEX loop in the <code class="docutils literal notranslate"><span class="pre">FLEXSolver</span></code> class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FLEXSolver</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> 
-                 <span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Solver class to calculate the FLEX loop self-consistently.</span>
-<span class="sd">        After initializing the Solver by `solver = FLEXSolver(mesh, U, n, **kwargs)` </span>
-<span class="sd">        it can be run by `solver.solve()`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1">## Set internal parameters for the solve </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma_init</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span> <span class="o">=</span> <span class="n">sfc_tol</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">U_maxiter</span> <span class="o">=</span> <span class="n">U_maxiter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mix</span> <span class="o">=</span> <span class="n">mix</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class FLEXSolver:
+    def __init__(self, mesh, U, n, sigma_init=0, sfc_tol=1e-4, 
+                 maxiter=100, U_maxiter=10, mix=0.2, verbose=True):
+        &quot;&quot;&quot;
+        Solver class to calculate the FLEX loop self-consistently.
+        After initializing the Solver by `solver = FLEXSolver(mesh, U, n, **kwargs)` 
+        it can be run by `solver.solve()`.
+        &quot;&quot;&quot;
+        ## Set internal parameters for the solve 
+        self.U = U
+        self.n = n
+        self.mesh = mesh
+        self.sigma = sigma_init
+        self.sfc_tol = sfc_tol
+        self.maxiter = maxiter
+        self.U_maxiter = U_maxiter
+        self.mix = mix
+        self.verbose = verbose
         
-        <span class="c1">## Set initial Green function and irreducible susceptibility</span>
-        <span class="c1"># NOT running the FLEXSolver.solve instance corresponds to staying on RPA level</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mu_calc</span><span class="p">()</span>
+        ## Set initial Green function and irreducible susceptibility
+        # NOT running the FLEXSolver.solve instance corresponds to staying on RPA level
+        self.mu = 0
+        self.mu_calc()
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grit_calc</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ckio_calc</span><span class="p">()</span>
+        self.gkio_calc(self.mu)
+        self.grit_calc()
+        self.ckio_calc()
     
     
-    <span class="c1">#%%%%%%%%%%% Loop solving instance</span>
-    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; FLEXSolver.solve() executes FLEX loop until convergence &quot;&quot;&quot;</span>
-        <span class="c1"># check whether U &lt; U_crit! Otherwise, U needs to be renormalized.</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">U_renormalization</span><span class="p">()</span>
+    #%%%%%%%%%%% Loop solving instance
+    def solve(self):
+        &quot;&quot;&quot; FLEXSolver.solve() executes FLEX loop until convergence &quot;&quot;&quot;
+        # check whether U &lt; U_crit! Otherwise, U needs to be renormalized.
+        if np.amax(np.abs(self.ckio))*self.U &gt;= 1:
+            self.U_renormalization()
             
-        <span class="c1"># perform loop until convergence is reached:</span>
-        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
-            <span class="n">sigma_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">()</span>
+        # perform loop until convergence is reached:
+        for it in range(self.maxiter):
+            sigma_old = self.sigma
+            self.loop()
 
-            <span class="c1"># check whether solution is converged.</span>
-            <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">))</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">sfc_check</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FLEX loop converged at desired accuracy&quot;</span><span class="p">)</span>
-                <span class="k">break</span>
+            # check whether solution is converged.
+            sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
+            if self.verbose:
+                print(it, sfc_check)
+            if sfc_check &lt; self.sfc_tol:
+                print(&quot;FLEX loop converged at desired accuracy&quot;)
+                break
     
-    <span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; FLEX loop &quot;&quot;&quot;</span>
-        <span class="n">gkio_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span>
+    def loop(self):
+        &quot;&quot;&quot; FLEX loop &quot;&quot;&quot;
+        gkio_old = self.gkio
         
-        <span class="c1"># calculate interaction and self-energy</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">V_calc</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_calc</span><span class="p">()</span>
+        # calculate interaction and self-energy
+        self.V_calc()
+        self.sigma_calc()
         
-        <span class="c1"># set new chemical potential and apply mixing</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mu_calc</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mix</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mix</span><span class="p">)</span><span class="o">*</span><span class="n">gkio_old</span>
+        # set new chemical potential and apply mixing
+        self.mu_calc()
+        self.gkio_calc(self.mu)
+        self.gkio = self.mix*self.gkio + (1-self.mix)*gkio_old
         
-        <span class="c1"># calculate new irreducible susceptibility</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grit_calc</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ckio_calc</span><span class="p">()</span>
+        # calculate new irreducible susceptibility
+        self.grit_calc()
+        self.ckio_calc()
 
 
-    <span class="c1">#%%%%%%%%%%% U renormalization loop instance</span>
-    <span class="k">def</span> <span class="nf">U_renormalization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Loop for renormalizing U if Stoner enhancement U*max{chi0} &gt;= 1. &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initiate U renormalization loop.&#39;</span><span class="p">)</span>
+    #%%%%%%%%%%% U renormalization loop instance
+    def U_renormalization(self):
+        &quot;&quot;&quot; Loop for renormalizing U if Stoner enhancement U*max{chi0} &gt;= 1. &quot;&quot;&quot;
+        print(&#39;WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!&#39;)
+        print(&#39;Initiate U renormalization loop.&#39;)
     
-        <span class="c1"># save old U for later</span>
-        <span class="n">U_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span>
-        <span class="c1"># renormalization loop may run infinitely! Insert break condition after U_it_max steps</span>
-        <span class="n">U_it</span> <span class="o">=</span> <span class="mi">0</span>
+        # save old U for later
+        U_old = self.U
+        # renormalization loop may run infinitely! Insert break condition after U_it_max steps
+        U_it = 0
     
-        <span class="k">while</span> <span class="n">U_old</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">U_it</span> <span class="o">+=</span> <span class="mi">1</span>
+        while U_old*np.amax(np.abs(self.ckio)) &gt;= 1:
+            U_it += 1
         
-            <span class="c1"># remormalize U such that U*chi0 &lt; 1</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">U_it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="n">U_old</span><span class="p">)</span>
+            # remormalize U such that U*chi0 &lt; 1
+            self.U = self.U / (np.amax(np.abs(self.ckio))*self.U + 0.01)
+            print(U_it, self.U, U_old)
         
-            <span class="c1"># perform one shot FLEX loop</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">loop</span><span class="p">()</span>
+            # perform one shot FLEX loop
+            self.loop()
         
-            <span class="c1"># reset U</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U_old</span>
+            # reset U
+            self.U = U_old
         
-            <span class="c1"># break condition for too many steps</span>
-            <span class="k">if</span> <span class="n">U_it</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_maxiter</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iteration number of U renormalization reached break condition!&#39;</span><span class="p">)</span>
-                <span class="k">break</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Leaving U renormalization...&#39;</span><span class="p">)</span>
+            # break condition for too many steps
+            if U_it == self.U_maxiter:
+                print(&#39;Iteration number of U renormalization reached break condition!&#39;)
+                break
+        print(&#39;Leaving U renormalization...&#39;)
     
     
-    <span class="c1">#%%%%%%%%%%% Calculation steps</span>
-    <span class="k">def</span> <span class="nf">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; calculate Green function G(iw,k) &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f_</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek_</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    #%%%%%%%%%%% Calculation steps
+    def gkio_calc(self, mu):
+        &quot;&quot;&quot; calculate Green function G(iw,k) &quot;&quot;&quot;
+        self.gkio = (self.mesh.iwn_f_ - (self.mesh.ek_ - mu) - self.sigma)**(-1)
 
-    <span class="k">def</span> <span class="nf">grit_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;</span>
-        <span class="c1"># Fourier transform</span>
-        <span class="n">grit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">grit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">grit</span><span class="p">)</span>
+    def grit_calc(self):
+        &quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;
+        # Fourier transform
+        grit = self.mesh.k_to_r(self.gkio)
+        self.grit = self.mesh.wn_to_tau(&#39;F&#39;, grit)
 
-    <span class="k">def</span> <span class="nf">ckio_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate irreducible susciptibility chi0(iv,q) &quot;&quot;&quot;</span>
-        <span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    def ckio_calc(self):
+        &quot;&quot;&quot; Calculate irreducible susciptibility chi0(iv,q) &quot;&quot;&quot;
+        ckio = self.grit * self.grit[::-1, :]
 
-        <span class="c1"># Fourier transform</span>
-        <span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">r_to_k</span><span class="p">(</span><span class="n">ckio</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">ckio</span><span class="p">)</span>
+        # Fourier transform
+        ckio = self.mesh.r_to_k(ckio)
+        self.ckio = self.mesh.tau_to_wn(&#39;B&#39;, ckio)
 
-    <span class="k">def</span> <span class="nf">V_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma &quot;&quot;&quot;</span>
-        <span class="c1"># check whether U is too large and give warning</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">))</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;U*max(chi0) &gt;= 1! Paramagnetic phase is left and calculations will turn unstable!&quot;</span><span class="p">)</span>
+    def V_calc(self):
+        &quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma &quot;&quot;&quot;
+        # check whether U is too large and give warning
+        if np.amax(np.abs(self.ckio))*self.U &gt;= 1:
+            warn(&quot;U*max(chi0) &gt;= 1! Paramagnetic phase is left and calculations will turn unstable!&quot;)
         
-        <span class="c1"># spin and charge susceptibility</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+        # spin and charge susceptibility
+        self.chi_spin   = self.ckio / (1 - self.U*self.ckio)
+        self.chi_charge = self.ckio / (1 + self.U*self.ckio)
 
-        <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span>
-        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled compactly by the IR basis.</span>
-        <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
+        V = 3/2*self.U**2 * self.chi_spin + 1/2*self.U**2 * self.chi_charge - self.U**2 * self.ckio
+        # Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled compactly by the IR basis.
+        # In the single-band case, the Hartree term can be absorbed into the chemical potential.
 
-        <span class="c1"># Fourier transform</span>
-        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+        # Fourier transform
+        V = self.mesh.k_to_r(V)
+        self.V = self.mesh.wn_to_tau(&#39;B&#39;, V)
 
-    <span class="k">def</span> <span class="nf">sigma_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate self-energy Sigma(iw,k) &quot;&quot;&quot;</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span>
+    def sigma_calc(self):
+        &quot;&quot;&quot; Calculate self-energy Sigma(iw,k) &quot;&quot;&quot;
+        sigma = self.V * self.grit
     
-        <span class="c1"># Fourier transform</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">r_to_k</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+        # Fourier transform
+        sigma = self.mesh.r_to_k(sigma)
+        self.sigma = self.mesh.tau_to_wn(&#39;F&#39;, sigma)
     
     
-    <span class="c1">#%%%%%%%%%%% Setting chemical potential mu</span>
-    <span class="k">def</span> <span class="nf">calc_electron_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate electron density from Green function &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
-        <span class="n">gio</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
-        <span class="n">g_l</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gio</span><span class="p">)</span>
-        <span class="n">g_tau0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@g_l</span>
+    #%%%%%%%%%%% Setting chemical potential mu
+    def calc_electron_density(self, mu):
+        &quot;&quot;&quot; Calculate electron density from Green function &quot;&quot;&quot;
+        self.gkio_calc(mu)
+        gio  = np.sum(self.gkio,axis=1)/self.mesh.nk
+        g_l  = self.mesh.IR_basis_set.smpl_wn_f.fit(gio)
+        g_tau0 = self.mesh.IR_basis_set.basis_f.u(0)@g_l
     
-        <span class="n">n</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
-        <span class="n">n</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="c1">#for spin</span>
-        <span class="k">return</span> <span class="n">n</span>
+        n  = 1 + np.real(g_tau0)
+        n  = 2*n #for spin
+        return n
 
-    <span class="k">def</span> <span class="nf">mu_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Find chemical potential for a given filling n0 via brent&#39;s root finding algorithm &quot;&quot;&quot;</span>
-        <span class="n">n_calc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_electron_density</span>
-        <span class="n">n0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
-        <span class="n">f</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">n_calc</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="n">n0</span>
+    def mu_calc(self):
+        &quot;&quot;&quot; Find chemical potential for a given filling n0 via brent&#39;s root finding algorithm &quot;&quot;&quot;
+        n_calc = self.calc_electron_density
+        n0 = self.n
+        f  = lambda mu : n_calc(mu) - n0
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
+        self.mu = sc.optimize.brentq(f, np.amax(self.mesh.ek)*3, np.amin(self.mesh.ek)*3)
 </pre></div>
 </div>
 </div>
@@ -978,13 +986,13 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <h3>Execute FLEX loop<a class="headerlink" href="#execute-flex-loop" title="Permalink to this headline">#</a></h3>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize calculation</span>
-<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
-<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
-<span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># initialize calculation
+IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
+mesh = Mesh(IR_basis_set, nk1, nk2)
+solver = FLEXSolver(mesh, U, n, sigma_init=0, sfc_tol=sfc_tol, maxiter=maxiter, U_maxiter=U_maxiter, mix=mix)
 
-<span class="c1"># perform FLEX loop</span>
-<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+# perform FLEX loop
+solver.solve()
 </pre></div>
 </div>
 </div>
@@ -1030,17 +1038,17 @@ FLEX loop converged at desired accuracy
 <h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. Green function</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $G(k,i\omega_0)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of e.g. Green function
+plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(solver.gkio[mesh.iw0_f].reshape(mesh.nk1,mesh.nk2)), shading=&#39;auto&#39;)
+ax = plt.gca()
+ax.set_xlabel(&#39;$k_x/\pi$&#39;)
+ax.set_xlim([0,2])
+ax.set_ylabel(&#39;$k_y/\pi$&#39;)
+ax.set_ylim([0,2])
+ax.set_aspect(&#39;equal&#39;)
+ax.set_title(&#39;Re $G(k,i\omega_0)$&#39;)
+plt.colorbar()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -1050,17 +1058,17 @@ FLEX loop converged at desired accuracy
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">ckio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $\chi_0(k,i</span><span class="se">\n</span><span class="s1">u_0)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi0
+plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(solver.ckio[mesh.iw0_b].reshape(mesh.nk1,mesh.nk2)), shading=&#39;auto&#39;)
+ax = plt.gca()
+ax.set_xlabel(&#39;$k_x/\pi$&#39;)
+ax.set_xlim([0,2])
+ax.set_ylabel(&#39;$k_y/\pi$&#39;)
+ax.set_ylim([0,2])
+ax.set_aspect(&#39;equal&#39;)
+ax.set_title(&#39;Re $\chi_0(k,i\nu_0)$&#39;)
+plt.colorbar()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -1109,79 +1117,79 @@ FLEX loop converged at desired accuracy
 <p>As for the FLEX loop, we implement a solver class that takes the <code class="docutils literal notranslate"><span class="pre">FLEXSolver</span></code> instance as an argument to solve the linearized Eliashberg equation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LinearizedGapSolver</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">FLEX_solver</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Solver class for solving the linearized gap equation using the power method.</span>
-<span class="sd">        It takes FLEX results as an input.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class LinearizedGapSolver:
+    def __init__(self, FLEX_solver, maxiter=50, sfc_tol=1e-4, verbose=True):
+        &quot;&quot;&quot;
+        Solver class for solving the linearized gap equation using the power method.
+        It takes FLEX results as an input.
+        &quot;&quot;&quot;
         
-        <span class="c1">## Initialize necessary quantities from converged (normal state) FLEX calculation</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">mesh</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">gkio</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">chi_spin</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">chi_charge</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">FLEX_solver</span><span class="o">.</span><span class="n">U</span>
+        ## Initialize necessary quantities from converged (normal state) FLEX calculation
+        self.mesh = FLEX_solver.mesh
+        self.gkio = FLEX_solver.gkio
+        self.chi_spin = FLEX_solver.chi_spin
+        self.chi_charge = FLEX_solver.chi_charge
+        self.U = FLEX_solver.U
         
-        <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span> <span class="o">=</span> <span class="n">sfc_tol</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        self.maxiter = maxiter
+        self.sfc_tol = sfc_tol
+        self.verbose = verbose
         
-        <span class="c1">## Initialize trial gap function</span>
-        <span class="c1"># Here we focus on a d-wave symmetric solution</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delta0</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta0</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span> <span class="c1"># normalize initial guess</span>
+        ## Initialize trial gap function
+        # Here we focus on a d-wave symmetric solution
+        self.delta0 = (np.cos(2*np.pi*self.mesh.k1) - np.cos(2*np.pi*self.mesh.k2)).reshape(self.mesh.nk)
+        self.delta  = np.tensordot(np.ones(len(self.mesh.iwn_f)), self.delta0, axes=0)
+        self.delta  = self.delta / np.linalg.norm(self.delta) # normalize initial guess
         
-        <span class="c1">## Initialize interaction</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">V_singlet_calc</span><span class="p">()</span>
+        ## Initialize interaction
+        self.V_singlet_calc()
         
-        <span class="c1">## Initialize eigenvalue</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="mi">0</span>
+        ## Initialize eigenvalue
+        self.lam = 0
         
-    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Solving instance to find eigenvalue from power method &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
-            <span class="n">lam_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span>
-            <span class="n">delta_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+    def solve(self):
+        &quot;&quot;&quot; Solving instance to find eigenvalue from power method &quot;&quot;&quot;
+        for it in range(self.maxiter):
+            lam_old = self.lam
+            delta_old = self.delta
     
-            <span class="c1"># calculate gap function in real space</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">frit_calc</span><span class="p">()</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V_singlet</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">frit</span>
+            # calculate gap function in real space
+            self.frit_calc()
+            delta = self.V_singlet * self.frit
     
-            <span class="c1"># Fourier transform to momentum space</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">r_to_k</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
-            <span class="n">delta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="n">delta</span><span class="p">)</span>
+            # Fourier transform to momentum space
+            delta = self.mesh.r_to_k(delta)
+            delta = self.mesh.tau_to_wn(&#39;F&#39;,delta)
     
-            <span class="c1"># calculate eigenvalue</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">lam</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span><span class="o">*</span><span class="n">delta_old</span><span class="p">)</span> <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">delta</span> <span class="o">=</span> <span class="n">delta</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span>
+            # calculate eigenvalue
+            self.lam = np.real( np.sum(np.conj(delta)*delta_old) )
+            self.delta = delta / np.linalg.norm(delta)
     
-            <span class="c1"># check for convergence</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="p">,</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">))</span>
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lam</span><span class="o">-</span><span class="n">lam_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">:</span>
-                <span class="k">break</span>   
+            # check for convergence
+            if self.verbose:
+                print(it, self.lam, abs(self.lam-lam_old))
+            if abs(self.lam-lam_old) &lt; self.sfc_tol:
+                break   
     
-    <span class="c1">#%%%%%%%%%%% Calculation steps</span>
-    <span class="k">def</span> <span class="nf">V_singlet_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Set up interaction in real space and imaginary time &quot;&quot;&quot;</span>
+    #%%%%%%%%%%% Calculation steps
+    def V_singlet_calc(self):
+        &quot;&quot;&quot; Set up interaction in real space and imaginary time &quot;&quot;&quot;
     
-        <span class="n">V</span> <span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span>
-        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled by the IR basis.</span>
-        <span class="c1"># In the special case of d-wave symmetry, it can be neglected as the momentum sum vanishes due to symmetry.</span>
+        V = 3/2*self.U**2 * self.chi_spin - 1/2*self.U**2 * self.chi_charge
+        # Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled by the IR basis.
+        # In the special case of d-wave symmetry, it can be neglected as the momentum sum vanishes due to symmetry.
     
-        <span class="c1"># Fourier transform</span>
-        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">V_singlet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+        # Fourier transform
+        V = self.mesh.k_to_r(V)
+        self.V_singlet = self.mesh.wn_to_tau(&#39;B&#39;, V)
 
-    <span class="k">def</span> <span class="nf">frit_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Calculate (linearized) anomalous Green function F = -|G|^2 * delta for evaluating the gap equation &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fkio</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+    def frit_calc(self):
+        &quot;&quot;&quot; Calculate (linearized) anomalous Green function F = -|G|^2 * delta for evaluating the gap equation &quot;&quot;&quot;
+        self.fkio = - self.gkio*np.conj(self.gkio)*self.delta
         
-        <span class="c1"># Fourier transform</span>
-        <span class="n">frit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fkio</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">frit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">frit</span><span class="p">)</span>
+        # Fourier transform
+        frit = self.mesh.k_to_r(self.fkio)
+        self.frit = self.mesh.wn_to_tau(&#39;F&#39;, frit)
 </pre></div>
 </div>
 </div>
@@ -1191,9 +1199,9 @@ FLEX loop converged at desired accuracy
 <h4>Executing the gap equation solver<a class="headerlink" href="#executing-the-gap-equation-solver" title="Permalink to this headline">#</a></h4>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gap_solver</span> <span class="o">=</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">)</span>
-<span class="n">gap_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The superconducting eigenvalue at T=</span><span class="si">{}</span><span class="s2"> is lambda_d=</span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">T</span><span class="p">,</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>gap_solver = LinearizedGapSolver(solver, maxiter=maxiter, sfc_tol=sfc_tol)
+gap_solver.solve()
+print(&quot;The superconducting eigenvalue at T={} is lambda_d={:.3f}&quot;.format(T,gap_solver.lam))
 </pre></div>
 </div>
 </div>
@@ -1216,29 +1224,29 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 <h4>Visualize results<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of the gap vs. initial guess</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta0</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">))</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta0</span><span class="p">),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta^0_d(k)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of the gap vs. initial guess
+plt.figure()
+plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(gap_solver.delta0.reshape(nk1,nk2)) / np.linalg.norm(gap_solver.delta0), cmap=&#39;RdBu&#39;, shading=&#39;auto&#39;)
+ax = plt.gca()
+ax.set_xlabel(&#39;$k_x/\pi$&#39;)
+ax.set_xlim([0,2])
+ax.set_ylabel(&#39;$k_y/\pi$&#39;)
+ax.set_ylim([0,2])
+ax.set_aspect(&#39;equal&#39;)
+ax.set_title(&#39;$\\Delta^0_d(k)$&#39;)
+plt.colorbar()
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">delta</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta_d(k,i\omega_0)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.figure()
+plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(gap_solver.delta[mesh.iw0_f].reshape(mesh.nk1,mesh.nk2)), cmap=&#39;RdBu&#39;, shading=&#39;auto&#39;)
+ax = plt.gca()
+ax.set_xlabel(&#39;$k_x/\pi$&#39;)
+ax.set_xlim([0,2])
+ax.set_ylabel(&#39;$k_y/\pi$&#39;)
+ax.set_ylim([0,2])
+ax.set_aspect(&#39;equal&#39;)
+ax.set_title(&#39;$\\Delta_d(k,i\omega_0)$&#39;)
+plt.colorbar()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -1249,18 +1257,18 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of the anomalous Green function</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">gap_solver</span><span class="o">.</span><span class="n">fkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdBu&#39;</span><span class="p">,</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $F(k,i\omega_0)$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of the anomalous Green function
+plt.figure()
+plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(gap_solver.fkio[mesh.iw0_f].reshape(mesh.nk1,mesh.nk2)), cmap=&#39;RdBu&#39;, shading=&#39;auto&#39;)
+ax = plt.gca()
+ax.set_xlabel(&#39;$k_x/\pi$&#39;)
+ax.set_xlim([0,2])
+ax.set_ylabel(&#39;$k_y/\pi$&#39;)
+ax.set_ylim([0,2])
+ax.set_aspect(&#39;equal&#39;)
+ax.set_title(&#39;Re $F(k,i\omega_0)$&#39;)
+plt.colorbar()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -1278,64 +1286,64 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 <p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure similar to those in the references above.</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialization...&#39;</span><span class="p">)</span>
-<span class="c1"># system parameters</span>
-<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># hopping amplitude</span>
-<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
-<span class="n">U</span>    <span class="o">=</span> <span class="mi">4</span>      <span class="c1"># Hubbard interaction</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#%%%%%%%%%%%%%%% Parameter settings
+print(&#39;Initialization...&#39;)
+# system parameters
+t    = 1      # hopping amplitude
+n    = 0.85   # electron filling, here per spin per lattice site (n=1: half filling)
+U    = 4      # Hubbard interaction
 
-<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwidth</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
-<span class="n">T_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.08</span><span class="p">,</span><span class="mf">0.07</span><span class="p">,</span><span class="mf">0.06</span><span class="p">,</span><span class="mf">0.05</span><span class="p">,</span><span class="mf">0.04</span><span class="p">,</span><span class="mf">0.03</span><span class="p">,</span><span class="mf">0.025</span><span class="p">])</span>   <span class="c1"># temperature</span>
+W    = 8*t    # bandwidth
+wmax = 10     # set wmax &gt;= W
+T_values = np.array([0.08,0.07,0.06,0.05,0.04,0.03,0.025])   # temperature
 
-<span class="c1"># numerical parameters</span>
-<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">64</span>    <span class="c1"># k-mesh sufficiently dense!</span>
-<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
-<span class="n">IR_Lambda</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span>     <span class="c1"># dimensionless IR parameter &gt;= w_max * beta_min = 400</span>
-<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-8</span>      <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
-<span class="n">sfc_tol</span>   <span class="o">=</span> <span class="mf">1e-4</span>      <span class="c1"># desired accuracy for self-consistent iteration</span>
-<span class="n">it_max</span>    <span class="o">=</span> <span class="mi">30</span>        <span class="c1"># maximal number of iterations in self-consistent cycle</span>
-<span class="n">mix</span>       <span class="o">=</span> <span class="mf">0.2</span>       <span class="c1"># mixing parameter for new </span>
-<span class="n">U_it_max</span>  <span class="o">=</span> <span class="mi">50</span>        <span class="c1"># maximal number of iteration steps in U renormalization loop</span>
+# numerical parameters
+nk1, nk2  = 64, 64    # k-mesh sufficiently dense!
+nk        = nk1*nk2
+IR_Lambda = 10**3     # dimensionless IR parameter &gt;= w_max * beta_min = 400
+IR_tol    = 1e-8      # desired accuary for l-cutoff of IR basis functions
+sfc_tol   = 1e-4      # desired accuracy for self-consistent iteration
+it_max    = 30        # maximal number of iterations in self-consistent cycle
+mix       = 0.2       # mixing parameter for new 
+U_it_max  = 50        # maximal number of iteration steps in U renormalization loop
 
-<span class="c1"># initialize first IR basis set (no recalculation, just reevaluation afterwards)</span>
-<span class="n">beta_init</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">IR_Lambda</span><span class="o">/</span><span class="n">beta_init</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+# initialize first IR basis set (no recalculation, just reevaluation afterwards)
+beta_init = 1/T_values[0]
+IR_basis_set = sparse_ir.FiniteTempBasisSet(beta_init, IR_Lambda/beta_init, eps=IR_tol)
 
-<span class="c1"># set initial self_energy - will be set to previous calculation step afterwards</span>
-<span class="n">sigma_init</span> <span class="o">=</span> <span class="mi">0</span>
+# set initial self_energy - will be set to previous calculation step afterwards
+sigma_init = 0
 
-<span class="c1"># empty arrays for results</span>
-<span class="n">lam_T</span>     <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">T_values</span><span class="p">)))</span>
-<span class="n">chiSmax_T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">T_values</span><span class="p">)))</span>
+# empty arrays for results
+lam_T     = np.empty((len(T_values)))
+chiSmax_T = np.empty((len(T_values)))
 
 
-<span class="c1">#%%%%%%%%%%%%%%% Calculation for different T values</span>
-<span class="k">for</span> <span class="n">T_it</span><span class="p">,</span> <span class="n">T</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">T_values</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Now: T = </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+#%%%%%%%%%%%%%%% Calculation for different T values
+for T_it, T in enumerate(T_values):
+    print(&quot;Now: T = {}&quot;.format(T))
+    beta = 1/T
 
-    <span class="c1"># initialize meshes</span>
-    <span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">IR_Lambda</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">,</span> <span class="n">sve_result</span><span class="o">=</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">sve_result</span><span class="p">)</span>
-    <span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+    # initialize meshes
+    IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, IR_Lambda/beta, eps=IR_tol, sve_result=IR_basis_set.sve_result)
+    mesh = Mesh(IR_basis_set, nk1, nk2)
     
-    <span class="c1"># calculate FLEX loop</span>
-    <span class="n">solver</span> <span class="o">=</span> <span class="n">FLEXSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sigma_init</span><span class="o">=</span><span class="n">sigma_init</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> 
-                        <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">U_maxiter</span><span class="o">=</span><span class="n">U_maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
-    <span class="n">sigma_init</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">sigma</span>
+    # calculate FLEX loop
+    solver = FLEXSolver(mesh, U, n, sigma_init=sigma_init, sfc_tol=sfc_tol, 
+                        maxiter=maxiter, U_maxiter=U_maxiter, mix=mix, verbose=False)
+    solver.solve()
+    sigma_init = solver.sigma
 
-    <span class="c1"># calculate linearized gap equation</span>
-    <span class="n">gap_solver</span> <span class="o">=</span> <span class="n">LinearizedGapSolver</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">gap_solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    # calculate linearized gap equation
+    gap_solver = LinearizedGapSolver(solver, maxiter=maxiter, sfc_tol=sfc_tol, verbose=False)
+    gap_solver.solve()
     
-    <span class="c1"># save data for plotting</span>
-    <span class="n">lam_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">gap_solver</span><span class="o">.</span><span class="n">lam</span><span class="c1">#</span>
-    <span class="n">chiSmax_T</span><span class="p">[</span><span class="n">T_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">chi_spin</span><span class="p">))</span>
+    # save data for plotting
+    lam_T[T_it] = gap_solver.lam#
+    chiSmax_T[T_it] = np.real(np.amax(solver.chi_spin))
     
-    <span class="k">if</span> <span class="n">T</span> <span class="o">==</span> <span class="mf">0.03</span><span class="p">:</span>
-        <span class="n">chi_s_plt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">chi_spin</span><span class="p">)[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+    if T == 0.03:
+        chi_s_plt = np.real(solver.chi_spin)[mesh.iw0_b].reshape(mesh.nk1,mesh.nk2)
 </pre></div>
 </div>
 </div>
@@ -1409,41 +1417,41 @@ Initiate U renormalization loop.
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%%% Plot results in a combined figure</span>
-<span class="kn">import</span> <span class="nn">matplotlib.gridspec</span> <span class="k">as</span> <span class="nn">gridspec</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#%%%%%%%%%%%%%%%% Plot results in a combined figure
+import matplotlib.gridspec as gridspec
 
-<span class="n">fig</span>   <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span><span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">spec</span>  <span class="o">=</span> <span class="n">gridspec</span><span class="o">.</span><span class="n">GridSpec</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
-<span class="n">f_ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">f_ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">spec</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+fig   = plt.figure(figsize=(10,4),constrained_layout=True)
+spec  = gridspec.GridSpec(ncols=2, nrows=1, figure=fig)
+f_ax1 = fig.add_subplot(spec[0, 0])
+f_ax2 = fig.add_subplot(spec[0, 1])
 
-<span class="c1"># first panel with momentum dependence of static spin susceptibility</span>
-<span class="n">k_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">),</span>
-                        <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)))</span>
-<span class="n">chi_s_HSP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">chi_s_plt</span><span class="p">[:</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                          <span class="n">chi_s_plt</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span> <span class="p">:</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span>
-                          <span class="p">[</span><span class="n">chi_s_plt</span><span class="p">[</span><span class="n">it</span><span class="p">,</span><span class="n">it</span><span class="p">]</span> <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="o">//</span><span class="mi">2</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+# first panel with momentum dependence of static spin susceptibility
+k_HSP = np.concatenate((np.linspace(0,1,mesh.nk1//2),
+                        np.linspace(1,2,mesh.nk2//2),
+                        np.linspace(2,2+np.sqrt(2),mesh.nk1//2)))
+chi_s_HSP = np.concatenate((chi_s_plt[:mesh.nk1//2, 0],
+                          chi_s_plt[mesh.nk1//2, :mesh.nk2//2],
+                          [chi_s_plt[it,it] for it in range(mesh.nk1//2)][::-1]))
 
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">k_HSP</span><span class="p">,</span> <span class="n">chi_s_HSP</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span><span class="s1">&#39;X&#39;</span><span class="p">,</span><span class="s1">&#39;M&#39;</span><span class="p">,</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">26</span><span class="p">])</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">chi_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{s}</span><span class="s1">}(i</span><span class="se">\\</span><span class="s1">nu=0,{</span><span class="se">\\</span><span class="s1">bf</span><span class="si">{q}</span><span class="s1">})$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax1</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+f_ax1.plot(k_HSP, chi_s_HSP,&#39;-&#39;)
+f_ax1.set_xlim([0,2+np.sqrt(2)])
+f_ax1.set_xticks([0,1,2,2+np.sqrt(2)])
+f_ax1.set_xticklabels([&#39;$\Gamma$&#39;,&#39;X&#39;,&#39;M&#39;,&#39;$\Gamma$&#39;])
+f_ax1.set_ylim([0,26])
+f_ax1.set_xlabel(&#39;&#39;)
+f_ax1.set_ylabel(&#39;$\\chi_{\\mathrm{s}}(i\\nu=0,{\\bf{q}})$&#39;, fontsize=14)
+f_ax1.grid()
 
-<span class="c1"># second panel with T-dependence of lambda_d and 1/chi_s,max</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="n">lam_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$\lambda_d$&#39;</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">T_values</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">chiSmax_T</span><span class="p">,</span> <span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$1/\chi_{\mathrm</span><span class="si">{s}</span><span class="s1">,\mathrm</span><span class="si">{max}</span><span class="s1">}$&#39;</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span><span class="mf">0.08</span><span class="p">])</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$T/t$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$\lambda_d$, $1/\chi_{\mathrm</span><span class="si">{s}</span><span class="s1">,\mathrm</span><span class="si">{max}</span><span class="s1">}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">f_ax2</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+# second panel with T-dependence of lambda_d and 1/chi_s,max
+f_ax2.plot(T_values, lam_T, &#39;-x&#39;, label=&#39;$\lambda_d$&#39;)
+f_ax2.plot(T_values, 1/chiSmax_T, &#39;-x&#39;, label=&#39;$1/\chi_{\mathrm{s},\mathrm{max}}$&#39;)
+f_ax2.set_xlim([0.01,0.08])
+f_ax2.set_ylim([0,1])
+f_ax2.set_xlabel(&#39;$T/t$&#39;, fontsize=14)
+f_ax2.set_ylabel(&#39;$\lambda_d$, $1/\chi_{\mathrm{s},\mathrm{max}}$&#39;, fontsize=14)
+f_ax2.legend()
+f_ax2.grid()
+plt.show()
 </pre></div>
 </div>
 </div>

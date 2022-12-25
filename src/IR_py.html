@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -615,26 +623,26 @@ U_l(\iv) \equiv \int_0^\beta \dd \tau e^{\iv \tau} U_l(\tau).
 The following plots show the singular values and the basis functions computed for <span class="math notranslate nohighlight">\(\beta=10\)</span> and <span class="math notranslate nohighlight">\(\wmax=10\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
+import sparse_ir
 
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;serif&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
-<span class="p">})</span>
+plt.rcParams.update({
+    &quot;font.family&quot;: &quot;serif&quot;,
+    &quot;font.size&quot;: 16,
+})
 
-<span class="n">lambda_</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">wmax</span> <span class="o">=</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">beta</span>
-<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+lambda_ = 100
+beta = 10
+wmax = lambda_/beta
+basis = sparse_ir.FiniteTempBasis(&#39;F&#39;, beta, wmax, eps=1e-10)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$l$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$S_l$&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+plt.semilogy(basis.s, marker=&#39;o&#39;, ls=&#39;&#39;)
+plt.xlabel(r&#39;$l$&#39;)
+plt.ylabel(r&#39;$S_l$&#39;)
+plt.tight_layout()
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -644,44 +652,44 @@ The following plots show the singular values and the basis functions computed fo
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
-<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">311</span><span class="p">)</span>
-<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">312</span><span class="p">)</span>
-<span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">313</span><span class="p">)</span>
-<span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = plt.figure(figsize=(6,12))
+ax1 = plt.subplot(311)
+ax2 = plt.subplot(312)
+ax3 = plt.subplot(313)
+axes = [ax1, ax2, ax3]
 
-<span class="n">taus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
-<span class="n">omegas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+taus = np.linspace(0, beta, 1000)
+omegas = np.linspace(-wmax, wmax, 1000)
 
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">nmax</span> <span class="o">=</span> <span class="mi">100</span>
+beta = 10
+nmax = 100
 
-<span class="n">v</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
-<span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="n">J</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span>
+v = 2*np.arange(nmax)+1
+iv = 1J * (2*np.arange(nmax)+1) * np.pi/beta
 
-<span class="n">uhat_val</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
-    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">taus</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">omegas</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">uhat_val</span><span class="p">[</span><span class="n">l</span><span class="p">,:]</span><span class="o">.</span><span class="n">imag</span> <span class="k">if</span> <span class="n">l</span><span class="o">%</span><span class="k">2</span> == 0 else uhat_val[l,:].real
-    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+uhat_val = basis.uhat(v)
+for l in range(4):
+    ax1.plot(taus, basis.u[l](taus), label=f&#39;$l={l}$&#39;)
+    ax2.plot(omegas, basis.v[l](omegas), label=f&#39;$l={l}$&#39;)
+    y = uhat_val[l,:].imag if l%2 == 0 else uhat_val[l,:].real
+    ax3.plot(iv.imag, y, label=f&#39;$l={l}$&#39;)
 
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$U_l(\tau)$&#39;</span><span class="p">)</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$V_l(\omega)$&#39;</span><span class="p">)</span>
-<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">beta</span><span class="p">])</span>
-<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">])</span>
+ax1.set_xlabel(r&#39;$\tau$&#39;)
+ax2.set_xlabel(r&#39;$\omega$&#39;)
+ax1.set_ylabel(r&#39;$U_l(\tau)$&#39;)
+ax2.set_ylabel(r&#39;$V_l(\omega)$&#39;)
+ax1.set_xlim([0,beta])
+ax2.set_xlim([-wmax, wmax])
 
-<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\nu$&#39;</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\hat</span><span class="si">{U}</span><span class="s1">_l(\mathrm</span><span class="si">{i}</span><span class="s1">\nu)$&#39;</span><span class="p">)</span>
-<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
+ax3.plot(iv.imag, np.zeros_like(iv.imag), ls=&#39;-&#39;, lw=0.5, color=&#39;k&#39;)
+ax3.set_xlabel(r&#39;$\nu$&#39;)
+ax3.set_ylabel(r&#39;$\hat{U}_l(\mathrm{i}\nu)$&#39;)
+ax3.set_xlim([0, iv.imag.max()])
 
-<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+for ax in axes:
+    ax.legend(loc=&#39;best&#39;, frameon=False)
 
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+plt.tight_layout()
 </pre></div>
 </div>
 </div>
@@ -717,17 +725,17 @@ The expansion coefficients are given by</p>
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_l</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho_l</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho_l = 0.5 * (basis.v(1) + basis.v(-1))
+gl = - basis.s * rho_l
 
-<span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rho_l</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\rho_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|G_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="c1">#plt.savefig(&quot;plot.pdf&quot;)</span>
+ls = np.arange(basis.size)
+plt.semilogy(ls[::2], np.abs(rho_l[::2]), label=r&quot;$|\rho_l|$&quot;, marker=&quot;o&quot;, ls=&quot;&quot;)
+plt.semilogy(ls[::2], np.abs(gl[::2]), label=r&quot;$|G_l|$&quot;, marker=&quot;x&quot;, ls=&quot;&quot;)
+plt.semilogy(ls, basis.s, label=r&quot;$S_l$&quot;, marker=&quot;&quot;, ls=&quot;--&quot;)
+plt.xlabel(r&quot;$l$&quot;)
+plt.legend(frameon=False)
+plt.show()
+#plt.savefig(&quot;plot.pdf&quot;)
 </pre></div>
 </div>
 </div>
@@ -743,14 +751,14 @@ The expansion coefficients are given by</p>
 Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\mathrm{max} = 0.5\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gtau_exact</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">)))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def gtau_exact(tau):
+    return -0.5*(np.exp(-tau)/(1 + np.exp(-beta)) + np.exp(tau)/(1 + np.exp(beta)))
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau_exact</span><span class="p">(</span><span class="n">taus</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="c1">#plt.savefig(&quot;gtau.pdf&quot;)</span>
+plt.plot(taus, gtau_exact(taus))
+plt.xlabel(r&quot;$\tau$&quot;)
+plt.ylabel(r&quot;$G(\tau)$&quot;)
+plt.show()
+#plt.savefig(&quot;gtau.pdf&quot;)
 </pre></div>
 </div>
 </div>
@@ -760,26 +768,26 @@ Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
-<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MaxNLocator</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from scipy.integrate import quad
+from matplotlib.ticker import MaxNLocator
 
-<span class="k">for</span> <span class="n">wmax_bad</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]:</span>
-    <span class="n">basis_bad</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax_bad</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+for wmax_bad in [10, 1, 0.5, 0.2]:
+    basis_bad = sparse_ir.FiniteTempBasis(&quot;F&quot;, beta, wmax_bad, eps=1e-10)
 
-    <span class="c1"># We expand G(τ).</span>
-    <span class="n">gl_bad</span> <span class="o">=</span> <span class="p">[</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gtau_exact</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">basis_bad</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">size</span><span class="p">)]</span>
+    # We expand G(τ).
+    gl_bad = [quad(lambda x: gtau_exact(x) * basis_bad.u[l](x), 0, beta)[0] for l in range(basis_bad.size)]
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># Force xtics to be integer</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_bad</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_\mathrm</span><span class="si">{max}</span><span class="s2">$ = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wmax_bad</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-    <span class="c1">#plt.savefig(f&quot;coeff_bad_{wmax_bad}.pdf&quot;)</span>
+    ax = plt.figure().gca()
+    ax.xaxis.set_major_locator(MaxNLocator(integer=True)) # Force xtics to be integer
+    plt.semilogy(np.abs(gl_bad), marker=&quot;s&quot;, ls=&quot;&quot;, label=r&quot;$|g_l|$&quot;)
+    plt.semilogy(np.abs(basis_bad.s), marker=&quot;x&quot;, ls=&quot;--&quot;, label=r&quot;$S_l$&quot;)
+    plt.title(r&quot;$\omega_\mathrm{max}$ = &quot; + str(wmax_bad))
+    plt.xlabel(r&quot;$l$&quot;)
+    plt.xlim([0, 30])
+    plt.ylim([1e-5, 10])
+    plt.legend(frameon=False)
+    plt.show()
+    #plt.savefig(f&quot;coeff_bad_{wmax_bad}.pdf&quot;)
 </pre></div>
 </div>
 </div>

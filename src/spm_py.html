@@ -62,6 +62,14 @@ const thebe_selector_output = ".output, .cell_output"
 
     <!-- Google Analytics -->
     
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+<script>
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){ dataLayer.push(arguments); }
+                    gtag('js', new Date());
+                    gtag('config', 'G-RD8N0K0C9Y');
+                </script>
+
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
 <!-- Checkboxes to toggle the left sidebar -->
@@ -597,8 +605,8 @@ title="Print to PDF"
 <h2>Preparation<a class="headerlink" href="#preparation" title="Permalink to this headline">#</a></h2>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip install sparse_ir
-<span class="o">!</span>pip install admmsolver
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>!pip install sparse_ir
+!pip install admmsolver
 </pre></div>
 </div>
 </div>
@@ -606,23 +614,23 @@ title="Print to PDF"
 <p>We use a sample data provided in the repository <strong>SpM-lab/SpM</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download data for G(tau) and rhow(omega) from GitHub repo</span>
-<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">urlretrieve</span>
-<span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/&quot;</span>
-<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Gtau.in&quot;</span><span class="p">,</span> <span class="s2">&quot;Gtau.in.dos&quot;</span><span class="p">]:</span>
-    <span class="n">urlretrieve</span><span class="p">(</span><span class="n">base_url</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-<span class="c1"># Alternatively, we can use the following command:</span>
-<span class="c1">#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in</span>
-<span class="c1">#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in.dos</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Download data for G(tau) and rhow(omega) from GitHub repo
+from urllib.request import urlretrieve
+base_url = &quot;https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/&quot;
+for name in [&quot;Gtau.in&quot;, &quot;Gtau.in.dos&quot;]:
+    urlretrieve(base_url + name, name)
+# Alternatively, we can use the following command:
+#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in
+#!wget https://raw.githubusercontent.com/SpM-lab/SpM/master/samples/fermion/Gtau.in.dos
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+%matplotlib inline
+import matplotlib.pyplot as plt
 </pre></div>
 </div>
 </div>
@@ -633,13 +641,13 @@ title="Print to PDF"
 <p>We load the sample data provided in the repository <strong>SpM-lab/SpM</strong>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Load Gtau</span>
-<span class="n">Gtau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;Gtau.in&quot;</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Load Gtau
+Gtau = np.loadtxt(&quot;Gtau.in&quot;)[:, 2]
 
-<span class="c1"># Set imaginary-time</span>
-<span class="n">beta</span> <span class="o">=</span> <span class="mi">100</span>
-<span class="n">ntau</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">Gtau</span><span class="p">)</span>
-<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">ntau</span><span class="p">)</span>
+# Set imaginary-time
+beta = 100
+ntau = len(Gtau)
+ts = np.linspace(0.0, beta, ntau)
 </pre></div>
 </div>
 </div>
@@ -647,12 +655,12 @@ title="Print to PDF"
 <p>Let us plot the input data loaded.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot G(tau)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">Gtau</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot G(tau)
+fig, ax = plt.subplots()
+ax.plot(ts, Gtau, &#39;.&#39;)
+ax.set_xlabel(r&quot;$\tau$&quot;)
+ax.set_ylabel(r&quot;$G(\tau)$&quot;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -666,11 +674,11 @@ title="Print to PDF"
 <p>We generate the real frequency grid for the spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Set omega</span>
-<span class="n">Nomega</span> <span class="o">=</span> <span class="mi">1001</span>
-<span class="n">omegamin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
-<span class="n">omegamax</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">omegamax</span><span class="p">,</span> <span class="n">omegamax</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">Nomega</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#Set omega
+Nomega = 1001
+omegamin = -4
+omegamax = 4
+ws = np.linspace(-omegamax, omegamax, num=Nomega)
 </pre></div>
 </div>
 </div>
@@ -678,14 +686,14 @@ title="Print to PDF"
 <p>The exact spectrum is provided as well. The spectrum is plotted below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_answer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;Gtau.in.dos&quot;</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho_answer = np.loadtxt(&quot;Gtau.in.dos&quot;)[:, 1]
 
-<span class="c1"># Plot rho(omega)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho_answer</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+# Plot rho(omega)
+fig, ax = plt.subplots()
+ax.plot(ws, rho_answer, &#39;-c&#39;)
+ax.set_xlabel(r&quot;$\omega$&quot;)
+ax.set_ylabel(r&quot;$\rho(\omega)$&quot;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -714,16 +722,16 @@ On a discrete grid of <span class="math notranslate nohighlight">\(\{ \tau_i \}\
 <p>The matrices <span class="math notranslate nohighlight">\(\hat{U}\)</span>, <span class="math notranslate nohighlight">\(\hat{S}\)</span>, and <span class="math notranslate nohighlight">\(\hat{V}\)</span> can be computed by <code class="docutils literal notranslate"><span class="pre">sparse_ir.FiniteTempBasis</span></code> class (<a class="reference external" href="https://sparse-ir.readthedocs.io/en/latest/basis.html">https://sparse-ir.readthedocs.io/en/latest/basis.html</a>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sparse_ir
 
-<span class="c1">#Set basis</span>
-<span class="n">SVmin</span> <span class="o">=</span> <span class="mf">1e-10</span>
-<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span>
-            <span class="n">statistics</span><span class="o">=</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">omegamax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">SVmin</span>
-        <span class="p">)</span>
-<span class="n">U</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-<span class="n">S</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span>
-<span class="n">V</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+#Set basis
+SVmin = 1e-10
+basis = sparse_ir.FiniteTempBasis(
+            statistics=&quot;F&quot;, beta=beta, wmax=omegamax, eps=SVmin
+        )
+U = basis.u(ts).T
+S = basis.s
+V = basis.v(ws).T
 </pre></div>
 </div>
 </div>
@@ -731,7 +739,7 @@ On a discrete grid of <span class="math notranslate nohighlight">\(\{ \tau_i \}\
 <p><code class="docutils literal notranslate"><span class="pre">U</span></code> and <code class="docutils literal notranslate"><span class="pre">V</span></code> are two-dimensional ndarray (matrices), while <code class="docutils literal notranslate"><span class="pre">S</span></code> is a one-dimensional ndarray. Let us confirm it by printing the shapes explictly.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">S</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">V</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(f&quot;{U.shape}, {S.shape}, {V.shape}&quot;)
 </pre></div>
 </div>
 </div>
@@ -772,8 +780,8 @@ x_l = \rho_l.
 <p>Here, <span class="math notranslate nohighlight">\(\boldsymbol{y}\)</span> is an input, and <span class="math notranslate nohighlight">\(\boldsymbol{x}\)</span> is the quantity to be evaluated.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="o">-</span><span class="n">Gtau</span>
-<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s2">&quot;il,l-&gt;il&quot;</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>y = -Gtau
+A = np.einsum(&quot;il,l-&gt;il&quot;, U, S)
 </pre></div>
 </div>
 </div>
@@ -827,18 +835,18 @@ The import statement below shows all necessary classes for implementing the pres
 <strong>Note that <code class="docutils literal notranslate"><span class="pre">admmsolver</span></code> is under active development and its interface is subject to future changes.</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">admmsolver</span>
-<span class="kn">import</span> <span class="nn">admmsolver.optimizer</span>
-<span class="kn">import</span> <span class="nn">admmsolver.objectivefunc</span>
-<span class="kn">from</span> <span class="nn">admmsolver.objectivefunc</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">L1Regularizer</span><span class="p">,</span>
-    <span class="c1">#LeastSquares,</span>
-    <span class="n">ConstrainedLeastSquares</span><span class="p">,</span>
-    <span class="n">NonNegativePenalty</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">admmsolver.matrix</span> <span class="kn">import</span> <span class="n">identity</span>
-<span class="kn">from</span> <span class="nn">admmsolver.optimizer</span> <span class="kn">import</span> <span class="n">SimpleOptimizer</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;admmsolver==</span><span class="si">{</span><span class="n">admmsolver</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import admmsolver
+import admmsolver.optimizer
+import admmsolver.objectivefunc
+from admmsolver.objectivefunc import (
+    L1Regularizer,
+    #LeastSquares,
+    ConstrainedLeastSquares,
+    NonNegativePenalty,
+)
+from admmsolver.matrix import identity
+from admmsolver.optimizer import SimpleOptimizer
+print(f&quot;admmsolver=={admmsolver.__version__}&quot;)
 </pre></div>
 </div>
 </div>
@@ -871,10 +879,10 @@ In the IR basis, the left-hand side is reprenseted by</p>
 <p>These <span class="math notranslate nohighlight">\(L_2\)</span> norm terms are implemented as <code class="docutils literal notranslate"><span class="pre">admmsolver.objectivefunc.ConstrainedLeastSquares</span></code> object.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sum-rule</span>
-<span class="n">rho_sum</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">C</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">A</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">lstsq_F</span> <span class="o">=</span> <span class="n">ConstrainedLeastSquares</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">D</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">rho_sum</span><span class="p">]))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># sum-rule
+rho_sum = y[0] + y[-1]
+C = (A[0] + A[-1]).reshape(1, -1)
+lstsq_F = ConstrainedLeastSquares(0.5, A=A, y=y, C=C, D=np.array([rho_sum]))
 </pre></div>
 </div>
 </div>
@@ -891,8 +899,8 @@ F_1(\boldsymbol{x}_1) = \lambda \| \boldsymbol{x}_1 \|_1
 We note that <span class="math notranslate nohighlight">\(\boldsymbol{x}_1\)</span> will be finaly converged to <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**-</span><span class="mf">1.8</span>  <span class="c1"># regularization parameter</span>
-<span class="n">l1_F</span> <span class="o">=</span> <span class="n">L1Regularizer</span><span class="p">(</span><span class="n">lambda_</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lambda_ = 10**-1.8  # regularization parameter
+l1_F = L1Regularizer(lambda_, basis.size)
 </pre></div>
 </div>
 </div>
@@ -917,7 +925,7 @@ $$ -->
 <p>We note that <span class="math notranslate nohighlight">\(\boldsymbol{x}_2 = V\boldsymbol{x}_0\)</span> will be imposed later.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">nonneg_F</span> <span class="o">=</span> <span class="n">NonNegativePenalty</span><span class="p">(</span><span class="n">Nomega</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>nonneg_F = NonNegativePenalty(Nomega)
 </pre></div>
 </div>
 </div>
@@ -925,14 +933,14 @@ $$ -->
 <p>We now define <code class="docutils literal notranslate"><span class="pre">admmsolver.optimizer.Problem</span></code> by integrating the three obejective functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">objective_functions</span> <span class="o">=</span> <span class="p">[</span><span class="n">lstsq_F</span><span class="p">,</span> <span class="n">l1_F</span><span class="p">,</span> <span class="n">nonneg_F</span><span class="p">]</span>
-<span class="n">equality_conditions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">identity</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">),</span> <span class="n">identity</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)),</span>
-    <span class="c1"># (0, 2, V.T, identity(Nomega)),</span>
-    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">identity</span><span class="p">(</span><span class="n">Nomega</span><span class="p">)),</span>
-<span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>objective_functions = [lstsq_F, l1_F, nonneg_F]
+equality_conditions = [
+    (0, 1, identity(basis.size), identity(basis.size)),
+    # (0, 2, V.T, identity(Nomega)),
+    (0, 2, V, identity(Nomega)),
+]
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">admmsolver</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">Problem</span><span class="p">(</span><span class="n">objective_functions</span><span class="p">,</span> <span class="n">equality_conditions</span><span class="p">)</span>
+p = admmsolver.optimizer.Problem(objective_functions, equality_conditions)
 </pre></div>
 </div>
 </div>
@@ -944,10 +952,10 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 <p>We solve the problem defined above using <code class="docutils literal notranslate"><span class="pre">admmsolver.optimizer.SimpleOptimizer</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">maxiteration</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">initial_mu</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="n">opt</span> <span class="o">=</span> <span class="n">SimpleOptimizer</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">initial_mu</span><span class="p">)</span>  <span class="c1"># initialize solver</span>
-<span class="n">opt</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">maxiteration</span><span class="p">)</span>  <span class="c1"># solve</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>maxiteration = 1000
+initial_mu = 1.0
+opt = SimpleOptimizer(p, mu=initial_mu)  # initialize solver
+opt.solve(maxiteration)  # solve
 </pre></div>
 </div>
 </div>
@@ -956,8 +964,8 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 <p>The converged result is stored in <code class="docutils literal notranslate"><span class="pre">opt.x</span></code>, which is a list of vectors <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>, <span class="math notranslate nohighlight">\(\boldsymbol{x}_1\)</span>, and <span class="math notranslate nohighlight">\(\boldsymbol{x}_2\)</span>. We can access each vector by</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">x</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x0</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x1</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">x2</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>x0, x1, x2 = opt.x
+print(f&quot;{x0.shape}, {x1.shape}, {x2.shape}&quot;)
 </pre></div>
 </div>
 </div>
@@ -970,7 +978,7 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 <p>The spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> can be reconstructed from the coefficients <span class="math notranslate nohighlight">\(\{ \rho_l \}\)</span> stored in <span class="math notranslate nohighlight">\(\boldsymbol{x}_0\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="o">=</span> <span class="n">V</span> <span class="o">@</span> <span class="n">x0</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho = V @ x0
 </pre></div>
 </div>
 </div>
@@ -982,12 +990,12 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 <p>We plot the spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> computed in the SpM together with the exact solution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho_answer</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="s1">&#39;-r&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig, ax = plt.subplots()
+ax.plot(ws, rho_answer, &#39;-c&#39;)
+ax.plot(ws, rho.real, &#39;-r&#39;)
+ax.set_xlabel(r&quot;$\omega$&quot;)
+ax.set_ylabel(r&quot;$\rho(\omega)$&quot;)
+plt.show()
 </pre></div>
 </div>
 </div>
@@ -997,12 +1005,12 @@ Thus, the multivariate objective function <span class="math notranslate nohighli
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># save results</span>
-<span class="c1"># specfile = &quot;spectrum.dat&quot;</span>
-<span class="c1"># with open(specfile, &quot;w&quot;) as f:</span>
-<span class="c1">#     f.write(f&quot;# log_lambda = f{lambdalog}\n&quot;)</span>
-<span class="c1">#     for w, r in zip(ws, rho):</span>
-<span class="c1">#         f.write(f&quot;{w} {np.real(r)}\n&quot;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># save results
+# specfile = &quot;spectrum.dat&quot;
+# with open(specfile, &quot;w&quot;) as f:
+#     f.write(f&quot;# log_lambda = f{lambdalog}\n&quot;)
+#     for w, r in zip(ws, rho):
+#         f.write(f&quot;{w} {np.real(r)}\n&quot;)
 </pre></div>
 </div>
 </div>
