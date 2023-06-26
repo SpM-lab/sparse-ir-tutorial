@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Transformation from/to IR &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,484 +70,302 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/transformation_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Sparse sampling" href="sparse_sampling_demo_py.html" />
     <link rel="prev" title="Additional material" href="additional_material.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/transformation_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/transformation_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poles">
-   Poles
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-smooth-spectral-function">
-   From smooth spectral function
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-ir-to-imaginary-time">
-   From IR to imaginary time
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-full-imaginary-time-data">
-   From full imaginary-time data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">
-   Remark: What happens if
-   <span class="math notranslate nohighlight">
-    \(\omega_\mathrm{max}\)
-   </span>
-   is too small?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#matrix-valued-object">
-   Matrix-valued object
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Transformation from/to IR</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#poles">
-   Poles
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-smooth-spectral-function">
-   From smooth spectral function
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-ir-to-imaginary-time">
-   From IR to imaginary time
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#from-full-imaginary-time-data">
-   From full imaginary-time data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">
-   Remark: What happens if
-   <span class="math notranslate nohighlight">
-    \(\omega_\mathrm{max}\)
-   </span>
-   is too small?
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#matrix-valued-object">
-   Matrix-valued object
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Transformation from/to IR</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poles">Poles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-smooth-spectral-function">From smooth spectral function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-ir-to-imaginary-time">From IR to imaginary time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-full-imaginary-time-data">From full imaginary-time data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-valued-object">Matrix-valued object</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="transformation-from-to-ir">
-<h1>Transformation from/to IR<a class="headerlink" href="#transformation-from-to-ir" title="Permalink to this headline">#</a></h1>
+<h1>Transformation from/to IR<a class="headerlink" href="#transformation-from-to-ir" title="Permalink to this heading">#</a></h1>
 <div class="math notranslate nohighlight">
 \[
 \newcommand{\iv}{{\mathrm{i}\nu}}
@@ -538,7 +374,7 @@ title="Print to PDF"
 \]</div>
 <p>In this section, we explain how to transform numerical data to IR.</p>
 <section id="poles">
-<h2>Poles<a class="headerlink" href="#poles" title="Permalink to this headline">#</a></h2>
+<h2>Poles<a class="headerlink" href="#poles" title="Permalink to this heading">#</a></h2>
 <p>We consider a Green’s function genereated by poles:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -572,61 +408,61 @@ We immediately obtain</p>
 <p>The following code demostrates this transformation for bosons.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import sparse_ir
-import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-plt.rcParams[&#39;font.size&#39;] = 15
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
 
-beta = 15
-wmax = 10
-basis_b = sparse_ir.FiniteTempBasis(&quot;B&quot;, beta, wmax, eps=1e-10)
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">basis_b</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
-coeff = np.array([1])
-omega_p = np.array([0.1])
+<span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">omega_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1</span><span class="p">])</span>
 
-rhol_pole = np.einsum(&#39;lp,p-&gt;l&#39;, basis_b.v(omega_p), coeff/np.tanh(0.5*beta*omega_p))
-gl_pole = - basis_b.s * rhol_pole
+<span class="n">rhol_pole</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;lp,p-&gt;l&#39;</span><span class="p">,</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omega_p</span><span class="p">),</span> <span class="n">coeff</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span>
+<span class="n">gl_pole</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis_b</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol_pole</span>
 
-plt.semilogy(np.abs(rhol_pole), marker=&quot;o&quot;, label=r&quot;$|\rho_l|$&quot;)
-plt.semilogy(np.abs(gl_pole), marker=&quot;x&quot;, label=r&quot;$|g_l|$&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rhol_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\rho_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
 
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylim([1e-5, 1e+1])
-plt.legend(frameon=False)
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_3_0.png" src="../_images/transformation_py_3_0.png" />
+<img alt="../_images/2b8c5092f9846eed6b77170ce669b9d75b1434682f7e6294ea47e94e9f635fd9.png" src="../_images/2b8c5092f9846eed6b77170ce669b9d75b1434682f7e6294ea47e94e9f635fd9.png" />
 </div>
 </div>
 <p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">DiscreteLehmannRepresentation</span></code></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sparse_ir.dlr import DiscreteLehmannRepresentation
-dlr = DiscreteLehmannRepresentation(basis_b, omega_p)
-gl_pole2 = dlr.to_IR(coeff/np.tanh(0.5*beta*omega_p))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sparse_ir.dlr</span> <span class="kn">import</span> <span class="n">DiscreteLehmannRepresentation</span>
+<span class="n">dlr</span> <span class="o">=</span> <span class="n">DiscreteLehmannRepresentation</span><span class="p">(</span><span class="n">basis_b</span><span class="p">,</span> <span class="n">omega_p</span><span class="p">)</span>
+<span class="n">gl_pole2</span> <span class="o">=</span> <span class="n">dlr</span><span class="o">.</span><span class="n">to_IR</span><span class="p">(</span><span class="n">coeff</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">0.5</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="n">omega_p</span><span class="p">))</span>
 
-plt.semilogy(np.abs(gl_pole2), marker=&quot;x&quot;, label=r&quot;$|g_l|$ from DLR&quot;)
-plt.semilogy(np.abs(gl_pole), marker=&quot;x&quot;, label=r&quot;$|g_l|$&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole2</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$ from DLR&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_pole</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
 
 
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylim([1e-5, 1e+1])
-plt.legend(frameon=False)
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mf">1e+1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_5_0.png" src="../_images/transformation_py_5_0.png" />
+<img alt="../_images/256376267ee77f82e27609cf8597f5e18b1357669180041c3466557cd29c7bc2.png" src="../_images/256376267ee77f82e27609cf8597f5e18b1357669180041c3466557cd29c7bc2.png" />
 </div>
 </div>
 </section>
 <section id="from-smooth-spectral-function">
-<h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this headline">#</a></h2>
+<h2>From smooth spectral function<a class="headerlink" href="#from-smooth-spectral-function" title="Permalink to this heading">#</a></h2>
 <p>For a smooth spectral function <span class="math notranslate nohighlight">\(\rho(\omega)\)</span>, the expansion coefficients can be evaluated by computing the integral</p>
 <div class="math notranslate nohighlight">
 \[
@@ -645,104 +481,104 @@ the result converges exponentially with increasing the degree of the Gauss-Legen
 Then, <span class="math notranslate nohighlight">\(\rho_l\)</span> can be transformed to <span class="math notranslate nohighlight">\(g_l\)</span> by multiplying it with <span class="math notranslate nohighlight">\(- S_l\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Three Gaussian peaks (normalized to 1)
-gaussian = lambda x, mu, sigma:\
-    np.exp(-((x-mu)/sigma)**2)/(np.sqrt(np.pi)*sigma)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Three Gaussian peaks (normalized to 1)</span>
+<span class="n">gaussian</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span>\
+    <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">mu</span><span class="p">)</span><span class="o">/</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="p">)</span>
 
-rho = lambda omega: 0.2*gaussian(omega, 0.0, 0.15) + \
-    0.4*gaussian(omega, 1.0, 0.8) + 0.4*gaussian(omega, -1.0, 0.8)
+<span class="n">rho</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="mf">0.2</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.15</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">gaussian</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
 
-omegas = np.linspace(-5, 5, 1000)
-plt.xlabel(r&quot;$\omega$&quot;)
-plt.ylabel(r&quot;$\rho(\omega)$&quot;)
-plt.plot(omegas, rho(omegas))
-plt.show()
+<span class="n">omegas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho</span><span class="p">(</span><span class="n">omegas</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_7_0.png" src="../_images/transformation_py_7_0.png" />
+<img alt="../_images/1489115b551f62c2ad322259699f015487022fd6a1ca401fc09024146a9d622a.png" src="../_images/1489115b551f62c2ad322259699f015487022fd6a1ca401fc09024146a9d622a.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beta = 10
-wmax = 10
-basis = sparse_ir.FiniteTempBasis(&quot;F&quot;, beta, wmax, eps=1e-10)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
-rhol = basis.v.overlap(rho)
-gl = - basis.s * rhol
+<span class="n">rhol</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rhol</span>
 
-plt.semilogy(np.abs(rhol), marker=&quot;o&quot;, ls=&quot;&quot;, label=r&quot;$|\rho_l|$&quot;)
-plt.semilogy(np.abs(gl), marker=&quot;s&quot;, ls=&quot;&quot;, label=r&quot;$|g_l|$&quot;)
-plt.semilogy(np.abs(basis.s), marker=&quot;&quot;, ls=&quot;--&quot;, label=r&quot;$S_l$&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylim([1e-5, 10])
-plt.legend(frameon=False)
-plt.show()
-#plt.savefig(&quot;coeff.pdf&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rhol</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\rho_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#plt.savefig(&quot;coeff.pdf&quot;)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_8_0.png" src="../_images/transformation_py_8_0.png" />
+<img alt="../_images/1b422220d2a6934269d530fc246fd44aa866ad37f2e26f8b00be1a1daebd263a.png" src="../_images/1b422220d2a6934269d530fc246fd44aa866ad37f2e26f8b00be1a1daebd263a.png" />
 </div>
 </div>
 <p><span class="math notranslate nohighlight">\(\rho_l\)</span> is evaluated on arbitrary real frequencies as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho_omgea_reconst = basis.v(omegas).T @ rhol
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_omgea_reconst</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">omegas</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">rhol</span>
 
-plt.xlabel(r&quot;$\omega$&quot;)
-plt.ylabel(r&quot;$\rho(\omega)$&quot;)
-plt.plot(omegas, rho_omgea_reconst)
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\rho(\omega)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">rho_omgea_reconst</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_10_0.png" src="../_images/transformation_py_10_0.png" />
+<img alt="../_images/63371fae30a78a0dc4a365a63c04bb4306b5f46061ee3d5fd09018437cc9b103.png" src="../_images/63371fae30a78a0dc4a365a63c04bb4306b5f46061ee3d5fd09018437cc9b103.png" />
 </div>
 </div>
 </section>
 <section id="from-ir-to-imaginary-time">
-<h2>From IR to imaginary time<a class="headerlink" href="#from-ir-to-imaginary-time" title="Permalink to this headline">#</a></h2>
+<h2>From IR to imaginary time<a class="headerlink" href="#from-ir-to-imaginary-time" title="Permalink to this heading">#</a></h2>
 <p>We are now ready to evaluate <span class="math notranslate nohighlight">\(g_l\)</span> on arbitrary <span class="math notranslate nohighlight">\(\tau\)</span> points.
 A naive way is as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>taus = np.linspace(0, beta, 1000)
-gtau1 = basis.u(taus).T @ gl
-plt.plot(taus, gtau1)
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$G(\tau)$&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">taus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">gtau1</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">gl</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_12_0.png" src="../_images/transformation_py_12_0.png" />
+<img alt="../_images/a488c6f1e95ab30e3341516f205953016d07928afccc2b179347d6b4abe56713.png" src="../_images/a488c6f1e95ab30e3341516f205953016d07928afccc2b179347d6b4abe56713.png" />
 </div>
 </div>
 <p>Alternatively, we can use <code class="docutils literal notranslate"><span class="pre">TauSampling</span></code> as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>smpl = sparse_ir.TauSampling(basis, taus)
-gtau2 = smpl.evaluate(gl)
-plt.plot(taus, gtau1)
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$G(\tau)$&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">taus</span><span class="p">)</span>
+<span class="n">gtau2</span> <span class="o">=</span> <span class="n">smpl</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_14_0.png" src="../_images/transformation_py_14_0.png" />
+<img alt="../_images/a488c6f1e95ab30e3341516f205953016d07928afccc2b179347d6b4abe56713.png" src="../_images/a488c6f1e95ab30e3341516f205953016d07928afccc2b179347d6b4abe56713.png" />
 </div>
 </div>
 </section>
 <section id="from-full-imaginary-time-data">
-<h2>From full imaginary-time data<a class="headerlink" href="#from-full-imaginary-time-data" title="Permalink to this headline">#</a></h2>
+<h2>From full imaginary-time data<a class="headerlink" href="#from-full-imaginary-time-data" title="Permalink to this heading">#</a></h2>
 <p>A numerically stable way to expand <span class="math notranslate nohighlight">\(G(\tau)\)</span> in IR
 is evaluating the integral</p>
 <div class="math notranslate nohighlight">
@@ -752,75 +588,75 @@ G_l = \int_0^\beta \mathrm{d} \tau G(\tau) U_l(\tau).
 <p>You can use <code class="docutils literal notranslate"><span class="pre">overlap</span></code> function as well.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def eval_gtau(taus):
-    uval = basis.u(taus) #(nl, ntau)
-    if isinstance(taus, np.ndarray):
-       print(uval.shape, gl.shape)
-       return uval.T @ gl
-    else:
-       return uval.T @ gl
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eval_gtau</span><span class="p">(</span><span class="n">taus</span><span class="p">):</span>
+    <span class="n">uval</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="n">taus</span><span class="p">)</span> <span class="c1">#(nl, ntau)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+       <span class="nb">print</span><span class="p">(</span><span class="n">uval</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">gl</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">uval</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">gl</span>
+    <span class="k">else</span><span class="p">:</span>
+       <span class="k">return</span> <span class="n">uval</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">gl</span>
 
-gl_reconst = basis.u.overlap(eval_gtau)
+<span class="n">gl_reconst</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">eval_gtau</span><span class="p">)</span>
 
-ls = np.arange(basis.size)
-plt.semilogy(ls[::2], np.abs(gl_reconst)[::2], label=&quot;reconstructed&quot;, marker=&quot;+&quot;, ls=&quot;&quot;)
-plt.semilogy(ls[::2], np.abs(gl)[::2], label=&quot;exact&quot;, marker=&quot;x&quot;, ls=&quot;&quot;)
-plt.semilogy(ls[::2], np.abs(gl_reconst - gl)[::2], label=&quot;error&quot;, marker=&quot;p&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.xlabel(r&quot;$|g_l|$&quot;)
-plt.ylim([1e-20, 1])
-plt.legend(frameon=False)
-plt.show()
+<span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst</span><span class="p">)[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;reconstructed&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">)[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_reconst</span> <span class="o">-</span> <span class="n">gl</span><span class="p">)[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;p&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-20</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_16_0.png" src="../_images/transformation_py_16_0.png" />
+<img alt="../_images/81a29242761760f4b2af38b606170dedf5a1c9b7acc5c1fc26e9b5b3d5e3c3ca.png" src="../_images/81a29242761760f4b2af38b606170dedf5a1c9b7acc5c1fc26e9b5b3d5e3c3ca.png" />
 </div>
 </div>
 </section>
 <section id="remark-what-happens-if-omega-mathrm-max-is-too-small">
-<h2>Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?<a class="headerlink" href="#remark-what-happens-if-omega-mathrm-max-is-too-small" title="Permalink to this headline">#</a></h2>
+<h2>Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?<a class="headerlink" href="#remark-what-happens-if-omega-mathrm-max-is-too-small" title="Permalink to this heading">#</a></h2>
 <p>If <span class="math notranslate nohighlight">\(G_l\)</span> do not decay like <span class="math notranslate nohighlight">\(S_l\)</span>,  <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> may be too small.
 Below, we numerically demonstrate it.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from scipy.integrate import quad
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
 
-beta = 10
-wmax = 0.5
-basis_bad = sparse_ir.FiniteTempBasis(&quot;F&quot;, beta, wmax, eps=1e-10)
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">basis_bad</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
-# We expand G(τ).
-gl_bad = [quad(lambda x: eval_gtau(x) * basis_bad.u[l](x), 0, beta)[0] for l in range(basis_bad.size)]
+<span class="c1"># We expand G(τ).</span>
+<span class="n">gl_bad</span> <span class="o">=</span> <span class="p">[</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">eval_gtau</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">basis_bad</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">size</span><span class="p">)]</span>
 
-plt.semilogy(np.abs(gl_bad), marker=&quot;s&quot;, ls=&quot;&quot;, label=r&quot;$|g_l|$&quot;)
-plt.semilogy(np.abs(basis_bad.s), marker=&quot;x&quot;, ls=&quot;--&quot;, label=r&quot;$S_l$&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylim([1e-5, 10])
-#plt.xlim([0, basis.size])
-plt.legend(frameon=False)
-plt.show()
-#plt.savefig(&quot;coeff_bad.pdf&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_bad</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="c1">#plt.xlim([0, basis.size])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#plt.savefig(&quot;coeff_bad.pdf&quot;)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/transformation_py_18_0.png" src="../_images/transformation_py_18_0.png" />
+<img alt="../_images/891f14c8dd3b8efdc82036ec72b9e6fad80191fbf12b0bf5df57a171d98fff7e.png" src="../_images/891f14c8dd3b8efdc82036ec72b9e6fad80191fbf12b0bf5df57a171d98fff7e.png" />
 </div>
 </div>
 </section>
 <section id="matrix-valued-object">
-<h2>Matrix-valued object<a class="headerlink" href="#matrix-valued-object" title="Permalink to this headline">#</a></h2>
+<h2>Matrix-valued object<a class="headerlink" href="#matrix-valued-object" title="Permalink to this heading">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> and <code class="docutils literal notranslate"><span class="pre">fit</span></code> accept a matrix-valued object as an input.
 The axis to which the transformation applied can be specified by using the keyword augment <code class="docutils literal notranslate"><span class="pre">axis</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>np.random.seed(100)
-shape = (1,2,3)
-gl_tensor = np.random.randn(*shape)[..., np.newaxis] * gl[np.newaxis, :]
-print(&quot;gl: &quot;, gl.shape)
-print(&quot;gl_tensor: &quot;, gl_tensor.shape)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">gl_tensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">shape</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">gl</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gl: &quot;</span><span class="p">,</span> <span class="n">gl</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gl_tensor: &quot;</span><span class="p">,</span> <span class="n">gl_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -833,11 +669,11 @@ gl_tensor:  (1, 2, 3, 30)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>smpl_matsu = sparse_ir.MatsubaraSampling(basis)
-gtau_tensor = smpl_matsu.evaluate(gl_tensor, axis=3)
-print(&quot;gtau_tensor: &quot;, gtau_tensor.shape)
-gl_tensor_reconst = smpl_matsu.fit(gtau_tensor, axis=3)
-assert np.allclose(gl_tensor, gl_tensor_reconst)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">gtau_tensor</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;gtau_tensor: &quot;</span><span class="p">,</span> <span class="n">gtau_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">gl_tensor_reconst</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gtau_tensor</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">gl_tensor</span><span class="p">,</span> <span class="n">gl_tensor_reconst</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -862,7 +698,7 @@ assert np.allclose(gl_tensor, gl_tensor_reconst)
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -870,50 +706,110 @@ assert np.allclose(gl_tensor, gl_tensor_reconst)
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="additional_material.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Additional material</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="additional_material.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Additional material</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="sparse_sampling_demo_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="sparse_sampling_demo_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Sparse sampling</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poles">Poles</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-smooth-spectral-function">From smooth spectral function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-ir-to-imaginary-time">From IR to imaginary time</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-full-imaginary-time-data">From full imaginary-time data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-valued-object">Matrix-valued object</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

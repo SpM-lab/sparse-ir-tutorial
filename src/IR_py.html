@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Intermediate representation (IR) &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,464 +70,300 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/IR_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Sparse sampling" href="sparse_sampling_py.html" />
     <link rel="prev" title="Welcome to sparse-ir tutorial" href="../index.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/IR_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/IR_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#one-particle-greens-function">
-   One-particle Green’s function
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lehmann-representation">
-   Lehmann representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">
-   Singular value expansion and basis functions
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">
-   Remark: What happens if
-   <span class="math notranslate nohighlight">
-    \(\omega_\mathrm{max}\)
-   </span>
-   is too small?
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Intermediate representation (IR)</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#one-particle-greens-function">
-   One-particle Green’s function
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lehmann-representation">
-   Lehmann representation
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">
-   Singular value expansion and basis functions
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">
-   Remark: What happens if
-   <span class="math notranslate nohighlight">
-    \(\omega_\mathrm{max}\)
-   </span>
-   is too small?
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Intermediate representation (IR)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="intermediate-representation-ir">
-<h1>Intermediate representation (IR)<a class="headerlink" href="#intermediate-representation-ir" title="Permalink to this headline">#</a></h1>
+<h1>Intermediate representation (IR)<a class="headerlink" href="#intermediate-representation-ir" title="Permalink to this heading">#</a></h1>
 <div class="math notranslate nohighlight">
 \[
 \newcommand{\iv}{{\mathrm{i}\nu}}
@@ -517,7 +371,7 @@ title="Print to PDF"
 \newcommand{\dd}{{\mathrm{d}}}
 \]</div>
 <section id="one-particle-greens-function">
-<h2>One-particle Green’s function<a class="headerlink" href="#one-particle-greens-function" title="Permalink to this headline">#</a></h2>
+<h2>One-particle Green’s function<a class="headerlink" href="#one-particle-greens-function" title="Permalink to this heading">#</a></h2>
 <p>We introduce a Green’s function with imaginary arguments in time and frequency.
 This has no physical meaning but a mere mathematical trick to make calculations easier (to give another example of this: in Minkowski spacetime we take advantage of a similiar substitution).</p>
 <p>The so-called imaginary-frequency (Matsubara) Green’s functions are defined as follows:</p>
@@ -549,7 +403,7 @@ G_{ij}^\mathrm{R}(\omega)=G_{ij}(z \rightarrow \omega+\mathrm{i}0^{+}).
 <p>In the following, we omit the symbols <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(n\)</span> unless there is confusion.</p>
 </section>
 <section id="lehmann-representation">
-<h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this headline">#</a></h2>
+<h2>Lehmann representation<a class="headerlink" href="#lehmann-representation" title="Permalink to this heading">#</a></h2>
 <p>In the imaginary-frequency domain, the Lehmann representation reads</p>
 <div class="math notranslate nohighlight">
 \[
@@ -603,7 +457,7 @@ K^\mathrm{L}(\tau, \omega) =  \frac{e^{-\tau\omega}}{1+e^{-\beta\omega}},
 \end{split}\]</div>
 </section>
 <section id="singular-value-expansion-and-basis-functions">
-<h2>Singular value expansion and basis functions<a class="headerlink" href="#singular-value-expansion-and-basis-functions" title="Permalink to this headline">#</a></h2>
+<h2>Singular value expansion and basis functions<a class="headerlink" href="#singular-value-expansion-and-basis-functions" title="Permalink to this heading">#</a></h2>
 <p>The singular value expnasion of the kernel <a class="reference internal" href="#equation-kl">(2)</a> reads <span id="id1">[<a class="reference internal" href="bibliography.html#id24" title="Hiroshi Shinaoka, Junya Otsuki, Masayuki Ohzeki, and Kazuyoshi Yoshimi. Compressing Green's function using intermediate representation between imaginary-time and real-frequency domains. Physical Review B, 96(3):035147 – 8, 07 2017. URL: https://journals.aps.org/prb/pdf/10.1103/PhysRevB.96.035147, doi:10.1103/physrevb.96.035147.">Shinaoka <em>et al.</em>, 2017</a>]</span></p>
 <div class="math notranslate nohighlight">
 \[
@@ -623,78 +477,78 @@ U_l(\iv) \equiv \int_0^\beta \dd \tau e^{\iv \tau} U_l(\tau).
 The following plots show the singular values and the basis functions computed for <span class="math notranslate nohighlight">\(\beta=10\)</span> and <span class="math notranslate nohighlight">\(\wmax=10\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-import sparse_ir
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
 
-plt.rcParams.update({
-    &quot;font.family&quot;: &quot;serif&quot;,
-    &quot;font.size&quot;: 16,
-})
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;serif&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+<span class="p">})</span>
 
-lambda_ = 100
-beta = 10
-wmax = lambda_/beta
-basis = sparse_ir.FiniteTempBasis(&#39;F&#39;, beta, wmax, eps=1e-10)
+<span class="n">lambda_</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">beta</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
-plt.semilogy(basis.s, marker=&#39;o&#39;, ls=&#39;&#39;)
-plt.xlabel(r&#39;$l$&#39;)
-plt.ylabel(r&#39;$S_l$&#39;)
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$l$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$S_l$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/IR_py_4_0.png" src="../_images/IR_py_4_0.png" />
+<img alt="../_images/d84164f421786c1017c2fee3a3c4c0f7ec9f55e7705ac963223e332adeb96a53.png" src="../_images/d84164f421786c1017c2fee3a3c4c0f7ec9f55e7705ac963223e332adeb96a53.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>fig = plt.figure(figsize=(6,12))
-ax1 = plt.subplot(311)
-ax2 = plt.subplot(312)
-ax3 = plt.subplot(313)
-axes = [ax1, ax2, ax3]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">311</span><span class="p">)</span>
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">312</span><span class="p">)</span>
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">313</span><span class="p">)</span>
+<span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">,</span> <span class="n">ax3</span><span class="p">]</span>
 
-taus = np.linspace(0, beta, 1000)
-omegas = np.linspace(-wmax, wmax, 1000)
+<span class="n">taus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">omegas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 
-beta = 10
-nmax = 100
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nmax</span> <span class="o">=</span> <span class="mi">100</span>
 
-v = 2*np.arange(nmax)+1
-iv = 1J * (2*np.arange(nmax)+1) * np.pi/beta
+<span class="n">v</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="n">J</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nmax</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span>
 
-uhat_val = basis.uhat(v)
-for l in range(4):
-    ax1.plot(taus, basis.u[l](taus), label=f&#39;$l={l}$&#39;)
-    ax2.plot(omegas, basis.v[l](omegas), label=f&#39;$l={l}$&#39;)
-    y = uhat_val[l,:].imag if l%2 == 0 else uhat_val[l,:].real
-    ax3.plot(iv.imag, y, label=f&#39;$l={l}$&#39;)
+<span class="n">uhat_val</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">uhat</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+    <span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">taus</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omegas</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">omegas</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">uhat_val</span><span class="p">[</span><span class="n">l</span><span class="p">,:]</span><span class="o">.</span><span class="n">imag</span> <span class="k">if</span> <span class="n">l</span><span class="o">%</span><span class="k">2</span> == 0 else uhat_val[l,:].real
+    <span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;$l=</span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
 
-ax1.set_xlabel(r&#39;$\tau$&#39;)
-ax2.set_xlabel(r&#39;$\omega$&#39;)
-ax1.set_ylabel(r&#39;$U_l(\tau)$&#39;)
-ax2.set_ylabel(r&#39;$V_l(\omega)$&#39;)
-ax1.set_xlim([0,beta])
-ax2.set_xlim([-wmax, wmax])
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\tau$&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\omega$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$U_l(\tau)$&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$V_l(\omega)$&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">beta</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="n">wmax</span><span class="p">,</span> <span class="n">wmax</span><span class="p">])</span>
 
-ax3.plot(iv.imag, np.zeros_like(iv.imag), ls=&#39;-&#39;, lw=0.5, color=&#39;k&#39;)
-ax3.set_xlabel(r&#39;$\nu$&#39;)
-ax3.set_ylabel(r&#39;$\hat{U}_l(\mathrm{i}\nu)$&#39;)
-ax3.set_xlim([0, iv.imag.max()])
+<span class="n">ax3</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="p">),</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\nu$&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\hat</span><span class="si">{U}</span><span class="s1">_l(\mathrm</span><span class="si">{i}</span><span class="s1">\nu)$&#39;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">iv</span><span class="o">.</span><span class="n">imag</span><span class="o">.</span><span class="n">max</span><span class="p">()])</span>
 
-for ax in axes:
-    ax.legend(loc=&#39;best&#39;, frameon=False)
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-plt.tight_layout()
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/IR_py_5_0.png" src="../_images/IR_py_5_0.png" />
+<img alt="../_images/b19c7d4e33f9dfe97c3d1797e3c2875ab6f1eac53228ed59655e44a2f988bcaf.png" src="../_images/b19c7d4e33f9dfe97c3d1797e3c2875ab6f1eac53228ed59655e44a2f988bcaf.png" />
 </div>
 </div>
 <p>We expand <span class="math notranslate nohighlight">\(G(\tau)\)</span> and <span class="math notranslate nohighlight">\(\rho(\omega)\)</span> as</p>
@@ -725,77 +579,77 @@ The expansion coefficients are given by</p>
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>rho_l = 0.5 * (basis.v(1) + basis.v(-1))
-gl = - basis.s * rho_l
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rho_l</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">basis</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">gl</span> <span class="o">=</span> <span class="o">-</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho_l</span>
 
-ls = np.arange(basis.size)
-plt.semilogy(ls[::2], np.abs(rho_l[::2]), label=r&quot;$|\rho_l|$&quot;, marker=&quot;o&quot;, ls=&quot;&quot;)
-plt.semilogy(ls[::2], np.abs(gl[::2]), label=r&quot;$|G_l|$&quot;, marker=&quot;x&quot;, ls=&quot;&quot;)
-plt.semilogy(ls, basis.s, label=r&quot;$S_l$&quot;, marker=&quot;&quot;, ls=&quot;--&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.legend(frameon=False)
-plt.show()
-#plt.savefig(&quot;plot.pdf&quot;)
+<span class="n">ls</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">rho_l</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|\rho_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl</span><span class="p">[::</span><span class="mi">2</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|G_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ls</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#plt.savefig(&quot;plot.pdf&quot;)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/IR_py_7_0.png" src="../_images/IR_py_7_0.png" />
+<img alt="../_images/e09ab653a7b4d3498dac171c7df40035a9518af937f6e7ba4b20d89e55965948.png" src="../_images/e09ab653a7b4d3498dac171c7df40035a9518af937f6e7ba4b20d89e55965948.png" />
 </div>
 </div>
 </section>
 <section id="remark-what-happens-if-omega-mathrm-max-is-too-small">
-<h2>Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?<a class="headerlink" href="#remark-what-happens-if-omega-mathrm-max-is-too-small" title="Permalink to this headline">#</a></h2>
+<h2>Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?<a class="headerlink" href="#remark-what-happens-if-omega-mathrm-max-is-too-small" title="Permalink to this heading">#</a></h2>
 <p>If you expand <span class="math notranslate nohighlight">\(G(\tau)\)</span> using <span class="math notranslate nohighlight">\(U_l(\tau)\)</span> for too small <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span>,
 <span class="math notranslate nohighlight">\(|G_l|\)</span> decays slower than <span class="math notranslate nohighlight">\(S_l\)</span>.
 Let us demonstrate it with <span class="math notranslate nohighlight">\(\omega_\mathrm{max} = 0.5\)</span>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def gtau_exact(tau):
-    return -0.5*(np.exp(-tau)/(1 + np.exp(-beta)) + np.exp(tau)/(1 + np.exp(beta)))
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">gtau_exact</span><span class="p">(</span><span class="n">tau</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">beta</span><span class="p">))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">)))</span>
 
-plt.plot(taus, gtau_exact(taus))
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$G(\tau)$&quot;)
-plt.show()
-#plt.savefig(&quot;gtau.pdf&quot;)
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">gtau_exact</span><span class="p">(</span><span class="n">taus</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$G(\tau)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1">#plt.savefig(&quot;gtau.pdf&quot;)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/IR_py_9_0.png" src="../_images/IR_py_9_0.png" />
+<img alt="../_images/de5b51ddd2f4ccde82f77134c5b0ba8b95013d4c87189528068688f73795ab55.png" src="../_images/de5b51ddd2f4ccde82f77134c5b0ba8b95013d4c87189528068688f73795ab55.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from scipy.integrate import quad
-from matplotlib.ticker import MaxNLocator
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">quad</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">MaxNLocator</span>
 
-for wmax_bad in [10, 1, 0.5, 0.2]:
-    basis_bad = sparse_ir.FiniteTempBasis(&quot;F&quot;, beta, wmax_bad, eps=1e-10)
+<span class="k">for</span> <span class="n">wmax_bad</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]:</span>
+    <span class="n">basis_bad</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax_bad</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
 
-    # We expand G(τ).
-    gl_bad = [quad(lambda x: gtau_exact(x) * basis_bad.u[l](x), 0, beta)[0] for l in range(basis_bad.size)]
+    <span class="c1"># We expand G(τ).</span>
+    <span class="n">gl_bad</span> <span class="o">=</span> <span class="p">[</span><span class="n">quad</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">gtau_exact</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">basis_bad</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="n">l</span><span class="p">](</span><span class="n">x</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">size</span><span class="p">)]</span>
 
-    ax = plt.figure().gca()
-    ax.xaxis.set_major_locator(MaxNLocator(integer=True)) # Force xtics to be integer
-    plt.semilogy(np.abs(gl_bad), marker=&quot;s&quot;, ls=&quot;&quot;, label=r&quot;$|g_l|$&quot;)
-    plt.semilogy(np.abs(basis_bad.s), marker=&quot;x&quot;, ls=&quot;--&quot;, label=r&quot;$S_l$&quot;)
-    plt.title(r&quot;$\omega_\mathrm{max}$ = &quot; + str(wmax_bad))
-    plt.xlabel(r&quot;$l$&quot;)
-    plt.xlim([0, 30])
-    plt.ylim([1e-5, 10])
-    plt.legend(frameon=False)
-    plt.show()
-    #plt.savefig(f&quot;coeff_bad_{wmax_bad}.pdf&quot;)
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="n">integer</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span> <span class="c1"># Force xtics to be integer</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gl_bad</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|g_l|$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">basis_bad</span><span class="o">.</span><span class="n">s</span><span class="p">),</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_\mathrm</span><span class="si">{max}</span><span class="s2">$ = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wmax_bad</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-5</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="c1">#plt.savefig(f&quot;coeff_bad_{wmax_bad}.pdf&quot;)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/IR_py_10_0.png" src="../_images/IR_py_10_0.png" />
-<img alt="../_images/IR_py_10_1.png" src="../_images/IR_py_10_1.png" />
-<img alt="../_images/IR_py_10_2.png" src="../_images/IR_py_10_2.png" />
-<img alt="../_images/IR_py_10_3.png" src="../_images/IR_py_10_3.png" />
+<img alt="../_images/a9a4160c4f58a7565445463957b32b5020a259f38794619d7933142f15ecd3dd.png" src="../_images/a9a4160c4f58a7565445463957b32b5020a259f38794619d7933142f15ecd3dd.png" />
+<img alt="../_images/d9e64fa6c1e8e8ab69ceaa2bd451d54e7d1d19d4a291a9da78e513d3bdce59f3.png" src="../_images/d9e64fa6c1e8e8ab69ceaa2bd451d54e7d1d19d4a291a9da78e513d3bdce59f3.png" />
+<img alt="../_images/f704afc2e86d641f2d17fffbf807e270e18621e3b15ea41d3d23444a87024562.png" src="../_images/f704afc2e86d641f2d17fffbf807e270e18621e3b15ea41d3d23444a87024562.png" />
+<img alt="../_images/dd1c9b1cc595f47a470571d462de870d73d9933777f3daff9e833d1992a75d0c.png" src="../_images/dd1c9b1cc595f47a470571d462de870d73d9933777f3daff9e833d1992a75d0c.png" />
 </div>
 </div>
 </section>
@@ -813,7 +667,7 @@ for wmax_bad in [10, 1, 0.5, 0.2]:
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -821,50 +675,108 @@ for wmax_bad in [10, 1, 0.5, 0.2]:
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="../index.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome to sparse-ir tutorial</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Welcome to sparse-ir tutorial</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="sparse_sampling_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="sparse_sampling_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Sparse sampling</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#one-particle-greens-function">One-particle Green’s function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lehmann-representation">Lehmann representation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-value-expansion-and-basis-functions">Singular value expansion and basis functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#remark-what-happens-if-omega-mathrm-max-is-too-small">Remark: What happens if <span class="math notranslate nohighlight">\(\omega_\mathrm{max}\)</span> is too small?</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

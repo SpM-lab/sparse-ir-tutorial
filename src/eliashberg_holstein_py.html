@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Eliashberg theory for Holstein-Hubbard model &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,493 +70,308 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/eliashberg_holstein_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Orbital magnetic susceptibility" href="orbital_magnetic_susceptibility_py.html" />
     <link rel="prev" title="TPSC approximation" href="TPSC_py.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/eliashberg_holstein_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/eliashberg_holstein_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#equations">
-   Equations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#self-consistent-calculation">
-   Self-consistent calculation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#paramaters">
-     Paramaters
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setup-ir-basis">
-     Setup IR basis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#solve-the-equation">
-     Solve the equation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-results">
-     Plot results
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">
-   Second calculation on temperature dependence
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Eliashberg theory for Holstein-Hubbard model</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#equations">
-   Equations
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#self-consistent-calculation">
-   Self-consistent calculation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#paramaters">
-     Paramaters
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setup-ir-basis">
-     Setup IR basis
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#solve-the-equation">
-     Solve the equation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-results">
-     Plot results
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">
-   Second calculation on temperature dependence
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Eliashberg theory for Holstein-Hubbard model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equations">Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-consistent-calculation">Self-consistent calculation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#paramaters">Paramaters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-ir-basis">Setup IR basis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-equation">Solve the equation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-results">Plot results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">Second calculation on temperature dependence</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="eliashberg-theory-for-holstein-hubbard-model">
-<h1>Eliashberg theory for Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-holstein-hubbard-model" title="Permalink to this headline">#</a></h1>
+<h1>Eliashberg theory for Holstein-Hubbard model<a class="headerlink" href="#eliashberg-theory-for-holstein-hubbard-model" title="Permalink to this heading">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:shintaro&#46;hoshino&#37;&#52;&#48;gmail&#46;com">Shintaro Hoshino</a> and <a class="reference external" href="mailto:h&#46;shinaoka&#37;&#52;&#48;gmail&#46;com">Hiroshi Shinaoka</a></p>
 <section id="equations">
-<h2>Equations<a class="headerlink" href="#equations" title="Permalink to this headline">#</a></h2>
+<h2>Equations<a class="headerlink" href="#equations" title="Permalink to this heading">#</a></h2>
 <p>The (multiorbital) Hubbard model coupled to local phonons describes a simplest case where the electrons and phonons are correlated.
 Such situation can be realized in a molecular-based systems such as fullerides.
 While the DMFT approach to electron-phonon coupled systems is still technically challenging, the Eliashberg approach [1,2] is a powerful method in the weakly correlated regime and provides an intuitive understanding for the underlying physics.</p>
@@ -652,241 +485,241 @@ The Green functions are given in the Fourier domain:</p>
 We take the semi-circular density of states <span class="math notranslate nohighlight">\(\rho(\varepsilon) = \frac{2}{\pi D^2} \sqrt{D^2-\varepsilon^2}\)</span> for electron parts.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-import sparse_ir
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
 
-plt.rcParams.update({
-    &quot;font.family&quot;: &quot;serif&quot;,
-    &quot;font.size&quot;: 16,
-})
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+    <span class="s2">&quot;font.family&quot;</span><span class="p">:</span> <span class="s2">&quot;serif&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;font.size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+<span class="p">})</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from numpy.polynomial.legendre import leggauss
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.polynomial.legendre</span> <span class="kn">import</span> <span class="n">leggauss</span>
 
-def scale_quad(x, w, xmin, xmax):
-    &quot;&quot;&quot; Scale weights and notes of quadrature to the interval [xmin, xmax] &quot;&quot;&quot;
-    assert xmin &lt; xmax
-    dx = xmax - xmin
-    w_ = 0.5 * dx * w
-    x_ = (0.5 * dx) * (x + 1) + xmin
-    return x_, w_
+<span class="k">def</span> <span class="nf">scale_quad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Scale weights and notes of quadrature to the interval [xmin, xmax] &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">xmin</span> <span class="o">&lt;</span> <span class="n">xmax</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span>
+    <span class="n">w_</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">*</span> <span class="n">w</span>
+    <span class="n">x_</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dx</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">xmin</span>
+    <span class="k">return</span> <span class="n">x_</span><span class="p">,</span> <span class="n">w_</span>
 
 
-class Eliashberg:
-    def __init__(self, bset: sparse_ir.FiniteTempBasisSet, rho_omega, omega_range, U, J, omega0, g, deg_leggauss=100):
-        assert isinstance(omega_range, tuple)
-        assert omega_range[0] &lt; omega_range[1]
-        self.U = U
-        self.J = J
-        self.bset = bset
-        self.beta = bset.beta
-        self.rho_omega = rho_omega
-        self.omega0 = omega0
-        self.g = g
+<span class="k">class</span> <span class="nc">Eliashberg</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bset</span><span class="p">:</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="n">omega_range</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">omega_range</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">J</span> <span class="o">=</span> <span class="n">J</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bset</span> <span class="o">=</span> <span class="n">bset</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">beta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rho_omega</span> <span class="o">=</span> <span class="n">rho_omega</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span> <span class="o">=</span> <span class="n">omega0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g</span> <span class="o">=</span> <span class="n">g</span>
 
-        x_, w_ = leggauss(deg_leggauss)
-        self.quad_rule = scale_quad(x_, w_, omega_range[0], omega_range[1])
-        self.omega = self.quad_rule[0]
-        self.omega_coeff = rho_omega(self.omega) * self.quad_rule[1]
+        <span class="n">x_</span><span class="p">,</span> <span class="n">w_</span> <span class="o">=</span> <span class="n">leggauss</span><span class="p">(</span><span class="n">deg_leggauss</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span> <span class="o">=</span> <span class="n">scale_quad</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">w_</span><span class="p">,</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">omega_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span> <span class="o">=</span> <span class="n">rho_omega</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">quad_rule</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-        # Sparse sampling in Matsubara frequencies
-        self.iv_f = self.bset.wn_f * (1j * np.pi/self.beta)
-        self.iv_b = self.bset.wn_b * (1j * np.pi/self.beta)
+        <span class="c1"># Sparse sampling in Matsubara frequencies</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
 
-        # Phonon propagator
-        self.d0_iv = 2 * omega0/(self.iv_b**2 - omega0**2) 
+        <span class="c1"># Phonon propagator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d0_iv</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega0</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> 
 
-    def xi_iv(self, mu, sigma_iv):
-        &quot;&quot;&quot;
-        Compute xi(iv)
-        &quot;&quot;&quot;
-        return self.iv_f + mu - sigma_iv
+    <span class="k">def</span> <span class="nf">xi_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute xi(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">+</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">sigma_iv</span>
 
-    def g_f_iv(self, mu, sigma_iv, delta_iv):
-        &quot;&quot;&quot;
-        Compute G(iv) and F(iv) from sigma(iv), Delta(iv)
-        &quot;&quot;&quot;
+    <span class="k">def</span> <span class="nf">g_f_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute G(iv) and F(iv) from sigma(iv), Delta(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        xi_iv = self.xi_iv(mu, sigma_iv)
-        denominator = (xi_iv**2 - delta_iv**2)[:, None] - (self.omega**2)[None, :]
-        numerator_G = xi_iv[:, None] + self.omega[None, :]
-        numerator_F = delta_iv[:, None]
-        g_iv = np.einsum(&#39;q,wq-&gt;w&#39;, self.omega_coeff, numerator_G/denominator,
-                        optimize=True)
-        f_iv = np.einsum(&#39;q,wq-&gt;w&#39;, self.omega_coeff, numerator_F/denominator,
-                        optimize=True)
-        return g_iv, f_iv
+        <span class="n">xi_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xi_iv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">)</span>
+        <span class="n">denominator</span> <span class="o">=</span> <span class="p">(</span><span class="n">xi_iv</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">delta_iv</span><span class="o">**</span><span class="mi">2</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">numerator_G</span> <span class="o">=</span> <span class="n">xi_iv</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">numerator_F</span> <span class="o">=</span> <span class="n">delta_iv</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="n">g_iv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;q,wq-&gt;w&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span><span class="p">,</span> <span class="n">numerator_G</span><span class="o">/</span><span class="n">denominator</span><span class="p">,</span>
+                        <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">f_iv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;q,wq-&gt;w&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega_coeff</span><span class="p">,</span> <span class="n">numerator_F</span><span class="o">/</span><span class="n">denominator</span><span class="p">,</span>
+                        <span class="n">optimize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g_iv</span><span class="p">,</span> <span class="n">f_iv</span>
 
-    def pi_tau(self, g_tau, f_tau):
-        &quot;&quot;&quot;
-        Compute Pi(tau)
-        &quot;&quot;&quot;
-        return - 4 * (self.g**2) * (g_tau * g_tau[::-1] + f_tau**2)
+    <span class="k">def</span> <span class="nf">pi_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g_tau</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Pi(tau)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">g_tau</span> <span class="o">*</span> <span class="n">g_tau</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">f_tau</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
   
-    def d_iv(self, phi_iv):
-        &quot;&quot;&quot;
-        Compute D(iv)
-        &quot;&quot;&quot;
-        return 1/(1/self.d0_iv - phi_iv)
+    <span class="k">def</span> <span class="nf">d_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi_iv</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute D(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">d0_iv</span> <span class="o">-</span> <span class="n">phi_iv</span><span class="p">)</span>
   
-    def sigma(self, g_tau, d_tau):
-        &quot;&quot;&quot;
-        Compute Sigma(tau) and Sigma(iv)
-        &quot;&quot;&quot;
-        sigma_tau = - 4 * (self.g**2) * d_tau * g_tau
-        sigma_iv = self.to_matsu(sigma_tau, &quot;F&quot;)
-        return sigma_tau, sigma_iv
+    <span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Sigma(tau) and Sigma(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sigma_tau</span> <span class="o">=</span> <span class="o">-</span> <span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_tau</span> <span class="o">*</span> <span class="n">g_tau</span>
+        <span class="n">sigma_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">sigma_tau</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sigma_tau</span><span class="p">,</span> <span class="n">sigma_iv</span>
 
-    def delta_iv(self, f_tau, d_tau):
-        &quot;&quot;&quot;
-        Compute Delta(iv)
-        &quot;&quot;&quot;
-        tl_delta_tau = (4 * self.g**2) * d_tau * f_tau
-        tl_delta_iv = self.to_matsu(tl_delta_tau, &quot;F&quot;)
-        return tl_delta_iv + (self.U + 2*self.J) * f_tau[0]
+    <span class="k">def</span> <span class="nf">delta_iv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute Delta(iv)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tl_delta_tau</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_tau</span> <span class="o">*</span> <span class="n">f_tau</span>
+        <span class="n">tl_delta_iv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">tl_delta_tau</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tl_delta_iv</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">f_tau</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
-    def _smpl_tau(self, stat):
-        return {&quot;F&quot;: self.bset.smpl_tau_f, &quot;B&quot;: self.bset.smpl_tau_b}[stat]
+    <span class="k">def</span> <span class="nf">_smpl_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="p">}[</span><span class="n">stat</span><span class="p">]</span>
 
-    def _smpl_wn(self, stat):
-        return {&quot;F&quot;: self.bset.smpl_wn_f, &quot;B&quot;: self.bset.smpl_wn_b}[stat]
+    <span class="k">def</span> <span class="nf">_smpl_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;F&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="p">}[</span><span class="n">stat</span><span class="p">]</span>
 
-    def to_tau(self, obj_iv, stat):
-        &quot;&quot;&quot;
-        Transform to tau
-        &quot;&quot;&quot;
-        return self._smpl_tau(stat).evaluate(self._smpl_wn(stat).fit(obj_iv))
+    <span class="k">def</span> <span class="nf">to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_iv</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform to tau</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smpl_tau</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_smpl_wn</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_iv</span><span class="p">))</span>
 
-    def to_matsu(self, obj_tau, stat):
-        &quot;&quot;&quot;
-        Transform to Matsubara
-        &quot;&quot;&quot;
-        return self._smpl_wn(stat).evaluate(self._smpl_tau(stat).fit(obj_tau))
+    <span class="k">def</span> <span class="nf">to_matsu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">,</span> <span class="n">stat</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform to Matsubara</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_smpl_wn</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_smpl_tau</span><span class="p">(</span><span class="n">stat</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">))</span>
     
-    def internal_energy(self, sigma_iv=None, delta_iv=None, g_iv=None, d_iv=None, tau=0.0):
-        &quot;&quot;&quot;
-        Compute internal energy
-        &quot;&quot;&quot;
-        stat_sign = {0.0: 1, self.beta: -1}[tau]
-        smpl_tau0 = [sparse_ir.TauSampling(b, [tau]) for b in [self.bset.basis_f, self.bset.basis_b]]
+    <span class="k">def</span> <span class="nf">internal_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delta_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">g_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d_iv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute internal energy</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">stat_sign</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}[</span><span class="n">tau</span><span class="p">]</span>
+        <span class="n">smpl_tau0</span> <span class="o">=</span> <span class="p">[</span><span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="p">[</span><span class="n">tau</span><span class="p">])</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_b</span><span class="p">]]</span>
 
-        e1 = stat_sign * smpl_tau0[0].evaluate(self.bset.smpl_wn_f.fit(self.iv_f * g_iv - 1))
-        e2 = stat_sign * smpl_tau0[0].evaluate(
-                self.bset.smpl_wn_f.fit(
-                    g_iv * ((self.iv_f - sigma_iv)**2 - delta_iv**2)/(self.iv_f - sigma_iv) - 1
-                )
-            )
-        f2 = self.bset.smpl_tau_b.evaluate(
-            self.bset.smpl_wn_b.fit(
-                (self.omega0**-2) * ( (self.iv_b**2) * d_iv - 2 * self.omega0)
-            )
-        )
-        return (3 * (e1 + e2  - self.omega0 * f2))[0]
+        <span class="n">e1</span> <span class="o">=</span> <span class="n">stat_sign</span> <span class="o">*</span> <span class="n">smpl_tau0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">*</span> <span class="n">g_iv</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="n">stat_sign</span> <span class="o">*</span> <span class="n">smpl_tau0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                    <span class="n">g_iv</span> <span class="o">*</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">-</span> <span class="n">sigma_iv</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">delta_iv</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_f</span> <span class="o">-</span> <span class="n">sigma_iv</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="n">f2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega0</span><span class="o">**-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iv_b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">d_iv</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">e1</span> <span class="o">+</span> <span class="n">e2</span>  <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">omega0</span> <span class="o">*</span> <span class="n">f2</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def solve(elsh, sigma_iv, delta_iv, niter, mixing, verbose=False, ph=False, atol=1e-10):
-    &quot;&quot;&quot;
-    Solve the self-consistent equation
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">niter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve the self-consistent equation</span>
 
-    ph: Force ph symmetry
-    &quot;&quot;&quot;
-    sigma_iv_prev = None
-    delta_iv_prev = None
-    converged = False
-    for iter in range(niter):
-        # Update G and F
-        g_iv, f_iv = elsh.g_f_iv(mu, sigma_iv, delta_iv)
-        g_tau = elsh.to_tau(g_iv, &quot;F&quot;)
-        f_tau = elsh.to_tau(f_iv, &quot;F&quot;)
-        if ph:
-            g_tau = 0.5 * (g_tau + g_tau[::-1])
-        g_tau[g_tau &gt; 0] = 0
+<span class="sd">    ph: Force ph symmetry</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sigma_iv_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">delta_iv_prev</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">converged</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="nb">iter</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">niter</span><span class="p">):</span>
+        <span class="c1"># Update G and F</span>
+        <span class="n">g_iv</span><span class="p">,</span> <span class="n">f_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">g_f_iv</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">)</span>
+        <span class="n">g_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">g_iv</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="n">f_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">f_iv</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ph</span><span class="p">:</span>
+            <span class="n">g_tau</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">g_tau</span> <span class="o">+</span> <span class="n">g_tau</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">g_tau</span><span class="p">[</span><span class="n">g_tau</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
         
-        # Update Phi
-        phi_tau = elsh.pi_tau(g_tau, f_tau)
-        phi_iv = elsh.to_matsu(phi_tau, &quot;B&quot;)
-        phi_iv.imag = 0
+        <span class="c1"># Update Phi</span>
+        <span class="n">phi_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">pi_tau</span><span class="p">(</span><span class="n">g_tau</span><span class="p">,</span> <span class="n">f_tau</span><span class="p">)</span>
+        <span class="n">phi_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_matsu</span><span class="p">(</span><span class="n">phi_tau</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
+        <span class="n">phi_iv</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="mi">0</span>
     
-        # Update D
-        d_iv = elsh.d_iv(phi_iv)
-        d_tau = elsh.to_tau(d_iv, &quot;B&quot;)
+        <span class="c1"># Update D</span>
+        <span class="n">d_iv</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">d_iv</span><span class="p">(</span><span class="n">phi_iv</span><span class="p">)</span>
+        <span class="n">d_tau</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">to_tau</span><span class="p">(</span><span class="n">d_iv</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">)</span>
     
-        # Update Sigma
-        sigma_tau, sigma_iv_new = elsh.sigma(g_tau, d_tau)
-        sigma_iv_prev = sigma_iv.copy()
-        sigma_iv = (1-mixing) * sigma_iv + mixing * sigma_iv_new
+        <span class="c1"># Update Sigma</span>
+        <span class="n">sigma_tau</span><span class="p">,</span> <span class="n">sigma_iv_new</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">sigma</span><span class="p">(</span><span class="n">g_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">)</span>
+        <span class="n">sigma_iv_prev</span> <span class="o">=</span> <span class="n">sigma_iv</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">sigma_iv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixing</span><span class="p">)</span> <span class="o">*</span> <span class="n">sigma_iv</span> <span class="o">+</span> <span class="n">mixing</span> <span class="o">*</span> <span class="n">sigma_iv_new</span>
     
-        # Update Delta
-        delta_iv_new = elsh.delta_iv(f_tau, d_tau)
-        delta_iv_prev = delta_iv.copy()
-        delta_iv = (1-mixing) * delta_iv + mixing * delta_iv_new
-        delta_iv.imag = 0.0
-        delta_iv = 0.5 * (delta_iv + delta_iv[::-1])
+        <span class="c1"># Update Delta</span>
+        <span class="n">delta_iv_new</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">delta_iv</span><span class="p">(</span><span class="n">f_tau</span><span class="p">,</span> <span class="n">d_tau</span><span class="p">)</span>
+        <span class="n">delta_iv_prev</span> <span class="o">=</span> <span class="n">delta_iv</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">delta_iv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mixing</span><span class="p">)</span> <span class="o">*</span> <span class="n">delta_iv</span> <span class="o">+</span> <span class="n">mixing</span> <span class="o">*</span> <span class="n">delta_iv_new</span>
+        <span class="n">delta_iv</span><span class="o">.</span><span class="n">imag</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">delta_iv</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">delta_iv</span> <span class="o">+</span> <span class="n">delta_iv</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
-        diff_sigma = np.abs(sigma_iv_new - sigma_iv_prev).max()
-        diff_delta = np.abs(delta_iv_new - delta_iv_prev).max()
-        if verbose and iter % 100 == 0:
-            print(f&quot;iter= {iter} : diff_sigma= {diff_sigma}, diff_delta={diff_delta}&quot;)
+        <span class="n">diff_sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sigma_iv_new</span> <span class="o">-</span> <span class="n">sigma_iv_prev</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="n">diff_delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">delta_iv_new</span> <span class="o">-</span> <span class="n">delta_iv_prev</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="ow">and</span> <span class="nb">iter</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;iter= </span><span class="si">{</span><span class="nb">iter</span><span class="si">}</span><span class="s2"> : diff_sigma= </span><span class="si">{</span><span class="n">diff_sigma</span><span class="si">}</span><span class="s2">, diff_delta=</span><span class="si">{</span><span class="n">diff_delta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         
-        #print(max(diff_sigma, diff_delta), atol)
-        if atol is not None and max(diff_sigma, diff_delta) &lt; atol:
-            converged = True
-            break
+        <span class="c1">#print(max(diff_sigma, diff_delta), atol)</span>
+        <span class="k">if</span> <span class="n">atol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">max</span><span class="p">(</span><span class="n">diff_sigma</span><span class="p">,</span> <span class="n">diff_delta</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">atol</span><span class="p">:</span>
+            <span class="n">converged</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">break</span>
 
-    if not converged:
-        print(&quot;Not converged!&quot;)
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">converged</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Not converged!&quot;</span><span class="p">)</span>
 
-    # Internal energy
-    u = elsh.internal_energy(
-        sigma_iv=sigma_iv,
-        delta_iv=delta_iv,
-        g_iv=g_iv, d_iv=d_iv,
-        tau=0.0)
+    <span class="c1"># Internal energy</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">elsh</span><span class="o">.</span><span class="n">internal_energy</span><span class="p">(</span>
+        <span class="n">sigma_iv</span><span class="o">=</span><span class="n">sigma_iv</span><span class="p">,</span>
+        <span class="n">delta_iv</span><span class="o">=</span><span class="n">delta_iv</span><span class="p">,</span>
+        <span class="n">g_iv</span><span class="o">=</span><span class="n">g_iv</span><span class="p">,</span> <span class="n">d_iv</span><span class="o">=</span><span class="n">d_iv</span><span class="p">,</span>
+        <span class="n">tau</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 
-    others = {
-        &#39;sigma_tau&#39;: sigma_tau,
-        &#39;phi_iv&#39;: phi_iv,
-        &#39;g_iv&#39;: g_iv,
-        &#39;f_iv&#39;: f_iv,
-        &#39;d_iv&#39;: d_iv,
-        &#39;d_tau&#39;: d_tau,
-        &#39;f_tau&#39;: f_tau,
-        &#39;g_tau&#39;: g_tau,
-        &#39;u&#39; : u
-        }
-    return sigma_iv, delta_iv, others
+    <span class="n">others</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;sigma_tau&#39;</span><span class="p">:</span> <span class="n">sigma_tau</span><span class="p">,</span>
+        <span class="s1">&#39;phi_iv&#39;</span><span class="p">:</span> <span class="n">phi_iv</span><span class="p">,</span>
+        <span class="s1">&#39;g_iv&#39;</span><span class="p">:</span> <span class="n">g_iv</span><span class="p">,</span>
+        <span class="s1">&#39;f_iv&#39;</span><span class="p">:</span> <span class="n">f_iv</span><span class="p">,</span>
+        <span class="s1">&#39;d_iv&#39;</span><span class="p">:</span> <span class="n">d_iv</span><span class="p">,</span>
+        <span class="s1">&#39;d_tau&#39;</span><span class="p">:</span> <span class="n">d_tau</span><span class="p">,</span>
+        <span class="s1">&#39;f_tau&#39;</span><span class="p">:</span> <span class="n">f_tau</span><span class="p">,</span>
+        <span class="s1">&#39;g_tau&#39;</span><span class="p">:</span> <span class="n">g_tau</span><span class="p">,</span>
+        <span class="s1">&#39;u&#39;</span> <span class="p">:</span> <span class="n">u</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def add_noise(arr, noise):
-    &quot;&quot;&quot;
-    Add Gaussian noise to an array
-    &quot;&quot;&quot;
-    arr += noise*np.random.randn(*arr.shape)
-    arr += noise*1j*np.random.randn(*arr.shape)
-    return arr
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_noise</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">noise</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add Gaussian noise to an array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">arr</span> <span class="o">+=</span> <span class="n">noise</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">arr</span> <span class="o">+=</span> <span class="n">noise</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arr</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="self-consistent-calculation">
-<h2>Self-consistent calculation<a class="headerlink" href="#self-consistent-calculation" title="Permalink to this headline">#</a></h2>
+<h2>Self-consistent calculation<a class="headerlink" href="#self-consistent-calculation" title="Permalink to this heading">#</a></h2>
 <section id="paramaters">
-<h3>Paramaters<a class="headerlink" href="#paramaters" title="Permalink to this headline">#</a></h3>
+<h3>Paramaters<a class="headerlink" href="#paramaters" title="Permalink to this heading">#</a></h3>
 <p>We now reproduce the results for <span class="math notranslate nohighlight">\(\lambda_0 = 0.125\)</span> shown in Fig. 1 of Ref. [3].
 The parameter <span class="math notranslate nohighlight">\(g_0\)</span> is related to <span class="math notranslate nohighlight">\(\lambda_0\)</span> as</p>
 <div class="math notranslate nohighlight">
@@ -897,164 +730,164 @@ g_0 = \sqrt{\frac{3 \lambda_0 \omega_0}{4}}.
 We consider a semicircular density of state with a half bandwidth of <span class="math notranslate nohighlight">\(1/2\)</span>, <span class="math notranslate nohighlight">\(T=0.002\)</span>, <span class="math notranslate nohighlight">\(U=2\)</span>, <span class="math notranslate nohighlight">\(J/U = 0.03\)</span> and half filling.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>beta = 500.0
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="o">=</span> <span class="mf">500.0</span>
 
-D = 0.5
-rho_omega = lambda omega: np.sqrt(D**2 - omega**2) / (0.5 * D**2 * np.pi)
+<span class="n">D</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">rho_omega</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 
-U = 2.0
-J = 0.03 * U
-omega0 = 0.15
-lambda0 = 0.125
-mu = 0.0
+<span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="n">J</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="o">*</span> <span class="n">U</span>
+<span class="n">omega0</span> <span class="o">=</span> <span class="mf">0.15</span>
+<span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.125</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="mf">0.0</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="setup-ir-basis">
-<h3>Setup IR basis<a class="headerlink" href="#setup-ir-basis" title="Permalink to this headline">#</a></h3>
+<h3>Setup IR basis<a class="headerlink" href="#setup-ir-basis" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>eps = 1e-7
-wmax = 10*D
-bset = sparse_ir.FiniteTempBasisSet(beta, wmax, eps)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">D</span>
+<span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="solve-the-equation">
-<h3>Solve the equation<a class="headerlink" href="#solve-the-equation" title="Permalink to this headline">#</a></h3>
+<h3>Solve the equation<a class="headerlink" href="#solve-the-equation" title="Permalink to this heading">#</a></h3>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Number of fermionic sampling frequencies
-nw_f = bset.wn_f.size
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of fermionic sampling frequencies</span>
+<span class="n">nw_f</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span>
 
-# Initial guess
-noise = 1e-2
-sigma_iv0 = add_noise(np.zeros(nw_f, dtype=np.complex128), noise)
-delta_iv0 = np.full(nw_f, 1.0, dtype=np.complex128)
+<span class="c1"># Initial guess</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">nw_f</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">noise</span><span class="p">)</span>
+<span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">nw_f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
 
-max_niter = 10000
-mixing = 0.3
-deg_leggauss = 100 # Degree of Gauss quadrature for DOS integration
+<span class="n">max_niter</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">mixing</span> <span class="o">=</span> <span class="mf">0.3</span>
+<span class="n">deg_leggauss</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># Degree of Gauss quadrature for DOS integration</span>
 
-# Construct a solver
-g = np.sqrt(3 * lambda0 * omega0/4)
-elsh = Eliashberg(bset, rho_omega, (-D,D), U, J, omega0, g, deg_leggauss=deg_leggauss)
+<span class="c1"># Construct a solver</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">lambda0</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">elsh</span> <span class="o">=</span> <span class="n">Eliashberg</span><span class="p">(</span><span class="n">bset</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span><span class="n">D</span><span class="p">),</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="n">deg_leggauss</span><span class="p">)</span>
 
-# Solve the equation
-sigma_iv, delta_iv, others = solve(elsh, sigma_iv0, delta_iv0, max_niter, mixing, verbose=True, ph=True)
+<span class="c1"># Solve the equation</span>
+<span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv0</span><span class="p">,</span> <span class="n">delta_iv0</span><span class="p">,</span> <span class="n">max_niter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# Result
-res = {&quot;bset&quot;: bset, &quot;sigma_iv&quot;: sigma_iv, &quot;delta_iv&quot;: delta_iv, **others}
+<span class="c1"># Result</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;bset&quot;</span><span class="p">:</span> <span class="n">bset</span><span class="p">,</span> <span class="s2">&quot;sigma_iv&quot;</span><span class="p">:</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="s2">&quot;delta_iv&quot;</span><span class="p">:</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="o">**</span><span class="n">others</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.03922473348618365, diff_delta=1.9930962623354571
-iter= 100 : diff_sigma= 1.3242968592563908e-07, diff_delta=3.085464357205361e-07
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>iter= 0 : diff_sigma= 0.06192253457458118, diff_delta=2.006786431439458
+iter= 100 : diff_sigma= 7.607504203949178e-07, diff_delta=1.7726446288890418e-06
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Let us check `F` is represented compactly in IR
-f_l = bset.smpl_wn_f.fit(res[&#39;f_iv&#39;])
-plt.semilogy(np.abs(f_l), label=r&quot;$|F_l|$&quot;, marker=&quot;o&quot;, ls=&quot;&quot;)
-plt.semilogy(bset.basis_f.s/bset.basis_f.s[0], label=r&quot;$S_l/S_0$&quot;)
-plt.ylim([1e-8, 10])
-plt.legend(frameon=False)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let us check `F` is represented compactly in IR</span>
+<span class="n">f_l</span> <span class="o">=</span> <span class="n">bset</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="s1">&#39;f_iv&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f_l</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$|F_l|$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span><span class="o">/</span><span class="n">bset</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$S_l/S_0$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-8</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_12_0.png" src="../_images/eliashberg_holstein_py_12_0.png" />
+<img alt="../_images/ec17cd483bb7ef58cf60989334022d56f837f026461fdeecf77c0e78b1795da2.png" src="../_images/ec17cd483bb7ef58cf60989334022d56f837f026461fdeecf77c0e78b1795da2.png" />
 </div>
 </div>
 </section>
 <section id="plot-results">
-<h3>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this headline">#</a></h3>
+<h3>Plot results<a class="headerlink" href="#plot-results" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def plot_res(res):
-    &quot;&quot;&quot; For plotting results &quot;&quot;&quot;
-    beta = res[&quot;bset&quot;].beta
-    iv_f = res[&quot;bset&quot;].wn_f * (1j*np.pi/beta)
-    iv_b = res[&quot;bset&quot;].wn_b * (1j*np.pi/beta)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_res</span><span class="p">(</span><span class="n">res</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; For plotting results &quot;&quot;&quot;</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">beta</span>
+    <span class="n">iv_f</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">iv_b</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;bset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span>
 
-    plt.plot(iv_f.imag, res[&#39;sigma_iv&#39;].imag, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\omega_n$&quot;)
-    plt.ylabel(r&quot;Im $\Sigma(\mathrm{i}\omega_n)$&quot;)
-    plt.xlim([-0.8, 0.8])
-    plt.xticks([-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8])
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;sigma_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_n$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Im $\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\omega_n)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    plt.plot(iv_b.imag, res[&#39;d_iv&#39;].real, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\nu_m$&quot;)
-    plt.ylabel(r&quot;Re $D(\mathrm{i}\nu_m)$&quot;)
-    plt.xlim([-0.8, 0.8])
-    plt.xticks([-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8])
-    #plt.ylim([-0.1, 0.1])
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;d_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $D(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="c1">#plt.ylim([-0.1, 0.1])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    plt.plot(bset.tau, res[&#39;d_tau&#39;].real, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\tau$&quot;)
-    plt.ylabel(r&quot;Re $D(\tau)$&quot;)
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;d_tau&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $D(\tau)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    plt.plot(iv_f.imag, res[&#39;delta_iv&#39;].real, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\nu_m$&quot;)
-    plt.ylabel(r&quot;Re $\Delta(\mathrm{i}\nu_m)$&quot;)
-    plt.xlim([-0.8, 0.8])
-    plt.xticks([-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8])
-    plt.ylim([-0.05, 0.3])
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;delta_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $\Delta(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    plt.plot(iv_f.imag, res[&#39;f_iv&#39;].real, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\omega_n$&quot;)
-    plt.ylabel(r&quot;Re $F(\mathrm{i}\omega_n)$&quot;)
-    plt.xlim([-0.8, 0.8])
-    plt.xticks([-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8])
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">iv_f</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;f_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_n$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $F(\mathrm</span><span class="si">{i}</span><span class="s2">\omega_n)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-    plt.plot(elsh.iv_b.imag, res[&#39;phi_iv&#39;].real, marker=&quot;x&quot;)
-    plt.xlabel(r&quot;$\nu_m$&quot;)
-    plt.ylabel(r&quot;Re $\Pi(\mathrm{i}\nu_m)$&quot;)
-    plt.xlim([-0.8, 0.8])
-    plt.grid()
-    plt.show()
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">elsh</span><span class="o">.</span><span class="n">iv_b</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;phi_iv&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu_m$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Re $\Pi(\mathrm</span><span class="si">{i}</span><span class="s2">\nu_m)$&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-plot_res(res)
+<span class="n">plot_res</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_14_0.png" src="../_images/eliashberg_holstein_py_14_0.png" />
-<img alt="../_images/eliashberg_holstein_py_14_1.png" src="../_images/eliashberg_holstein_py_14_1.png" />
-<img alt="../_images/eliashberg_holstein_py_14_2.png" src="../_images/eliashberg_holstein_py_14_2.png" />
-<img alt="../_images/eliashberg_holstein_py_14_3.png" src="../_images/eliashberg_holstein_py_14_3.png" />
-<img alt="../_images/eliashberg_holstein_py_14_4.png" src="../_images/eliashberg_holstein_py_14_4.png" />
-<img alt="../_images/eliashberg_holstein_py_14_5.png" src="../_images/eliashberg_holstein_py_14_5.png" />
+<img alt="../_images/ae43b25fb0ec5e842286477c4045c8b815769569310b29ed7e169cf146295ccb.png" src="../_images/ae43b25fb0ec5e842286477c4045c8b815769569310b29ed7e169cf146295ccb.png" />
+<img alt="../_images/b69b3d4845ba7b92344bc06e1b1fc700324abb55b87ffdf38b6268e69cb982de.png" src="../_images/b69b3d4845ba7b92344bc06e1b1fc700324abb55b87ffdf38b6268e69cb982de.png" />
+<img alt="../_images/779e5a2aca1c1b7efd41fb896e2971158256a0ebce395bbdeea82e379765e875.png" src="../_images/779e5a2aca1c1b7efd41fb896e2971158256a0ebce395bbdeea82e379765e875.png" />
+<img alt="../_images/9d8cf7b674286d75df9a3f75f1dd7d9e3b22df5e0f5c00e6e688b42916c8d4c2.png" src="../_images/9d8cf7b674286d75df9a3f75f1dd7d9e3b22df5e0f5c00e6e688b42916c8d4c2.png" />
+<img alt="../_images/9231396880ffa923deafdce0b2e6b97fcba8cbcdaa8f35faec24bc58ce8c53cc.png" src="../_images/9231396880ffa923deafdce0b2e6b97fcba8cbcdaa8f35faec24bc58ce8c53cc.png" />
+<img alt="../_images/fbc14b27e03b4b4444cb03edf010944a8a13704ff2efe485eddef4aa360c81ed.png" src="../_images/fbc14b27e03b4b4444cb03edf010944a8a13704ff2efe485eddef4aa360c81ed.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="second-calculation-on-temperature-dependence">
-<h2>Second calculation on temperature dependence<a class="headerlink" href="#second-calculation-on-temperature-dependence" title="Permalink to this headline">#</a></h2>
+<h2>Second calculation on temperature dependence<a class="headerlink" href="#second-calculation-on-temperature-dependence" title="Permalink to this heading">#</a></h2>
 <p>We now compute the temperature dependence of the specific heat for <span class="math notranslate nohighlight">\(\lambda_0=0.175\)</span> shown in Fig. 5 of Ref. [1].</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lambda0 = 0.175
-g = np.sqrt(3 * lambda0 * omega0/4)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda0</span> <span class="o">=</span> <span class="mf">0.175</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">lambda0</span> <span class="o">*</span> <span class="n">omega0</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1062,81 +895,81 @@ g = np.sqrt(3 * lambda0 * omega0/4)
 <p>We now compute solutions by changing the temperature gradually. To use the same number of IR functions all the temperatures, we fix the UV cutoff <span class="math notranslate nohighlight">\(\Lambda\)</span> to a common value.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>res_temp = {}
-temps = np.linspace(0.009, 0.013, 10)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_temp</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.009</span><span class="p">,</span> <span class="mf">0.013</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
 
-# Set Lambda to a large enough value for the lowest temperature
-Lambda_common = (10 * D)/temps.min()
+<span class="c1"># Set Lambda to a large enough value for the lowest temperature</span>
+<span class="n">Lambda_common</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">D</span><span class="p">)</span><span class="o">/</span><span class="n">temps</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
 
-# Shift the mesh points by dt, which doubles the mesh size,
-# to compute the specific heat
-dt = 1e-5
-temps_all = np.unique(np.hstack((temps, temps + dt)))
+<span class="c1"># Shift the mesh points by dt, which doubles the mesh size,</span>
+<span class="c1"># to compute the specific heat</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1e-5</span>
+<span class="n">temps_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">temps</span><span class="p">,</span> <span class="n">temps</span> <span class="o">+</span> <span class="n">dt</span><span class="p">)))</span>
 
-bset = None
-sigma_iv0 = None
-elta_iv0  = None
+<span class="n">bset</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">sigma_iv0</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">elta_iv0</span>  <span class="o">=</span> <span class="kc">None</span>
 
-for temp in temps_all:
-    beta = 1/temp
+<span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">temp</span>
 
-    if bset is None:
-        bset = sparse_ir.FiniteTempBasisSet(beta, Lambda_common/beta, eps)
-    else:
-        # Reuse the SVE results
-        bset = sparse_ir.FiniteTempBasisSet(beta, Lambda_common/beta, eps, sve_result=bset.sve_result)
+    <span class="k">if</span> <span class="n">bset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Lambda_common</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Reuse the SVE results</span>
+        <span class="n">bset</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Lambda_common</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">sve_result</span><span class="o">=</span><span class="n">bset</span><span class="o">.</span><span class="n">sve_result</span><span class="p">)</span>
 
-    elsh = Eliashberg(bset, rho_omega, (-D, D), U, J, omega0, g, deg_leggauss=deg_leggauss)
+    <span class="n">elsh</span> <span class="o">=</span> <span class="n">Eliashberg</span><span class="p">(</span><span class="n">bset</span><span class="p">,</span> <span class="n">rho_omega</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span> <span class="n">D</span><span class="p">),</span> <span class="n">U</span><span class="p">,</span> <span class="n">J</span><span class="p">,</span> <span class="n">omega0</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">deg_leggauss</span><span class="o">=</span><span class="n">deg_leggauss</span><span class="p">)</span>
 
-    # Initial guess
-    if sigma_iv0 is None:
-        noise = 1e-5
-        sigma_iv0 = add_noise(np.zeros(bset.wn_f.size, dtype=np.complex128), noise)
-        delta_iv0 = np.full(bset.wn_f.size, 1.0, dtype=np.complex128)
+    <span class="c1"># Initial guess</span>
+    <span class="k">if</span> <span class="n">sigma_iv0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="mf">1e-5</span>
+        <span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">add_noise</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">),</span> <span class="n">noise</span><span class="p">)</span>
+        <span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">bset</span><span class="o">.</span><span class="n">wn_f</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">)</span>
 
-    # Solve!
-    max_iter = 100000
-    sigma_iv, delta_iv, others = solve(elsh, sigma_iv0, delta_iv0, max_iter, mixing, verbose=False, ph=True, atol=1e-6)
-    res = {&quot;sigma_iv&quot;: sigma_iv, &quot;delta_iv&quot;: delta_iv}
-    for k, v in others.items():
-        res[k] = v
-    res_temp[temp] = res
+    <span class="c1"># Solve!</span>
+    <span class="n">max_iter</span> <span class="o">=</span> <span class="mi">100000</span>
+    <span class="n">sigma_iv</span><span class="p">,</span> <span class="n">delta_iv</span><span class="p">,</span> <span class="n">others</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">elsh</span><span class="p">,</span> <span class="n">sigma_iv0</span><span class="p">,</span> <span class="n">delta_iv0</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">,</span> <span class="n">mixing</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ph</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;sigma_iv&quot;</span><span class="p">:</span> <span class="n">sigma_iv</span><span class="p">,</span> <span class="s2">&quot;delta_iv&quot;</span><span class="p">:</span> <span class="n">delta_iv</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">others</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">res</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
 
-    # Use the converged result for an initial guess for the next temperature
-    sigma_iv0 = res[&quot;sigma_iv&quot;].copy()
-    delta_iv0 = res[&quot;delta_iv&quot;].copy()
+    <span class="c1"># Use the converged result for an initial guess for the next temperature</span>
+    <span class="n">sigma_iv0</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;sigma_iv&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">delta_iv0</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="s2">&quot;delta_iv&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>u_temps = np.array([res_temp[temp][&quot;u&quot;].real for temp in temps_all])
-plt.plot(temps_all, u_temps, marker=&quot;x&quot;)
-plt.xlabel(r&quot;$T$&quot;)
-plt.ylabel(r&quot;$E(T)$&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_temps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temps_all</span><span class="p">,</span> <span class="n">u_temps</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$E(T)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_19_0.png" src="../_images/eliashberg_holstein_py_19_0.png" />
+<img alt="../_images/575fbe32f9f092e2123d2037826e8e55600d9d4f3b5c9733f338b4ea164a2a97.png" src="../_images/575fbe32f9f092e2123d2037826e8e55600d9d4f3b5c9733f338b4ea164a2a97.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>u_dict = {temp: res_temp[temp][&quot;u&quot;].real for temp in temps_all}
-specific_heat = np.array([u_dict[temp+dt] - u_dict[temp] for temp in temps])/dt
-plt.plot(temps, specific_heat/temps, marker=&quot;o&quot;)
-plt.ylim([0, 1200])
-plt.xlabel(r&quot;$T$&quot;)
-plt.ylabel(r&quot;$C(T)$&quot;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">u_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">temp</span><span class="p">:</span> <span class="n">res_temp</span><span class="p">[</span><span class="n">temp</span><span class="p">][</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">real</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps_all</span><span class="p">}</span>
+<span class="n">specific_heat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="o">+</span><span class="n">dt</span><span class="p">]</span> <span class="o">-</span> <span class="n">u_dict</span><span class="p">[</span><span class="n">temp</span><span class="p">]</span> <span class="k">for</span> <span class="n">temp</span> <span class="ow">in</span> <span class="n">temps</span><span class="p">])</span><span class="o">/</span><span class="n">dt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">temps</span><span class="p">,</span> <span class="n">specific_heat</span><span class="o">/</span><span class="n">temps</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1200</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$T$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$C(T)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/eliashberg_holstein_py_20_0.png" src="../_images/eliashberg_holstein_py_20_0.png" />
+<img alt="../_images/b527c5f71d72c7abfc1d7c9ba935adf14c9f8a37981a5d507420d0a508b2c3fb.png" src="../_images/b527c5f71d72c7abfc1d7c9ba935adf14c9f8a37981a5d507420d0a508b2c3fb.png" />
 </div>
 </div>
 <!-- [1] Y. Kaga, P. Werner and S. Hoshino arXiv:2203.06946. -->
@@ -1162,7 +995,7 @@ plt.show()
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -1170,50 +1003,113 @@ plt.show()
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="TPSC_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">TPSC approximation</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="TPSC_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">TPSC approximation</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="orbital_magnetic_susceptibility_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="orbital_magnetic_susceptibility_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Orbital magnetic susceptibility</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#equations">Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#self-consistent-calculation">Self-consistent calculation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#paramaters">Paramaters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-ir-basis">Setup IR basis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solve-the-equation">Solve the equation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-results">Plot results</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#second-calculation-on-temperature-dependence">Second calculation on temperature dependence</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

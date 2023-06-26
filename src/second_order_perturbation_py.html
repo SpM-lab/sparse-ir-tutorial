@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Second-order perturbation &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,502 +70,308 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/second_order_perturbation_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The GF2 &amp; GW method" href="GW_py.html" />
     <link rel="prev" title="Discrete Lehmann Representation" href="DLR_py.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/second_order_perturbation_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/second_order_perturbation_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   Implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">
-     Step 1: Generate IR basis and associated sampling points
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-2">
-     Step 2
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-3">
-     Step 3
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-4">
-     Step 4
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-5">
-     Step 5
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-6">
-     Step 6
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Second-order perturbation</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#implementation">
-   Implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">
-     Step 1: Generate IR basis and associated sampling points
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-2">
-     Step 2
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-3">
-     Step 3
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-4">
-     Step 4
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-5">
-     Step 5
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#step-6">
-     Step 6
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Second-order perturbation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">Step 1: Generate IR basis and associated sampling points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">Step 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4">Step 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5">Step 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6">Step 6</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="second-order-perturbation">
-<h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this headline">#</a></h1>
+<h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this heading">#</a></h1>
 <section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">#</a></h2>
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading">#</a></h2>
 <p>We consider the Hubbard model on a square lattice at half filling,
 whose Hamiltonian is given by</p>
 <div class="math notranslate nohighlight">
@@ -621,21 +445,21 @@ The computational complexity of FFT scales as <span class="math notranslate nohi
 which is considerably smaller than that of the naive implementation [<span class="math notranslate nohighlight">\(O(L^3)\)</span>] for large <span class="math notranslate nohighlight">\(L\)</span>.</p>
 </section>
 <section id="implementation">
-<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">#</a></h2>
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-plt.rcParams[&#39;font.size&#39;] = 15
-import sparse_ir
-from numpy.fft import fftn, ifftn
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">fftn</span><span class="p">,</span> <span class="n">ifftn</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="step-1-generate-ir-basis-and-associated-sampling-points">
-<h3>Step 1: Generate IR basis and associated sampling points<a class="headerlink" href="#step-1-generate-ir-basis-and-associated-sampling-points" title="Permalink to this headline">#</a></h3>
+<h3>Step 1: Generate IR basis and associated sampling points<a class="headerlink" href="#step-1-generate-ir-basis-and-associated-sampling-points" title="Permalink to this heading">#</a></h3>
 <p>The following code works only for a single-orbital problem.
 <code class="docutils literal notranslate"><span class="pre">numpy.linalg.inv</span></code> can be used instead for computing matrix-valued Green’s functons, i.e., for multi-orbital systems.
 The condition numbers are around 180 and 250 for imaginary-time and Matsubara-frequency samplings,
@@ -645,64 +469,62 @@ Thus, the results of fits are expected to have an accuracy of five significant d
 If you want more significant digits, you can decrease the cutoff.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>lambda_ = 1e+5
-beta = 1e+3
-eps = 1e-7
-# Number of divisions along each reciprocal lattice vector
-# Note: For a smaller nk (e.g., 64), an unphysical small structures appear in the self-energy at low frequencies.
-#nk_lin = 256
-nk_lin = 256
-U = 2.0 # Onsite repulsion
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lambda_</span> <span class="o">=</span> <span class="mf">1e+5</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">1e+3</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-7</span>
+<span class="c1"># Number of divisions along each reciprocal lattice vector</span>
+<span class="c1"># Note: For a smaller nk (e.g., 64), an unphysical small structures appear in the self-energy at low frequencies.</span>
+<span class="c1">#nk_lin = 256</span>
+<span class="n">nk_lin</span> <span class="o">=</span> <span class="mi">256</span>
+<span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span> <span class="c1"># Onsite repulsion</span>
 
-wmax = lambda_/beta
-basis = sparse_ir.FiniteTempBasis(&quot;F&quot;, beta, wmax, eps=eps)
-L = basis.size
+<span class="n">wmax</span> <span class="o">=</span> <span class="n">lambda_</span><span class="o">/</span><span class="n">beta</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span>
+<span class="n">L</span> <span class="o">=</span> <span class="n">basis</span><span class="o">.</span><span class="n">size</span>
 
-# Sparse sampling in tau
-smpl_tau = sparse_ir.TauSampling(basis)
-ntau = smpl_tau.sampling_points.size
-print(&quot;cond (tau): &quot;, smpl_tau.cond)
+<span class="c1"># Sparse sampling in tau</span>
+<span class="n">smpl_tau</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">ntau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cond (tau): &quot;</span><span class="p">,</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
 
-# Sparse sampling in Matsubara frequencies
-smpl_matsu = sparse_ir.MatsubaraSampling(basis)
-nw = smpl_matsu.sampling_points.size
-print(&quot;cond (matsu): &quot;, smpl_matsu.cond)
+<span class="c1"># Sparse sampling in Matsubara frequencies</span>
+<span class="n">smpl_matsu</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+<span class="n">nw</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">.</span><span class="n">size</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;cond (matsu): &quot;</span><span class="p">,</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">cond</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cond (tau):  162.99257542854215
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cond (matsu):  465.8004686418208
+cond (matsu):  465.80046864182265
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="step-2">
-<h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this headline">#</a></h3>
+<h3>Step 2<a class="headerlink" href="#step-2" title="Permalink to this heading">#</a></h3>
 <p>Compute the non-interacting Green’s function on a mesh.
 The Green’s function computed at <span class="math notranslate nohighlight">\(\boldsymbol{k}=\Gamma=(0,0)\)</span> is plotted below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>kps = (nk_lin, nk_lin)
-nk = np.prod(kps)
-nr = nk
-kgrid = [2*np.pi*np.arange(kp)/kp for kp in kps]
-k1, k2 = np.meshgrid(*kgrid, indexing=&quot;ij&quot;)
-ek = -2*(np.cos(k1) + np.cos(k2))
-print(k1.shape, k2.shape, ek.shape)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kps</span> <span class="o">=</span> <span class="p">(</span><span class="n">nk_lin</span><span class="p">,</span> <span class="n">nk_lin</span><span class="p">)</span>
+<span class="n">nk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">kps</span><span class="p">)</span>
+<span class="n">nr</span> <span class="o">=</span> <span class="n">nk</span>
+<span class="n">kgrid</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">kp</span><span class="p">)</span><span class="o">/</span><span class="n">kp</span> <span class="k">for</span> <span class="n">kp</span> <span class="ow">in</span> <span class="n">kps</span><span class="p">]</span>
+<span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="o">*</span><span class="n">kgrid</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s2">&quot;ij&quot;</span><span class="p">)</span>
+<span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">k2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">k1</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">k2</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">ek</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-iv = 1j*np.pi*smpl_matsu.sampling_points/beta
-gkf = 1.0 / (iv[:,None] - ek.ravel()[None,:])
+<span class="n">iv</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="n">beta</span>
+<span class="n">gkf</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">iv</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">ek</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="kc">None</span><span class="p">,:])</span>
 
-plt.plot(smpl_matsu.sampling_points*np.pi/beta, gkf[:,0].imag, label=r&quot;$k=\Gamma$&quot;, marker=&quot;x&quot;)
-plt.xlabel(r&quot;$\nu$&quot;)
-plt.ylabel(r&quot;$\mathrm{Im}~G(\mathrm{i}\nu)$&quot;)
-plt.legend()
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">gkf</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~G(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -710,184 +532,184 @@ plt.show()
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(256, 256) (256, 256) (256, 256)
 </pre></div>
 </div>
-<img alt="../_images/second_order_perturbation_py_8_1.png" src="../_images/second_order_perturbation_py_8_1.png" />
+<img alt="../_images/1c01f8084475effe70b5fcd9e9a9fe9320b786c63c306070de301fc791b90e68.png" src="../_images/1c01f8084475effe70b5fcd9e9a9fe9320b786c63c306070de301fc791b90e68.png" />
 </div>
 </div>
 </section>
 <section id="step-3">
-<h3>Step 3<a class="headerlink" href="#step-3" title="Permalink to this headline">#</a></h3>
+<h3>Step 3<a class="headerlink" href="#step-3" title="Permalink to this heading">#</a></h3>
 <p>Transform the Green’s function to sampling times.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># G(l, k): (L, nk)
-gkl = smpl_matsu.fit(gkf, axis=0)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># G(l, k): (L, nk)</span>
+<span class="n">gkl</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gkf</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-assert gkl.shape == (L, nk)
+<span class="k">assert</span> <span class="n">gkl</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span>
 
-plt.semilogy(np.abs(gkl[:,0]))
-plt.semilogy(basis.s, ls=&quot;--&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylabel(r&quot;$|G(l, \Gamma)|$&quot;)
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">gkl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|G(l, \Gamma)|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_10_0.png" src="../_images/second_order_perturbation_py_10_0.png" />
+<img alt="../_images/c9ffeead806a88319fda0dba95158c908ff6c1c6919ec9502b2a8ccedf9c0adf.png" src="../_images/c9ffeead806a88319fda0dba95158c908ff6c1c6919ec9502b2a8ccedf9c0adf.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>gkt = smpl_tau.evaluate(gkl)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gkt</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">gkl</span><span class="p">)</span>
 
-assert gkt.shape == (ntau, nk)
+<span class="k">assert</span> <span class="n">gkt</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span>
 
-plt.plot(smpl_tau.sampling_points, gkt[:,0].real, label=r&#39;$\Gamma$&#39;, marker=&quot;x&quot;)
-plt.plot(smpl_tau.sampling_points, 
-    gkt.reshape(-1,*kps)[:,nk_lin//2,nk_lin//2].real, label=r&#39;$M$&#39;, marker=&quot;+&quot;)
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$\mathrm{Re}~G(\tau, k)$&quot;)
-plt.legend()
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">gkt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$\Gamma$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> 
+    <span class="n">gkt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">*</span><span class="n">kps</span><span class="p">)[:,</span><span class="n">nk_lin</span><span class="o">//</span><span class="mi">2</span><span class="p">,</span><span class="n">nk_lin</span><span class="o">//</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;$M$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~G(\tau, k)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_11_0.png" src="../_images/second_order_perturbation_py_11_0.png" />
+<img alt="../_images/7f0bcce84e2e3247041ca09fbbe2c42ceb3810ebd8cd6efe5553bb55a116e6ea.png" src="../_images/7f0bcce84e2e3247041ca09fbbe2c42ceb3810ebd8cd6efe5553bb55a116e6ea.png" />
 </div>
 </div>
 </section>
 <section id="step-4">
-<h3>Step 4<a class="headerlink" href="#step-4" title="Permalink to this headline">#</a></h3>
+<h3>Step 4<a class="headerlink" href="#step-4" title="Permalink to this heading">#</a></h3>
 <p>Transform the Green’s function to the real space and evaluate the self-energy</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute G(tau, r): (ntau, nk)
-#  (1) Reshape gkt into shape of (ntau, nk_lin, nk_lin).
-#  (2) Apply FFT to the axes 1, 2.
-#  (3) Reshape the result to (ntau, nk)
-# G(tau, k): (ntau, nk)
-grt = fftn(gkt.reshape(ntau, *kps), axes=(1,2)).reshape(ntau, nk)/nk
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute G(tau, r): (ntau, nk)</span>
+<span class="c1">#  (1) Reshape gkt into shape of (ntau, nk_lin, nk_lin).</span>
+<span class="c1">#  (2) Apply FFT to the axes 1, 2.</span>
+<span class="c1">#  (3) Reshape the result to (ntau, nk)</span>
+<span class="c1"># G(tau, k): (ntau, nk)</span>
+<span class="n">grt</span> <span class="o">=</span> <span class="n">fftn</span><span class="p">(</span><span class="n">gkt</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">ntau</span><span class="p">,</span> <span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="n">nk</span>
 
-plt.plot(smpl_tau.sampling_points, grt[:,0].real, label=&#39;$r=(0,0)$&#39;)
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$\mathrm{Re}~G(\tau, r)$&quot;)
-plt.legend()
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">grt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~G(\tau, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_13_0.png" src="../_images/second_order_perturbation_py_13_0.png" />
+<img alt="../_images/5ee0c03faf6ae2384efddaf904e3a6bba7fa5c1271a025cfca30121cfe0d405c.png" src="../_images/5ee0c03faf6ae2384efddaf904e3a6bba7fa5c1271a025cfca30121cfe0d405c.png" />
 </div>
 </div>
 <p>Compute the second-order term of the self-energy on the sampling points</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Sigma(tau, r): (ntau, nr)
-srt = U*U*grt*grt*grt[::-1,:]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(tau, r): (ntau, nr)</span>
+<span class="n">srt</span> <span class="o">=</span> <span class="n">U</span><span class="o">*</span><span class="n">U</span><span class="o">*</span><span class="n">grt</span><span class="o">*</span><span class="n">grt</span><span class="o">*</span><span class="n">grt</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,:]</span>
 
-plt.plot(smpl_tau.sampling_points, srt[:,0].real, label=&#39;$r=(0,0)$&#39;, marker=&quot;x&quot;)
-plt.xlabel(r&quot;$\tau$&quot;)
-plt.ylabel(r&quot;$\mathrm{Re}~\Sigma(\tau, r)$&quot;)
-plt.legend()
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">sampling_points</span><span class="p">,</span> <span class="n">srt</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Re}</span><span class="s2">~\Sigma(\tau, r)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_15_0.png" src="../_images/second_order_perturbation_py_15_0.png" />
+<img alt="../_images/21b5ac0d6fad78a1e5305b682fc3f7040c0335ae56a4f839e176796092c4a48c.png" src="../_images/21b5ac0d6fad78a1e5305b682fc3f7040c0335ae56a4f839e176796092c4a48c.png" />
 </div>
 </div>
 </section>
 <section id="step-5">
-<h3>Step 5<a class="headerlink" href="#step-5" title="Permalink to this headline">#</a></h3>
+<h3>Step 5<a class="headerlink" href="#step-5" title="Permalink to this heading">#</a></h3>
 <p>Transform the self-energy to the IR basis and then transform it to the momentum space</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Sigma(l, r): (L, nr)
-srl = smpl_tau.fit(srt)
-assert srl.shape == (L, nr)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(l, r): (L, nr)</span>
+<span class="n">srl</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">srt</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">srl</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">nr</span><span class="p">)</span>
 
-plt.semilogy(np.abs(srl[:,0]), label=&#39;$r=(0,0)$&#39;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylabel(r&quot;$|\Sigma(l, r)|$&quot;)
-plt.ylim([1e-8,1])
-plt.legend()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">srl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$r=(0,0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|\Sigma(l, r)|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mf">1e-8</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_17_0.png" src="../_images/second_order_perturbation_py_17_0.png" />
+<img alt="../_images/3947b1d5faed634399eedeb4c67a5a6586febbdc73e974bf95717f8e118e8fcc.png" src="../_images/3947b1d5faed634399eedeb4c67a5a6586febbdc73e974bf95717f8e118e8fcc.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Sigma(l, k): (L, nk)
-srl = srl.reshape(L, *kps)
-skl = ifftn(srl, axes=(1,2)) * nk
-skl = skl.reshape(L, *kps)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sigma(l, k): (L, nk)</span>
+<span class="n">srl</span> <span class="o">=</span> <span class="n">srl</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">)</span>
+<span class="n">skl</span> <span class="o">=</span> <span class="n">ifftn</span><span class="p">(</span><span class="n">srl</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">nk</span>
+<span class="n">skl</span> <span class="o">=</span> <span class="n">skl</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="o">*</span><span class="n">kps</span><span class="p">)</span>
 
-#plt.semilogy(np.max(np.abs(skl),axis=(1,2)), label=&quot;max, abs&quot;)
-plt.semilogy(np.abs(skl[:,0,0]), label=&quot;$k=\Gamma$&quot;)
-plt.semilogy(basis.s, label=&quot;Singular values&quot;, ls=&quot;--&quot;)
-plt.xlabel(r&quot;$l$&quot;)
-plt.ylabel(r&quot;$|\Sigma(l, k)|$&quot;)
-plt.legend()
-plt.tight_layout()
-plt.show()
+<span class="c1">#plt.semilogy(np.max(np.abs(skl),axis=(1,2)), label=&quot;max, abs&quot;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">skl</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">basis</span><span class="o">.</span><span class="n">s</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Singular values&quot;</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;--&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$l$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$|\Sigma(l, k)|$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_18_0.png" src="../_images/second_order_perturbation_py_18_0.png" />
+<img alt="../_images/6379f3d236ff7e7ab0e5fa13a3a7df54beec4650af02547216259ad5ab1c8d9b.png" src="../_images/6379f3d236ff7e7ab0e5fa13a3a7df54beec4650af02547216259ad5ab1c8d9b.png" />
 </div>
 </div>
 </section>
 <section id="step-6">
-<h3>Step 6<a class="headerlink" href="#step-6" title="Permalink to this headline">#</a></h3>
+<h3>Step 6<a class="headerlink" href="#step-6" title="Permalink to this heading">#</a></h3>
 <p>Evaluate the self-energy on sampling frequencies</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sigma_iv = smpl_matsu.evaluate(skl, axis=0)
-plt.plot(smpl_matsu.sampling_points*np.pi/beta, sigma_iv[:,0,0].imag, marker=&#39;x&#39;, label=r&quot;$k=\Gamma$&quot;)
-plt.xlabel(r&quot;$\nu$&quot;)
-plt.ylabel(r&quot;$\mathrm{Im}~\Sigma(\mathrm{i}\nu)$&quot;)
-plt.legend(frameon=False)
-plt.tight_layout()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma_iv</span> <span class="o">=</span> <span class="n">smpl_matsu</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">skl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">smpl_matsu</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">sigma_iv</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/second_order_perturbation_py_20_0.png" src="../_images/second_order_perturbation_py_20_0.png" />
+<img alt="../_images/a974a6d967fceabe044780f1d140358a73ae9d0960ec1ad92bb1ba2026ad4751.png" src="../_images/a974a6d967fceabe044780f1d140358a73ae9d0960ec1ad92bb1ba2026ad4751.png" />
 </div>
 </div>
 <p>You can evaluate the self-energy on arbitrary frequencies.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>my_freqs = 2*np.arange(-10000, 10000, 20) + 1 # odd
-smpl_matsu2 = sparse_ir.MatsubaraSampling(basis, my_freqs)
-res = smpl_matsu2.evaluate(skl, axis=0)
-plt.plot(my_freqs*np.pi/beta, res[:,0,0].imag, marker=&#39;x&#39;, label=r&quot;$k=\Gamma$&quot;)
-plt.xlabel(r&quot;$\nu$&quot;)
-plt.ylabel(r&quot;$\mathrm{Im}~\Sigma(\mathrm{i}\nu)$&quot;)
-plt.legend(frameon=False)
-plt.tight_layout()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">my_freqs</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># odd</span>
+<span class="n">smpl_matsu2</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">my_freqs</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">smpl_matsu2</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">skl</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">my_freqs</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">beta</span><span class="p">,</span> <span class="n">res</span><span class="p">[:,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$k=\Gamma$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\nu$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mathrm</span><span class="si">{Im}</span><span class="s2">~\Sigma(\mathrm</span><span class="si">{i}</span><span class="s2">\nu)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/jovyan/.local/lib/python3.9/site-packages/sparse_ir/sampling.py:34: ConditioningWarning: Sampling matrix is poorly conditioned (cond = 5.5e+14)
-  warn(&quot;Sampling matrix is poorly conditioned (cond = %.2g)&quot;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/jovyan/.venv/default/lib/python3.11/site-packages/sparse_ir/sampling.py:129: ConditioningWarning: Sampling matrix is poorly conditioned (kappa = 5.5e+14)
+  warn(f&quot;Sampling matrix is poorly conditioned &quot;
 </pre></div>
 </div>
-<img alt="../_images/second_order_perturbation_py_22_1.png" src="../_images/second_order_perturbation_py_22_1.png" />
+<img alt="../_images/d8b7949c9bb139f2aea821415cb7dc488fbe901b0b9a7fec0034aadf2ef373b5.png" src="../_images/d8b7949c9bb139f2aea821415cb7dc488fbe901b0b9a7fec0034aadf2ef373b5.png" />
 </div>
 </div>
 </section>
@@ -906,7 +728,7 @@ plt.show()
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -914,50 +736,114 @@ plt.show()
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="DLR_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Discrete Lehmann Representation</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="DLR_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Discrete Lehmann Representation</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="GW_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="GW_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">The GF2 &amp; GW method</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-generate-ir-basis-and-associated-sampling-points">Step 1: Generate IR basis and associated sampling points</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2">Step 2</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3">Step 3</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4">Step 4</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5">Step 5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6">Step 6</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

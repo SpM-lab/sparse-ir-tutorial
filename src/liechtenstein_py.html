@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Estimation of exchange interactions &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,520 +70,315 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/liechtenstein_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Numerical analytic continuation" href="analytic_continuation_py.html" />
     <link rel="prev" title="Orbital magnetic susceptibility" href="orbital_magnetic_susceptibility_py.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/liechtenstein_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/liechtenstein_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#liechtenstein-method">
-   Liechtenstein method
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">
-     Liechtenstein formula in single-orbital model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sparse-ir">
-     Sparse_ir
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#parameter-setting">
-     Parameter setting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#liechtenstein-solver">
-     Liechtenstein solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#instantiation">
-     Instantiation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#executing-the-solver-for-j-0">
-     Executing the solver for J_0
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">
-     Executing the solver for J_ij
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Estimation of exchange interactions</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#liechtenstein-method">
-   Liechtenstein method
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">
-     Liechtenstein formula in single-orbital model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#sparse-ir">
-     Sparse_ir
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#parameter-setting">
-     Parameter setting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#liechtenstein-solver">
-     Liechtenstein solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#instantiation">
-     Instantiation
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#executing-the-solver-for-j-0">
-     Executing the solver for J_0
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">
-     Executing the solver for J_ij
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Estimation of exchange interactions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-method">Liechtenstein method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">Liechtenstein formula in single-orbital model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-ir">Sparse_ir</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-solver">Liechtenstein solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiation">Instantiation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-solver-for-j-0">Executing the solver for J_0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">Executing the solver for J_ij</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="estimation-of-exchange-interactions">
-<h1>Estimation of exchange interactions<a class="headerlink" href="#estimation-of-exchange-interactions" title="Permalink to this headline">#</a></h1>
+<h1>Estimation of exchange interactions<a class="headerlink" href="#estimation-of-exchange-interactions" title="Permalink to this heading">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:nomoto&#37;&#52;&#48;ap&#46;t&#46;u-tokyo&#46;ac&#46;jp">Takuya Nomoto</a></p>
 <section id="liechtenstein-method">
-<h2>Liechtenstein method<a class="headerlink" href="#liechtenstein-method" title="Permalink to this headline">#</a></h2>
+<h2>Liechtenstein method<a class="headerlink" href="#liechtenstein-method" title="Permalink to this heading">#</a></h2>
 <p>The Liechtenstein method is a method for deriving the classical spin models from the itinerant electron models. Initially developed by Liechtenstein et al.[1] in the framework of the spin density functional theory, the method has been applied to various systems and is successful in understanding many magnetic behaviors, including finite temperature effects and long-period magnetic structures, which are not accessible from the spin density functional theory alone. Here, as the simplest case, we will see the formulation for the single-orbital model, where we can use the sparse_ir library to accelerate the calculations.</p>
 <section id="liechtenstein-formula-in-single-orbital-model">
-<h3>Liechtenstein formula in single-orbital model<a class="headerlink" href="#liechtenstein-formula-in-single-orbital-model" title="Permalink to this headline">#</a></h3>
+<h3>Liechtenstein formula in single-orbital model<a class="headerlink" href="#liechtenstein-formula-in-single-orbital-model" title="Permalink to this heading">#</a></h3>
 <p>Let us consider to derive exchange interactions from the following one-body Hamiltonian:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -590,7 +403,7 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 <p>In practice, <span class="math notranslate nohighlight">\(G_{00,\sigma}(i\omega_n)\)</span> can be obtained by the <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span> summation of <span class="math notranslate nohighlight">\(G_{\boldsymbol{k},\sigma}(i\omega_n)\)</span> since all sites are equivalent in this model. Thus, the number of operations is <span class="math notranslate nohighlight">\(\mathcal{O}(N_M N_k^{tot})\)</span> where <span class="math notranslate nohighlight">\(N_M\)</span> is the number of Matsubara frequency and <span class="math notranslate nohighlight">\(N_k^{tot}\)</span> is the total number of k-points. Since the typical value of <span class="math notranslate nohighlight">\(N_M\)</span> is <span class="math notranslate nohighlight">\(N_M\sim \beta W\)</span>, the total cost is given by <span class="math notranslate nohighlight">\(\mathcal{O}(\beta W  N_k)\)</span>. On the other hand, we need <span class="math notranslate nohighlight">\(G_{ij,+}(i\omega_n)\)</span> to evaluate <span class="math notranslate nohighlight">\(J_{ij}\)</span>, and in this case, the number of operations becomes <span class="math notranslate nohighlight">\(\mathcal{O}(N_M (N_k\ln N_k)^d)\)</span> since the Fourier transform requires <span class="math notranslate nohighlight">\(N_k\ln N_k\)</span> operations for a single axis, where <span class="math notranslate nohighlight">\(N_k\)</span> is the number of k-points for a single axis and <span class="math notranslate nohighlight">\(d\)</span> is the dimension. Thus, we need <span class="math notranslate nohighlight">\(\mathcal{O}(\beta W (N_k\ln N_k)^d)\)</span> in total.</p>
 </section>
 <section id="sparse-ir">
-<h3>Sparse_ir<a class="headerlink" href="#sparse-ir" title="Permalink to this headline">#</a></h3>
+<h3>Sparse_ir<a class="headerlink" href="#sparse-ir" title="Permalink to this heading">#</a></h3>
 <p>Since <span class="math notranslate nohighlight">\(G_{ij,\sigma}(i\omega_n)\)</span> as well as <span class="math notranslate nohighlight">\(G_{00,\sigma}(i\omega_n)\)</span> are just linear conbinations of <span class="math notranslate nohighlight">\(G_{\boldsymbol{k},\sigma}(i\omega_n)\)</span>, all terms we need take the following form,</p>
 <div class="math notranslate nohighlight">
 \[
@@ -602,179 +415,179 @@ J_0 = \frac{B}{2} (n_{0,+}- n_{0,-})+ B^2T\sum_{\omega_n} G_{00,+}(i\omega_n)G_{
 </section>
 </section>
 <section id="code-implementation">
-<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">#</a></h2>
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this heading">#</a></h2>
 <p>Here, let us see an example code in a square lattice tight-binding model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span>. First, we load all necessary modules that we need:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-%matplotlib inline
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import sparse_ir
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="k">as</span> <span class="nn">cm</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="parameter-setting">
-<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this heading">#</a></h3>
 <p>The parameters to define the system are as follows; <span class="math notranslate nohighlight">\(t\)</span>: the nearest-neighbor hopping amplitude, <span class="math notranslate nohighlight">\(\beta\)</span>:  the inverse temperature, <span class="math notranslate nohighlight">\(N_k\)</span>: the numer of k-poitns for a single-axis and <span class="math notranslate nohighlight">\(B\)</span>: the strengh of the effective magnetic field.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>t = 1 # means the bandwidth W is W=8t in a square lattice model
-beta = 50 # inverse temperature
-nk = 36 # number of k-points for a signle-axis
-b_eff = 3 # strength of the effective magnetic field
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># means the bandwidth W is W=8t in a square lattice model</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># inverse temperature</span>
+<span class="n">nk</span> <span class="o">=</span> <span class="mi">36</span> <span class="c1"># number of k-points for a signle-axis</span>
+<span class="n">b_eff</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># strength of the effective magnetic field</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="liechtenstein-solver">
-<h3>Liechtenstein solver<a class="headerlink" href="#liechtenstein-solver" title="Permalink to this headline">#</a></h3>
+<h3>Liechtenstein solver<a class="headerlink" href="#liechtenstein-solver" title="Permalink to this heading">#</a></h3>
 <p>This class contains two solvers, j0_calc for calculation of <span class="math notranslate nohighlight">\(J_{0}\)</span> and jij_calc for <span class="math notranslate nohighlight">\(J_{ij}\)</span>. Both can be called after instantiating the class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class liechtenstein:
-  def __init__(self, basis, *args):
-    # constructor of liechtenstein class
-    # the class requires five arguments: sparse_ir basis object, t, beta, nk, and b_eff
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">liechtenstein</span><span class="p">:</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basis</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="c1"># constructor of liechtenstein class</span>
+    <span class="c1"># the class requires five arguments: sparse_ir basis object, t, beta, nk, and b_eff</span>
     
-    self.basis, self.M, self.T = basis, sparse_ir.MatsubaraSampling(basis), sparse_ir.TauSampling(basis)
-    t, self.beta, self.nk, self.b_eff= args[0], args[1], args[2], args[3]
-    k1, k2 = np.meshgrid(np.arange(self.nk)/self.nk, np.arange(self.nk)/self.nk, indexing=&#39;ij&#39;)
-    self.ek = -2* t * (np.cos(2*np.pi*k1) + np.cos(2*np.pi*k2))
-    self.nkt = self.nk**2
+    <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">T</span> <span class="o">=</span> <span class="n">basis</span><span class="p">,</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">MatsubaraSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">),</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">TauSampling</span><span class="p">(</span><span class="n">basis</span><span class="p">)</span>
+    <span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">k1</span><span class="p">,</span> <span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">,</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">k2</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nkt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="o">**</span><span class="mi">2</span>
 
-  def j0_calc(self, e_range=np.zeros(1), NM=None):
-    # solver to evaluate J_0
-    # e_range: numpy ndarray object to specify the chemical potentials at which we evaluate J_0
-    # NM: maximum number of Matsubara frequency. if None, sparse sampling will be used
+  <span class="k">def</span> <span class="nf">j0_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">NM</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># solver to evaluate J_0</span>
+    <span class="c1"># e_range: numpy ndarray object to specify the chemical potentials at which we evaluate J_0</span>
+    <span class="c1"># NM: maximum number of Matsubara frequency. if None, sparse sampling will be used</span>
   
-    # set Matsubara frequency grid
-    if NM is None: iw = 1j*np.pi*self.M.sampling_points/self.beta
-    else         : iw = 1j*np.pi*(2*np.arange(-NM,NM)+1)/self.beta
+    <span class="c1"># set Matsubara frequency grid</span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    <span class="k">else</span>         <span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">NM</span><span class="p">,</span><span class="n">NM</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
 
-    # calculate the first term in the expresson of J_0
-    n_up = .5 * (1-np.tanh(.5*self.beta*(self.ek[None,:,:]-e_range[:,None,None]-self.b_eff)))
-    n_dn = .5 * (1-np.tanh(.5*self.beta*(self.ek[None,:,:]-e_range[:,None,None]+self.b_eff)))
-    j0_1 = .5 * self.b_eff * np.mean(n_up - n_dn, axis=(1,2))
+    <span class="c1"># calculate the first term in the expresson of J_0</span>
+    <span class="n">n_up</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="n">e_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="p">)))</span>
+    <span class="n">n_dn</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="mf">.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="n">e_range</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="p">)))</span>
+    <span class="n">j0_1</span> <span class="o">=</span> <span class="mf">.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">n_up</span> <span class="o">-</span> <span class="n">n_dn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
         
-    # calculate the second term in the expression of J_0 as a function of iw 
-    gkio_up = 1/(iw[:,None,None,None] - (self.ek[None,None,:,:]-self.b_eff-e_range[None,:,None,None]))
-    gkio_dn = 1/(iw[:,None,None,None] - (self.ek[None,None,:,:]+self.b_eff-e_range[None,:,None,None]))
-    gio_up = np.mean(gkio_up, axis=(2,3))
-    gio_dn = np.mean(gkio_dn, axis=(2,3))
-    j0_2_w = self.b_eff**2 * gio_up * gio_dn
+    <span class="c1"># calculate the second term in the expression of J_0 as a function of iw </span>
+    <span class="n">gkio_up</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">e_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]))</span>
+    <span class="n">gkio_dn</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">e_range</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]))</span>
+    <span class="n">gio_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gkio_up</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">gio_dn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">gkio_dn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    <span class="n">j0_2_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gio_up</span> <span class="o">*</span> <span class="n">gio_dn</span>
     
-    # evaluate a summation over iw 
-    if NM is None:
-      j0_2_l = self.M.fit(j0_2_w.reshape(len(iw),len(e_range))) # transform to the intermediate representation
-      j0_2 = self.basis.u(0)@j0_2_l # evaluate the function at \tau=0
-    else:
-      j0_2 = np.sum(j0_2_w,axis=0)/self.beta
+    <span class="c1"># evaluate a summation over iw </span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">j0_2_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">j0_2_w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span><span class="nb">len</span><span class="p">(</span><span class="n">e_range</span><span class="p">)))</span> <span class="c1"># transform to the intermediate representation</span>
+      <span class="n">j0_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@j0_2_l</span> <span class="c1"># evaluate the function at \tau=0</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">j0_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">j0_2_w</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
     
-    # sum up the two terms
-    self.j0 = np.real(j0_1 + j0_2)
-    self.j0_e_range = e_range
+    <span class="c1"># sum up the two terms</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">j0_1</span> <span class="o">+</span> <span class="n">j0_2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">j0_e_range</span> <span class="o">=</span> <span class="n">e_range</span>
 
-  def jij_calc(self, mu=0, NM=None):
-    # solver to evaluate J_ij
-    # mu: the chemical potential at which we evaluate J_ij
-    # NM: maximum number of Matsubara frequency. if None, sparse sampling will be used
+  <span class="k">def</span> <span class="nf">jij_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">NM</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># solver to evaluate J_ij</span>
+    <span class="c1"># mu: the chemical potential at which we evaluate J_ij</span>
+    <span class="c1"># NM: maximum number of Matsubara frequency. if None, sparse sampling will be used</span>
     
-    # set Matsubara frequency grid
-    if NM is None: iw = 1j*np.pi*self.M.sampling_points/self.beta
-    else         : iw = 1j*np.pi*(2*np.arange(-NM,NM)+1)/self.beta
+    <span class="c1"># set Matsubara frequency grid</span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">sampling_points</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
+    <span class="k">else</span>         <span class="p">:</span> <span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="n">NM</span><span class="p">,</span><span class="n">NM</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
         
-    # calculate J_ij as a function of iw 
-    gkio_up = 1/(iw[:,None,None] - (self.ek[None,:,:]-self.b_eff-mu))
-    gkio_dn = 1/(iw[:,None,None] - (self.ek[None,:,:]+self.b_eff-mu))
-    grio_up = np.fft.fftn(gkio_up,axes=(1,2))/self.nkt
-    grio_dn = np.fft.ifftn(gkio_dn,axes=(1,2))
-    jij_w = - self.b_eff**2 * grio_up * grio_dn
+    <span class="c1"># calculate J_ij as a function of iw </span>
+    <span class="n">gkio_up</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">mu</span><span class="p">))</span>
+    <span class="n">gkio_dn</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">iw</span><span class="p">[:,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">[</span><span class="kc">None</span><span class="p">,:,:]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">-</span><span class="n">mu</span><span class="p">))</span>
+    <span class="n">grio_up</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">gkio_up</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nkt</span>
+    <span class="n">grio_dn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">gkio_dn</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">jij_w</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">b_eff</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">grio_up</span> <span class="o">*</span> <span class="n">grio_dn</span>
     
-    # evaluate a summation of J_ij over iw 
-    if NM is None:
-      jij_l = self.M.fit(jij_w.reshape(len(iw),self.nkt))
-      jij = self.basis.u(0)@jij_l
-    else:
-      jij = np.sum(jij_w,axis=0)/self.beta
+    <span class="c1"># evaluate a summation of J_ij over iw </span>
+    <span class="k">if</span> <span class="n">NM</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="n">jij_l</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">jij_w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">nkt</span><span class="p">))</span>
+      <span class="n">jij</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@jij_l</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">jij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">jij_w</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">beta</span>
     
-    # arrange the format to ouput the data
-    self.jij = np.real(jij)
-    self.jij[0] = 0
-    self.jij_r = np.linalg.norm(np.array(np.meshgrid(np.arange(self.nk),np.arange(self.nk), indexing=&#39;ij&#39;)), axis=0).flatten()
+    <span class="c1"># arrange the format to ouput the data</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">jij</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">jij_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">),</span> <span class="n">indexing</span><span class="o">=</span><span class="s1">&#39;ij&#39;</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="instantiation">
-<h3>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this headline">#</a></h3>
+<h3>Instantiation<a class="headerlink" href="#instantiation" title="Permalink to this heading">#</a></h3>
 <p>In the instantation, we have to pass a sparse_ir.basis object as the first argument of the liechtenstein class.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Lambda = 2*max(8*t, b_eff) * beta
-basis = sparse_ir.FiniteTempBasis(statistics=&#39;F&#39;, beta=beta, wmax=Lambda, eps=1e-7)
-l = liechtenstein(basis, t, beta, nk, b_eff)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Lambda</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="nb">max</span><span class="p">(</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span> <span class="o">*</span> <span class="n">beta</span>
+<span class="n">basis</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasis</span><span class="p">(</span><span class="n">statistics</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="o">=</span><span class="n">Lambda</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-7</span><span class="p">)</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">liechtenstein</span><span class="p">(</span><span class="n">basis</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">nk</span><span class="p">,</span> <span class="n">b_eff</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="executing-the-solver-for-j-0">
-<h3>Executing the solver for J_0<a class="headerlink" href="#executing-the-solver-for-j-0" title="Permalink to this headline">#</a></h3>
+<h3>Executing the solver for J_0<a class="headerlink" href="#executing-the-solver-for-j-0" title="Permalink to this heading">#</a></h3>
 <p>Here, let us evaluate J_0 as a function of the chemmical potential <span class="math notranslate nohighlight">\(\mu\)</span>. To check the validity of the sparse sampleing method, we will compare it with that evaluated by the conventional Matsubara frequency grid. This can be done as follows:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.xlabel(&quot;mu&quot;)
-plt.ylabel(&quot;J_0&quot;)
-for i, nm in enumerate([100, 200, 400, 800, 1600]):
-      l.j0_calc(e_range=np.linspace(-10,10,41), NM=nm)
-      plt.plot(l.j0_e_range, l.j0, marker=&#39;.&#39;, label=str(nm), color=cm.cool(i/5.))
-l.j0_calc(e_range=np.linspace(-10,10,41))
-plt.plot(l.j0_e_range, l.j0, marker=&#39;.&#39;, label=&#39;Sparse_IR&#39;, color=cm.cool(1.0))
-plt.legend()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;mu&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_0&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">nm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1600</span><span class="p">]):</span>
+      <span class="n">l</span><span class="o">.</span><span class="n">j0_calc</span><span class="p">(</span><span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">41</span><span class="p">),</span> <span class="n">NM</span><span class="o">=</span><span class="n">nm</span><span class="p">)</span>
+      <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">j0_e_range</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">nm</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mf">5.</span><span class="p">))</span>
+<span class="n">l</span><span class="o">.</span><span class="n">j0_calc</span><span class="p">(</span><span class="n">e_range</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">41</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">j0_e_range</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Sparse_IR&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">cool</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/liechtenstein_py_10_0.png" src="../_images/liechtenstein_py_10_0.png" />
+<img alt="../_images/a1aaae0521f14dbbb0ae86e601ebf9756f4ac3f0bd2ab937a79c9347701c3b08.png" src="../_images/a1aaae0521f14dbbb0ae86e601ebf9756f4ac3f0bd2ab937a79c9347701c3b08.png" />
 </div>
 </div>
 <p>As is expected, the system favors the antiferromagnetic state at the half-filling while it favors the ferromagnetic state at the low-carrier regime. This feature is consistent with the super-exchange and the doule-exchange interactions.</p>
 </section>
 <section id="executing-the-solver-for-j-ij">
-<h3>Executing the solver for J_ij<a class="headerlink" href="#executing-the-solver-for-j-ij" title="Permalink to this headline">#</a></h3>
+<h3>Executing the solver for J_ij<a class="headerlink" href="#executing-the-solver-for-j-ij" title="Permalink to this heading">#</a></h3>
 <p>We can also evaluate J_ij by using jij_calc function as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>plt.clf
-plt.xlabel(&quot;distance&quot;)
-plt.ylabel(&quot;J_ij&quot;)
-plt.xlim([0,5])
-l.jij_calc(0)
-plt.scatter(l.jij_r, l.jij, marker=&#39;.&#39;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">clf</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;J_ij&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">l</span><span class="o">.</span><span class="n">jij_calc</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">jij_r</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">jij</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/liechtenstein_py_13_0.png" src="../_images/liechtenstein_py_13_0.png" />
+<img alt="../_images/e9d354a234a2915910edfea46a6262e639f886b7cb4cbb8b9d50cef28168b7a2.png" src="../_images/e9d354a234a2915910edfea46a6262e639f886b7cb4cbb8b9d50cef28168b7a2.png" />
 </div>
 </div>
 <p>We can easily check <span class="math notranslate nohighlight">\(J_0=\sum_j J_{0j}\)</span> as follows.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>J0_1 = l.j0[20]   # J0 at mu=0 evaluated by j0_calc
-J0_2 = sum(l.jij)  
-print(J0_1,J0_2)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">J0_1</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">j0</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span>   <span class="c1"># J0 at mu=0 evaluated by j0_calc</span>
+<span class="n">J0_2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">jij</span><span class="p">)</span>  
+<span class="nb">print</span><span class="p">(</span><span class="n">J0_1</span><span class="p">,</span><span class="n">J0_2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.2954591400059621 -0.29545913980146365
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-0.2954591400058828 -0.2954591398013725
 </pre></div>
 </div>
 </div>
@@ -796,7 +609,7 @@ print(J0_1,J0_2)
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -804,50 +617,117 @@ print(J0_1,J0_2)
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="orbital_magnetic_susceptibility_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Orbital magnetic susceptibility</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="orbital_magnetic_susceptibility_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Orbital magnetic susceptibility</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="analytic_continuation_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="analytic_continuation_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Numerical analytic continuation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-method">Liechtenstein method</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-formula-in-single-orbital-model">Liechtenstein formula in single-orbital model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sparse-ir">Sparse_ir</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#liechtenstein-solver">Liechtenstein solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instantiation">Instantiation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-solver-for-j-0">Executing the solver for J_0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-solver-for-j-ij">Executing the solver for J_ij</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

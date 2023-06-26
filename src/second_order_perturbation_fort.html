@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Second-order perturbation &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,472 +70,324 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/second_order_perturbation_fort';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Citation" href="citation.html" />
     <link rel="prev" title="Bogoliubov-de Gennes equations in real space" href="BgG_jl.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/second_order_perturbation_fort.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
 
-          
 
 
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/second_order_perturbation_fort.md"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.md</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-use-sparse-ir-fortran">
-   How to use sparse-ir-fortran
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#building-the-tutorial-code">
-   Building the tutorial code
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">
-   Running the code “
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     second_order_perturbation_fort.x
-    </span>
-   </code>
-   ”
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Second-order perturbation</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-use-sparse-ir-fortran">
-   How to use sparse-ir-fortran
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#building-the-tutorial-code">
-   Building the tutorial code
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">
-   Running the code “
-   <code class="docutils literal notranslate">
-    <span class="pre">
-     second_order_perturbation_fort.x
-    </span>
-   </code>
-   ”
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Second-order perturbation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-sparse-ir-fortran">How to use sparse-ir-fortran</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-tutorial-code">Building the tutorial code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="second-order-perturbation">
-<h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this headline">#</a></h1>
+<h1>Second-order perturbation<a class="headerlink" href="#second-order-perturbation" title="Permalink to this heading">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:h&#46;mori&#46;pro&#46;xyz&#46;will&#46;inge&#37;&#52;&#48;gmail&#46;com">Hitoshi Mori</a></p>
 <section id="how-to-use-sparse-ir-fortran">
-<h2>How to use sparse-ir-fortran<a class="headerlink" href="#how-to-use-sparse-ir-fortran" title="Permalink to this headline">#</a></h2>
+<h2>How to use sparse-ir-fortran<a class="headerlink" href="#how-to-use-sparse-ir-fortran" title="Permalink to this heading">#</a></h2>
 <p>Please refer to <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-fortran">README of sparse-ir-fortran</a> for how to link the library to your program and a list of functions. If you have not downloaded <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran</span></code> modules, please download the project from the repository <a class="reference external" href="https://github.com/SpM-lab/sparse-ir-fortran">sparse-ir-fortran</a>, and install some required Python modules and the FFTW3 library for Fortran compiler before starting the tutorial.</p>
 </section>
 <section id="building-the-tutorial-code">
-<h2>Building the tutorial code<a class="headerlink" href="#building-the-tutorial-code" title="Permalink to this headline">#</a></h2>
-<ol class="simple">
+<h2>Building the tutorial code<a class="headerlink" href="#building-the-tutorial-code" title="Permalink to this heading">#</a></h2>
+<ol class="arabic simple">
 <li><p>Generate a data file and a fortran source file for <span class="math notranslate nohighlight">\(\Lambda = 10^5\)</span> and <span class="math notranslate nohighlight">\(\epsilon = 10^{-7}\)</span> on the sparse-ir-fortran directory.</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /somewhere/sparse-ir-fortran/
-python3 dump.py 1e+5 1e-7 ir_nlambda5_ndigit7.dat
-python3 mk_preset.py --nlambda <span class="m">5</span> --ndigit <span class="m">7</span> &gt; sparse_ir_preset.f90
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/somewhere/sparse-ir-fortran/
+python3<span class="w"> </span>dump.py<span class="w"> </span>1e+5<span class="w"> </span>1e-7<span class="w"> </span>ir_nlambda5_ndigit7.dat
+python3<span class="w"> </span>mk_preset.py<span class="w"> </span>--nlambda<span class="w"> </span><span class="m">5</span><span class="w"> </span>--ndigit<span class="w"> </span><span class="m">7</span><span class="w"> </span>&gt;<span class="w"> </span>sparse_ir_preset.f90
 </pre></div>
 </div>
-<ol class="simple">
+<ol class="arabic simple" start="2">
 <li><p>Download the source code <a class="reference external" href="https://raw.githubusercontent.com/SpM-lab/sparse-ir-tutorial/main/src/second_order_perturbation_fort.f90"><code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.f90</span></code></a> and then copy all the f90 files and the data file from the <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran/</span></code> directory to a working directory.</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; <span class="nb">cd</span> /your/preferred/dir/      <span class="c1"># a working directory</span>
-&gt; curl -OL https://raw.githubusercontent.com/SpM-lab/sparse-ir-tutorial/main/src/second_order_perturbation_fort.f90      <span class="c1"># download the source code</span>
-&gt; cp /somewhere/sparse-ir-fortran/*f90 ./
-&gt; cp /somewhere/sparse-ir-fortran/*dat ./
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>/your/preferred/dir/<span class="w">      </span><span class="c1"># a working directory</span>
+&gt;<span class="w"> </span>curl<span class="w"> </span>-OL<span class="w"> </span>https://raw.githubusercontent.com/SpM-lab/sparse-ir-tutorial/main/src/second_order_perturbation_fort.f90<span class="w">      </span><span class="c1"># download the source code</span>
+&gt;<span class="w"> </span>cp<span class="w"> </span>/somewhere/sparse-ir-fortran/*f90<span class="w"> </span>./
+&gt;<span class="w"> </span>cp<span class="w"> </span>/somewhere/sparse-ir-fortran/*dat<span class="w"> </span>./
 </pre></div>
 </div>
-<ol class="simple">
+<ol class="arabic simple" start="3">
 <li><p>Create Makefile and edit it. The example is shown here.</p></li>
 </ol>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>FC = gfortran
@@ -552,35 +422,35 @@ clean:
 	rm -f *.o *.mod
 </pre></div>
 </div>
-<ol class="simple">
+<ol class="arabic simple" start="4">
 <li><p>You can build <code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code> as follows:</p></li>
 </ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; make tutorial
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>make<span class="w"> </span>tutorial
 </pre></div>
 </div>
 </section>
 <section id="running-the-code-second-order-perturbation-fort-x">
-<h2>Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”<a class="headerlink" href="#running-the-code-second-order-perturbation-fort-x" title="Permalink to this headline">#</a></h2>
+<h2>Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”<a class="headerlink" href="#running-the-code-second-order-perturbation-fort-x" title="Permalink to this heading">#</a></h2>
 <p>Before running “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”, please create the input file <code class="docutils literal notranslate"><span class="pre">input.in</span></code> as follows:</p>
-<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span><span class="n">input</span><span class="w"></span>
-<span class="w">    </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D5</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D3</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D-7</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">nk_lin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">hubbardu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0D0</span><span class="p">,</span><span class="w"></span>
+<div class="highlight-fortran notranslate"><div class="highlight"><pre><span></span><span class="p">&amp;</span><span class="n">input</span>
+<span class="w">    </span><span class="n">lambda</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D5</span><span class="p">,</span>
+<span class="w">    </span><span class="n">beta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D3</span><span class="p">,</span>
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0D-7</span><span class="p">,</span>
+<span class="w">    </span><span class="n">nk_lin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span>
+<span class="w">    </span><span class="n">hubbardu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">2.0D0</span><span class="p">,</span>
 <span class="w">    </span><span class="n">use_preset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">.</span><span class="n">true</span><span class="p">.</span><span class="w"> </span><span class="c">! .false. if you want to pull data from ir_nlambda*_ndigit**.dat</span>
-<span class="o">/</span><span class="w"></span>
+<span class="o">/</span>
 </pre></div>
 </div>
 <p>Run the program. You can obtain the following output:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt; ./second_order_perturbation_fort.x &lt; input.in
- cond <span class="o">(</span>tau<span class="o">)</span>:    <span class="m">334</span>.877581832775
- cond <span class="o">(</span>matsu<span class="o">)</span>:    <span class="m">248</span>.851825144482
- Shape of k1: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
- Shape of k2: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
- Shape of ek_: <span class="o">(</span>         <span class="m">256</span>         <span class="m">256</span> <span class="o">)</span>
- Shape of kp: <span class="o">(</span>           <span class="m">2</span>       <span class="m">65536</span> <span class="o">)</span>
- Shape of ek: <span class="o">(</span>       <span class="m">65536</span> <span class="o">)</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&gt;<span class="w"> </span>./second_order_perturbation_fort.x<span class="w"> </span>&lt;<span class="w"> </span>input.in
+<span class="w"> </span>cond<span class="w"> </span><span class="o">(</span>tau<span class="o">)</span>:<span class="w">    </span><span class="m">334</span>.877581832775
+<span class="w"> </span>cond<span class="w"> </span><span class="o">(</span>matsu<span class="o">)</span>:<span class="w">    </span><span class="m">248</span>.851825144482
+<span class="w"> </span>Shape<span class="w"> </span>of<span class="w"> </span>k1:<span class="w"> </span><span class="o">(</span><span class="w">         </span><span class="m">256</span><span class="w">         </span><span class="m">256</span><span class="w"> </span><span class="o">)</span>
+<span class="w"> </span>Shape<span class="w"> </span>of<span class="w"> </span>k2:<span class="w"> </span><span class="o">(</span><span class="w">         </span><span class="m">256</span><span class="w">         </span><span class="m">256</span><span class="w"> </span><span class="o">)</span>
+<span class="w"> </span>Shape<span class="w"> </span>of<span class="w"> </span>ek_:<span class="w"> </span><span class="o">(</span><span class="w">         </span><span class="m">256</span><span class="w">         </span><span class="m">256</span><span class="w"> </span><span class="o">)</span>
+<span class="w"> </span>Shape<span class="w"> </span>of<span class="w"> </span>kp:<span class="w"> </span><span class="o">(</span><span class="w">           </span><span class="m">2</span><span class="w">       </span><span class="m">65536</span><span class="w"> </span><span class="o">)</span>
+<span class="w"> </span>Shape<span class="w"> </span>of<span class="w"> </span>ek:<span class="w"> </span><span class="o">(</span><span class="w">       </span><span class="m">65536</span><span class="w"> </span><span class="o">)</span>
 </pre></div>
 </div>
 <p>The first two rows show the condition numbers of SVD of the IR-basis sets for imaginary time and Matsubara frequency. When obtaining the IR-basis functions for imaginary time, sampling points of imaginary time is given as <span class="math notranslate nohighlight">\(\tau \in [0,\beta]\)</span>. In the tutorial with Python, the script does not use both endpoints as sampling points, but <code class="docutils literal notranslate"><span class="pre">sparse-ir-fortran</span></code> always takes them into the sampling points. That is the reason why the condition number for imaginary time, <code class="docutils literal notranslate"><span class="pre">cond</span> <span class="pre">(tau)</span></code>, is different from the one obtained by the Python script.</p>
@@ -722,7 +592,7 @@ plot &quot;./second_order_skf_gamma.txt&quot; u 2:4 w lp lw 2 lt 1 pt 2 lc 3 tit
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -730,50 +600,107 @@ plot &quot;./second_order_skf_gamma.txt&quot; u 2:4 w lp lw 2 lt 1 pt 2 lc 3 tit
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="BgG_jl.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Bogoliubov-de Gennes equations in real space</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="BgG_jl.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Bogoliubov-de Gennes equations in real space</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="citation.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="citation.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Citation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-use-sparse-ir-fortran">How to use sparse-ir-fortran</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-tutorial-code">Building the tutorial code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-code-second-order-perturbation-fort-x">Running the code “<code class="docutils literal notranslate"><span class="pre">second_order_perturbation_fort.x</span></code>”</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

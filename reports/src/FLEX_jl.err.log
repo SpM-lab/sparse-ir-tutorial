@@ -1,0 +1,251 @@
+Traceback (most recent call last):
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+"""
+Solver struct to calculate the FLEX loop self-consistently.
+After initializing the Solver by `solver = FLEXSolver(mesh, beta, U, n, sigma_init, sfc_tol, maxiter, U_maxiter, mix)'
+it can be run by `solve(solver)`.
+ """
+mutable struct FLEXSolver
+    mesh     ::Mesh
+    beta     ::Float64
+    U        ::Float64
+    n        ::Float64
+    sfc_tol  ::Float64
+    maxiter  ::Int64
+    U_maxiter::Int64
+    mix      ::Float64
+    verbose  ::Bool
+    mu       ::Float64
+    gkio     ::Array{ComplexF64,3}
+    grit     ::Array{ComplexF64,3}
+    ckio     ::Array{ComplexF64,3}
+    V        ::Array{ComplexF64,3}
+    sigma    ::Array{ComplexF64,3}
+end
+
+"""Initiarize function"""
+function FLEXSolver(
+        mesh      ::Mesh,
+        beta      ::Float64,
+        U         ::Float64,
+        n         ::Float64,
+        sigma_init::Array{ComplexF64,3};
+        sfc_tol   ::Float64=1e-4,
+        maxiter   ::Int64  =100,
+        U_maxiter ::Int64  =10,
+        mix       ::Float64=0.2,
+        verbose   ::Bool   =true
+        )::FLEXSolver
+    
+        mu::Float64 = 0.0
+    
+        gkio  = Array{ComplexF64}(undef, mesh.fnw,   mesh.nk1, mesh.nk2)
+        grit  = Array{ComplexF64}(undef, mesh.fntau, mesh.nk1, mesh.nk2)
+        ckio  = Array{ComplexF64}(undef, mesh.bnw,   mesh.nk1, mesh.nk2)
+        V     = Array{ComplexF64}(undef, mesh.bntau, mesh.nk1, mesh.nk2)
+        sigma = sigma_init
+    
+        solver = FLEXSolver(mesh, beta, U, n, sfc_tol, maxiter, U_maxiter, mix, verbose, mu, gkio, grit, ckio, V, sigma)
+    
+        solver.mu = mu_calc(solver)
+        gkio_calc(solver,solver.mu)
+        grit_calc(solver)
+        ckio_calc(solver)
+        return solver
+end
+
+#%%%%%%%%%%% Loop solving instance
+function solve(solver::FLEXSolver)
+    """ FLEXSolver.solve() executes FLEX loop until convergence """
+    # check whether U < U_crit! Otherwise, U needs to be renormalized.
+    if maximum(abs, solver.ckio) * solver.U >= 1
+        U_renormalization(solver)
+    end
+            
+    # perform loop until convergence is reached:
+    for it in 1:solver.maxiter
+        sigma_old = copy(solver.sigma)
+        loop(solver)
+        
+        # check whether solution is converged.
+        sfc_check = sum(abs.(solver.sigma-sigma_old))/sum(abs.(solver.sigma))
+
+        if solver.verbose
+            println(it, '\t', sfc_check)
+        end
+        if sfc_check < solver.sfc_tol
+            println("FLEX loop converged at desired accuracy")
+            break
+        end
+    end
+end
+    
+function loop(solver::FLEXSolver)
+    """ FLEX loop """
+    gkio_old = copy(solver.gkio)
+    
+    V_calc(solver)
+    sigma_calc(solver)
+        
+    solver.mu = mu_calc(solver)
+    gkio_calc(solver,solver.mu)
+    
+    solver.gkio .= solver.mix*solver.gkio .+ (1-solver.mix)*gkio_old
+        
+    grit_calc(solver)
+    ckio_calc(solver)
+end
+
+
+#%%%%%%%%%%% U renormalization loop instance
+function U_renormalization(solver::FLEXSolver)
+    """ Loop for renormalizing U if Stoner enhancement U*max{chi0} >= 1. """
+    println("WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!")
+    println("Initiate U renormalization loop.")
+    
+    # save old U for later
+    U_old::Float64 = solver.U
+    # renormalization loop may run infinitely! Insert break condition after U_it_max steps
+    U_it::Int64 = 0
+    
+    while U_old*maximum(abs, solver.ckio) >= 1.0
+        U_it += 1
+        
+        # remormalize U such that U*chi0 < 1
+        solver.U = solver.U / (maximum(abs, solver.ckio)*solver.U + 0.01)
+        println(U_it, '\t', solver.U, '\t', U_old)
+        
+        # perform one shot FLEX loop
+        loop(solver)
+        
+        # reset U
+        solver.U = U_old
+        
+        # break condition for too many steps
+        if U_it == solver.U_maxiter
+            println("U renormalization reached breaking point")
+            break
+        end
+    end
+    println("Leaving U renormalization...")
+end
+
+#%%%%%%%%%%% Calculation steps
+function gkio_calc(solver::FLEXSolver, mu::Float64)
+    """ calculate Green function G(iw,k) """
+    for iy in 1:solver.mesh.nk2, ix in 1:solver.mesh.nk1, iw in 1:solver.mesh.fnw
+        #iv::ComplexF64 = (im * π/solver.beta) * solver.mesh.IR_basis_set.smpl_wn_f.sampling_points[iw]
+        iv::ComplexF64 = valueim(solver.mesh.IR_basis_set.smpl_wn_f.sampling_points[iw], solver.beta)
+        solver.gkio[iw,ix,iy] = 1.0/(iv - solver.mesh.ek[ix, iy] + mu - solver.sigma[iw,ix,iy])
+    end
+end
+
+function grit_calc(solver::FLEXSolver)
+    """ Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] """
+    # Fourier transform
+    grio = k_to_r(solver.mesh, solver.gkio)
+    solver.grit .= wn_to_tau(solver.mesh, Fermionic(), grio)
+end
+
+function ckio_calc(solver::FLEXSolver)
+    """ Calculate irreducible susciptibility chi0(iv,q) """
+    crit = Array{ComplexF64}(undef, solver.mesh.bntau, solver.mesh.nk1, solver.mesh.nk2)
+    for iy in 1:solver.mesh.nk2, ix in 1:solver.mesh.nk1, it in 1:solver.mesh.bntau
+        crit[it,ix,iy] = solver.grit[it,ix,iy] * solver.grit[solver.mesh.bntau-it+1,ix,iy]
+    end
+
+    # Fourier transform
+    ckit = r_to_k(solver.mesh, crit)
+    solver.ckio .= tau_to_wn(solver.mesh, Bosonic(), ckit)
+end
+
+function V_calc(solver::FLEXSolver)
+    """ Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility for calculating sigma """
+    # check whether U is too large and give warning
+    if maximum(abs.(solver.ckio))*solver.U >= 1
+        error("U*max(chi0) >= 1! Paramagnetic phase is left and calculations will turn unstable!")
+    end
+
+    # spin and charge susceptibility
+    chi_spin   = solver.ckio ./ (1 .- solver.U .* solver.ckio)
+    chi_charge = solver.ckio ./ (1 .+ solver.U .* solver.ckio)
+
+    Vkio = (1.5*solver.U^2) .* chi_spin .+ (0.5*solver.U^2) .* chi_charge .- (solver.U^2) .* solver.ckio
+    # Constant Hartree Term V ~ U needs to be treated extra, since they cannot be modeled by the IR basis.
+    # In the single-band case, the Hartree term can be absorbed into the chemical potential.
+
+    # Fourier transform
+    Vrio = k_to_r(solver.mesh, Vkio)
+    solver.V .= wn_to_tau(solver.mesh, Bosonic(), Vrio)
+end
+
+function sigma_calc(solver::FLEXSolver)
+    """ Calculate self-energy Sigma(iw,k) """
+    sigmarit = solver.V .* solver.grit
+
+    # Fourier transform
+    sigmakit = r_to_k(solver.mesh, sigmarit)
+    solver.sigma .= tau_to_wn(solver.mesh, Fermionic(), sigmakit)
+end
+
+
+#%%%%%%%%%%% Setting chemical potential mu
+function calc_electron_density(solver::FLEXSolver,mu::Float64)::Float64
+    """ Calculate electron density from Green function """
+    gkio_calc(solver,mu)
+    gio = dropdims(sum(solver.gkio,dims=(2,3)),dims=(2,3))/solver.mesh.nk
+
+    g_l = fit(solver.mesh.IR_basis_set.smpl_wn_f,gio, dim=1)
+    g_tau0 = dot(solver.mesh.IR_basis_set.basis_f.u(0), g_l)
+
+    n  = 1.0 + real(g_tau0)
+    n  = 2.0 * n #for spin
+end
+
+function mu_calc(solver::FLEXSolver)::Float64
+    """ Find chemical potential for a given filling n0 via brent's root finding algorithm """
+    f  = x -> calc_electron_density(solver,x) - solver.n
+
+    mu = find_zero(f, (3*minimum(solver.mesh.ek), 3*maximum(solver.mesh.ek)), Roots.Brent()) 
+end
+@assert typestable(U_renormalization, FLEXSolver)
+@assert typestable(solve, FLEXSolver)
+------------------
+
+
+expected tuple type
+
+Stacktrace:
+ [1] error(s::String)
+   @ Base ./error.jl:35
+ [2] to_tuple_type(t::Any)
+   @ Base ./reflection.jl:875
+ [3] signature_type(f::Any, argtypes::Any)
+   @ Base ./reflection.jl:881
+ [4] code_typed(f::Any, types::Any; optimize::Bool, debuginfo::Symbol, world::UInt64, interp::Core.Compiler.NativeInterpreter)
+   @ Base ./reflection.jl:1238
+ [5] code_typed
+   @ ./reflection.jl:1230 [inlined]
+ [6] typestable(f::Any, t::Any)
+   @ Main ./In[1]:13
+ [7] top-level scope
+   @ In[4]:209
+

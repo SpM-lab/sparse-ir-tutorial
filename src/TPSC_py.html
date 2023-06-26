@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>TPSC approximation &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,535 +70,319 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/TPSC_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Eliashberg theory for Holstein-Hubbard model" href="eliashberg_holstein_py.html" />
     <link rel="prev" title="FLEX approximation" href="FLEX_py.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_py.html">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_py.html">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/TPSC_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/TPSC_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory-of-tpsc">
-   Theory of TPSC
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#set-of-tpsc-equations">
-     Set of TPSC equations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
-     Notes on practical implementation
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#parameter-setting">
-     Parameter setting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generating-meshes">
-     Generating meshes
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tpsc-solver">
-     TPSC solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#execute-tpsc-solver">
-     Execute TPSC solver
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#visualize-results">
-       Visualize results
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-interaction-dependent-renormalization">
-   Example: Interaction dependent renormalization
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>TPSC approximation</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory-of-tpsc">
-   Theory of TPSC
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#set-of-tpsc-equations">
-     Set of TPSC equations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#notes-on-practical-implementation">
-     Notes on practical implementation
-    </a>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#parameter-setting">
-     Parameter setting
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#generating-meshes">
-     Generating meshes
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#tpsc-solver">
-     TPSC solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#execute-tpsc-solver">
-     Execute TPSC solver
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#visualize-results">
-       Visualize results
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-interaction-dependent-renormalization">
-   Example: Interaction dependent renormalization
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>TPSC approximation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-of-tpsc">Theory of TPSC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-of-tpsc-equations">Set of TPSC equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-practical-implementation">Notes on practical implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-meshes">Generating meshes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tpsc-solver">TPSC solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-tpsc-solver">Execute TPSC solver</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-results">Visualize results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-interaction-dependent-renormalization">Example: Interaction dependent renormalization</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="tpsc-approximation">
-<h1>TPSC approximation<a class="headerlink" href="#tpsc-approximation" title="Permalink to this headline">#</a></h1>
+<h1>TPSC approximation<a class="headerlink" href="#tpsc-approximation" title="Permalink to this heading">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
 <section id="theory-of-tpsc">
-<h2>Theory of TPSC<a class="headerlink" href="#theory-of-tpsc" title="Permalink to this headline">#</a></h2>
+<h2>Theory of TPSC<a class="headerlink" href="#theory-of-tpsc" title="Permalink to this heading">#</a></h2>
 <p>The Two-Particle Self-Consistent (TPSC) approximation is a non-perturbative semi-analytical method that was first introduced by Vilk and Tremblay <span id="id1">[<a class="reference internal" href="bibliography.html#id46" title="Y. M. Vilk and A.-M. S. Tremblay. Non-Perturbative Many-Body Approach to the Hubbard Model and Single-Particle Pseudogap. Journal de Physique I, 7(11):1309–1368, nov 1997. arXiv:cond-mat/9702188, doi:10.1051/jp1:1997135.">Vilk and Tremblay, 1997</a>]</span>. TPSC can be used to study magnetic fluctuations, while it also obeys the Mermin-Wagner theorem, i.e., a phase transtition at finite temperatures is prohibited in one or two dimensions. In addition, the TPSC method satisfies several conservation laws, sum rules and the Pauli principle (actually, it is constructed in a way to fulfill these, since they are used to determine model parameters self-consistently). TPSC is applicable in the weak to intermediate coupling regime, but it breaks down in the strong coupling regime and it cannot describe the Mott transition unlike other non-perturbative methods like Dynamical Mean-Field Theory (DMFT).</p>
 <p>For a (pedagogical) review, please have a look at <span id="id2">[<a class="reference internal" href="bibliography.html#id48" title="S. Allen, A.-M. S. Tremblay, and Y. M. Vilk. Conserving Approximations vs. Two-Particle Self-Consistent Approach, chapter 8. Springer-Verlag New York, 2004. arXiv:cond-mat/0110130.">Allen <em>et al.</em>, 2004</a>, <a class="reference internal" href="bibliography.html#id47" title="André-Marie S. Tremblay. Two-Particle-Self-Consistent Approach for the Hubbard Model, pages 409–453. Springer Berlin Heidelberg, Berlin, Heidelberg, 2012. URL: https://doi.org/10.1007/978-3-642-21831-6_13, arXiv:1107.1534, doi:10.1007/978-3-642-21831-6_13.">Tremblay, 2012</a>]</span> for the single-orbital case implemented here and <span id="id3">[<a class="reference internal" href="bibliography.html#id49" title="Karim Zantout, Steffen Backes, and Roser Valentí. Two-particle self-consistent method for the multi-orbital hubbard model. Annalen der Physik, 533(2):2000399, 2021. URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/andp.202000399, arXiv:https://onlinelibrary.wiley.com/doi/pdf/10.1002/andp.202000399, doi:https://doi.org/10.1002/andp.202000399.">Zantout <em>et al.</em>, 2021</a>]</span> for the more complex multi-orbital theory.</p>
 <section id="set-of-tpsc-equations">
-<h3>Set of TPSC equations<a class="headerlink" href="#set-of-tpsc-equations" title="Permalink to this headline">#</a></h3>
+<h3>Set of TPSC equations<a class="headerlink" href="#set-of-tpsc-equations" title="Permalink to this heading">#</a></h3>
 <p>We review the set of equations that need to be solved in the TPSC approximation assuming a one-band Hubbard model with interaction <span class="math notranslate nohighlight">\(U\)</span> (it is not so easy to extend TPSC to models with more parameters, since sum rules to determine the additional parameters self-consistently need to be found) in the paramagnetic phase (SU(2) symmetric), i.e., <span class="math notranslate nohighlight">\(n = \langle n\rangle = 2n_{\sigma}\)</span> for the electron filling <span class="math notranslate nohighlight">\(n\)</span>. TPSC is constructed in a way to fulfill certain sum rules and the Pauli principle in the form <span class="math notranslate nohighlight">\(\langle n^2\rangle = \langle n\rangle\)</span>. The control quantitites are spin and charge correlation function (susceptibilities) which are evaluated in a Random-Phase-Approximation (RPA) like fashion</p>
 <div class="math notranslate nohighlight">
 \[ \chi_{\mathrm{sp}}^{\mathrm{RPA}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1-U\chi_0(i\nu_m, \boldsymbol{q})}\;,\quad \chi_{\mathrm{ch}}^{\mathrm{RPA}}(i\nu_m, \boldsymbol{q}) = \frac{\chi_0(i\nu_m, \boldsymbol{q})}{1+U\chi_0(i\nu_m, \boldsymbol{q})} \]</div>
@@ -633,7 +435,7 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 \end{split}\]</div>
 </section>
 <section id="notes-on-practical-implementation">
-<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">#</a></h3>
+<h3>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this heading">#</a></h3>
 <p>When implementing the TPSC, a few points need to be treated carefully which we adress in the following:</p>
 <ul class="simple">
 <li><p>The constant Hartree term <span class="math notranslate nohighlight">\(V_{\mathrm{H}} = U\)</span> in the interaction <span class="math notranslate nohighlight">\(V\)</span> and respective self-energy term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> can be absorbed into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span>. Otherwise we would have to treat this term separately, since the IR basis cannot model the <span class="math notranslate nohighlight">\(\delta\)</span>-peak in frequency space well/compactly. In this case, evaluate the term analytically and add it after the Fourier transformation step.</p></li>
@@ -643,426 +445,426 @@ G(i\omega_n,\boldsymbol{k}) &amp;= [G_0^{-1}(i\omega_n,\boldsymbol{k}) - \Sigma(
 </section>
 </section>
 <section id="code-implementation">
-<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">#</a></h2>
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this heading">#</a></h2>
 <p>We are implementing TPSC for the simple case of a square lattice model with dispersion <span class="math notranslate nohighlight">\(\varepsilon_{\boldsymbol{k}} = -2t\,[\cos(k_x) + \cos(k_y)]\)</span> with nearest-neighbor hopping <span class="math notranslate nohighlight">\(t\)</span> which sets the energy scale of our system (bandwidth <span class="math notranslate nohighlight">\(W = 8t\)</span>). First, we load all necessary basic modules that we are going to need in implementing TPSC and visualizing results:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import scipy as sc
-import scipy.optimize
-from warnings import warn
-import sparse_ir
-%matplotlib inline
-import matplotlib.pyplot as plt
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="parameter-setting">
-<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h3>
+<h3>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### System parameters
-t    = 1      # hopping amplitude
-W    = 8*t    # bandwidth
-wmax = 10     # set wmax &gt;= W
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
+<span class="n">t</span>    <span class="o">=</span> <span class="mi">1</span>      <span class="c1"># hopping amplitude</span>
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwidth</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
 
-T    = 0.1    # temperature
-beta = 1/T    # inverse temperature
-n    = 0.85   # electron filling, here per spin per lattice site (n=1: half filling)
-U    = 4      # Hubbard interaction
+<span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span>    <span class="c1"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c1"># inverse temperature</span>
+<span class="n">n</span>    <span class="o">=</span> <span class="mf">0.85</span>   <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mi">4</span>      <span class="c1"># Hubbard interaction</span>
 
-### Numerical parameters
-nk1, nk2  = 24, 24    # number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky
-nk        = nk1*nk2
-IR_tol    = 1e-10     # desired accuary for l-cutoff of IR basis functions
+<span class="c1">### Numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c1"># number of k_points along one repiprocal crystal lattice direction k1 = kx, k2 = ky</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-10</span>     <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="generating-meshes">
-<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">#</a></h3>
+<h3>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this heading">#</a></h3>
 <p>We need to generate a <span class="math notranslate nohighlight">\(\boldsymbol{k}\)</span>-mesh as well as set up the IR basis functions on a sparse <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(i\omega_n\)</span> grid. Then we can calculate the dispersion on this mesh.
 In addition, we set calculation routines to Fourier transform <span class="math notranslate nohighlight">\(k\leftrightarrow r\)</span> and <span class="math notranslate nohighlight">\(\tau\leftrightarrow i\omega_n\)</span> (via IR basis).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#### Initiate fermionic and bosonic IR basis objects
-IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#### Initiate fermionic and bosonic IR basis objects</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
 
-class Mesh:
-    &quot;&quot;&quot;
-    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.
-    Additionally it defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.
-    &quot;&quot;&quot;
-    def __init__(self,IR_basis_set,nk1,nk2):
-        self.IR_basis_set = IR_basis_set
+<span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Holding class for k-mesh and sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.</span>
+<span class="sd">    Additionally it defines the Fourier transform routines &#39;r &lt;-&gt; k&#39;  and &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="p">,</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">IR_basis_set</span>
 
-        # generate k-mesh and dispersion
-        self.nk1, self.nk2, self.nk = nk1, nk2, nk1*nk2
-        self.k1, self.k2 = np.meshgrid(np.arange(self.nk1)/self.nk1, np.arange(self.nk2)/self.nk2)
-        self.ek = -2*t*( np.cos(2*np.pi*self.k1) + np.cos(2*np.pi*self.k2) ).reshape(nk)
+        <span class="c1"># generate k-mesh and dispersion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span> <span class="o">=</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">,</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">k2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ek</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">k2</span><span class="p">)</span> <span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk</span><span class="p">)</span>
 
-        # lowest Matsubara frequency index
-        self.iw0_f = np.where(self.IR_basis_set.wn_f == 1)[0][0]
-        self.iw0_b = np.where(self.IR_basis_set.wn_b == 0)[0][0]
+        <span class="c1"># lowest Matsubara frequency index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-        ### Generate a frequency-momentum grid for iw_n and ek (in preparation for calculating the Green function)
-        # frequency mesh (for Green function)
-        self.iwn_f = 1j * self.IR_basis_set.wn_f * np.pi * T
-        self.iwn_f_ = np.tensordot(self.iwn_f, np.ones(nk), axes=0)
+        <span class="c1">### Generate a frequency-momentum grid for iw_n and ek (in preparation for calculating the Green function)</span>
+        <span class="c1"># frequency mesh (for Green function)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iwn_f_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nk</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-        # ek mesh
-        self.ek_ = np.tensordot(np.ones(len(self.iwn_f)), self.ek, axes=0)
+        <span class="c1"># ek mesh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ek_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tensordot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">)),</span> <span class="bp">self</span><span class="o">.</span><span class="n">ek</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-    def smpl_obj(self, statistics):
-        &quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;
-        smpl_tau = {&#39;F&#39;: self.IR_basis_set.smpl_tau_f, &#39;B&#39;: self.IR_basis_set.smpl_tau_b}[statistics]
-        smpl_wn  = {&#39;F&#39;: self.IR_basis_set.smpl_wn_f,  &#39;B&#39;: self.IR_basis_set.smpl_wn_b }[statistics]
-        return smpl_tau, smpl_wn
-
-    
-    def tau_to_wn(self, statistics, obj_tau):
-        &quot;&quot;&quot; Fourier transform from tau to iwn via IR basis &quot;&quot;&quot;
-        smpl_tau, smpl_wn = self.smpl_obj(statistics)
-
-        obj_tau = obj_tau.reshape((smpl_tau.tau.size, self.nk1, self.nk2))
-        obj_l   = smpl_tau.fit(obj_tau, axis=0)
-        obj_wn  = smpl_wn.evaluate(obj_l, axis=0).reshape((smpl_wn.wn.size, self.nk))
-        return obj_wn
-
-    def wn_to_tau(self, statistics, obj_wn):
-        &quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;
-        smpl_tau, smpl_wn = self.smpl_obj(statistics)
-
-        obj_wn  = obj_wn.reshape((smpl_wn.wn.size, self.nk1, self.nk2))
-        obj_l   = smpl_wn.fit(obj_wn, axis=0)
-        obj_tau = smpl_tau.evaluate(obj_l, axis=0).reshape((smpl_tau.tau.size, self.nk))
-        return obj_tau
+    <span class="k">def</span> <span class="nf">smpl_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
+        <span class="n">smpl_wn</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span>  <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span> <span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span>
 
     
-    def k_to_r(self,obj_k):
-        &quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;
-        obj_k = obj_k.reshape(-1, self.nk1, self.nk2)
-        obj_r = np.fft.fftn(obj_k,axes=(1,2))
-        obj_r = obj_r.reshape(-1, self.nk)
-        return obj_r
+    <span class="k">def</span> <span class="nf">tau_to_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from tau to iwn via IR basis &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
-    def r_to_k(self,obj_r):
-        &quot;&quot;&quot; Fourier transform from real space to k-space &quot;&quot;&quot;
-        obj_r = obj_r.reshape(-1, self.nk1, self.nk2)
-        obj_k = np.fft.ifftn(obj_r,axes=(1,2))/self.nk
-        obj_k = obj_k.reshape(-1, self.nk)
-        return obj_k
+        <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">obj_tau</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
+        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_wn</span><span class="o">.</span><span class="n">wn</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">obj_wn</span>
+
+    <span class="k">def</span> <span class="nf">wn_to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
+
+        <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">obj_wn</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_wn</span><span class="o">.</span><span class="n">wn</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">))</span>
+        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">smpl_tau</span><span class="o">.</span><span class="n">tau</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">obj_tau</span>
+
+    
+    <span class="k">def</span> <span class="nf">k_to_r</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj_k</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from k-space to real space &quot;&quot;&quot;</span>
+        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">obj_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftn</span><span class="p">(</span><span class="n">obj_k</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">obj_r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj_r</span>
+
+    <span class="k">def</span> <span class="nf">r_to_k</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj_r</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from real space to k-space &quot;&quot;&quot;</span>
+        <span class="n">obj_r</span> <span class="o">=</span> <span class="n">obj_r</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk2</span><span class="p">)</span>
+        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifftn</span><span class="p">(</span><span class="n">obj_r</span><span class="p">,</span><span class="n">axes</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">nk</span>
+        <span class="n">obj_k</span> <span class="o">=</span> <span class="n">obj_k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nk</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj_k</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="tpsc-solver">
-<h3>TPSC solver<a class="headerlink" href="#tpsc-solver" title="Permalink to this headline">#</a></h3>
+<h3>TPSC solver<a class="headerlink" href="#tpsc-solver" title="Permalink to this heading">#</a></h3>
 <p>We wrap the calculation steps of TPSC (i.e. determining <span class="math notranslate nohighlight">\(U_{\mathrm{sp}},U_{\mathrm{ch}}\)</span>) in the <code class="docutils literal notranslate"><span class="pre">TPSCSolver</span></code> class. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class TPSCSolver:
-    def __init__(self, mesh, U, n, U_sfc_tol=1e-12, verbose=True):
-        &quot;&quot;&quot;
-        Solver class to calculate the TPSC method.
-        After initializing the Solver by `solver = TPSCSolver(mesh, U, n, **kwargs)` it 
-        can be run by `solver.solve()`.
-        &quot;&quot;&quot;
-        ## set internal parameters for the solver
-        self.U = U
-        self.n = n
-        self.mesh = mesh
-        self.U_sfc_tol = U_sfc_tol
-        self.verbose = verbose
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">TPSCSolver</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">U_sfc_tol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Solver class to calculate the TPSC method.</span>
+<span class="sd">        After initializing the Solver by `solver = TPSCSolver(mesh, U, n, **kwargs)` it </span>
+<span class="sd">        can be run by `solver.solve()`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">## set internal parameters for the solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U_sfc_tol</span> <span class="o">=</span> <span class="n">U_sfc_tol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         
-        ## set initial Green function and irreducible susceptibility
-        self.sigma = 0
+        <span class="c1">## set initial Green function and irreducible susceptibility</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
         
-        self.mu = 0
-        self.mu_calc()
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_calc</span><span class="p">()</span>
         
-        self.gkio_calc(self.mu)
-        self.grit_calc()
-        self.ckio_calc()
+        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grit_calc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ckio_calc</span><span class="p">()</span>
         
-        # determine critical U_crit = 1/max(chi0) as an upper bound to U_sp
-        self.U_crit = 1/np.amax(self.ckio.real)
+        <span class="c1"># determine critical U_crit = 1/max(chi0) as an upper bound to U_sp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U_crit</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
     
     
-    #%%%%%%%%%%% Solving instance
-    def solve(self):
-        &quot;&quot;&quot;
-        Determine spin and charge vertex self-consistently from sum rules and calculate self-energy.
-        &quot;&quot;&quot;
-        # determine spin vertex U_sp
-        self.spin_vertex_calc()
+    <span class="c1">#%%%%%%%%%%% Solving instance</span>
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determine spin and charge vertex self-consistently from sum rules and calculate self-energy.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># determine spin vertex U_sp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spin_vertex_calc</span><span class="p">()</span>
         
-        # set double occupancy from Kanamori-Bruckner screening
-        self.docc_calc()
+        <span class="c1"># set double occupancy from Kanamori-Bruckner screening</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">docc_calc</span><span class="p">()</span>
  
-        # determine charge vertex U_ch
-        self.charge_vertex_calc()
+        <span class="c1"># determine charge vertex U_ch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">charge_vertex_calc</span><span class="p">()</span>
         
-        # set spin and charge susceptibility
-        self.chi_spin   = self.RPA_term_calc( self.U_sp)
-        self.chi_charge = self.RPA_term_calc(-self.U_ch)
+        <span class="c1"># set spin and charge susceptibility</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span>   <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPA_term_calc</span><span class="p">(</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_sp</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPA_term_calc</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">U_ch</span><span class="p">)</span>
 
-        # calculate interaction, self-energy and interacting Green function
-        self.V_calc()
-        self.sigma_calc()
-        self.mu_calc()
-        self.gkio_calc(self.mu)
+        <span class="c1"># calculate interaction, self-energy and interacting Green function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V_calc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma_calc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_calc</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">)</span>
     
-    #%%%%%%%%%%% Calculation steps for self.energy
-    def gkio_calc(self, mu):
-        &quot;&quot;&quot; Calculate Green function G(iw,k) &quot;&quot;&quot;
-        self.gkio = (self.mesh.iwn_f_ - (self.mesh.ek_ - mu) - self.sigma)**(-1)
+    <span class="c1">#%%%%%%%%%%% Calculation steps for self.energy</span>
+    <span class="k">def</span> <span class="nf">gkio_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate Green function G(iw,k) &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gkio</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f_</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek_</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-    def grit_calc(self):
-        &quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;
-        # Fourier transform
-        grit = self.mesh.k_to_r(self.gkio)
-        self.grit = self.mesh.wn_to_tau(&#39;F&#39;, grit)
+    <span class="k">def</span> <span class="nf">grit_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate real space Green function G(tau,r) [for calculating chi0 and sigma] &quot;&quot;&quot;</span>
+        <span class="c1"># Fourier transform</span>
+        <span class="n">grit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">grit</span><span class="p">)</span>
 
-    def ckio_calc(self):
-        &quot;&quot;&quot; Calculate irreducible susciptibility chi0(iv,q) &quot;&quot;&quot;
-        ckio = self.grit * self.grit[::-1, :]
+    <span class="k">def</span> <span class="nf">ckio_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate irreducible susciptibility chi0(iv,q) &quot;&quot;&quot;</span>
+        <span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
 
-        # Fourier transform
-        ckio = self.mesh.r_to_k(ckio)
-        self.ckio = self.mesh.tau_to_wn(&#39;B&#39;, ckio)
+        <span class="c1"># Fourier transform</span>
+        <span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">r_to_k</span><span class="p">(</span><span class="n">ckio</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">ckio</span><span class="p">)</span>
 
-    def V_calc(self):
-        &quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility &quot;&quot;&quot;
-        V = self.U/4 * (3*self.U_sp*self.chi_spin + self.U_ch*self.chi_charge)
-        # Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled by the IR basis compactly.
-        # In the single-band case, the Hartree term can be absorbed into the chemical potential.
+    <span class="k">def</span> <span class="nf">V_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate interaction V(tau,r) from RPA-like spin and charge susceptibility &quot;&quot;&quot;</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">/</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">U_sp</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">chi_spin</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_ch</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">chi_charge</span><span class="p">)</span>
+        <span class="c1"># Constant Hartree Term V ~ U needs to be treated extra, since it cannot be modeled by the IR basis compactly.</span>
+        <span class="c1"># In the single-band case, the Hartree term can be absorbed into the chemical potential.</span>
 
-        # Fourier transform
-        V = self.mesh.k_to_r(V)
-        self.V = self.mesh.wn_to_tau(&#39;B&#39;, V)
+        <span class="c1"># Fourier transform</span>
+        <span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">k_to_r</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
 
-    def sigma_calc(self):
-        &quot;&quot;&quot; Calculate self-energy Sigma(iwn,k) &quot;&quot;&quot;
-        sigma = self.V * self.grit
+    <span class="k">def</span> <span class="nf">sigma_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate self-energy Sigma(iwn,k) &quot;&quot;&quot;</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">grit</span>
     
-        # Fourier transform
-        sigma = self.mesh.r_to_k(sigma)
-        self.sigma = self.mesh.tau_to_wn(&#39;F&#39;, sigma)
+        <span class="c1"># Fourier transform</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">r_to_k</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
 
 
-    #%%%%%%%%%%% Determining spin and charge vertex
-    def RPA_term_calc(self, U):
-        &quot;&quot;&quot; Set RPA-like susceptibility &quot;&quot;&quot;
-        chi_RPA = self.ckio / (1 - U*self.ckio)
-        return chi_RPA     
+    <span class="c1">#%%%%%%%%%%% Determining spin and charge vertex</span>
+    <span class="k">def</span> <span class="nf">RPA_term_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Set RPA-like susceptibility &quot;&quot;&quot;</span>
+        <span class="n">chi_RPA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ckio</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">U</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">ckio</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chi_RPA</span>     
     
-    def chi_qtrace_calc(self, U):
-        &quot;&quot;&quot; Calculate (iv_m, q) trace of chi_RPA term &quot;&quot;&quot;
-        # chi_qtrace = sum_(m,q) chi(iv_m,q)
-        chi_RPA = self.RPA_term_calc(U)
-        chi_trace = np.sum(chi_RPA, axis=1)/self.mesh.nk
-        chi_trace_l  = self.mesh.IR_basis_set.smpl_wn_b.fit(chi_trace)
-        chi_trace = self.mesh.IR_basis_set.basis_b.u(0)@chi_trace_l
-        return chi_trace.real
+    <span class="k">def</span> <span class="nf">chi_qtrace_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate (iv_m, q) trace of chi_RPA term &quot;&quot;&quot;</span>
+        <span class="c1"># chi_qtrace = sum_(m,q) chi(iv_m,q)</span>
+        <span class="n">chi_RPA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">RPA_term_calc</span><span class="p">(</span><span class="n">U</span><span class="p">)</span>
+        <span class="n">chi_trace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">chi_RPA</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
+        <span class="n">chi_trace_l</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">chi_trace</span><span class="p">)</span>
+        <span class="n">chi_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_b</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@chi_trace_l</span>
+        <span class="k">return</span> <span class="n">chi_trace</span><span class="o">.</span><span class="n">real</span>
     
-    def docc_calc(self):
-        &quot;&quot;&quot; Calculate double occupancy from Kanamori-Bruckner type screening &quot;&quot;&quot;
-        self.docc = 0.25 * self.U_sp/self.U * self.n**2
+    <span class="k">def</span> <span class="nf">docc_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate double occupancy from Kanamori-Bruckner type screening &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">docc</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_sp</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span>
     
-    def spin_vertex_calc(self):
-        &quot;&quot;&quot; Determine U_sp self-consistently from local sum rule &quot;&quot;&quot;
-        # interval [U_a, U_b] for root finding
-        U_a = 0
-        U_b = np.floor(self.U_crit*100)/100
+    <span class="k">def</span> <span class="nf">spin_vertex_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Determine U_sp self-consistently from local sum rule &quot;&quot;&quot;</span>
+        <span class="c1"># interval [U_a, U_b] for root finding</span>
+        <span class="n">U_a</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">U_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U_crit</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span>
         
-        chi_trace = self.chi_qtrace_calc
-        sfc_eq = lambda U_sp : 2*chi_trace(U_sp) - self.n + 0.5*(U_sp/self.U)*self.n**2
+        <span class="n">chi_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_qtrace_calc</span>
+        <span class="n">sfc_eq</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">U_sp</span> <span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">chi_trace</span><span class="p">(</span><span class="n">U_sp</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">U_sp</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span>
 
-        if sfc_eq(U_b) &gt; 0:        
-            self.U_sp = sc.optimize.brentq(sfc_eq, U_a, U_b, rtol = self.U_sfc_tol)
-        else:
-            warn(&quot;System underwent phase transition, U^sp &gt; U_crit = {}! U is too large or T too low for given doping.&quot;.format(self.U_crit))
+        <span class="k">if</span> <span class="n">sfc_eq</span><span class="p">(</span><span class="n">U_b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">U_sp</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">sfc_eq</span><span class="p">,</span> <span class="n">U_a</span><span class="p">,</span> <span class="n">U_b</span><span class="p">,</span> <span class="n">rtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_sfc_tol</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="s2">&quot;System underwent phase transition, U^sp &gt; U_crit = </span><span class="si">{}</span><span class="s2">! U is too large or T too low for given doping.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U_crit</span><span class="p">))</span>
     
-    def charge_vertex_calc(self):
-        &quot;&quot;&quot; Determine U_ch self-consistently from local sum rule &quot;&quot;&quot;
-        # interval [U_a, U_b] for root finding
-        U_a = 0
-        U_b = 100
+    <span class="k">def</span> <span class="nf">charge_vertex_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Determine U_ch self-consistently from local sum rule &quot;&quot;&quot;</span>
+        <span class="c1"># interval [U_a, U_b] for root finding</span>
+        <span class="n">U_a</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">U_b</span> <span class="o">=</span> <span class="mi">100</span>
         
-        chi_trace = self.chi_qtrace_calc
-        sfc_eq = lambda U_ch : 2*chi_trace(-U_ch) - self.n + (1 - 2*self.docc)*self.n**2
+        <span class="n">chi_trace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">chi_qtrace_calc</span>
+        <span class="n">sfc_eq</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">U_ch</span> <span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">chi_trace</span><span class="p">(</span><span class="o">-</span><span class="n">U_ch</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">docc</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">**</span><span class="mi">2</span>
 
-        self.U_ch = sc.optimize.brentq(sfc_eq, U_a, U_b, rtol = self.U_sfc_tol)
+        <span class="bp">self</span><span class="o">.</span><span class="n">U_ch</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">sfc_eq</span><span class="p">,</span> <span class="n">U_a</span><span class="p">,</span> <span class="n">U_b</span><span class="p">,</span> <span class="n">rtol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">U_sfc_tol</span><span class="p">)</span>
 
         
-    #%%%%%%%%%%% Setting chemical potential mu
-    def calc_electron_density(self, mu):
-        &quot;&quot;&quot; Calculate chemical potential mu from Green function &quot;&quot;&quot;
-        self.gkio_calc(mu)
-        gio  = np.sum(self.gkio,axis=1)/self.mesh.nk
-        g_l  = self.mesh.IR_basis_set.smpl_wn_f.fit(gio)
-        g_tau0 = self.mesh.IR_basis_set.basis_f.u(0)@g_l
+    <span class="c1">#%%%%%%%%%%% Setting chemical potential mu</span>
+    <span class="k">def</span> <span class="nf">calc_electron_density</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Calculate chemical potential mu from Green function &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gkio_calc</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span>
+        <span class="n">gio</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkio</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk</span>
+        <span class="n">g_l</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">gio</span><span class="p">)</span>
+        <span class="n">g_tau0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">u</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="nd">@g_l</span>
     
-        n  = 1 + np.real(g_tau0)
-        n  = 2*n #for spin
-        return n
+        <span class="n">n</span>  <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">g_tau0</span><span class="p">)</span>
+        <span class="n">n</span>  <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">n</span> <span class="c1">#for spin</span>
+        <span class="k">return</span> <span class="n">n</span>
 
-    def mu_calc(self):
-        &quot;&quot;&quot; Find chemical potential for a given filling n0 via brentq root finding algorithm &quot;&quot;&quot;
-        n_calc = self.calc_electron_density
-        n0 = self.n
-        f  = lambda mu : n_calc(mu) - n0
+    <span class="k">def</span> <span class="nf">mu_calc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Find chemical potential for a given filling n0 via brentq root finding algorithm &quot;&quot;&quot;</span>
+        <span class="n">n_calc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_electron_density</span>
+        <span class="n">n0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+        <span class="n">f</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">mu</span> <span class="p">:</span> <span class="n">n_calc</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="o">-</span> <span class="n">n0</span>
 
-        self.mu = sc.optimize.brentq(f, np.amax(self.mesh.ek)*3, np.amin(self.mesh.ek)*3)
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">optimize</span><span class="o">.</span><span class="n">brentq</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">ek</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="execute-tpsc-solver">
-<h3>Execute TPSC solver<a class="headerlink" href="#execute-tpsc-solver" title="Permalink to this headline">#</a></h3>
+<h3>Execute TPSC solver<a class="headerlink" href="#execute-tpsc-solver" title="Permalink to this heading">#</a></h3>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># initialize calculation
-IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
-mesh = Mesh(IR_basis_set, nk1, nk2)
-solver = TPSCSolver(mesh, U, n)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># initialize calculation</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">TPSCSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
 
-# perform TPSC calculation
-solver.solve()
+<span class="c1"># perform TPSC calculation</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="visualize-results">
-<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function
-plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(solver.gkio[mesh.iw0_f].reshape(mesh.nk1,mesh.nk2)), shading=&#39;auto&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$k_x/\pi$&#39;)
-ax.set_xlim([0,2])
-ax.set_ylabel(&#39;$k_y/\pi$&#39;)
-ax.set_ylim([0,2])
-ax.set_aspect(&#39;equal&#39;)
-ax.set_title(&#39;Re $G(k,i\omega_0)$&#39;)
-plt.colorbar()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. green function</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">gkio</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Re $G(k,i\omega_0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/TPSC_py_12_0.png" src="../_images/TPSC_py_12_0.png" />
+<img alt="../_images/52d68423663127f5d3bd912768efaf149e88743b116dacc2b8683ab3aee20f1a.png" src="../_images/52d68423663127f5d3bd912768efaf149e88743b116dacc2b8683ab3aee20f1a.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of e.g. self-energy
-plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.imag(solver.sigma[mesh.iw0_f].reshape(mesh.nk1,mesh.nk2)), shading=&#39;auto&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$k_x/\pi$&#39;)
-ax.set_xlim([0,2])
-ax.set_ylabel(&#39;$k_y/\pi$&#39;)
-ax.set_ylim([0,2])
-ax.set_aspect(&#39;equal&#39;)
-ax.set_title(&#39;Im $\Sigma(k,i\omega_0)$&#39;)
-plt.colorbar()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. self-energy</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Im $\Sigma(k,i\omega_0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/TPSC_py_13_0.png" src="../_images/TPSC_py_13_0.png" />
+<img alt="../_images/e408fab790edeb681d35b1a050da88cb763f9ab13f83b493c6cf94edf7b86b3a.png" src="../_images/e408fab790edeb681d35b1a050da88cb763f9ab13f83b493c6cf94edf7b86b3a.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi_spin
-plt.pcolormesh(2*mesh.k1.reshape(nk1,nk2), 2*mesh.k2.reshape(nk1,nk2), np.real(solver.chi_spin[mesh.iw0_b].reshape(mesh.nk1,mesh.nk2)), shading=&#39;auto&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$k_x/\pi$&#39;)
-ax.set_xlim([0,2])
-ax.set_ylabel(&#39;$k_y/\pi$&#39;)
-ax.set_ylim([0,2])
-ax.set_aspect(&#39;equal&#39;)
-ax.set_title(&#39;$\chi_{\mathrm{sp}}(k,i\nu_0)$&#39;)
-plt.colorbar()
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot 2D k-dependence of lowest Matsubara frequency of e.g. chi_spin</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="mi">2</span><span class="o">*</span><span class="n">mesh</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nk1</span><span class="p">,</span><span class="n">nk2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">chi_spin</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_b</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk1</span><span class="p">,</span><span class="n">mesh</span><span class="o">.</span><span class="n">nk2</span><span class="p">)),</span> <span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$k_x/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$k_y/\pi$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;$\chi_{\mathrm</span><span class="si">{sp}</span><span class="s1">}(k,i</span><span class="se">\n</span><span class="s1">u_0)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/TPSC_py_14_0.png" src="../_images/TPSC_py_14_0.png" />
+<img alt="../_images/986db944e3063efa4efe8eeae12844552e94e1d117751512b70c4ead2ffe7e21.png" src="../_images/986db944e3063efa4efe8eeae12844552e94e1d117751512b70c4ead2ffe7e21.png" />
 </div>
 </div>
 </section>
 </section>
 </section>
 <section id="example-interaction-dependent-renormalization">
-<h2>Example: Interaction dependent renormalization<a class="headerlink" href="#example-interaction-dependent-renormalization" title="Permalink to this headline">#</a></h2>
+<h2>Example: Interaction dependent renormalization<a class="headerlink" href="#example-interaction-dependent-renormalization" title="Permalink to this heading">#</a></h2>
 <p>As a simple example demonstration of our <code class="docutils literal notranslate"><span class="pre">sparse-ir</span></code> TPSC code developed above, we will reproduce Fig. 2 of <span id="id5">[<a class="reference internal" href="bibliography.html#id46" title="Y. M. Vilk and A.-M. S. Tremblay. Non-Perturbative Many-Body Approach to the Hubbard Model and Single-Particle Pseudogap. Journal de Physique I, 7(11):1309–1368, nov 1997. arXiv:cond-mat/9702188, doi:10.1051/jp1:1997135.">Vilk and Tremblay, 1997</a>]</span>. It shows the <span class="math notranslate nohighlight">\(U\)</span> dependence of renormalized/effective spin and charge interactions <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}\)</span> and <span class="math notranslate nohighlight">\(U_{\mathrm{ch}}\)</span> (irreducible vertices) at half filling <span class="math notranslate nohighlight">\(n=1\)</span> and <span class="math notranslate nohighlight">\(T&gt;T_{\mathrm{crit}}\)</span> for all considered <span class="math notranslate nohighlight">\(U\)</span> (i.e. <span class="math notranslate nohighlight">\(U_{\mathrm{sp}}&lt;U_{\mathrm{crit}}\)</span> is ensured).</p>
 <p>You can simply execute the following two code blocks which will first perform the calculation and then generate a figure like in the reference above.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#%%%%%%%%%%%%%%% Parameter settings
-print(&#39;Initialization...&#39;)
-# system parameters
-t = 1         # hopping amplitude
-n = 1         # electron filling, here per spin per lattice site (n=1: half filling)
-T = 0.4       # temperature
-beta =1/T
-U_array = np.linspace(1e-10,5,51)  # Hubbard interaction
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%% Parameter settings</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Initialization...&#39;</span><span class="p">)</span>
+<span class="c1"># system parameters</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># hopping amplitude</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">1</span>         <span class="c1"># electron filling, here per spin per lattice site (n=1: half filling)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">0.4</span>       <span class="c1"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">T</span>
+<span class="n">U_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">1e-10</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">51</span><span class="p">)</span>  <span class="c1"># Hubbard interaction</span>
 
-W    = 8*t    # bandwidth
-wmax = 10     # set wmax &gt;= W
+<span class="n">W</span>    <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span>    <span class="c1"># bandwidth</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">10</span>     <span class="c1"># set wmax &gt;= W</span>
 
-# numerical parameters
-nk1, nk2  = 24, 24    # k-mesh sufficiently dense!
-nk        = nk1*nk2
-IR_tol    = 1e-8      # desired accuary for l-cutoff of IR basis functions
-
-
-# initialize meshes
-IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
-mesh = Mesh(IR_basis_set, nk1, nk2)
-
-# set initial self_energy - will be set to previous calculation step afterwards
-sigma_init = 0
-
-# empty arrays for results later
-U_sp_array = np.empty((len(U_array)))
-U_ch_array = np.empty((len(U_array)))
+<span class="c1"># numerical parameters</span>
+<span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span>  <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span>    <span class="c1"># k-mesh sufficiently dense!</span>
+<span class="n">nk</span>        <span class="o">=</span> <span class="n">nk1</span><span class="o">*</span><span class="n">nk2</span>
+<span class="n">IR_tol</span>    <span class="o">=</span> <span class="mf">1e-8</span>      <span class="c1"># desired accuary for l-cutoff of IR basis functions</span>
 
 
-#%%%%%%%%%%%%%%% Calculations for different U values
-print(&quot;Start TPSC loop...&quot;)
-for U_it, U in enumerate(U_array):
-    #print(&quot;Now: U = {:.1f}&quot;.format(U))
+<span class="c1"># initialize meshes</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">,</span> <span class="n">nk1</span><span class="p">,</span> <span class="n">nk2</span><span class="p">)</span>
+
+<span class="c1"># set initial self_energy - will be set to previous calculation step afterwards</span>
+<span class="n">sigma_init</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># empty arrays for results later</span>
+<span class="n">U_sp_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">U_array</span><span class="p">)))</span>
+<span class="n">U_ch_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">U_array</span><span class="p">)))</span>
+
+
+<span class="c1">#%%%%%%%%%%%%%%% Calculations for different U values</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Start TPSC loop...&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">U_it</span><span class="p">,</span> <span class="n">U</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">U_array</span><span class="p">):</span>
+    <span class="c1">#print(&quot;Now: U = {:.1f}&quot;.format(U))</span>
     
-    # TPSC solver
-    solver = TPSCSolver(mesh, U, n, verbose=False)
-    solver.solve()
+    <span class="c1"># TPSC solver</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">TPSCSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
     
-    # save data for plotting
-    U_sp_array[U_it] = solver.U_sp
-    U_ch_array[U_it] = solver.U_ch
-print(&quot;Finished. Plotting now.&quot;)
+    <span class="c1"># save data for plotting</span>
+    <span class="n">U_sp_array</span><span class="p">[</span><span class="n">U_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U_sp</span>
+    <span class="n">U_ch_array</span><span class="p">[</span><span class="n">U_it</span><span class="p">]</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">U_ch</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finished. Plotting now.&quot;</span><span class="p">)</span>
 
 
-#%%%%%%%%%%%%%%%% Plot results
-plt.plot(U_array, U_ch_array, &#39;-&#39;, label=&#39;$U_{\mathrm{ch}}$&#39;)
-plt.plot(U_array, U_sp_array, &#39;-&#39;, label=&#39;$U_{\mathrm{sp}}$&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$U$&#39;, fontsize=12)
-ax.set_xlim([0,5])
-ax.set_ylabel(&#39;Interaction&#39;, fontsize=12)
-ax.set_ylim([0,20])
-ax.legend(frameon=False, fontsize=12)
+<span class="c1">#%%%%%%%%%%%%%%%% Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_array</span><span class="p">,</span> <span class="n">U_ch_array</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$U_{\mathrm</span><span class="si">{ch}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_array</span><span class="p">,</span> <span class="n">U_sp_array</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$U_{\mathrm</span><span class="si">{sp}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$U$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Interaction&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1074,10 +876,10 @@ Start TPSC loop...
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Finished. Plotting now.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fe76a1cc220&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f2c227eb350&gt;
 </pre></div>
 </div>
-<img alt="../_images/TPSC_py_16_3.png" src="../_images/TPSC_py_16_3.png" />
+<img alt="../_images/7750dc3376aece5f23bb2407f7253a3442e39f6b62d83a6c7a2678310d7dd407.png" src="../_images/7750dc3376aece5f23bb2407f7253a3442e39f6b62d83a6c7a2678310d7dd407.png" />
 </div>
 </div>
 </section>
@@ -1095,7 +897,7 @@ Start TPSC loop...
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -1103,50 +905,120 @@ Start TPSC loop...
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="FLEX_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">FLEX approximation</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="FLEX_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">FLEX approximation</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="eliashberg_holstein_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="eliashberg_holstein_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">Eliashberg theory for Holstein-Hubbard model</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory-of-tpsc">Theory of TPSC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-of-tpsc-equations">Set of TPSC equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-practical-implementation">Notes on practical implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-meshes">Generating meshes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tpsc-solver">TPSC solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-tpsc-solver">Execute TPSC solver</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-results">Visualize results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-interaction-dependent-renormalization">Example: Interaction dependent renormalization</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>

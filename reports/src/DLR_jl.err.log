@@ -1,0 +1,50 @@
+Traceback (most recent call last):
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/jovyan/.venv/default/lib/python3.11/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#v = 2 .* collect(-1000:10:1000) .+ 1
+v = FermionicFreq.(2 .* collect(-1000:10:1000) .+ 1)
+iv = SparseIR.valueim.(v, beta)
+
+newaxis = [CartesianIndex()]
+transmat = 1 ./ (iv[:,newaxis] .- dlr.poles[newaxis,:])
+giv = transmat * g_dlr
+
+smpl = MatsubaraSampling(basis, v)
+giv_exact = evaluate(smpl, gl)
+
+plot(
+    imag.(iv), [imag.(giv_exact), imag.(giv)], marker=[:cross :x], line=(nothing,nothing),
+    xlabel=latexstring("\\nu"),
+    ylabel=latexstring("G(\\mathrm{i}\\omega_n)")
+    )
+------------------
+
+
+MethodError: no method matching MatsubaraSampling(::FiniteTempBasis{Fermionic, LogisticKernel}, ::Vector{FermionicFreq})
+
+[0mClosest candidates are:
+[0m  MatsubaraSampling(::SparseIR.AbstractBasis; positive_only, sampling_points)
+[0m[90m   @[39m [35mSparseIR[39m [90m~/.julia/packages/SparseIR/KrYmQ/src/[39m[90m[4msampling.jl:69[24m[39m
+
+
+Stacktrace:
+ [1] top-level scope
+   @ In[8]:9
+

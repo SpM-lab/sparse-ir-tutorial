@@ -1,49 +1,67 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
+
+<html lang="en" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>DMFT with IPT solver &#8212; sparse-ir</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
-    
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
+    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
+    <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){ dataLayer.push(arguments); }
+                gtag('js', new Date());
+                gtag('config', 'G-RD8N0K0C9Y');
+            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -52,592 +70,327 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'src/DMFT_IPT_py';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="FLEX approximation" href="FLEX_py.html" />
     <link rel="prev" title="The GF2 &amp; GW method" href="GW_py.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en">
-    
-
-    <!-- Google Analytics -->
-    
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-RD8N0K0C9Y"></script>
-<script>
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){ dataLayer.push(arguments); }
-                    gtag('js', new Date());
-                    gtag('config', 'G-RD8N0K0C9Y');
-                </script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
     
-    <div class="container-fluid" id="banner"></div>
-
     
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="../index.html">
-      
-      
-      
-      <h1 class="site-logo" id="site-title">sparse-ir</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Basic theory
- </span>
-</p>
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">sparse-ir</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="IR_py.html">
-   Intermediate representation (IR)
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR.html">
-   Discrete Lehmann representation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="IR_py.html">Intermediate representation (IR)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR.html">Discrete Lehmann representation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API reference
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="additional_material.html">
-   Additional material
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="additional_material.html">Additional material</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_py.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="sparse_sampling_demo_py.html">
-   Sparse sampling
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_py.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_py.html">
-   Second-order perturbation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="GW_py.html">
-   The GF2 &amp; GW method
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   DMFT with IPT solver
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_py.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="TPSC_py.html">
-   TPSC approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="eliashberg_holstein_py.html">
-   Eliashberg theory for Holstein-Hubbard model
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="orbital_magnetic_susceptibility_py.html">
-   Orbital magnetic susceptibility
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="liechtenstein_py.html">
-   Estimation of exchange interactions
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_py.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sparse_sampling_demo_py.html">Sparse sampling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_py.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_py.html">Second-order perturbation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="GW_py.html">The GF2 &amp; GW method</a></li>
+
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">DMFT with IPT solver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_py.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="TPSC_py.html">TPSC approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="eliashberg_holstein_py.html">Eliashberg theory for Holstein-Hubbard model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orbital_magnetic_susceptibility_py.html">Orbital magnetic susceptibility</a></li>
+<li class="toctree-l1"><a class="reference internal" href="liechtenstein_py.html">Estimation of exchange interactions</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Analytic continuation
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Analytic continuation</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="analytic_continuation_py.html">
-   Numerical analytic continuation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="spm_py.html">
-   SpM analytic continuation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="analytic_continuation_py.html">Numerical analytic continuation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="spm_py.html">SpM analytic continuation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Julia)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Julia)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="transformation_jl.html">
-   Transformation from/to IR
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DLR_jl.html">
-   Discrete Lehmann Representation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="DMFT_IPT_jl.html">
-   DMFT calculation with IPT
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="FLEX_jl.html">
-   FLEX approximation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="BgG_jl.html">
-   Bogoliubov-de Gennes equations in real space
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="transformation_jl.html">Transformation from/to IR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DLR_jl.html">Discrete Lehmann Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="DMFT_IPT_jl.html">DMFT calculation with IPT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FLEX_jl.html">FLEX approximation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BgG_jl.html">Bogoliubov-de Gennes equations in real space</a></li>
+
+
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Sample codes (Fortran)
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Sample codes (Fortran)</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="second_order_perturbation_fort.html">
-   Second-order perturbation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="second_order_perturbation_fort.html">Second-order perturbation</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Reference
- </span>
-</p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Reference</span></p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="citation.html">
-   Citation
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="bibliography.html">
-   Bibliograpy
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="citation.html">Citation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliograpy</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
-</div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
-          
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
 
-
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
 
 
 
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/src/DMFT_IPT_py.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
   </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
 
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
-<div class="menu-dropdown menu-dropdown-launch-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Launch interactive content">
-      <i class="fas fa-rocket"></i>
-  </button>
-  <div class="menu-dropdown__content">
-    <ul>
-    </ul>
-  </div>
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
+
+
+
 
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="../_sources/src/DMFT_IPT_py.ipynb"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.ipynb</span>
-</a>
-
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
-</button>
-
-      </li>
-      
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
-
+</div></div>
+      
     </div>
+  
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model">
-     Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dmft-equations">
-     DMFT equations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ipt-solver">
-     IPT Solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#renormalization-factor">
-     Renormalization factor
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#notes-on-practical-implementation">
-       Notes on practical implementation
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-the-solver">
-     Setting up the solver
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#generating-meshes">
-       Generating meshes
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id1">
-       IPT solver
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#dmft-loop">
-       DMFT loop
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculations">
-     Calculations
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#parameter-setting">
-       Parameter setting
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#visualize-results">
-       Visualize results
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Renormalization factor
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>DMFT with IPT solver</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#theory">
-   Theory
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#model">
-     Model
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#dmft-equations">
-     DMFT equations
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#ipt-solver">
-     IPT Solver
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#renormalization-factor">
-     Renormalization factor
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#notes-on-practical-implementation">
-       Notes on practical implementation
-      </a>
-     </li>
-    </ul>
-   </li>
-  </ul>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#code-implementation">
-   Code implementation
-  </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#setting-up-the-solver">
-     Setting up the solver
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#generating-meshes">
-       Generating meshes
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#id1">
-       IPT solver
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#dmft-loop">
-       DMFT loop
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calculations">
-     Calculations
-    </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#parameter-setting">
-       Parameter setting
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#visualize-results">
-       Visualize results
-      </a>
-     </li>
-    </ul>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#id2">
-     Renormalization factor
-    </a>
-   </li>
-  </ul>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>DMFT with IPT solver</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dmft-equations">DMFT equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ipt-solver">IPT Solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renormalization-factor">Renormalization factor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-practical-implementation">Notes on practical implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-solver">Setting up the solver</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-meshes">Generating meshes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">IPT solver</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dmft-loop">DMFT loop</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculations">Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-results">Visualize results</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Renormalization factor</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
   <section class="tex2jax_ignore mathjax_ignore" id="dmft-with-ipt-solver">
-<h1>DMFT with IPT solver<a class="headerlink" href="#dmft-with-ipt-solver" title="Permalink to this headline">#</a></h1>
+<h1>DMFT with IPT solver<a class="headerlink" href="#dmft-with-ipt-solver" title="Permalink to this heading">#</a></h1>
 <p>Author: <a class="reference external" href="mailto:niklas&#46;witt&#37;&#52;&#48;physik&#46;uni-hamburg&#46;de">Niklas Witt</a></p>
 <p>In this tutorial, we will implement the Dynamical Mean-Field Theory (DMFT) using the iterative perturbation theory (IPT) as a solver for the impurity problem [1]. It is assumed that the reader is somewhat familiar with the concept of DMFT and the Anderson impurity model. Good resources to learn about this topic can be found, e.g., in Refs. [2-4].</p>
 <section id="theory">
-<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">#</a></h2>
+<h2>Theory<a class="headerlink" href="#theory" title="Permalink to this heading">#</a></h2>
 <section id="model">
-<h3>Model<a class="headerlink" href="#model" title="Permalink to this headline">#</a></h3>
+<h3>Model<a class="headerlink" href="#model" title="Permalink to this heading">#</a></h3>
 <p>We compute a paramagnetic solution assuming the non-interacting semi-circular density of state (Bethe lattice)</p>
 <div class="math notranslate nohighlight">
 \[
@@ -651,7 +404,7 @@ title="Print to PDF"
 <p>with fermionic Matsubara frequencies <span class="math notranslate nohighlight">\(\omega_n=(2n+1)\pi T\)</span>. We can directly compute this equation with the IR basis.</p>
 </section>
 <section id="dmft-equations">
-<h3>DMFT equations<a class="headerlink" href="#dmft-equations" title="Permalink to this headline">#</a></h3>
+<h3>DMFT equations<a class="headerlink" href="#dmft-equations" title="Permalink to this heading">#</a></h3>
 <p>In DMFT, the self-energy is approximated by the local solution of an impurity model. The self-consistent equations to be solved are the Dyson equation of the interacting local Green function <span class="math notranslate nohighlight">\(G_{\mathrm{loc}}\)</span></p>
 <div class="math notranslate nohighlight">
 \[ 
@@ -665,7 +418,7 @@ title="Print to PDF"
 <p>for which the impurity problem needs to be solved. As a starting point we put in <span class="math notranslate nohighlight">\(G^0_{\mathrm{loc}}(i\omega_n)\)</span> into the latter equation.</p>
 </section>
 <section id="ipt-solver">
-<h3>IPT Solver<a class="headerlink" href="#ipt-solver" title="Permalink to this headline">#</a></h3>
+<h3>IPT Solver<a class="headerlink" href="#ipt-solver" title="Permalink to this heading">#</a></h3>
 <p>The IPT is an inexpensive way of solving the impurity problem (instead of applying e.g. Quantum Monte Carlo (QMC) or Exact Diagonalization (ED) methods). The self-energy is approximated by the second-order perturbation theory (SOPT/GF2, see other <a class="reference internal" href="second_order_perturbation_py.html"><span class="doc std std-doc">tutorial</span></a>)</p>
 <div class="math notranslate nohighlight">
 \[
@@ -674,7 +427,7 @@ title="Print to PDF"
 <p>with the Hubbard interaction <span class="math notranslate nohighlight">\(U\)</span> and imaginary time <span class="math notranslate nohighlight">\(\tau\)</span>. Note that we absorbed the constant Hartree term <span class="math notranslate nohighlight">\(\Sigma_H = U n_{\sigma} = U\frac{n}{2}\)</span> into the definition of the chemical potential <span class="math notranslate nohighlight">\(\mu\)</span> (at half filling, it is shifted to zero). Otherwise we would have to treat this term separately, since the IR basis cannot model the <span class="math notranslate nohighlight">\(\delta\)</span>-peak in frequency space well/compactly. In this case, evaluate the term analytically and add it after the Fourier transformation step.</p>
 </section>
 <section id="renormalization-factor">
-<h3>Renormalization factor<a class="headerlink" href="#renormalization-factor" title="Permalink to this headline">#</a></h3>
+<h3>Renormalization factor<a class="headerlink" href="#renormalization-factor" title="Permalink to this heading">#</a></h3>
 <p>The Mott transition can be detected by monitoring the renormalization factor</p>
 <div class="math notranslate nohighlight">
 \[
@@ -686,7 +439,7 @@ Z = \frac{1}{1-\frac{\partial \mathrm{Re} \Sigma(\omega+i0^+)}{\partial \omega}}
 <p>[3] Many book chapters of the Jülich autumn school series, see <a class="reference external" href="https://www.cond-mat.de/events/correl.html">https://www.cond-mat.de/events/correl.html</a></p>
 <p>[4] R. M. Martin, L. Reining, D. M. Ceperley, Interacting Electrons, Cambridge University Press (2016)</p>
 <section id="notes-on-practical-implementation">
-<h4>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this headline">#</a></h4>
+<h4>Notes on practical implementation<a class="headerlink" href="#notes-on-practical-implementation" title="Permalink to this heading">#</a></h4>
 <ul class="simple">
 <li><p>We will try to find the Mott transition which is a phase transition of first order. To illustrate this, we will do calculations starting from the metallic and the insulating phase at the end of this tutorial. This will show a hysteresis, signaling the metastable/coexistence region of both solutions. For converged results, this will need many iteration steps.</p></li>
 <li><p>In the insulating phase, the low-frequency part of the self-energy turns downwards and diverges. Using the above formula for calculating the renormalization factor <span class="math notranslate nohighlight">\(Z\)</span> from a linearized self-energy, it would be negative. To circumvent this unphysical notion, <span class="math notranslate nohighlight">\(Z\)</span> then is defined as zero in the implementation.</p></li>
@@ -696,154 +449,154 @@ Z = \frac{1}{1-\frac{\partial \mathrm{Re} \Sigma(\omega+i0^+)}{\partial \omega}}
 </section>
 </section>
 <section id="code-implementation">
-<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this headline">#</a></h2>
+<h2>Code implementation<a class="headerlink" href="#code-implementation" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
-import scipy as sc
-import scipy.optimize
-from warnings import warn
-import sparse_ir
-%matplotlib inline
-import matplotlib.pyplot as plt
-plt.style.use(&#39;tableau-colorblind10&#39;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">import</span> <span class="nn">scipy.optimize</span>
+<span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
+<span class="kn">import</span> <span class="nn">sparse_ir</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;tableau-colorblind10&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <section id="setting-up-the-solver">
-<h3>Setting up the solver<a class="headerlink" href="#setting-up-the-solver" title="Permalink to this headline">#</a></h3>
+<h3>Setting up the solver<a class="headerlink" href="#setting-up-the-solver" title="Permalink to this heading">#</a></h3>
 <section id="generating-meshes">
-<h4>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this headline">#</a></h4>
+<h4>Generating meshes<a class="headerlink" href="#generating-meshes" title="Permalink to this heading">#</a></h4>
 <p>We need to generate IR basis functions on a sparse <span class="math notranslate nohighlight">\(\tau\)</span> and <span class="math notranslate nohighlight">\(i\omega_n\)</span> grid. In addition, we set calculation routines to Fourier transform <span class="math notranslate nohighlight">\(\tau\leftrightarrow i\omega_n\)</span> (via IR basis).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Initiate fermionic and bosonic IR basis objects by using (later):
-# IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
-class Mesh:
-    &quot;&quot;&quot;
-    Holding class for sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.
-    Additionally it defines the Fourier transform via &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.
-    &quot;&quot;&quot;
-    def __init__(self,IR_basis_set):
-        self.IR_basis_set = IR_basis_set
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initiate fermionic and bosonic IR basis objects by using (later):</span>
+<span class="c1"># IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)</span>
+<span class="k">class</span> <span class="nc">Mesh</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Holding class for sparsely sampled imaginary time &#39;tau&#39; / Matsubara frequency &#39;iwn&#39; grids.</span>
+<span class="sd">    Additionally it defines the Fourier transform via &#39;tau &lt;-&gt; l &lt;-&gt; wn&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">IR_basis_set</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">IR_basis_set</span>
 
-        # lowest Matsubara frequency index
-        self.iw0_f = np.where(self.IR_basis_set.wn_f == 1)[0][0]
-        self.iw0_b = np.where(self.IR_basis_set.wn_b == 0)[0][0]
+        <span class="c1"># lowest Matsubara frequency index</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iw0_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-        # frequency mesh (for plotting Green function/self-energy)
-        self.iwn_f = 1j * self.IR_basis_set.wn_f * np.pi * T
+        <span class="c1"># frequency mesh (for plotting Green function/self-energy)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iwn_f</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">wn_f</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">T</span>
  
-    def smpl_obj(self, statistics):
-        &quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;
-        smpl_tau = {&#39;F&#39;: self.IR_basis_set.smpl_tau_f, &#39;B&#39;: self.IR_basis_set.smpl_tau_b}[statistics]
-        smpl_wn  = {&#39;F&#39;: self.IR_basis_set.smpl_wn_f,  &#39;B&#39;: self.IR_basis_set.smpl_wn_b }[statistics]
-        return smpl_tau, smpl_wn
+    <span class="k">def</span> <span class="nf">smpl_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return sampling object for given statistic &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_f</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_tau_b</span><span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
+        <span class="n">smpl_wn</span>  <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;F&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="p">,</span>  <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_b</span> <span class="p">}[</span><span class="n">statistics</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span>
     
-    def tau_to_wn(self, statistics, obj_tau):
-        &quot;&quot;&quot; Fourier transform from tau to iwn via IR basis &quot;&quot;&quot;
-        smpl_tau, smpl_wn = self.smpl_obj(statistics)
+    <span class="k">def</span> <span class="nf">tau_to_wn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_tau</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from tau to iwn via IR basis &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
-        obj_l   = smpl_tau.fit(obj_tau, axis=0)
-        obj_wn  = smpl_wn.evaluate(obj_l, axis=0)
-        return obj_wn
+        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_tau</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">obj_wn</span>  <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj_wn</span>
 
-    def wn_to_tau(self, statistics, obj_wn):
-        &quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;
-        smpl_tau, smpl_wn = self.smpl_obj(statistics)
+    <span class="k">def</span> <span class="nf">wn_to_tau</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">statistics</span><span class="p">,</span> <span class="n">obj_wn</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fourier transform from iwn to tau via IR basis &quot;&quot;&quot;</span>
+        <span class="n">smpl_tau</span><span class="p">,</span> <span class="n">smpl_wn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smpl_obj</span><span class="p">(</span><span class="n">statistics</span><span class="p">)</span>
 
-        obj_l   = smpl_wn.fit(obj_wn, axis=0)
-        obj_tau = smpl_tau.evaluate(obj_l, axis=0)
-        return obj_tau
+        <span class="n">obj_l</span>   <span class="o">=</span> <span class="n">smpl_wn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">obj_wn</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">obj_tau</span> <span class="o">=</span> <span class="n">smpl_tau</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">obj_l</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">obj_tau</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="id1">
-<h4>IPT solver<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h4>
+<h4>IPT solver<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h4>
 <p>We write a function for the IPT solver. We use the <code class="docutils literal notranslate"><span class="pre">Mesh</span></code> class defined above to perform calculation steps.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def IPTSolver(mesh, g_weiss, U):
-    &quot;&quot;&quot;
-    IPT solver to calculate the impurity problem.
-    Input: 
-        mesh - Holding class of IR basis with sparsely sampled grids.
-        g_weiss - Weiss field of the bath (\mathcal(G); cavity Green function)
-                  on Matsubara frequencies iwn.
-        U - Hubbard interaction strength
-    &quot;&quot;&quot;
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">IPTSolver</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g_weiss</span><span class="p">,</span> <span class="n">U</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    IPT solver to calculate the impurity problem.</span>
+<span class="sd">    Input: </span>
+<span class="sd">        mesh - Holding class of IR basis with sparsely sampled grids.</span>
+<span class="sd">        g_weiss - Weiss field of the bath (\mathcal(G); cavity Green function)</span>
+<span class="sd">                  on Matsubara frequencies iwn.</span>
+<span class="sd">        U - Hubbard interaction strength</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     
-    # Fourier transform to imaginary time
-    gtau = mesh.wn_to_tau(&#39;F&#39;, g_weiss)
+    <span class="c1"># Fourier transform to imaginary time</span>
+    <span class="n">gtau</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">wn_to_tau</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">g_weiss</span><span class="p">)</span>
 
-    # Self-energy in SOPT
-    sigma = U**2 * gtau**3
+    <span class="c1"># Self-energy in SOPT</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">U</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">gtau</span><span class="o">**</span><span class="mi">3</span>
     
-    # Fourier transform back to Matsubara frequency
-    sigma = mesh.tau_to_wn(&#39;F&#39;, sigma)
-    return sigma
+    <span class="c1"># Fourier transform back to Matsubara frequency</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">tau_to_wn</span><span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sigma</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section id="dmft-loop">
-<h4>DMFT loop<a class="headerlink" href="#dmft-loop" title="Permalink to this headline">#</a></h4>
+<h4>DMFT loop<a class="headerlink" href="#dmft-loop" title="Permalink to this heading">#</a></h4>
 <p>We wrap the DMFT loop in a class that sets all necessary quantities when initializing and runs when calling the <code class="docutils literal notranslate"><span class="pre">.solve</span></code> instance.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class DMFT_loop:
-    def __init__(self,mesh, g0_loc, U, D, sfc_tol=1e-4, maxiter=20, mix=0.2,
-                  verbose=True):
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">DMFT_loop</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g0_loc</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+                  <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         
-        # Set input
-        self.mesh = mesh
-        self.U = U
-        self.t = D/2
-        self.mix = mix
-        self.sfc_tol = sfc_tol
-        self.maxiter = maxiter
-        self.verbose = verbose
+        <span class="c1"># Set input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mesh</span> <span class="o">=</span> <span class="n">mesh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">U</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">D</span><span class="o">/</span><span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mix</span> <span class="o">=</span> <span class="n">mix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span> <span class="o">=</span> <span class="n">sfc_tol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span> <span class="o">=</span> <span class="n">maxiter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
         
-        # Initial Green function (e.g. non-interacting)
-        self.g_loc = g0_loc
+        <span class="c1"># Initial Green function (e.g. non-interacting)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_loc</span> <span class="o">=</span> <span class="n">g0_loc</span>
         
-        # Initiate Weiss field
-        self.sigma = 0
-        self.calc_g_weiss()
+        <span class="c1"># Initiate Weiss field</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calc_g_weiss</span><span class="p">()</span>
         
-    def solve(self):
-        for it in range(self.maxiter):
-            sigma_old = self.sigma
+    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">maxiter</span><span class="p">):</span>
+            <span class="n">sigma_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span>
             
-            # Solve impurity problem in IPT
-            sigma = IPTSolver(self.mesh, self.g_weiss, self.U)
-            self.sigma = sigma*mix + self.sigma*(1-mix)
+            <span class="c1"># Solve impurity problem in IPT</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">IPTSolver</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_weiss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span><span class="o">*</span><span class="n">mix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">mix</span><span class="p">)</span>
             
-            # Set new Green function and Weiss field
-            self.calc_g_loc()
-            self.calc_g_weiss()
+            <span class="c1"># Set new Green function and Weiss field</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calc_g_loc</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">calc_g_weiss</span><span class="p">()</span>
             
-            # Check whether solution is converged
-            sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
-            if self.verbose:
-                print(it, sfc_check)
-            if sfc_check &lt; self.sfc_tol:
-                if self.verbose:
-                    print(&quot;DMFT loop converged at desired accuracy of&quot;, self.sfc_tol)
-                break           
+            <span class="c1"># Check whether solution is converged</span>
+            <span class="n">sfc_check</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="o">-</span><span class="n">sigma_old</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">))</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="n">sfc_check</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sfc_check</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DMFT loop converged at desired accuracy of&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sfc_tol</span><span class="p">)</span>
+                <span class="k">break</span>           
         
-    def calc_g_loc(self):
-        # Set interacting local Green function from Dyson&#39;s equation.
-        self.g_loc = (self.g_weiss**(-1) - self.sigma)**(-1)
+    <span class="k">def</span> <span class="nf">calc_g_loc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Set interacting local Green function from Dyson&#39;s equation.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_loc</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">g_weiss</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
         
-    def calc_g_weiss(self):
-        # Calculate Weiss mean field of electron bath.
-        self.g_weiss = (self.mesh.iwn_f - self.t**2 * self.g_loc)**(-1)
-        #self.g_weiss = (self.g_loc**(-1) + self.sigma)**(-1)
+    <span class="k">def</span> <span class="nf">calc_g_weiss</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Calculate Weiss mean field of electron bath.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">g_weiss</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">g_loc</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#self.g_weiss = (self.g_loc**(-1) + self.sigma)**(-1)</span>
 </pre></div>
 </div>
 </div>
@@ -851,114 +604,114 @@ class Mesh:
 </section>
 </section>
 <section id="calculations">
-<h3>Calculations<a class="headerlink" href="#calculations" title="Permalink to this headline">#</a></h3>
+<h3>Calculations<a class="headerlink" href="#calculations" title="Permalink to this heading">#</a></h3>
 <section id="parameter-setting">
-<h4>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">#</a></h4>
+<h4>Parameter setting<a class="headerlink" href="#parameter-setting" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### System parameters
-D    = 2      # half bandwidth D = W/2 ; hopping t = 1 here
-wmax = 2*D    # set wmax &gt;= W = 2*D
-T    = 0.1/D  # temperature
-beta = 1/T    # inverse temperature
-U    = 5.     # Hubbard interaction
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### System parameters</span>
+<span class="n">D</span>    <span class="o">=</span> <span class="mi">2</span>      <span class="c1"># half bandwidth D = W/2 ; hopping t = 1 here</span>
+<span class="n">wmax</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">D</span>    <span class="c1"># set wmax &gt;= W = 2*D</span>
+<span class="n">T</span>    <span class="o">=</span> <span class="mf">0.1</span><span class="o">/</span><span class="n">D</span>  <span class="c1"># temperature</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">T</span>    <span class="c1"># inverse temperature</span>
+<span class="n">U</span>    <span class="o">=</span> <span class="mf">5.</span>     <span class="c1"># Hubbard interaction</span>
 
-### Numerical parameters
-IR_tol  = 1e-15  # desired accuracy for l-cutoff of IR basis functions
-maxiter = 300    # maximal number of DMFT convergence steps
-sfc_tol = 1e-5   # desired accuracy of DMFT convergence
-mix     = 0.25   # mixing factor
+<span class="c1">### Numerical parameters</span>
+<span class="n">IR_tol</span>  <span class="o">=</span> <span class="mf">1e-15</span>  <span class="c1"># desired accuracy for l-cutoff of IR basis functions</span>
+<span class="n">maxiter</span> <span class="o">=</span> <span class="mi">300</span>    <span class="c1"># maximal number of DMFT convergence steps</span>
+<span class="n">sfc_tol</span> <span class="o">=</span> <span class="mf">1e-5</span>   <span class="c1"># desired accuracy of DMFT convergence</span>
+<span class="n">mix</span>     <span class="o">=</span> <span class="mf">0.25</span>   <span class="c1"># mixing factor</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>### Initialize calculation
-# Set mesh
-IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
-mesh = Mesh(IR_basis_set)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Initialize calculation</span>
+<span class="c1"># Set mesh</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">)</span>
 
-# Calculate non-interacting Green function
-rho = lambda omega : 2*np.sqrt(D**2 - omega.clip(-D,D)**2)/(np.pi*D**2)
-rho_l = IR_basis_set.basis_f.v.overlap(rho)
-g0_l  = -IR_basis_set.basis_f.s * rho_l
-g0_loc = IR_basis_set.smpl_wn_f.evaluate(g0_l)
+<span class="c1"># Calculate non-interacting Green function</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span> <span class="p">:</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rho_l</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="n">g0_l</span>  <span class="o">=</span> <span class="o">-</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho_l</span>
+<span class="n">g0_loc</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">g0_l</span><span class="p">)</span>
 
-# Initiate DMFT loop
-solver = DMFT_loop(mesh, g0_loc, U, D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=True)
+<span class="c1"># Initiate DMFT loop</span>
+<span class="n">solver</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g0_loc</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# perform DMFT calculations
-solver.solve()
+<span class="c1"># perform DMFT calculations</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1.0
-1 0.45267476683362484
-2 0.26493595064106507
-3 0.17712860649742407
-4 0.12506086096213856
-5 0.09230256725264999
-6 0.06979019823464405
-7 0.05393486791342748
-8 0.042271922484316105
-9 0.033570012053058616
-10 0.026918490396746944
-11 0.021780606404512737
-12 0.017753397702790122
-13 0.014569540519803937
-14 0.012027586033398208
-15 0.00998339259685985
-16 0.008327397213775558
-17 0.00697757842893208
-18 0.005870782942216422
-19 0.004958407997129082
-20 0.004202509930751807
-21 0.003573339083001565
-22 0.003047365202762398
-23 0.002605877222124654
-24 0.0022338993660158133
-25 0.0019193817067257887
-26 0.0016525753516395223
-27 0.001425553542550124
-28 0.0012318393774385578
-29 0.0010661159416727702
-30 0.0009239988579870153
-31 0.0008018571118817453
-32 0.0006966711221957529
-33 0.0006059198206885626
-34 0.0005274903829998866
-35 0.0004596057498230098
-36 0.0004007661730562414
-37 0.00034970186969095814
-38 0.0003053345083057434
-39 0.0002667457486555247
-40 0.00023315143612389404
-41 0.00020388034850994788
-42 0.00017835662235015943
-43 0.00015608516530655047
-44 0.00013663950154778337
-45 0.00011965160738320993
-46 0.00010480338139772387
-47 9.181946214613516e-05
-48 8.046116110332466e-05
-49 7.052132206837833e-05
-50 6.181995299922986e-05
-51 5.420050414568317e-05
-52 4.752668879937548e-05
-53 4.167976111249366e-05
-54 3.65561801460368e-05
-55 3.206560128039373e-05
-56 2.812914592880081e-05
-57 2.4677908582919863e-05
-58 2.1651666986527752e-05
-59 1.8997767115083435e-05
-60 1.6670160106837298e-05
-61 1.4628574261021449e-05
-62 1.2837813341566868e-05
-63 1.1267186395399153e-05
-64 9.89010207900714e-06
+1 0.4526747668336244
+2 0.26493595064106534
+3 0.17712860649742412
+4 0.12506086096213812
+5 0.09230256725264989
+6 0.06979019823464438
+7 0.053934867913427456
+8 0.04227192248431622
+9 0.03357001205305884
+10 0.02691849039674672
+11 0.021780606404512546
+12 0.01775339770279033
+13 0.01456954051980396
+14 0.012027586033398159
+15 0.009983392596860022
+16 0.008327397213775567
+17 0.006977578428932369
+18 0.005870782942216203
+19 0.004958407997128745
+20 0.0042025099307517865
+21 0.0035733390830017804
+22 0.0030473652027623427
+23 0.002605877222124777
+24 0.0022338993660161515
+25 0.0019193817067253973
+26 0.0016525753516393664
+27 0.0014255535425504499
+28 0.0012318393774386576
+29 0.0010661159416726041
+30 0.0009239988579873411
+31 0.0008018571118814759
+32 0.0006966711221956847
+33 0.0006059198206882623
+34 0.0005274903829999142
+35 0.00045960574982273025
+36 0.0004007661730561527
+37 0.0003497018696906231
+38 0.0003053345083058815
+39 0.00026674574865554493
+40 0.0002331514361239665
+41 0.00020388034850995704
+42 0.00017835662235022703
+43 0.00015608516530653385
+44 0.00013663950154733107
+45 0.00011965160738301257
+46 0.00010480338139668624
+47 9.181946214401839e-05
+48 8.046116109789647e-05
+49 7.05213220558007e-05
+50 6.181995297107967e-05
+51 5.420050408184711e-05
+52 4.752668865441998e-05
+53 4.167976078387961e-05
+54 3.655617940062201e-05
+55 3.206559959005401e-05
+56 2.8129142096569938e-05
+57 2.4677899894423794e-05
+58 2.165164728798586e-05
+59 1.899772245760746e-05
+60 1.6670058871335322e-05
+61 1.462834477425142e-05
+62 1.283729315054671e-05
+63 1.1266007326510936e-05
+64 9.887429927721198e-06
 DMFT loop converged at desired accuracy of 1e-05
 </pre></div>
 </div>
@@ -966,78 +719,78 @@ DMFT loop converged at desired accuracy of 1e-05
 </div>
 </section>
 <section id="visualize-results">
-<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this headline">#</a></h4>
+<h4>Visualize results<a class="headerlink" href="#visualize-results" title="Permalink to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Plot spectral function/density of states
-omega = np.linspace(-D-0.01, D+0.01,200)
-plt.plot(omega, rho(omega),&#39;-&#39;)
-ax = plt.gca()
-ax.set_xlim([-D-0.05,D+0.05])
-ax.set_ylim([0,2/np.pi/D+0.02])
-ax.set_xlabel(&#39;$\\omega$&#39;)
-ax.set_ylabel(&#39;$\\rho(\\omega)$&#39;)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot spectral function/density of states</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">D</span><span class="o">+</span><span class="mf">0.01</span><span class="p">,</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">omega</span><span class="p">,</span> <span class="n">rho</span><span class="p">(</span><span class="n">omega</span><span class="p">),</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="n">D</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="n">D</span><span class="o">+</span><span class="mf">0.05</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="n">D</span><span class="o">+</span><span class="mf">0.02</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">omega$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">rho(</span><span class="se">\\</span><span class="s1">omega)$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_py_13_0.png" src="../_images/DMFT_IPT_py_13_0.png" />
+<img alt="../_images/c31ab34557c279ecd204f5b2884494eb1a7dc033d43c173f277d6acb031be179.png" src="../_images/c31ab34557c279ecd204f5b2884494eb1a7dc033d43c173f277d6acb031be179.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot frequency dependence of Green function
-plt.plot(np.imag(mesh.iwn_f), np.imag(solver.g_loc),&#39;-o&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$\\omega_n$&#39;)
-ax.set_xlim([0,20])
-ax.set_ylabel(&#39;Im $G_{\\mathrm{loc}}(i\\omega_n)$&#39;)
-ax.set_ylim(ymax=0)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot frequency dependence of Green function</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">g_loc</span><span class="p">),</span><span class="s1">&#39;-o&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">omega_n$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Im $G_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{loc}</span><span class="s1">}(i</span><span class="se">\\</span><span class="s1">omega_n)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_py_14_0.png" src="../_images/DMFT_IPT_py_14_0.png" />
+<img alt="../_images/b815cf2e79ec6f96488dca3218a2b40a6b6043bd0809de71a69d4007f2a3426c.png" src="../_images/b815cf2e79ec6f96488dca3218a2b40a6b6043bd0809de71a69d4007f2a3426c.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># plot frequency dependence of self-energy
-plt.plot(np.imag(mesh.iwn_f), np.imag(solver.sigma),&#39;-o&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$\\omega_n$&#39;)
-ax.set_xlim([0,20])
-ax.set_ylabel(&#39;Im $\\Sigma(i\\omega_n)$&#39;)
-ax.set_ylim(ymax=0)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot frequency dependence of self-energy</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">),</span><span class="s1">&#39;-o&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">omega_n$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Im $</span><span class="se">\\</span><span class="s1">Sigma(i</span><span class="se">\\</span><span class="s1">omega_n)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_py_15_0.png" src="../_images/DMFT_IPT_py_15_0.png" />
+<img alt="../_images/5ab186516694272b8d0c1c53642c99f8fff2dc1f40d626962ad919d102646651.png" src="../_images/5ab186516694272b8d0c1c53642c99f8fff2dc1f40d626962ad919d102646651.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="id2">
-<h3>Renormalization factor<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h3>
+<h3>Renormalization factor<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
 <p>We calculate the renormalization factor from a linearized self-energy. It is also possible to approximate it from the lowest Matsubara frequency (see and try out the difference!).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def CalcRenormalizationZ(solver):
-    sigma = solver.sigma
-    sigma_iw0 = sigma[solver.mesh.iw0_f]
-    sigma_iw1 = sigma[solver.mesh.iw0_f+1]
-    beta = solver.mesh.IR_basis_set.beta
-    Z = 1/(1 - np.imag(sigma_iw1 - sigma_iw0)*beta/(2*np.pi))
-    #Z = 1/(1 - np.imag(sigma_iw0)*beta/np.pi)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">CalcRenormalizationZ</span><span class="p">(</span><span class="n">solver</span><span class="p">):</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">sigma</span>
+    <span class="n">sigma_iw0</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">]</span>
+    <span class="n">sigma_iw1</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">mesh</span><span class="o">.</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">beta</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">sigma_iw1</span> <span class="o">-</span> <span class="n">sigma_iw0</span><span class="p">)</span><span class="o">*</span><span class="n">beta</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+    <span class="c1">#Z = 1/(1 - np.imag(sigma_iw0)*beta/np.pi)</span>
     
-    # When system turns insulating, slope becomes positive/Z becomes negative -&gt; set Z to zero then
-    if Z &lt; 0:
-        Z = 0
-    return Z
+    <span class="c1"># When system turns insulating, slope becomes positive/Z becomes negative -&gt; set Z to zero then</span>
+    <span class="k">if</span> <span class="n">Z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="n">Z</span>
 </pre></div>
 </div>
 </div>
@@ -1045,140 +798,140 @@ plt.show()
 <p>Now we perform calculations for different <span class="math notranslate nohighlight">\(U\)</span> to find the Mott transition. To see the evolution, we also plot the self-energy for some <span class="math notranslate nohighlight">\(U\)</span> values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Set U values as unit of t
-U_min = 0
-U_max = 6.5
-U_num = 66
-U_arr = np.linspace(U_min, U_max, U_num)
-Z_arr = np.empty(U_arr.shape)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set U values as unit of t</span>
+<span class="n">U_min</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">U_max</span> <span class="o">=</span> <span class="mf">6.5</span>
+<span class="n">U_num</span> <span class="o">=</span> <span class="mi">66</span>
+<span class="n">U_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">U_min</span><span class="p">,</span> <span class="n">U_max</span><span class="p">,</span> <span class="n">U_num</span><span class="p">)</span>
+<span class="n">Z_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">U_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-# Set new convergence parameters to achieve good convergence near the phase transition line
-maxiter = 1500    # maximal number of DMFT convergence steps
-sfc_tol = 1e-14   # desired accuracy of DMFT convergence
-
-
-# Set mesh
-IR_basis_set = sparse_ir.FiniteTempBasisSet(beta, wmax, eps=IR_tol)
-mesh = Mesh(IR_basis_set)
-
-# Calculate noninteracting Green function
-rho = lambda omega : np.sqrt(D**2 - omega.clip(-D,D)**2)/(np.pi*D)
-rho_l = IR_basis_set.basis_f.v.overlap(rho)
-g0_l  = -IR_basis_set.basis_f.s * rho_l
-g0_loc = IR_basis_set.smpl_wn_f.evaluate(g0_l)
+<span class="c1"># Set new convergence parameters to achieve good convergence near the phase transition line</span>
+<span class="n">maxiter</span> <span class="o">=</span> <span class="mi">1500</span>    <span class="c1"># maximal number of DMFT convergence steps</span>
+<span class="n">sfc_tol</span> <span class="o">=</span> <span class="mf">1e-14</span>   <span class="c1"># desired accuracy of DMFT convergence</span>
 
 
-plt.figure()
-for it, U in enumerate(U_arr):
-    # Starting from non-interacting solution
-    solver = DMFT_loop(mesh, g0_loc, U, D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=False)
-    solver.solve()    
-    Z = CalcRenormalizationZ(solver)
-    Z_arr[it] = Z    
+<span class="c1"># Set mesh</span>
+<span class="n">IR_basis_set</span> <span class="o">=</span> <span class="n">sparse_ir</span><span class="o">.</span><span class="n">FiniteTempBasisSet</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">wmax</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">IR_tol</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">Mesh</span><span class="p">(</span><span class="n">IR_basis_set</span><span class="p">)</span>
+
+<span class="c1"># Calculate noninteracting Green function</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">omega</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">D</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">omega</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="o">-</span><span class="n">D</span><span class="p">,</span><span class="n">D</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">D</span><span class="p">)</span>
+<span class="n">rho_l</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">overlap</span><span class="p">(</span><span class="n">rho</span><span class="p">)</span>
+<span class="n">g0_l</span>  <span class="o">=</span> <span class="o">-</span><span class="n">IR_basis_set</span><span class="o">.</span><span class="n">basis_f</span><span class="o">.</span><span class="n">s</span> <span class="o">*</span> <span class="n">rho_l</span>
+<span class="n">g0_loc</span> <span class="o">=</span> <span class="n">IR_basis_set</span><span class="o">.</span><span class="n">smpl_wn_f</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">g0_l</span><span class="p">)</span>
+
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">it</span><span class="p">,</span> <span class="n">U</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">U_arr</span><span class="p">):</span>
+    <span class="c1"># Starting from non-interacting solution</span>
+    <span class="n">solver</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g0_loc</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">solver</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>    
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">CalcRenormalizationZ</span><span class="p">(</span><span class="n">solver</span><span class="p">)</span>
+    <span class="n">Z_arr</span><span class="p">[</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>    
         
-    if it in [30, 34, 35, 36, 37, 40]:
-        plt.plot(np.imag(mesh.iwn_f[mesh.iw0_f:]), np.imag(solver.sigma[mesh.iw0_f:]),&#39;-o&#39;, label=&#39;$U$={:.2f}&#39;.format(U))     
+    <span class="k">if</span> <span class="n">it</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">34</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">40</span><span class="p">]:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">iwn_f</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">:]),</span> <span class="n">np</span><span class="o">.</span><span class="n">imag</span><span class="p">(</span><span class="n">solver</span><span class="o">.</span><span class="n">sigma</span><span class="p">[</span><span class="n">mesh</span><span class="o">.</span><span class="n">iw0_f</span><span class="p">:]),</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$U$=</span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">U</span><span class="p">))</span>     
         
         
-ax = plt.gca()
-ax.set_xlabel(&#39;$\\omega_n$&#39;)
-ax.set_xlim([0,4])
-ax.set_ylabel(&#39;Im $\\Sigma(i\\omega_n)$&#39;)
-ax.set_ylim(ymax=0)
-ax.legend()
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">omega_n$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Im $</span><span class="se">\\</span><span class="s1">Sigma(i</span><span class="se">\\</span><span class="s1">omega_n)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 
-#%%%%%%%%%%%%%%%% Plot results
-plt.figure()
-plt.plot(U_arr, Z_arr, &#39;--o&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$U/t_\\star$&#39;, fontsize=12)
-ax.set_xlim([U_min, U_max])
-ax.set_ylabel(&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;, fontsize=12)
-ax.set_ylim([0,1])
-plt.show()
+<span class="c1">#%%%%%%%%%%%%%%%% Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="p">,</span> <span class="n">Z_arr</span><span class="p">,</span> <span class="s1">&#39;--o&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$U/t_</span><span class="se">\\</span><span class="s1">star$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">U_min</span><span class="p">,</span> <span class="n">U_max</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13421/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5389/4134521955.py:34: RuntimeWarning: invalid value encountered in scalar divide
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
-<img alt="../_images/DMFT_IPT_py_19_1.png" src="../_images/DMFT_IPT_py_19_1.png" />
-<img alt="../_images/DMFT_IPT_py_19_2.png" src="../_images/DMFT_IPT_py_19_2.png" />
+<img alt="../_images/5b77a23313f20ebffafb36e8af55484238677800efe1d9b365dda8e1ed79c600.png" src="../_images/5b77a23313f20ebffafb36e8af55484238677800efe1d9b365dda8e1ed79c600.png" />
+<img alt="../_images/554e1f6e099a1c88941f8b4c12f721cae8c0950b5205788ab5693d3ccf003b27.png" src="../_images/554e1f6e099a1c88941f8b4c12f721cae8c0950b5205788ab5693d3ccf003b27.png" />
 </div>
 </div>
 <p>You can quite well see a jump of <span class="math notranslate nohighlight">\(Z\)</span> between <span class="math notranslate nohighlight">\(U/t_\star=3\)</span> and 4 which is accompanied by the low-frequency part of the self-energy diverging instead of going to zero.</p>
 <p>In a last step, we want to map out the metastable coexistence region. In order to do this, we have to start every new <span class="math notranslate nohighlight">\(U\)</span> calculation from the previous converged solution. If we start from small <span class="math notranslate nohighlight">\(U\)</span>, we start from the metallic region, whereas starting from large <span class="math notranslate nohighlight">\(U\)</span> corresponds to starting from the insulating solution.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>Z_arr_mt = np.empty(U_arr.shape)
-Z_arr_in = np.empty(U_arr.shape)   
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Z_arr_mt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">U_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">Z_arr_in</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">U_arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>   
 
-for it in range(len(U_arr)):
-    if it != 0:
-        solver_mt = DMFT_loop(mesh, solver_mt.g_loc, U_arr[it], D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=False)
-        solver_in = DMFT_loop(mesh, solver_in.g_loc, U_arr[U_num-1-it], D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=False)
-    else:
-        solver_mt = DMFT_loop(mesh, g0_loc, U_arr[it], D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=False)
-        solver_in = DMFT_loop(mesh, g0_loc, U_arr[U_num-1-it], D, sfc_tol=sfc_tol, maxiter=maxiter, mix=mix, verbose=False)
+<span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">U_arr</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="n">it</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">solver_mt</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">solver_mt</span><span class="o">.</span><span class="n">g_loc</span><span class="p">,</span> <span class="n">U_arr</span><span class="p">[</span><span class="n">it</span><span class="p">],</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">solver_in</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">solver_in</span><span class="o">.</span><span class="n">g_loc</span><span class="p">,</span> <span class="n">U_arr</span><span class="p">[</span><span class="n">U_num</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">it</span><span class="p">],</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">solver_mt</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g0_loc</span><span class="p">,</span> <span class="n">U_arr</span><span class="p">[</span><span class="n">it</span><span class="p">],</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">solver_in</span> <span class="o">=</span> <span class="n">DMFT_loop</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="n">g0_loc</span><span class="p">,</span> <span class="n">U_arr</span><span class="p">[</span><span class="n">U_num</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">it</span><span class="p">],</span> <span class="n">D</span><span class="p">,</span> <span class="n">sfc_tol</span><span class="o">=</span><span class="n">sfc_tol</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="n">mix</span><span class="o">=</span><span class="n">mix</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         
-    solver_mt.solve()
-    Z = CalcRenormalizationZ(solver_mt)
-    Z_arr_mt[it] = Z
+    <span class="n">solver_mt</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">CalcRenormalizationZ</span><span class="p">(</span><span class="n">solver_mt</span><span class="p">)</span>
+    <span class="n">Z_arr_mt</span><span class="p">[</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
     
-    solver_in.solve()    
-    Z = CalcRenormalizationZ(solver_in)
-    Z_arr_in[U_num-1-it] = Z
+    <span class="n">solver_in</span><span class="o">.</span><span class="n">solve</span><span class="p">()</span>    
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">CalcRenormalizationZ</span><span class="p">(</span><span class="n">solver_in</span><span class="p">)</span>
+    <span class="n">Z_arr_in</span><span class="p">[</span><span class="n">U_num</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">it</span><span class="p">]</span> <span class="o">=</span> <span class="n">Z</span>
     
         
     
-#%%%%%%%%%%%%%%%% Plot results
-plt.figure()
-plt.plot([],[],&#39;w&#39;,label=&#39;Starting pt.&#39;)
-plt.plot(U_arr, Z_arr, &#39;--o&#39;, label=&#39;$G_0$&#39;)
-plt.plot(U_arr, Z_arr_in, &#39;--x&#39;, label=&#39;$G_{\\mathrm{insulating}}$&#39;)
-plt.plot(U_arr, Z_arr_mt, &#39;--^&#39;, label=&#39;$G_{\\mathrm{metal}}$&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$U/t_\\star$&#39;, fontsize=12)
-ax.set_xlim([U_min, U_max])
-ax.set_ylabel(&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;, fontsize=12)
-ax.set_ylim([0,1])
-ax.legend(fontsize=12)
-plt.show()
+<span class="c1">#%%%%%%%%%%%%%%%% Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Starting pt.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="p">,</span> <span class="n">Z_arr</span><span class="p">,</span> <span class="s1">&#39;--o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_0$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="p">,</span> <span class="n">Z_arr_in</span><span class="p">,</span> <span class="s1">&#39;--x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{insulating}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="p">,</span> <span class="n">Z_arr_mt</span><span class="p">,</span> <span class="s1">&#39;--^&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{metal}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$U/t_</span><span class="se">\\</span><span class="s1">star$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">U_min</span><span class="p">,</span> <span class="n">U_max</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_13421/4134521955.py:34: RuntimeWarning: invalid value encountered in double_scalars
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_5389/4134521955.py:34: RuntimeWarning: invalid value encountered in scalar divide
   sfc_check = np.sum(abs(self.sigma-sigma_old))/np.sum(abs(self.sigma))
 </pre></div>
 </div>
-<img alt="../_images/DMFT_IPT_py_21_1.png" src="../_images/DMFT_IPT_py_21_1.png" />
+<img alt="../_images/73c2dafde4b685c29a1745385d4a8bfdf44b14c366ae4835ccff6c2ec0aef370.png" src="../_images/73c2dafde4b685c29a1745385d4a8bfdf44b14c366ae4835ccff6c2ec0aef370.png" />
 </div>
 </div>
 <p>For comparison, we also plotted the transition line where we always start from the non-interacting Green function <span class="math notranslate nohighlight">\(G_0\)</span>. Since we do only a few iteration steps, we do not have completetly converged solutions, so that the <span class="math notranslate nohighlight">\(G_0\)</span> line has a slightly larger critical <span class="math notranslate nohighlight">\(U\)</span> value compared to the line which starts from the metallic solution. Try increasinging the parameter <code class="docutils literal notranslate"><span class="pre">maxiter</span></code> (to 1000 or so) and decreasing the parameter <code class="docutils literal notranslate"><span class="pre">sfc_tol</span></code> (to 1e-14 or so) and look at the results! (The lines should become equal.)</p>
 <p>Often the energy unit is not the hopping <span class="math notranslate nohighlight">\(t_\star\)</span> but the half-bandwidth <span class="math notranslate nohighlight">\(D\)</span>, so we can also plot the results in this convention:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#%%%%%%%%%%%%%%%% Plot results
-plt.figure()
-plt.plot([],[],&#39;w&#39;,label=&#39;Starting pt.&#39;)
-plt.plot(U_arr/D, Z_arr, &#39;--o&#39;, label=&#39;$G_0$&#39;)
-plt.plot(U_arr/D, Z_arr_in, &#39;--x&#39;, label=&#39;$G_{\\mathrm{insulating}}$&#39;)
-plt.plot(U_arr/D, Z_arr_mt, &#39;--^&#39;, label=&#39;$G_{\\mathrm{metal}}$&#39;)
-ax = plt.gca()
-ax.set_xlabel(&#39;$U/D$&#39;, fontsize=12)
-ax.set_xlim([U_min/D, U_max/D])
-ax.set_ylabel(&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;, fontsize=12)
-ax.set_ylim([0,1])
-ax.legend(fontsize=12)
-plt.show()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%%%%%%%%%%%%%%%% Plot results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([],[],</span><span class="s1">&#39;w&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;Starting pt.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="o">/</span><span class="n">D</span><span class="p">,</span> <span class="n">Z_arr</span><span class="p">,</span> <span class="s1">&#39;--o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_0$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="o">/</span><span class="n">D</span><span class="p">,</span> <span class="n">Z_arr_in</span><span class="p">,</span> <span class="s1">&#39;--x&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{insulating}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">U_arr</span><span class="o">/</span><span class="n">D</span><span class="p">,</span> <span class="n">Z_arr_mt</span><span class="p">,</span> <span class="s1">&#39;--^&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$G_{</span><span class="se">\\</span><span class="s1">mathrm</span><span class="si">{metal}</span><span class="s1">}$&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$U/D$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">U_min</span><span class="o">/</span><span class="n">D</span><span class="p">,</span> <span class="n">U_max</span><span class="o">/</span><span class="n">D</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$Z = (1-\partial\Sigma/\partial\omega)^{-1}$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/DMFT_IPT_py_23_0.png" src="../_images/DMFT_IPT_py_23_0.png" />
+<img alt="../_images/c19f5865f53db8e74fdf27968593b56529345a227ed6121be8594d6c9db7cee8.png" src="../_images/c19f5865f53db8e74fdf27968593b56529345a227ed6121be8594d6c9db7cee8.png" />
 </div>
 </div>
 </section>
@@ -1197,7 +950,7 @@ plt.show()
             mode: "python"
         },
         kernelOptions: {
-            kernelName: "python3",
+            name: "python3",
             path: "./src"
         },
         predefinedOutput: true
@@ -1205,50 +958,129 @@ plt.show()
     </script>
     <script>kernelName = 'python3'</script>
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="GW_py.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">The GF2 &amp; GW method</p>
-        </div>
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="GW_py.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">The GF2 &amp; GW method</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="FLEX_py.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="FLEX_py.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">FLEX approximation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
-    </a>
-</div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
-  
-    By sparse-ir developers<br/>
-  
-      &copy; Copyright 2022.<br/>
-</p>
-        </footer>
-    </div>
-    
-</div>
-
-
       </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#theory">Theory</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model">Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dmft-equations">DMFT equations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ipt-solver">IPT Solver</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#renormalization-factor">Renormalization factor</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#notes-on-practical-implementation">Notes on practical implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#code-implementation">Code implementation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-the-solver">Setting up the solver</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generating-meshes">Generating meshes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">IPT solver</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dmft-loop">DMFT loop</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#calculations">Calculations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-setting">Parameter setting</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#visualize-results">Visualize results</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Renormalization factor</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By sparse-ir developers
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
