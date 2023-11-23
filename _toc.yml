@@ -32,6 +32,7 @@ parts:
 - caption: Sample codes (Julia)
   chapters:
   - file: src/transformation_jl
+  - file: src/sparse_sampling_demo_jl
   - file: src/DLR_jl
   - file: src/DMFT_IPT_jl
   - file: src/FLEX_jl
