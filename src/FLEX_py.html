@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FLEX approximation &#8212; sparse-ir</title>
+    <title>FLEX approximation &#8212; sparse-ir tutorial</title>
   
   
   
@@ -89,6 +89,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'src/FLEX_py';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <script defer="defer" src="https://spm-lab.github.io/assets/ecosystem-banner.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="TPSC approximation" href="TPSC_py.html" />
@@ -220,7 +221,7 @@
   
   
   
-    <p class="title logo__title">sparse-ir</p>
+    <p class="title logo__title">sparse-ir tutorial</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -234,6 +235,8 @@
     <div class="bd-toc-item navbar-nav active">
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Basic theory</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference external" href="https://spm-lab.github.io/sparse-ir-doc/">sparse-ir ecosystem overview</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://spm-lab.github.io/sparse-ir-doc/src/history_comparison.html">IR, DLR and MiniPole: history and comparison</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://spm-lab.github.io/sparse-ir-doc/src/notation.html">Notation and conventions</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://spm-lab.github.io/sparse-ir-doc/src/IR_py.html">Intermediate representation (IR)</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://spm-lab.github.io/sparse-ir-doc/src/sparse_sampling_py.html">Sparse sampling</a></li>
@@ -826,36 +829,36 @@ In addition, we set calculation routines to Fourier transform <span class="math 
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1 2.3679802691718295 4
-2 2.6631530509592856 4
-3 2.952843201137554 4
-4 3.2372665027423446 4
-5 3.5175353553180098 4
-6 3.795074730529654 4
+1 2.3679802691719027 4
+2 2.663153050959366 4
+3 2.9528432011376378 4
+4 3.2372665027424428 4
+5 3.5175353553181163 4
+6 3.795074730529767 4
 Leaving U renormalization...
-0 0.0884808907384262
-1 0.1456952273460475
-2 0.022615814131260285
-3 0.01189350571046843
-4 0.007627709050175058
-5 0.005337914476432261
-6 0.003893254237014989
-7 0.002897136006150571
-8 0.0021763170209279747
-9 0.0016421546589775484
-10 0.0012421091833942945
-11 0.0009414202269494306
-12 0.0007150642109588732
-13 0.0005445167053383086
-14 0.0004159378093372493
-15 0.0003188981704691164
-16 0.00024554695819746465
-17 0.00018994846475082596
-18 0.00014768275513167648
+0 0.08848089073857758
+1 0.1456952273458587
+2 0.022615814131268966
+3 0.011893505710472378
+4 0.007627709050174773
+5 0.005337914476430186
+6 0.0038932542370154165
+7 0.0028971360061498426
+8 0.0021763170209288603
+9 0.0016421546589765537
+10 0.0012421091833959537
+11 0.0009414202269469503
+12 0.0007150642109601083
+13 0.0005445167053375868
+14 0.0004159378093376171
+15 0.0003188981704706512
+16 0.00024554695819862664
+17 0.00018994846474792396
+18 0.00014768275513169293
+19 0.00011544934333187186
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>19 0.00011544934333198189
-20 9.075049525105146e-05
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20 9.07504952518303e-05
 FLEX loop converged at desired accuracy
 </pre></div>
 </div>
@@ -1033,18 +1036,16 @@ FLEX loop converged at desired accuracy
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0.1152882487327467 0.1152882487327467
-1 0.40623096520057 0.2909427164678233
-2 0.449508207251643 0.04327724205107297
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0.11528824873274615 0.11528824873274615
+1 0.4062309652005661 0.29094271646782
+2 0.44950820725163776 0.04327724205107164
+3 0.45623539005753894 0.006727182805901177
+4 0.4578340878881164 0.001598697830577478
+5 0.4582127201905254 0.0003786323024089766
+6 0.45831455837674523 0.00010183818621983809
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 0.45623539005754427 0.006727182805901288
-4 0.45783408788812185 0.001598697830577589
-5 0.45821272019053083 0.0003786323024089766
-6 0.45831455837675045 0.00010183818621961604
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7 0.4583410132652581 2.645488850766542e-05
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7 0.4583410132652527 2.6454888507443375e-05
 The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </pre></div>
 </div>
@@ -1083,7 +1084,7 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </div>
 <div class="cell_output docutils container">
 <img alt="../_images/a8f29265fb5ae640ac6f93fa23988c6fdeab8acc3180ceb93611cc0e48939f0d.png" src="../_images/a8f29265fb5ae640ac6f93fa23988c6fdeab8acc3180ceb93611cc0e48939f0d.png" />
-<img alt="../_images/f878cac1ca2262cdc91b8e6b8f884fde87752deb1067019e7d45510cd4d25aaa.png" src="../_images/f878cac1ca2262cdc91b8e6b8f884fde87752deb1067019e7d45510cd4d25aaa.png" />
+<img alt="../_images/c2374eeb1e4f4a3d228b3d2b553b979c4d4367f684b787e6c1a833aa2b6c0027.png" src="../_images/c2374eeb1e4f4a3d228b3d2b553b979c4d4367f684b787e6c1a833aa2b6c0027.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1104,7 +1105,7 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/813214946a1a71294c556526f5081a00a998f149c2237517523e8d1369b3a92b.png" src="../_images/813214946a1a71294c556526f5081a00a998f149c2237517523e8d1369b3a92b.png" />
+<img alt="../_images/f7108cc2c048487449a6331718c44fbca9d1341c8a4bc6a42092e7e5b2bd1dc0.png" src="../_images/f7108cc2c048487449a6331718c44fbca9d1341c8a4bc6a42092e7e5b2bd1dc0.png" />
 </div>
 </div>
 </section>
@@ -1187,20 +1188,20 @@ The superconducting eigenvalue at T=0.1 is lambda_d=0.458
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: U is too large and the spin susceptibility denominator will diverge/turn unphysical!
 Initiate U renormalization loop.
-1 2.2871467924426048 4
-2 2.485684732990275 4
-3 2.689078018595848 4
-4 2.895247551053963 4
+1 2.287146792440798 4
+2 2.485684732989093 4
+3 2.6890780185946794 4
+4 2.8952475510516273 4
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5 3.100419483903483 4
-6 3.306837927955802 4
-7 3.515636959410358 4
-8 3.7272843762091385 4
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5 3.100419483900377 4
+6 3.3068379279520856 4
+7 3.5156369594061228 4
+8 3.7272843762044388 4
+9 3.9417173199331543 4
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>9 3.941717319938273 4
-Leaving U renormalization...
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Leaving U renormalization...
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FLEX loop converged at desired accuracy
