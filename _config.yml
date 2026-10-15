@@ -1,12 +1,12 @@
 #######################################################################################
 # Book settings
-title : sparse-ir
+title : sparse-ir tutorial
 author: sparse-ir developers
 copyright: "2022"
 
 # Information about where the book exists on the web
 description: >-
-  Online document for sparse-ir
+  Python and Julia tutorials for the sparse-ir libraries
 
 #######################################################################################
 # Execution settings
@@ -63,6 +63,14 @@ sphinx:
     # kernel that register_julia_kernel.jl installs.
     nb_kernel_rgx_aliases:
       "julia-.*": julia
+    # Navigation banner shared by the sparse-ir documentation sites; the links
+    # are maintained in SpM-lab/SpM-lab.github.io.
+    html_js_files:
+      - ["https://spm-lab.github.io/assets/ecosystem-banner.js", {"defer": "defer"}]
+    # Copied verbatim into the site: redirects for pages of the v1 tutorial that
+    # was served at this URL until 2026-10 and has no counterpart here.
+    html_extra_path:
+      - _extra
 
 parse:
   myst_substitutions:

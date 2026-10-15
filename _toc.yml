@@ -6,6 +6,10 @@ parts:
   #- file: src/migration.md
 - caption: Basic theory
   chapters:
+  - url: https://spm-lab.github.io/sparse-ir-doc/
+    title: sparse-ir ecosystem overview
+  - url: https://spm-lab.github.io/sparse-ir-doc/src/history_comparison.html
+    title: "IR, DLR and MiniPole: history and comparison"
   - url: https://spm-lab.github.io/sparse-ir-doc/src/notation.html
     title: Notation and conventions
   - url: https://spm-lab.github.io/sparse-ir-doc/src/IR_py.html
