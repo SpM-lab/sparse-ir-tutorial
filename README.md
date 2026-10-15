@@ -1,5 +1,9 @@
 # sparse-ir-tutorial
 
+Source of the Python and Julia tutorials at <https://spm-lab.github.io/sparse-ir-tutorial/>.
+This repository was called `sparse-ir-tutorial-v2` until October 2026; the old URLs redirect here.
+Overview of the sparse-ir ecosystem: <https://spm-lab.github.io/sparse-ir-doc/>.
+
 ## Author guideline
 
 * In Markdown cells, use the `$$`, `$$ $$` environments for equations.
